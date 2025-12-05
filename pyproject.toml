@@ -40,7 +40,7 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Evayoung/Faststrap
+Homepage = "https://github.com/Evayoung/Faststrap"
 Repository = "https://github.com/Evayoung/Faststrap"
 Issues = "https://github.com/Evayoung/Faststrap/issues"
 
