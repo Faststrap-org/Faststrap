@@ -76,3 +76,24 @@ def test_button_custom_classes():
     assert "btn" in html
     assert "mt-3" in html
     assert "custom-class" in html
+
+def test_button_htmx_conversion():
+    """Test that HTMX attributes convert properly."""
+    btn = Button("Test", hx_get="/api", data_value="123", aria_label="Button")
+    html = str(btn)
+    
+    assert 'hx-get="/api"' in html, f"Missing hx-get: {html}"
+    assert 'data-value="123"' in html, f"Missing data-value: {html}"
+    assert 'aria-label="Button"' in html, f"Missing aria-label: {html}"
+    assert "hx_get" not in html, f"Should not have hx_get: {html}"
+    assert "data_value" not in html, f"Should not have data_value: {html}"
+
+
+def test_button_html5_attributes():
+    """Test that standard HTML attributes work."""
+    btn = Button("Test", type="submit", form="form1", autofocus=True)
+    html = str(btn)
+    
+    assert 'type="submit"' in html
+    assert 'form="form1"' in html
+    assert "autofocus" in html

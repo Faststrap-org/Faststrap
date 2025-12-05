@@ -108,23 +108,9 @@ def add_bootstrap(
         app.hdrs = list(app.hdrs)  # Convert to list if needed
     app.hdrs[0:0] = new_assets  # Prepend without mutation issues
     
-    # Apply theme safely using middleware (avoids ASGI breakage)
+    # 2. Apply theme THE RIGHT WAY — via htmlkw
     if theme in {"light", "dark"}:
-        @app.middleware("http")
-        async def theme_middleware(request: Any, call_next: Any) -> Any:
-            """Middleware to inject data-bs-theme into <html> tag."""
-            response = await call_next(request)
-            if "text/html" in response.headers.get("content-type", ""):
-                try:
-                    html = response.body.decode("utf-8")
-                    if "<html" in html and f'data-bs-theme="{theme}"' not in html[:300]:
-                        html = html.replace("<html", f'<html data-bs-theme="{theme}"', 1)
-                        response.body = html.encode("utf-8")
-                        if "content-length" in response.headers:
-                            response.headers["content-length"] = str(len(response.body))
-                except (UnicodeDecodeError, AttributeError):
-                    pass  # Graceful fallback for non-HTML or binary responses
-            return response
+        app.htmlkw = {"data-bs-theme": theme}
     
     # Mount static files (only when using local assets) — using Starlette's explicit mount
     if not use_cdn and mount_static:
