@@ -4,7 +4,7 @@ from fasthtml.common import FastHTML, Div, H1, P, serve
 from faststrap import add_bootstrap, Button
 
 app = FastHTML()
-add_bootstrap(app, theme="light")
+add_bootstrap(app, theme="dark")
 
 
 @app.route("/")
