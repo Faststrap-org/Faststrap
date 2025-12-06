@@ -4,6 +4,44 @@
 
 Use this as a template when creating any new component. Every component should follow these patterns for consistency and maintainability.
 
+## Python 3.10+ Type Hints
+
+FastStrap uses modern Python 3.10+ type hints:
+
+✅ **Use lowercase built-ins:**
+- `dict[str, Any]` instead of `Dict[str, Any]`
+- `list[str]` instead of `List[str]`
+- `tuple[Any, ...]` instead of `Tuple[Any, ...]`
+
+✅ **Use union syntax:**
+- `str | None` instead of `Optional[str]`
+- `int | str` instead of `Union[int, str]`
+
+❌ **Don't import these (deprecated in 3.10+):**
+```python
+from typing import Dict, List, Tuple, Optional, Union  # ❌ Old style
+```
+
+✅ **Only import these:**
+```python
+from typing import Any, Literal, Protocol  # ✅ Modern style
+```
+
+### Example Component with Modern Types:
+```python
+from typing import Any, Literal
+
+def MyComponent(
+    *children: Any,
+    variant: Literal["primary", "secondary"] = "primary",
+    size: str | None = None,  # ← Modern syntax
+    **kwargs: Any
+) -> Div:
+    attrs: dict[str, Any] = {}  # ← Lowercase dict
+    classes: list[str] = []     # ← Lowercase list
+    return Div(*children, **attrs)
+```
+
 ---
 
 ## Component Checklist

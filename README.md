@@ -2,10 +2,11 @@
 
 **Faststrap is a component-based extension for FastHTML that provides reusable UI elements (cards, modals, toasts, drawers, navbars, grids, etc.) using lightweight Bootstrap styling. Fully customizable, developer-friendly, and designed to keep the simplicity of FastHTML.**
 
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![FastHTML](https://img.shields.io/badge/FastHTML-0.2+-green.svg)](https://fastht.ml/)
-
+[![Tests](https://github.com/Evayoung/Faststrap/workflows/Tests/badge.svg)](https://github.com/Evayoung/Faststrap/actions)
 ---
 
 ## Why FastStrap?

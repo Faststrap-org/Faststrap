@@ -13,6 +13,8 @@ def app():
 @pytest.fixture
 def render():
     """Helper to render FastHTML objects to string."""
+
     def _render(obj):
         return str(obj)
+
     return _render

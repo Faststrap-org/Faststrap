@@ -11,42 +11,33 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # For hatch-vcs version detection
     
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
     
-      - name: Install hatch
-        run: |
-          python -m pip install --upgrade pip
-          pip install hatch
-    
       - name: Install dependencies
         run: |
-          hatch env create
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
     
-      - name: Install package in development mode
+      - name: Run tests
         run: |
-          hatch run dev:python -m pip install -e ".[dev]"
-    
-      - name: Run tests with coverage
-        run: |
-          hatch run dev:pytest --cov=faststrap --cov-report=xml
+          pytest --cov=faststrap --cov-report=xml
     
       - name: Type checking
         run: |
-          hatch run dev:mypy src/faststrap
+          mypy src/faststrap
     
       - name: Linting
         run: |
-          hatch run dev:black --check src/faststrap tests
-          hatch run dev:ruff check src/faststrap tests
+          black --check src/faststrap tests
+          ruff check src/faststrap tests
     
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
+        if: success()
         with:
           file: ./coverage.xml
           flags: unittests
