@@ -1,29 +1,28 @@
 """Phase 1 + 2 Complete Demo - All 12 Components Working."""
 
-from fasthtml.common import FastHTML, Div, H1, H2, P, A, serve
+from fasthtml.common import H1, H2, A, Div, FastHTML, P, serve
+
 from faststrap import (
-    add_bootstrap,
+    # Feedback
+    Alert,
+    # Display
+    Badge,
     # Forms
     Button,
     ButtonGroup,
-    ButtonToolbar,
-    # Display
-    Badge,
     Card,
-    # Feedback
-    Alert,
-    Toast,
-    ToastContainer,
-    Modal,
+    Col,
     # Layout
     Container,
-    Row,
-    Col,
     # Navigation
     Drawer,
-    Navbar,
     # Utils
-    Icon,
+    Modal,
+    Navbar,
+    Row,
+    Toast,
+    ToastContainer,
+    add_bootstrap,
 )
 
 app = FastHTML()
@@ -39,82 +38,78 @@ def home():
                 A("Home", href="/", cls="nav-link active"),
                 A("Features", href="#features", cls="nav-link"),
                 A("About", href="#about", cls="nav-link"),
-                cls="navbar-nav me-auto"
+                cls="navbar-nav me-auto",
             ),
-            Div(
-                Button("Login", variant="outline-primary", size="sm"),
-                cls="d-flex"
-            ),
+            Div(Button("Login", variant="outline-primary", size="sm"), cls="d-flex"),
             brand="FastStrap",
             variant="dark",
             bg="dark",
-            expand="lg"
+            expand="lg",
         ),
-        
         # Toast container (top-right)
         ToastContainer(
             Toast(
                 "Welcome to FastStrap v0.2.0!",
                 title="Success",
                 variant="success",
-                id="welcomeToast"
+                id="welcomeToast",
             ),
-            position="top-end"
+            position="top-end",
         ),
-        
-        
         # Main content
         Container(
             H1("FastStrap Phase 1 + 2 Complete!", cls="my-5"),
             P("All 12 components from Phase 1 and Phase 2 are working!", cls="lead mb-5"),
-            
             # Modal trigger
             Button(
                 "Open Modal",
                 variant="primary",
                 data_bs_toggle="modal",
                 data_bs_target="#demoModal",
-                cls="mb-4"
+                cls="mb-4",
             ),
-            
             # Drawer trigger
             Button(
                 "Open Drawer",
                 variant="secondary",
                 data_bs_toggle="offcanvas",
                 data_bs_target="#demoDrawer",
-                cls="mb-4 ms-2"
+                cls="mb-4 ms-2",
             ),
-            
             # ButtonGroup Section
             Div(
                 H2("Button Groups", cls="h4 mb-3"),
                 ButtonGroup(
                     Button("Left", variant="outline-primary"),
                     Button("Middle", variant="outline-primary"),
-                    Button("Right", variant="outline-primary")
+                    Button("Right", variant="outline-primary"),
                 ),
                 ButtonGroup(
                     Button("Top", variant="secondary"),
                     Button("Middle", variant="secondary"),
                     Button("Bottom", variant="secondary"),
                     vertical=True,
-                    cls="ms-3"
+                    cls="ms-3",
                 ),
-                cls="mb-5"
+                cls="mb-5",
             ),
-            
             # Cards with Badges
             Row(
                 Col(
                     Card(
                         P("Interactive card with modal trigger"),
-                        Button("View Details", variant="primary", data_bs_toggle="modal", data_bs_target="#demoModal"),
+                        Button(
+                            "View Details",
+                            variant="primary",
+                            data_bs_toggle="modal",
+                            data_bs_target="#demoModal",
+                        ),
                         title="Card 1",
                         header=Badge("Featured", variant="success"),
-                        cls="h-100"
+                        cls="h-100",
                     ),
-                    span=12, md=4
+                    span=12,
+                    md=4,
                 ),
                 Col(
                     Card(
@@ -122,24 +117,24 @@ def home():
                         title="Card 2",
                         subtitle="With subtitle",
                         footer=Badge("99+", variant="danger", pill=True),
-                        cls="h-100"
+                        cls="h-100",
                     ),
-                    span=12, md=4
+                    span=12,
+                    md=4,
                 ),
                 Col(
                     Card(
                         Alert("Card with alert inside!", variant="info"),
                         title="Card 3",
-                        cls="h-100"
+                        cls="h-100",
                     ),
-                    span=12, md=4
+                    span=12,
+                    md=4,
                 ),
-                cls="mb-5"
+                cls="mb-5",
             ),
-            
-            cls="py-5"
+            cls="py-5",
         ),
-        
         # Modal (hidden by default)
         Modal(
             P("This is a modal dialog with Bootstrap JS!"),
@@ -148,10 +143,9 @@ def home():
             title="Demo Modal",
             footer=Div(
                 Button("Close", variant="secondary", data_bs_dismiss="modal"),
-                Button("Save Changes", variant="primary")
-            )
+                Button("Save Changes", variant="primary"),
+            ),
         ),
-        
         # Drawer (hidden by default)
         Drawer(
             Div(
@@ -159,12 +153,12 @@ def home():
                 A("Dashboard", href="/dashboard", cls="d-block mb-2"),
                 A("Settings", href="/settings", cls="d-block mb-2"),
                 A("Profile", href="/profile", cls="d-block mb-2"),
-                A("Logout", href="/logout", cls="d-block text-danger")
+                A("Logout", href="/logout", cls="d-block text-danger"),
             ),
             drawer_id="demoDrawer",
             title="Navigation",
-            placement="start"
-        )
+            placement="start",
+        ),
     )
 
 

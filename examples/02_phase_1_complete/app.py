@@ -1,16 +1,17 @@
 """Phase 1 Complete Demo - All Components Working."""
 
-from fasthtml.common import FastHTML, Div, H1, H2, P, serve
+from fasthtml.common import H1, H2, Div, FastHTML, P, serve
+
 from faststrap import (
-    add_bootstrap,
-    Button,
-    Badge,
     Alert,
+    Badge,
+    Button,
     Card,
-    Container,
-    Row,
     Col,
+    Container,
     Icon,
+    Row,
+    add_bootstrap,
 )
 
 app = FastHTML()
@@ -22,7 +23,6 @@ def home():
     return Container(
         H1("FastStrap Phase 1 Complete! 🎉", cls="mb-4"),
         P("All 5 Phase 1 components are working!", cls="lead mb-5"),
-        
         # Buttons Section
         Div(
             H2("Buttons", cls="h4 mb-3"),
@@ -32,10 +32,9 @@ def home():
                 Button("Danger", variant="danger"),
                 Button("With Icon", icon="heart-fill", variant="info"),
                 Button("Loading", loading=True, variant="warning"),
-                cls="d-flex gap-2 flex-wrap mb-4"
+                cls="d-flex gap-2 flex-wrap mb-4",
             ),
         ),
-        
         # Badges Section
         Div(
             H2("Badges", cls="h4 mb-3"),
@@ -44,10 +43,9 @@ def home():
                 Badge("99+", variant="danger", pill=True),
                 Badge(Icon("star-fill"), " Featured", variant="warning"),
                 Badge("Sale", variant="success"),
-                cls="d-flex gap-2 align-items-center mb-4"
+                cls="d-flex gap-2 align-items-center mb-4",
             ),
         ),
-        
         # Alerts Section
         Div(
             H2("Alerts", cls="h4 mb-3"),
@@ -56,23 +54,19 @@ def home():
                 "Warning: Low disk space.",
                 variant="warning",
                 heading="Storage Alert",
-                dismissible=True
+                dismissible=True,
             ),
             Alert("Info: New features available.", variant="info"),
-            cls="mb-4"
+            cls="mb-4",
         ),
-        
         # Cards Section
         Div(
             H2("Cards", cls="h4 mb-3"),
             Row(
                 Col(
-                    Card(
-                        "Basic card with title and content.",
-                        title="Simple Card",
-                        cls="h-100"
-                    ),
-                    span=12, md=4
+                    Card("Basic card with title and content.", title="Simple Card", cls="h-100"),
+                    span=12,
+                    md=4,
                 ),
                 Col(
                     Card(
@@ -80,9 +74,10 @@ def home():
                         title="Featured Card",
                         header="Featured",
                         footer="Last updated 3 mins ago",
-                        cls="h-100"
+                        cls="h-100",
                     ),
-                    span=12, md=4
+                    span=12,
+                    md=4,
                 ),
                 Col(
                     Card(
@@ -92,14 +87,14 @@ def home():
                         subtitle="With subtitle",
                         header=Badge("New", variant="success"),
                         footer="Card footer",
-                        cls="h-100"
+                        cls="h-100",
                     ),
-                    span=12, md=4
+                    span=12,
+                    md=4,
                 ),
-                cls="mb-4"
+                cls="mb-4",
             ),
         ),
-        
         # Grid Section
         Div(
             H2("Grid System", cls="h4 mb-3"),
@@ -110,18 +105,25 @@ def home():
             ),
             Row(
                 Col(
-                    Div("Full width on mobile, half on tablet", cls="border p-3 text-center bg-light"),
-                    span=12, md=6
+                    Div(
+                        "Full width on mobile, half on tablet",
+                        cls="border p-3 text-center bg-light",
+                    ),
+                    span=12,
+                    md=6,
                 ),
                 Col(
-                    Div("Full width on mobile, half on tablet", cls="border p-3 text-center bg-light"),
-                    span=12, md=6
+                    Div(
+                        "Full width on mobile, half on tablet",
+                        cls="border p-3 text-center bg-light",
+                    ),
+                    span=12,
+                    md=6,
                 ),
-                cls="mt-3"
+                cls="mt-3",
             ),
         ),
-        
-        cls="py-5"
+        cls="py-5",
     )
 
 
