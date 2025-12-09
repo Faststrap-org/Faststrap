@@ -41,9 +41,11 @@ def register(
             "doc": func.__doc__,
         }
 
-        # Mark function as registered
-        func.__faststrap_registered__ = True
-        func.__faststrap_metadata__ = _component_registry[component_name]
+        # Mark function as registered (Ruff B010 requires 'noqa', MyPy requires 'type: ignore')
+        # fmt: off
+        setattr(func, "__faststrap_registered__", True)  # noqa: B010 # type: ignore[attr-defined]
+        setattr(func, "__faststrap_metadata__", _component_registry[component_name])  # noqa: B010 # type: ignore[attr-defined]
+        # fmt: on
 
         return func
 
