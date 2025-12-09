@@ -41,10 +41,13 @@ def register(
             "doc": func.__doc__,
         }
 
-        # Mark function as registered (use setattr to avoid mypy complaints)
-        # Added 'noqa: B010' to silence Ruff's complaint about setattr
-        setattr(func, "__faststrap_registered__", True)  # noqa: B010
-        func.__faststrap_metadata__ = _component_registry[component_name]  # noqa: B010
+        # Mark function as registered 
+        setattr(
+            func, "__faststrap_registered__", True
+        )  
+        setattr(
+            func, "__faststrap_metadata__", _component_registry[component_name]
+        )  
 
         return func
 
