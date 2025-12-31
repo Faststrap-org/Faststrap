@@ -14,7 +14,7 @@
 
 FastHTML is amazing for building web apps in pure Python, but it lacks pre-built UI components. FastStrap fills that gap by providing:
 
-✅ **20 Bootstrap components** - Buttons, Cards, Modals, Forms, Navigation, and more  
+✅ **40+ Bootstrap components** - Buttons, Cards, Modals, Forms, Navigation, and more  
 ✅ **Zero JavaScript knowledge required** - Components just work  
 ✅ **No build steps** - Pure Python, no npm/webpack/vite  
 ✅ **Full HTMX integration** - Dynamic updates without page reloads  
@@ -291,7 +291,7 @@ modal = get_component("Modal")
 - **Carousel**, **MegaMenu**, **NotificationCenter**
 - And 40+ more components...
 
-**Target: 100+ components by v1.0.0 (Aug 2025)**
+**Target: 100+ components by v1.0.0 (Aug 2026)**
 
 See [ROADMAP.md](ROADMAP.md) for complete timeline.
 
@@ -598,12 +598,12 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 - ✅ ConfirmDialog, EmptyState, StatCard, Hero
 - ✅ 38 components total
 
-### v0.5.0 (Phase 5 - Mar 2025)
+### v0.5.0 (Phase 5 - Mar 2026)
 - Sidebar, Footer, DashboardLayout
 - Timeline, Carousel, MegaMenu
 - 50 components total
 
-### v1.0.0 (Target Aug 2025)
+### v1.0.0 (Target Aug 2026)
 - 100+ components
 - Component playground
 - Full documentation website

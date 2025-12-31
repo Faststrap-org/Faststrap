@@ -40,7 +40,7 @@ app = FastHTML()
 
 # Example 1: Custom theme with device preference (RECOMMENDED)
 custom_theme = create_theme(
-    primary="#6F42C1",
+    primary="red",
     secondary="#E9ECEF",
     info="#17A2B8",
     warning="#FFC107",
@@ -49,6 +49,7 @@ custom_theme = create_theme(
     light="#F8F9FA",
     dark="#343A40",
 )
+
 add_bootstrap(app, theme=custom_theme, mode="light", include_favicon=True)
 
 # Alternative examples (commented out):

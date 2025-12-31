@@ -20,7 +20,6 @@
 
 FastStrap aims to be the **standard component library for FastHTML**, providing 100+ production-ready Bootstrap 5 components. It combines the power of **Python**, the simplicity of **FastHTML**, and the maturity of **Bootstrap** into a single, cohesive experience.
 
-> **"React Bootstrap + TailwindUI + DaisyUI for Python."**
 
 ## Why FastStrap?
 
