@@ -1,4 +1,5 @@
 site_name: FastStrap
+site_url: https://faststrap-org.github.io/Faststrap/
 site_description: "Modern Bootstrap 5 components for FastHTML. Build beautiful web UIs in pure Python with zero JavaScript knowledge."
 site_author: "FastStrap Contributors"
 repo_url: "https://github.com/Faststrap-org/Faststrap"
