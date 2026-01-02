@@ -79,7 +79,7 @@ def Tabs(
 
         # Enhanced active tab styling for better visibility
         if is_active:
-            link_classes = merge_classes(link_classes, "text-white", "fw-bold")
+            link_classes = merge_classes(link_classes, "text-body", "fw-bold")
         else:
             link_classes = merge_classes(link_classes, "text-body")
 
