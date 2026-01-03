@@ -18,8 +18,8 @@ def stable(func: F) -> F:
     """
     # Use setattr to allow type checkers to see the attribute if needed
     # but primarily this is for runtime inspection/documentation
-    setattr(func, "__faststrap_stable__", True)
-    setattr(func, "__faststrap_stability__", "stable")
+    func.__faststrap_stable__ = True  # type: ignore[attr-defined]
+    func.__faststrap_stability__ = "stable"  # type: ignore[attr-defined]
     return func
 
 
@@ -31,8 +31,8 @@ def beta(func: F) -> F:
         @beta
         def NewComponent(...): ...
     """
-    setattr(func, "__faststrap_beta__", True)
-    setattr(func, "__faststrap_stability__", "beta")
+    func.__faststrap_beta__ = True  # type: ignore[attr-defined]
+    func.__faststrap_stability__ = "beta"  # type: ignore[attr-defined]
     return func
 
 
@@ -44,6 +44,6 @@ def experimental(func: F) -> F:
         @experimental
         def ExperimentalComp(...): ...
     """
-    setattr(func, "__faststrap_experimental__", True)
-    setattr(func, "__faststrap_stability__", "experimental")
+    func.__faststrap_experimental__ = True  # type: ignore[attr-defined]
+    func.__faststrap_stability__ = "experimental"  # type: ignore[attr-defined]
     return func
