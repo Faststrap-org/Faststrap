@@ -14,14 +14,16 @@
 
 FastHTML is amazing for building web apps in pure Python, but it lacks pre-built UI components. FastStrap fills that gap by providing:
 
-✅ **40+ Bootstrap components** - Buttons, Cards, Modals, Forms, Navigation, and more  
+✅ **45+ Bootstrap components** - Buttons, Cards, Modals, Forms, Navigation, and more  
 ✅ **Zero JavaScript knowledge required** - Components just work  
 ✅ **No build steps** - Pure Python, no npm/webpack/vite  
 ✅ **Full HTMX integration** - Dynamic updates without page reloads  
+✅ **Zero-JS animations** - Beautiful effects with pure CSS (Fx module)  
 ✅ **Dark mode built-in** - Automatic theme switching  
 ✅ **Type-safe** - Full type hints for better IDE support  
-✅ **Pythonic API** - Intuitive kwargs style
-✅ **Enhanced customization** - Slot classes, CSS variables, themes, and more
+✅ **Pythonic API** - Intuitive kwargs style  
+✅ **Enhanced customization** - Slot classes, CSS variables, themes, and more  
+✅ **95% documented** - Comprehensive docs with examples
 
 ---
 
@@ -223,29 +225,129 @@ modal = get_component("Modal")
 
 ---
 
-## Available Components (38 Total)
+## Available Components (45 Total)
 
-### ✅ Phase 1+2 (v0.1.0 - v0.2.2) - 12 Components
+All components are production-ready with comprehensive documentation, HTMX integration, and accessibility features.
 
-| Component | Description | Status |
-|-----------|-------------|--------|
-| **Button** | Buttons with variants, sizes, loading states | ✅ |
-| **ButtonGroup** | Grouped buttons and toolbars | ✅ |
-| **Badge** | Status indicators and labels | ✅ |
-| **Card** | Content containers with headers/footers | ✅ |
-| **Alert** | Dismissible alerts with variants | ✅ |
-| **Modal** | Dialog boxes and confirmations | ✅ |
-| **Drawer** | Offcanvas side panels | ✅ |
-| **Toast** | Auto-dismiss notifications | ✅ |
-| **Navbar** | Responsive navigation bars | ✅ |
-| **Container/Row/Col** | Bootstrap grid system | ✅ |
-| **Icon** | Bootstrap Icons helper | ✅ |
+### Forms (13 Components)
+- **Button** - Buttons with variants, sizes, loading states, icons
+- **CloseButton** - Reusable close button for dismissible components
+- **ButtonGroup** - Grouped buttons and toolbars
+- **ButtonToolbar** - Multiple button groups
+- **Input** - Text inputs with validation and types
+- **Select** - Dropdown selections with multiple options
+- **Checkbox** - Checkboxes with inline/stacked layouts
+- **Radio** - Radio buttons with groups
+- **Switch** - Toggle switches
+- **Range** - Range sliders
+- **FileInput** - File upload inputs
+- **InputGroup** - Input addons (text, buttons, icons)
+- **FloatingLabel** - Animated floating labels
 
-### ✅ Phase 3 (v0.3.0) - 8 New Components
+### Display (7 Components)
+- **Card** - Content containers with headers/footers/images
+- **Badge** - Status indicators and labels
+- **Table** - Data tables with striped, hover, bordered styles
+- **Figure** - Images with captions
+- **Icon** - Bootstrap Icons helper (2,000+ icons)
+- **EmptyState** - Empty state placeholders
+- **StatCard** - Statistics display cards
 
-| Component | Description | Status |
-|-----------|-------------|--------|
-| **Tabs** | Navigation tabs and pills | ✅ |
+### Feedback (10 Components)
+- **Alert** - Dismissible alerts with variants
+- **Modal** - Dialog boxes and confirmations
+- **ConfirmDialog** - Pre-configured confirmation modals
+- **Toast** - Auto-dismiss notifications
+- **SimpleToast** - Quick toast helper
+- **ToastContainer** - Toast positioning container
+- **Spinner** - Loading indicators (border/grow)
+- **Progress** - Progress bars with stripes/animation
+- **ProgressBar** - Individual progress bar component
+- **Tooltip** - Hover tooltips
+- **Popover** - Click popovers
+- **Collapse** - Show/hide content areas
+
+### Navigation (11 Components)
+- **Navbar** - Responsive navigation bars
+- **NavbarModern** - Glassmorphism navbar
+- **Tabs** - Navigation tabs and pills
+- **TabPane** - Tab content panes
+- **Dropdown** - Contextual dropdown menus
+- **DropdownItem** - Dropdown menu items
+- **DropdownDivider** - Dropdown separators
+- **Breadcrumb** - Navigation breadcrumbs
+- **Pagination** - Page navigation
+- **Accordion** - Collapsible panels
+- **AccordionItem** - Individual accordion panels
+- **ListGroup** - Versatile content lists
+- **ListGroupItem** - List items with badges/variants
+- **Drawer** - Offcanvas side panels
+
+### Layout (4 Components)
+- **Container** - Responsive containers (fixed/fluid)
+- **Row** - Grid rows with gutters
+- **Col** - Grid columns with breakpoints
+- **Hero** - Hero sections with backgrounds/overlays
+
+### Layouts (2 Composed Layouts)
+- **DashboardLayout** - Admin panel with sidebar
+- **LandingLayout** - Marketing page layout
+
+### Effects (1 Module)
+- **Fx** - Zero-JS animations and visual effects
+  - Entrance animations (fade, slide, zoom, bounce)
+  - Hover interactions (lift, scale, glow, tilt)
+  - Loading states (spin, pulse, shimmer)
+  - Visual effects (glass, shadows, gradients)
+  - Speed and delay modifiers
+
+### Patterns (5 Composed Components)
+- **Feature** - Feature highlight component
+- **FeatureGrid** - Grid of features
+- **PricingTier** - Pricing card component
+- **PricingGroup** - Group of pricing tiers
+
+---
+
+## Documentation Coverage
+
+- **95% documented** (43/45 components)
+- All docs include:
+  - Bootstrap CSS class guides
+  - HTMX integration examples
+  - `set_component_defaults` usage
+  - Responsive design patterns
+  - Accessibility best practices
+  - Common recipes and patterns
+
+**View docs**: [https://faststrap-org.github.io/Faststrap/](https://faststrap-org.github.io/Faststrap/)
+
+---
+
+## Examples
+
+Comprehensive examples organized by learning path:
+
+### 01_getting_started/
+- `hello_world.py` - Your first Faststrap app
+- `first_card.py` - Working with components
+- `simple_form.py` - Building forms
+- `adding_htmx.py` - HTMX interactivity
+
+### 03_real_world_apps/
+- `blog/` - Complete blog with posts, comments, admin
+- `calculator/` - HTMX-powered calculator
+- `game/` - Tic-tac-toe with win detection
+- `ecommerce/` - E-commerce store (existing)
+
+### 04_advanced/
+- `effects_showcase.py` - All Faststrap effects demo
+- `custom_themes.py` - Theme customization
+- `component_defaults.py` - Global configuration
+
+**See**: `examples/README.md` for complete guide
+
+
 | **Dropdown** | Contextual menus with split buttons | ✅ |
 | **Input** | Text form controls with validation | ✅ |
 | **Select** | Dropdown selections (single/multiple) | ✅ |
@@ -551,6 +653,52 @@ mypy src/faststrap
 black src/faststrap tests
 ruff check src/faststrap tests
 ```
+
+---
+
+## Troubleshooting
+
+### Static Files Not Loading (404 Errors)
+
+**Fixed in v0.4.6+!** If you're seeing 404 errors for Bootstrap CSS/JS files, update to the latest version:
+
+```bash
+pip install --upgrade faststrap
+```
+
+### Theme Not Applied with fast_app()
+
+When using `fast_app()`, add `data_bs_theme` to your root element:
+
+```python
+app, rt = fast_app()
+add_bootstrap(app, mode="light")
+
+@rt("/")
+def get():
+    return Div(
+        YourContent(),
+        data_bs_theme="light",  # ← Add this for proper theming
+    )
+```
+
+### Styles Not Loading with Custom Html()
+
+When manually creating `Html()` + `Head()`, include `*app.hdrs`:
+
+```python
+@app.route("/")
+def get():
+    return Html(
+        Head(
+            Title("My App"),
+            *app.hdrs,  # ← Required for Faststrap styles
+        ),
+        Body(YourContent())
+    )
+```
+
+**For more help**, see [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
 
 ---
 

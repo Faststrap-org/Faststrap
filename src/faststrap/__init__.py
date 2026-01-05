@@ -12,8 +12,11 @@ __license__ = "MIT"
 from .components.display import (
     Badge,
     Card,
+    Carousel,
+    CarouselItem,
     EmptyState,
     Figure,
+    Image,
     StatCard,
     Table,
     TBody,
@@ -27,6 +30,9 @@ from .components.feedback import (
     Alert,
     ConfirmDialog,
     Modal,
+    Placeholder,
+    PlaceholderButton,
+    PlaceholderCard,
     Popover,
     Progress,
     ProgressBar,
@@ -68,12 +74,26 @@ from .components.navigation import (
     Dropdown,
     DropdownDivider,
     DropdownItem,
+    GlassNavbar,
+    GlassNavItem,
     ListGroup,
     ListGroupItem,
     Navbar,
     Pagination,
+    Scrollspy,
+    SidebarNavbar,
+    SidebarNavItem,
     TabPane,
     Tabs,
+)
+
+# Patterns
+from .components.patterns import (
+    Feature,
+    FeatureGrid,
+    NavbarModern,
+    PricingGroup,
+    PricingTier,
 )
 from .core._stability import beta, experimental, stable
 from .core.assets import add_bootstrap, get_assets
@@ -88,6 +108,7 @@ from .core.theme import (
     resolve_defaults,
     set_component_defaults,
 )
+from .layouts import DashboardLayout, LandingLayout
 
 # Utils
 from .utils import cleanup_static_resources, get_faststrap_static_url
@@ -124,8 +145,11 @@ __all__ = [
     # Display
     "Badge",
     "Card",
+    "Carousel",
+    "CarouselItem",
     "EmptyState",
     "Figure",
+    "Image",
     "StatCard",
     "Table",
     "THead",
@@ -138,6 +162,9 @@ __all__ = [
     "SimpleToast",
     "ToastContainer",
     "Modal",
+    "Placeholder",
+    "PlaceholderButton",
+    "PlaceholderCard",
     "Popover",
     "Tooltip",
     "Progress",
@@ -156,6 +183,11 @@ __all__ = [
     "ListGroup",
     "ListGroupItem",
     "Navbar",
+    "GlassNavbar",
+    "GlassNavItem",
+    "Scrollspy",
+    "SidebarNavbar",
+    "SidebarNavItem",
     "Pagination",
     "Breadcrumb",
     "Dropdown",
@@ -163,6 +195,15 @@ __all__ = [
     "DropdownDivider",
     "Tabs",
     "TabPane",
+    # Layouts
+    "DashboardLayout",
+    "LandingLayout",
+    # Patterns
+    "NavbarModern",
+    "Feature",
+    "FeatureGrid",
+    "PricingGroup",
+    "PricingTier",
     # Utils
     "Icon",
     "get_faststrap_static_url",

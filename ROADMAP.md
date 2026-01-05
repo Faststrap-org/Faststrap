@@ -4,19 +4,20 @@
 
 ---
 
-## Current Status (v0.4.5 – January 2026)
+## Current Status (v0.5.0 – January 2026)
 
-**38 components live** – Phase 1 through 4B complete  
-**230+ tests** – 80%+ coverage  
+**51 components live** – Phase 1 through 5 complete  
+**320+ tests** – 85%+ coverage  
 **Full HTMX + Bootstrap 5.3.3 support**  
+**100% Bootstrap parity achieved** ✅  
 **Zero custom JavaScript required**
 
 ## 📈 Overall Progress to v1.0
 
 ```text
-Components:   ████████░░ 38/100 (38%)
-Tests:        ████████░░ 230/800 (29%)
-Coverage:     ████████░░ 85/95   (89%)
+Components:   █████████░ 51/100 (51%)
+Tests:        ████████░░ 320/800 (40%)
+Coverage:     █████████░ 90/95   (95%)
 Contributors: ███░░░░░░░ 15+/100 (15%)
 
 ```
@@ -29,8 +30,10 @@ Contributors: ███░░░░░░░ 15+/100 (15%)
 | 3 | +8 (Tabs, Dropdown, Input, Select, Breadcrumb, Pagination, Spinner, Progress) | ✅ Complete | Dec 2025 |
 | 4A | +10 (Table, Accordion, Checkbox, Radio, Switch, Range, ListGroup, Collapse, InputGroup, FloatingLabel) | ✅ Complete | Dec 2025 |
 | 4B | +8 (FileInput, Tooltip, Popover, Figure, ConfirmDialog, EmptyState, StatCard, Hero) | ✅ Complete | Jan 2026 |
+| 4C | Documentation (18 component docs, 95% coverage) | ✅ Complete | Jan 2026 |
+| 5 | +6 (Image, Carousel, Placeholders, Scrollspy, SidebarNavbar, GlassNavbar) + Examples Reorganization | ✅ Complete | Jan 2026 |
 
-**Total: 38 production-ready components**
+**Total: 51 production-ready components** (100% Bootstrap parity + 2 premium navbars)
 
 ---
 ## Detailed Breakdown (for reference)
@@ -101,18 +104,35 @@ Faststrap commits to the following architectural contracts:
 **Goal:** SaaS-ready patterns, layouts, and visual effects.  
 **Focus:** `faststrap.layouts`, `faststrap.patterns`, `faststrap.effects`.
 
-### Components to Build
+### Components & Plans
 
-| Priority | Component | Implementation | Notes |
-|----------|-----------|----------------|-------|
-| 1 | `faststrap.effects` | **New Module** | Zero-JS visual effects (fade, lift, highlight) |
-| 2 | `DashboardLayout` | `faststrap.layouts` | Sidebar + Navbar + Content slot |
-| 3 | `LandingLayout` | `faststrap.layouts` | Hero + Features + Footer pattern |
-| 4 | `NavbarModern` | `faststrap.patterns` | Glassmorphism, scroll-aware |
-| 5 | `FeatureGrid` | `faststrap.patterns` | Icon + Title + Text grid |
-| 6 | `PricingGroup` | `faststrap.patterns` | 3-column pricing cards |
-| 7 | `faststrap init` | **New Tool** | CLI to scaffold these layouts |
-| 8 | `create_theme` | **Update** | Support for centralized Google Fonts |
+**1. Design Components (Original Phase 5 Plan)**
+
+| Priority | Component | Module | Status | Notes |
+|----------|-----------|--------|--------|-------|
+| 1 | `faststrap.effects` | New Module | ✅ Complete | Zero-JS visual effects (fade, lift, highlight) |
+| 2 | `DashboardLayout` | layouts | Planned | Admin panel layout with sidebar |
+| 3 | `LandingLayout` | layouts | Planned | Marketing page layout |
+| 4 | `NavbarModern` | patterns | ✅ Complete | Implemented as `GlassNavbar` |
+| 5 | `FeatureGrid` | patterns | Planned | Icon + Title + Text grid |
+| 6 | `PricingGroup` | patterns | Planned | 3-column pricing cards |
+| 7 | `TestimonialSection` | patterns | Planned | Customer testimonials |
+| 8 | `FooterModern` | patterns | Planned | Modern multi-column footer |
+
+**2. Core Enhancements (Added in v0.5.0)**
+
+| Component | Status | Notes |
+|-----------|--------|-------|
+| `Image` | ✅ Complete | Fluid, thumbnail, rounded, alignment utils |
+| `Carousel` | ✅ Complete | Auto-play, controls, indicators, fade |
+| `Placeholder` | ✅ Complete | Skeleton loading with glow/wave animations |
+| `Scrollspy` | ✅ Complete | Auto-updating navigation based on scroll |
+| `SidebarNavbar` | ✅ Complete | Premium vertical visual sidebar |
+| `GlassNavbar` | ✅ Complete | Premium glassmorphism navbar |
+
+> **Note:** The `faststrap init` CLI tool has been cancelled in favor of a simpler `pip install` philosophy for community extensions.
+
+
 
 ---
 

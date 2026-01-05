@@ -1,110 +1,254 @@
-# Zero-JS Visual Effects
+# Effects (Fx)
 
-Faststrap includes a lightweight, zero-dependency effects module (`faststrap-fx.css`) that provides smooth animations and interactions without writing any CSS or usage of JavaScript.
+The `Fx` effects module provides zero-JavaScript visual effects using pure CSS. Add animations, transitions, and micro-interactions to your components without writing a single line of JavaScript.
 
-Because Faststrap is built on the philosophy of "Zero Custom JS", all effects are implemented using pure CSS transitions and animations, with full support for accessibility (prefers-reduced-motion).
+!!! success "Goal"
+    Master using Faststrap's built-in effects system to create smooth, professional animations and interactions that enhance user experience.
 
-## Usage
+---
 
-Import the `Fx` helper and add effect classes to your component's `cls` argument.
+## Quick Start
 
 ```python
-from faststrap import Card, Fx, Button
+from faststrap import Card, Fx
 
-# Clean & Readable
+# Card with fade-in animation and hover lift effect
 Card(
-    "Content", 
-    cls=[Fx.base, Fx.fade_in_up, Fx.hover_lift]
+    "Content here",
+    cls=f"{Fx.fade_in} {Fx.hover_lift}"
 )
 ```
 
-> [!IMPORTANT]
-> Always include `Fx.base` when using hover interactions or modifiers. It sets up the CSS variables for transitions.
+---
 
-## Entrance Animations
+## Effect Categories
 
-Animations that play when the element enters the DOM (e.g., on page load or HTMX swap).
+### 1. Entrance Animations
 
-| Class | Python Helper | Effect |
-|-------|---------------|--------|
-| `fx-fade-in` | `Fx.fade_in` | Simple opacity fade |
-| `fx-fade-in-up` | `Fx.fade_in_up` | Fades in while moving up |
-| `fx-fade-in-down` | `Fx.fade_in_down` | Fades in while moving down |
-| `fx-zoom-in` | `Fx.zoom_in` | Scales up from 95% to 100% |
-| `fx-slide-in-right` | `Fx.slide_in_right` | Slides in from right |
-| `fx-slide-in-left` | `Fx.slide_in_left` | Slides in from left |
+Appear on page load or HTMX swap.
 
-## Hover Interactions
-
-Micro-interactions that trigger when the user hovers over an element.
-
-| Class | Python Helper | Effect |
-|-------|---------------|--------|
-| `fx-hover-lift` | `Fx.hover_lift` | Moves up 4px and adds shadow |
-| `fx-hover-scale` | `Fx.hover_scale` | Scales up to 103% |
-| `fx-hover-glow` | `Fx.hover_glow` | Adds a subtle primary-colored glow |
-| `fx-hover-colorize` | `Fx.hover_colorize` | Starts grayscale, becomes colored on hover |
-
-Example:
 ```python
-Button(
-    "Hover Me",
-    cls=[Fx.base, Fx.hover_scale, Fx.hover_glow]
-)
+# Fade in
+Card("Content", cls=Fx.fade_in)
+
+# Slide up
+Card("Content", cls=Fx.slide_up)
+
+# Slide down
+Card("Content", cls=Fx.slide_down)
+
+# Slide from left
+Card("Content", cls=Fx.slide_left)
+
+# Slide from right
+Card("Content", cls=Fx.slide_right)
+
+# Zoom in
+Card("Content", cls=Fx.zoom_in)
+
+# Bounce in
+Card("Content", cls=Fx.bounce_in)
 ```
 
-## Loading States
+---
 
-Perfect for `hx-indicator` or loading screens.
+### 2. Hover Interactions
 
-| Class | Python Helper | Effect |
-|-------|---------------|--------|
-| `fx-spin` | `Fx.spin` | Infinite rotation (good for icons) |
-| `fx-pulse` | `Fx.pulse` | Opacity pulsing |
-| `fx-shimmer` | `Fx.shimmer` | Skeleton loading shimmer effect |
+Trigger on mouseover.
 
-Example:
 ```python
-# Loading spinner icon
-Icon("arrow-repeat", cls=[Fx.spin])
+# Lift on hover (subtle elevation)
+Card("Hover me", cls=Fx.hover_lift)
 
-# Skeleton card
+# Scale on hover (slight zoom)
+Button("Click me", cls=Fx.hover_scale)
+
+# Glow effect
+Card("Glowing", cls=Fx.hover_glow)
+
+# Tilt effect
+Card("Tilt", cls=Fx.hover_tilt)
+
+# Color shift
+Button("Colorize", cls=Fx.hover_colorize)
+```
+
+---
+
+### 3. Loading States
+
+For HTMX indicators.
+
+```python
+# Spinning animation
+Div(Icon("arrow-repeat"), cls=Fx.spin)
+
+# Pulsing animation
+Div("Loading...", cls=Fx.pulse)
+
+# Shimmer effect (skeleton loading)
+Div(cls=Fx.shimmer, style={"width": "200px", "height": "20px"})
+```
+
+---
+
+### 4. Visual Effects
+
+Glass morphism and shadows.
+
+```python
+# Glass effect (frosted glass)
+Card("Glass card", cls=Fx.glass)
+
+# Soft shadow
+Card("Soft shadow", cls=Fx.shadow_soft)
+
+# Sharp shadow
+Card("Sharp shadow", cls=Fx.shadow_sharp)
+
+# Gradient shift
+Div("Gradient", cls=Fx.gradient_shift)
+```
+
+---
+
+### 5. Modifiers
+
+Control speed and delay.
+
+```python
+# Speed modifiers
+Card("Fast", cls=f"{Fx.fade_in} {Fx.fast}")  # 150ms
+Card("Slow", cls=f"{Fx.fade_in} {Fx.slow}")  # 500ms
+Card("Slower", cls=f"{Fx.fade_in} {Fx.slower}")  # 1000ms
+
+# Delay modifiers
+Card("Delayed", cls=f"{Fx.fade_in} {Fx.delay_sm}")  # 200ms delay
+Card("More delay", cls=f"{Fx.fade_in} {Fx.delay_lg}")  # 500ms delay
+```
+
+---
+
+## Combining Effects
+
+```python
+from faststrap import Card, Fx
+
+# Fade in with hover lift and soft shadow
 Card(
-    cls=[Fx.shimmer],
-    style={"height": "200px"}
+    "Beautiful card",
+    cls=f"{Fx.fade_in} {Fx.hover_lift} {Fx.shadow_soft}"
+)
+
+# Slide up fast with delay and hover scale
+Card(
+    "Animated card",
+    cls=f"{Fx.slide_up} {Fx.fast} {Fx.delay_sm} {Fx.hover_scale}"
+)
+
+# Glass card with glow on hover
+Card(
+    "Glass effect",
+    cls=f"{Fx.glass} {Fx.hover_glow}"
 )
 ```
 
-## Modifiers
+---
 
-Customize the speed and delay of animations using token classes.
+## Common Recipes
 
-### Speed
-| Class | Python Helper | Time |
-|-------|---------------|------|
-| `fx-fast` | `Fx.fast` | 150ms |
-| `fx-slow` | `Fx.slow` | 500ms |
-| `fx-slower` | `Fx.slower` | 1000ms |
-
-### Delay
-| Class | Python Helper | Time |
-|-------|---------------|------|
-| `fx-delay-xs` | `Fx.delay_xs` | 100ms |
-| `fx-delay-sm` | `Fx.delay_sm` | 200ms |
-| `fx-delay-md` | `Fx.delay_md` | 300ms |
-| `fx-delay-lg` | `Fx.delay_lg` | 500ms |
-| `fx-delay-xl` | `Fx.delay_xl` | 1000ms |
-
-### Staggered Animations Example
+### Product Card with Effects
 
 ```python
-for i, item in enumerate(items):
-    # Dynamically select delay
-    delay = getattr(Fx, f"delay_{['xs','sm','md','lg'][i%4]}")
-    
-    Card(item.title, cls=[Fx.base, Fx.fade_in_up, delay])
+Card(
+    Img(src="product.jpg", cls="card-img-top"),
+    Div(
+        H5("Product Name", cls="card-title"),
+        P("$99.99", cls="card-text"),
+        Button("Add to Cart", variant="primary"),
+        cls="card-body"
+    ),
+    cls=f"{Fx.fade_in} {Fx.hover_lift} {Fx.shadow_soft}"
+)
 ```
+
+---
+
+### Hero Section with Staggered Animations
+
+```python
+from faststrap import Hero, Fx
+
+Hero(
+    H1("Welcome", cls=f"{Fx.fade_in}"),
+    P("Subtitle", cls=f"{Fx.fade_in} {Fx.delay_sm}"),
+    Button("Get Started", cls=f"{Fx.fade_in} {Fx.delay_md}")
+)
+```
+
+---
+
+### Loading Indicator
+
+```python
+Div(
+    Spinner(cls=Fx.spin),
+    "Loading...",
+    cls="text-center"
+)
+```
+
+---
+
+## Available Effects Reference
+
+### Entrance Animations
+- `Fx.fade_in` - Fade in
+- `Fx.slide_up` - Slide from bottom
+- `Fx.slide_down` - Slide from top
+- `Fx.slide_left` - Slide from right
+- `Fx.slide_right` - Slide from left
+- `Fx.zoom_in` - Zoom in
+- `Fx.bounce_in` - Bounce in
+
+### Hover Effects
+- `Fx.hover_lift` - Lift on hover
+- `Fx.hover_scale` - Scale on hover
+- `Fx.hover_glow` - Glow on hover
+- `Fx.hover_tilt` - Tilt on hover
+- `Fx.hover_colorize` - Color shift on hover
+
+### Loading States
+- `Fx.spin` - Spinning animation
+- `Fx.pulse` - Pulsing animation
+- `Fx.shimmer` - Shimmer effect
+
+### Visual Effects
+- `Fx.glass` - Glass morphism
+- `Fx.shadow_soft` - Soft shadow
+- `Fx.shadow_sharp` - Sharp shadow
+- `Fx.gradient_shift` - Gradient animation
+
+### Modifiers
+**Speed:**
+- `Fx.fast` - 150ms
+- `Fx.slow` - 500ms
+- `Fx.slower` - 1000ms
+
+**Delay:**
+- `Fx.delay_xs` - 100ms
+- `Fx.delay_sm` - 200ms
+- `Fx.delay_md` - 300ms
+- `Fx.delay_lg` - 500ms
+- `Fx.delay_xl` - 1000ms
+
+---
 
 ## Accessibility
 
-Faststrap respects `prefers-reduced-motion: reduce`. If a user has disabled OS animations, all transitions and animations are automatically disabled. This is built into the `faststrap-fx.css` core.
+All effects respect `prefers-reduced-motion` media query. Users who have enabled reduced motion in their OS settings will see instant transitions instead of animations.
+
+::: faststrap.core.effects.Fx
+    options:
+        show_source: true
+        heading_level: 4

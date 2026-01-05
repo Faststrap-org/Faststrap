@@ -80,6 +80,10 @@ nav:
     - Forms:
       - Button: components/forms/button.md
       - Input: components/forms/input.md
+      - Select: components/forms/select.md
+      - InputGroup: components/forms/inputgroup.md
+      - FloatingLabel: components/forms/floatinglabel.md
+      - ButtonGroup: components/forms/buttongroup.md
       - Checkbox & Switch: components/forms/checks.md
       - FileInput: components/forms/file-input.md
     - Display:
@@ -87,6 +91,7 @@ nav:
       - Table: components/display/table.md
       - Figure: components/display/figure.md
       - Badge: components/display/badge.md
+      - Icon: components/display/icon.md
       - Empty State: components/display/empty_state.md
       - Stat Card: components/display/stat_card.md
     - Feedback:
@@ -94,12 +99,23 @@ nav:
       - Modal: components/feedback/modal.md
       - Toast: components/feedback/toast.md
       - Tooltip & Popover: components/feedback/overlays.md
+      - Spinner: components/feedback/spinner.md
+      - Progress: components/feedback/progress.md
+      - Collapse: components/feedback/collapse.md
     - Navigation:
       - Navbar: components/navigation/navbar.md
       - Tabs: components/navigation/tabs.md
+      - Dropdown: components/navigation/dropdown.md
+      - Breadcrumb: components/navigation/breadcrumb.md
+      - Pagination: components/navigation/pagination.md
+      - Accordion: components/navigation/accordion.md
+      - ListGroup: components/navigation/listgroup.md
+      - Drawer: components/navigation/drawer.md
     - Layout:
       - Grid: components/layout/grid.md
       - Hero: components/layout/hero.md
+      - Dashboard: layouts/dashboard.md
+      - Landing: layouts/landing.md
   - Showcase:
     - Portfolios: showcase/portfolios.md
     - SaaS Landing: showcase/saas-landing.md

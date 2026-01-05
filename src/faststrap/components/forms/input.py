@@ -24,6 +24,8 @@ def Input(
     disabled: bool | None = None,
     readonly: bool | None = None,
     required: bool | None = None,
+    validation_state: str | None = None,
+    validation_message: str | None = None,
     **kwargs: Any,
 ) -> Div:
     """Bootstrap Input component for text form controls.
@@ -39,6 +41,8 @@ def Input(
         disabled: Whether input is disabled
         readonly: Whether input is readonly
         required: Whether input is required
+        validation_state: Validation state ('valid' or 'invalid')
+        validation_message: Validation feedback message
         **kwargs: Additional HTML attributes
     """
     # Resolve API defaults
@@ -64,6 +68,8 @@ def Input(
     input_classes = ["form-control"]
     if c_size:
         input_classes.append(f"form-control-{c_size}")
+    if validation_state:
+        input_classes.append(f"is-{validation_state}")
 
     user_cls = kwargs.pop("cls", "")
     input_cls = merge_classes(" ".join(input_classes), user_cls)
@@ -98,10 +104,10 @@ def Input(
     input_elem = FTInput(**attrs)
 
     # If just input (no label/help), return input only
-    if not label and not help_text:
+    if not label and not help_text and not validation_message:
         return input_elem
 
-    # Wrap in div with label and help text
+    # Wrap in div with label, help text, and validation message
     elements = []
 
     if label:
@@ -119,5 +125,10 @@ def Input(
     if help_text:
         help_elem = Small(help_text, cls="form-text text-muted", id=f"{name}-help")
         elements.append(help_elem)
+
+    if validation_message and validation_state:
+        feedback_cls = "valid-feedback" if validation_state == "valid" else "invalid-feedback"
+        feedback_elem = Div(validation_message, cls=feedback_cls)
+        elements.append(feedback_elem)
 
     return Div(*elements, cls="mb-3")

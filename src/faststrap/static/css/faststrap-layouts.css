@@ -1,0 +1,78 @@
+/* FastStrap Layouts CSS */
+
+:root {
+    --fs-sidebar-width: 250px;
+    --fs-sidebar-bg: #f8f9fa;
+    --fs-sidebar-border: #dee2e6;
+    --fs-main-bg: #fff;
+}
+
+/* Dashboard Layout */
+.dashboard-layout {
+    display: flex;
+    overflow-x: hidden;
+}
+
+.sidebar {
+    min-height: 100vh;
+    margin-left: 0;
+    transition: margin 0.25s ease-out;
+    flex-shrink: 0;
+    z-index: 1000;
+}
+
+.main-content-wrapper {
+    min-width: 0;
+    width: 100%;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        margin-left: calc(var(--fs-sidebar-width) * -1);
+        position: fixed;
+        height: 100%;
+    }
+
+    .sidebar.show {
+        margin-left: 0;
+    }
+}
+
+/* Glassmorphism Navbar */
+.navbar-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px border rgba(255, 255, 255, 0.2);
+}
+
+[data-bs-theme="dark"] .navbar-glass {
+    background: rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Feature Grid */
+.feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    border-radius: 0.75rem;
+}
+
+/* Pricing Cards */
+.pricing-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.pricing-card.featured {
+    border: 2px solid var(--bs-primary);
+}

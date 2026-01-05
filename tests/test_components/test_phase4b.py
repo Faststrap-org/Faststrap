@@ -60,7 +60,11 @@ def test_figure():
 
 def test_empty_state():
     """Test EmptyState component."""
-    es = EmptyState(title="Nothing here", description="Please add something", action=Button("Add"))
+    es = EmptyState(
+        title="Nothing here",
+        description="Please add something",
+        action=Button("Add", variant="primary"),
+    )
     html = to_xml(es)
     assert "Nothing here" in html
     assert "Please add something" in html

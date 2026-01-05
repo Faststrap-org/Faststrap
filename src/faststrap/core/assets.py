@@ -16,7 +16,6 @@ from ..utils.static_management import (
     create_favicon_links,
     get_default_favicon_url,
     get_static_path,
-    is_mounted,
     resolve_static_url,
 )
 from .theme import ModeType, Theme, get_builtin_theme
@@ -54,6 +53,7 @@ def local_assets(static_url: str) -> tuple[Any, ...]:
         Link(rel="stylesheet", href=f"{base}/css/bootstrap.min.css"),
         Link(rel="stylesheet", href=f"{base}/css/bootstrap-icons.min.css"),
         Link(rel="stylesheet", href=f"{base}/css/faststrap-fx.css"),
+        Link(rel="stylesheet", href=f"{base}/css/faststrap-layouts.css"),
         Script(src=f"{base}/js/bootstrap.bundle.min.js"),
     )
 
@@ -315,30 +315,38 @@ def add_bootstrap(
     # 6. Mount static files (once only)
     if not use_cdn and mount_static and not hasattr(app, "_faststrap_static_url"):
         try:
-            if not is_mounted(app, actual_static_url):
-                static_path = get_static_path()
-                app.mount(
-                    actual_static_url,
-                    StaticFiles(directory=str(static_path)),
-                    name="faststrap_static",
-                )
-                app._faststrap_static_url = actual_static_url
+            static_path = get_static_path()
+            app.mount(
+                actual_static_url,
+                StaticFiles(directory=str(static_path)),
+                name="faststrap_static",
+            )
+            app._faststrap_static_url = actual_static_url
         except Exception as e:
-            caution = f"""
+            # Check if this is a "already mounted" error (which is fine)
+            error_msg = str(e).lower()
+            if any(
+                keyword in error_msg for keyword in ["already", "duplicate", "mounted", "exists"]
+            ):
+                # Static files already mounted by another call, just mark it
+                app._faststrap_static_url = actual_static_url
+            else:
+                # Real error - fall back to CDN
+                caution = f"""
             FastStrap: Could not mount local static files ({e}).
             Falling back to CDN mode. You can explicitly set use_cdn=True.
             """
-            warnings.warn(caution, RuntimeWarning, stacklevel=2)
+                warnings.warn(caution, RuntimeWarning, stacklevel=2)
 
-            # Re-call with CDN=True
-            return add_bootstrap(
-                app,
-                theme=theme,
-                mode=mode,
-                use_cdn=True,
-                mount_static=False,
-                include_favicon=include_favicon,
-                favicon_url=favicon_url,
-            )
+                # Re-call with CDN=True
+                return add_bootstrap(
+                    app,
+                    theme=theme,
+                    mode=mode,
+                    use_cdn=True,
+                    mount_static=False,
+                    include_favicon=include_favicon,
+                    favicon_url=favicon_url,
+                )
 
     return app

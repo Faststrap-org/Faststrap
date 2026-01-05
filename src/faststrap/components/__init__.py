@@ -64,6 +64,13 @@ from .navigation import (
     TabPane,
     Tabs,
 )
+from .patterns import (
+    Feature,
+    FeatureGrid,
+    NavbarModern,
+    PricingGroup,
+    PricingTier,
+)
 
 __all__ = [
     # Forms
@@ -119,4 +126,10 @@ __all__ = [
     "DropdownDivider",
     "Tabs",
     "TabPane",
+    # Patterns
+    "NavbarModern",
+    "Feature",
+    "FeatureGrid",
+    "PricingGroup",
+    "PricingTier",
 ]

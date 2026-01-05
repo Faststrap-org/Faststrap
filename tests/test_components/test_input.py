@@ -155,3 +155,20 @@ def test_input_without_wrapper():
 
     assert "mb-3" not in html  # No wrapper div
     assert "form-control" in html
+
+
+def test_input_validation():
+    """Input supports validation states."""
+    # Valid
+    valid = Input("username", validation_state="valid", validation_message="Looks good!")
+    html_valid = to_xml(valid)
+    assert "is-valid" in html_valid
+    assert "valid-feedback" in html_valid
+    assert "Looks good!" in html_valid
+
+    # Invalid
+    invalid = Input("username", validation_state="invalid", validation_message="Bad username!")
+    html_invalid = to_xml(invalid)
+    assert "is-invalid" in html_invalid
+    assert "invalid-feedback" in html_invalid
+    assert "Bad username!" in html_invalid

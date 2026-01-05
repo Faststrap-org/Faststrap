@@ -161,6 +161,7 @@ ignore = [
 "__init__.py" = ["F401"]  # Unused imports OK in __init__
 "**/components/**/*.py" = ["N802"]  # Allow PascalCase for components
 "tests/**/*.py" = ["S101"]  # Allow assert in tests
+"examples/**/*.py" = ["F403", "F405"]  # Allow star imports in examples
 
 [tool.ruff.lint.isort]
 known-first-party = ["faststrap"]

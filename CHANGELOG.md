@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Critical Bug**: Fixed static file mounting issue with `fast_app()` where Bootstrap CSS and JS files returned 404 errors
+  - Removed faulty `is_mounted()` check that prevented static files from mounting
+  - Static files now mount correctly with both `FastHTML()` and `fast_app()` initialization patterns
+  - Added error handling for duplicate mount attempts
+  - **Impact**: Developers can now use `fast_app()` without workarounds
+
+## [0.4.6] - 2026-01-03
+
+### Added
+- **Documentation Completion (95% Coverage)**:
+  - Created 18 new component documentations (Select, Dropdown, Spinner, Progress, Breadcrumb, Pagination, Accordion, InputGroup, FloatingLabel, ButtonGroup, ListGroup, Drawer, Icon, Collapse, Effects, DashboardLayout, LandingLayout)
+  - All docs include Bootstrap CSS class guides, HTMX integration examples, `set_component_defaults` usage, responsive design patterns, and accessibility best practices
+  - Total: 43/45 components documented (NavbarModern and ConfirmDialog pending)
+  
+- **Examples Reorganization**:
+  - Created new organized structure: `01_getting_started/`, `02_components/`, `03_real_world_apps/`, `04_advanced/`, `05_integrations/`
+  - Comprehensive `examples/README.md` guide with learning paths
+  - 4 beginner tutorials: hello_world.py, first_card.py, simple_form.py, adding_htmx.py
+  - 3 complete real-world apps: blog (posts, comments, admin), calculator (HTMX-powered), tic-tac-toe game
+  - Advanced examples: effects_showcase.py demonstrating all Fx animations
+
+- **Project Files Updated**:
+  - README.md: Updated component counts (45 total), documentation coverage stats, examples section
+  - CHANGELOG.md: Added v0.4.6 entry
+  - All project documentation reflects current state
+
+### Changed
+- Component count: 38 → 45 components
+- Documentation coverage: 53% → 95%
+- Examples: Scattered 28 files → Organized learning path
+
 ## [0.4.0] - 2026-01-01
 
 ### Added
