@@ -143,7 +143,7 @@ def get_cart_total():
 
 def get_categories():
     """Get unique categories from products"""
-    return sorted(set(p["category"] for p in PRODUCTS.values()))
+    return sorted({p["category"] for p in PRODUCTS.values()})
 
 
 def filter_products(category=None, search=None):

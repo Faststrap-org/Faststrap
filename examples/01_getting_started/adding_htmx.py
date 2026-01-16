@@ -18,8 +18,8 @@ app = FastHTML()
 add_bootstrap(app)
 
 
-@app.route("/")
-def get():
+@app.get("/")
+def home():
     return Container(
         H1("HTMX Examples", cls="mb-4"),
         Row(
@@ -88,14 +88,14 @@ def get():
 counter_value = 0
 
 
-@app.route("/load-content")
-def get():  # noqa: F811
+@app.get("/load-content")
+def load_content():
     time.sleep(0.5)  # Simulate loading
     return Alert("Content loaded successfully from the server!", variant="success")
 
 
-@app.route("/search")
-def get(search: str = ""):  # noqa: F811
+@app.get("/search")
+def search(search: str = ""):
     if not search:
         return P("Start typing to see results...", cls="text-muted")
 
@@ -104,15 +104,15 @@ def get(search: str = ""):  # noqa: F811
     return Div(*[P(result, cls="mb-1") for result in results], cls="border p-2 rounded")
 
 
-@app.route("/counter/increase")
-def post():
+@app.post("/counter/increase")
+def increase():
     global counter_value
     counter_value += 1
     return str(counter_value)
 
 
-@app.route("/counter/decrease")
-def post():  # noqa: F811
+@app.post("/counter/decrease")
+def decrease():
     global counter_value
     counter_value -= 1
     return str(counter_value)

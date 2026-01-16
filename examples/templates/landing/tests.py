@@ -1,12 +1,12 @@
 from fasthtml.common import *
 
-from faststrap import Badge, Button, Col, Container, Hero, Icon, Row, add_bootstrap
+from faststrap import Badge, Button, Col, Container, Icon, Row, add_bootstrap
 
 app, rt = fast_app()
 add_bootstrap(app)
 
 
-def Hero():
+def LandingPage():
     """Hero section with CTA."""
     return Div(
         Container(
@@ -72,7 +72,7 @@ add_bootstrap(app)
 def get():
     return Card(
         "Welcome to Faststrap!",
-        Button("Get Started", 
+        Button("Get Started",
                variant="primary"),
         header="Hello World 👋"
     )
@@ -98,7 +98,7 @@ serve()""",
 
 @rt("/")
 def get():
-    return Div(Hero(), cls="bg-light py-5")  # ✅ This works! No Html(), no *app.hdrs needed
+    return Div(LandingPage(), cls="bg-light py-5")
 
 
 serve(port=5006)

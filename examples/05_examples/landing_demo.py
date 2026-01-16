@@ -104,8 +104,8 @@ def landing():
             Div(
                 H2("About Me", cls="section-title"),
                 P(
-                    """I’m a full-stack software engineer specialized in FastAPI, 
-                    distributed systems, SQLAlchemy, AI agent development, Kivy/KivyMD, 
+                    """I’m a full-stack software engineer specialized in FastAPI,
+                    distributed systems, SQLAlchemy, AI agent development, Kivy/KivyMD,
                     PyQt/PySide, Reflex, and modern backend architecture.
                     I build fast, reliable, secure, and user-focused applications.""",
                     cls="lead text-muted",

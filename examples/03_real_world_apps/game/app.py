@@ -80,8 +80,8 @@ def game_board():
     )
 
 
-@app.route("/")
-def get():
+@app.get("/")
+def index():
     """Game main page"""
     return Container(
         Div(
@@ -151,8 +151,8 @@ def game_status():
         )
 
 
-@app.route("/move/{position}")
-def post(position: int):
+@app.post("/move/{position}")
+def make_move(position: int):
     """Handle player move"""
     global board, current_player, game_over, winner, scores
 
@@ -175,8 +175,8 @@ def post(position: int):
     return Div(game_status(), game_board(), id="game-container")
 
 
-@app.route("/reset")
-def post():
+@app.post("/reset")
+def reset_game():
     """Reset the game"""
     global board, current_player, game_over, winner
     board = [""] * 9

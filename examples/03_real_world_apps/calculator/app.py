@@ -26,8 +26,8 @@ operation = ""
 history = []
 
 
-@app.route("/")
-def get():
+@app.get("/")
+def index():
     """Calculator main page"""
     return Container(
         Row(
@@ -134,8 +134,8 @@ def calc_button(label: str, action: str, variant: str = "outline-secondary", **k
     )
 
 
-@app.route("/calc/digit/{digit}")
-def post(digit: str):
+@app.post("/calc/digit/{digit}")
+def handle_digit(digit: str):
     """Handle digit input"""
     global current_value
     if current_value == "0":
@@ -145,8 +145,8 @@ def post(digit: str):
     return current_value
 
 
-@app.route("/calc/decimal/{dot}")
-def post(dot: str):
+@app.post("/calc/decimal/{dot}")
+def handle_decimal(dot: str):
     """Handle decimal point"""
     global current_value
     if "." not in current_value:
@@ -154,8 +154,8 @@ def post(dot: str):
     return current_value
 
 
-@app.route("/calc/clear/{c}")
-def post(c: str):
+@app.post("/calc/clear/{c}")
+def handle_clear(c: str):
     """Clear calculator"""
     global current_value, previous_value, operation
     current_value = "0"
@@ -164,8 +164,8 @@ def post(c: str):
     return current_value
 
 
-@app.route("/calc/{op}/{symbol}")
-def post(op: str, symbol: str):
+@app.post("/calc/{op}/{symbol}")
+def handle_operation(op: str, symbol: str):
     """Handle operations"""
     global current_value, previous_value, operation, history
 
@@ -201,8 +201,8 @@ def post(op: str, symbol: str):
     return current_value
 
 
-@app.route("/clear-history")
-def post():
+@app.post("/clear-history")
+def clear_history():
     """Clear calculation history"""
     global history
     history = []

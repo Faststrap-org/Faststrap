@@ -58,8 +58,8 @@ posts = [
 ]
 
 
-@app.route("/")
-def get():
+@app.get("/")
+def index():
     """Blog home page with post listing"""
     return Container(
         # Header
@@ -118,8 +118,8 @@ def get():
     )
 
 
-@app.route("/post/{slug}")
-def get(slug: str):
+@app.get("/post/{slug}")
+def post_detail(slug: str):
     """Individual blog post page"""
     # Find post by slug
     post = next((p for p in posts if p["slug"] == slug), None)
@@ -166,8 +166,8 @@ def get(slug: str):
     )
 
 
-@app.route("/post/{slug}/comment")
-def post(slug: str, name: str, comment: str):
+@app.post("/post/{slug}/comment")
+def create_comment(slug: str, name: str, comment: str):
     """Handle comment submission"""
     return Container(
         Alert(
@@ -180,8 +180,8 @@ def post(slug: str, name: str, comment: str):
     )
 
 
-@app.route("/admin")
-def get():
+@app.get("/admin")
+def admin_dashboard():
     """Admin dashboard for managing posts"""
     return Container(
         H1("Blog Admin", cls="mb-4"),

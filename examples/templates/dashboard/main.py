@@ -370,7 +370,7 @@ def PageLayout(content, active_page="dashboard", title="Dashboard"):
                     margin-left: 280px !important;
                 }
             }
-            
+
             /* Mobile: Offcanvas sidebar */
             @media (max-width: 991.98px) {
                 #sidebar {
@@ -380,12 +380,12 @@ def PageLayout(content, active_page="dashboard", title="Dashboard"):
                     margin-left: 0 !important;
                 }
             }
-            
+
             .hover-shadow:hover {
                 box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
                 transition: box-shadow 0.3s ease-in-out;
             }
-            
+
             /* Ensure proper wrapping on mobile */
             @media (max-width: 767.98px) {
                 .d-flex {

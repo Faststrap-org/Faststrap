@@ -1,284 +1,255 @@
-from fasthtml.common import (
-    H1,
-    H2,
-    H4,
-    A,
-    Col,
-    Div,
-    FastHTML,
-    Form,
-    Img,
-    Label,
-    Li,
-    P,
-    Textarea,
-    Ul,
-    serve,
+from fasthtml.common import *
+
+from faststrap import Button, Icon, add_bootstrap
+
+# -------------------------------------------------------
+# Custom CSS for Portfolio Landing Page
+# -------------------------------------------------------
+custom_css = """
+.hero {
+    background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+    padding: 120px 0;
+    color: white;
+}
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    animation: fadeDown 1s ease;
+}
+.hero-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 600px;
+}
+.section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+.portfolio-card {
+    transition: all .3s ease;
+    border-radius: 16px;
+    overflow: hidden;
+}
+.portfolio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 25px rgba(0,0,0,0.15);
+}
+.portfolio-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.testimonial-box {
+    background: #f8f9fa;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+}
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+"""
+hrds = (
+    Style(custom_css),
+    # Link(rel="", href=""), add more custom head elements if needed
+    # Script(src="", defer=True), add custom scripts if needed
+    # Meta() add custom meta tags if needed
 )
-
-from faststrap import (
-    Alert,
-    Badge,
-    Button,
-    Card,
-    Container,
-    Icon,
-    Input,
-    Navbar,
-    Row,
-    TabPane,
-    Tabs,
-    add_bootstrap,
-)
-
-app = FastHTML()
-add_bootstrap(app, theme="dark", use_cdn=True)
+# -------------------------------------------------------
+# App Initialization
+# -------------------------------------------------------
+app, rt = fast_app(hdrs=hrds)
+add_bootstrap(app, theme="dark", use_cdn=False)
 
 
-# ============================================================
-# NAVBAR
-# ============================================================
-navbar = Navbar(
-    Div(
-        A("Home", href="#home", cls="nav-link active"),
-        A("About", href="#about", cls="nav-link"),
-        A("Portfolio", href="#portfolio", cls="nav-link"),
-        A("Testimonials", href="#testimonials", cls="nav-link"),
-        A("Contact", href="#contact", cls="nav-link"),
-        cls="navbar-nav me-auto",
-    ),
-    Div(Button("Download CV", variant="outline-light", size="sm"), cls="d-flex"),
-    brand="👨‍💻 Meshell Dev",
-    brand_href="#home",
-    variant="dark",
-    bg="primary",
-    expand="lg",
-    cls="shadow-sm",
-)
-
-
-# ============================================================
-# HERO SECTION
-# ============================================================
-def hero_section():
-    return Container(
-        Div(
-            H1(
-                Icon("lightning-charge-fill", cls="text-warning me-2"),
-                "Crafting Reliable Engineering & AI Solutions",
-                cls="display-4 fw-bold mb-3",
-            ),
-            P(
-                "I am a software engineer specializing in Python, FastAPI, Kivy, "
-                "distributed systems, machine learning, and elegant solution architecture.",
-                cls="lead text-white-50 mb-4",
-            ),
-            Button("See My Work", href="#portfolio", variant="warning", size="lg", cls="px-4 py-2"),
-            cls="text-center py-5 rounded-4",
-            style="background: linear-gradient(135deg,#5337ff 0%,#8f3cff 100%);",
-        ),
-        cls="my-5",
-    )
-
-
-# ============================================================
-# ABOUT SECTION
-# ============================================================
-def about_section():
-    return Container(
-        Div(
-            H2("About Me", cls="fw-bold mb-3"),
-            P(
-                "I’m Meshell, a highly skilled software engineer with expertise in API design, "
-                "AI agents, distributed systems, cross-platform apps, and innovative software architecture.",
-                cls="lead mb-4",
-            ),
-            Row(
-                Col(
-                    Card(
-                        H4("Skills", cls="mb-3"),
-                        Ul(
-                            Li("Python / FastAPI / Reflex"),
-                            Li("Distributed Systems & Containers"),
-                            Li("Machine Learning & AI Agents"),
-                            Li("Kivy / KivyMD / PySide / Flet"),
-                            Li("SQLAlchemy / PostgreSQL / Redis"),
-                            cls="mb-0",
-                        ),
-                        header=Badge("Tech Stack", variant="primary"),
-                        cls="shadow-sm",
-                    ),
-                    span=12,
-                    md=6,
-                ),
-                Col(
-                    Card(
-                        H4("Experience", cls="mb-3"),
-                        P(
-                            "5+ years building robust systems across multiple industries:",
-                            cls="mb-2",
-                        ),
-                        Ul(
-                            Li("Financial systems & cooperative platforms"),
-                            Li("QR-code verification systems (QRive)"),
-                            Li("Mobile apps for offline-first workflows"),
-                            Li("SaaS dashboards & automation tools"),
-                        ),
-                        header=Badge("Experience", variant="success"),
-                        cls="shadow-sm",
-                    ),
-                    span=12,
-                    md=6,
-                ),
-                cls="g-4",
-            ),
-            cls="py-5",
-            id="about",
-        )
-    )
-
-
-# ============================================================
-# PORTFOLIO SECTION
-# ============================================================
-def portfolio_section():
-    return Container(
-        Div(
-            H2("Portfolio", cls="fw-bold mb-4"),
-            P("Some featured work:", cls="text-white-50 mb-4"),
-            Row(
-                *[
-                    Col(
-                        Card(
-                            Img(
-                                src=f"https://picsum.photos/seed/{i}/600/400",
-                                cls="card-img-top rounded",
-                            ),
-                            Div(
-                                H4(f"Project {i+1}", cls="fw-bold"),
-                                P("A description of what the project achieves."),
-                                Button("View Details", variant="primary", size="sm"),
-                                cls="mt-2",
-                            ),
-                            cls="shadow-lg h-100",
-                        ),
-                        span=12,
-                        md=4,
-                        cls="mb-4",
-                    )
-                    for i in range(3)
-                ],
-                cls="g-4",
-            ),
-            cls="py-5",
-            id="portfolio",
-        )
-    )
-
-
-# ============================================================
-# TESTIMONIALS SECTION (TABS)
-# ============================================================
-def testimonials_section():
-    return Container(
-        Div(
-            H2("Testimonials", cls="fw-bold mb-4"),
-            Tabs(
-                ("client1", "Client A", True),
-                ("client2", "Client B"),
-                ("client3", "Client C"),
-                variant="pills",
-            ),
-            Div(
-                TabPane(
-                    P(
-                        "“Outstanding work. Reliable, fast, and amazing engineering skills!” – Client A"
-                    ),
-                    tab_id="client1",
-                    active=True,
-                ),
-                TabPane(
-                    P("“Delivered a complete SaaS solution beyond expectations.” – Client B"),
-                    tab_id="client2",
-                ),
-                TabPane(
-                    P("“Exceptional problem-solving and system architecture.” – Client C"),
-                    tab_id="client3",
-                ),
-                cls="tab-content p-4 rounded bg-dark mt-3",
-            ),
-            cls="py-5",
-            id="testimonials",
-        )
-    )
-
-
-# ============================================================
-# CONTACT SECTION
-# ============================================================
-def contact_section():
-    return Container(
-        Div(
-            H2("Contact Me", cls="fw-bold mb-4"),
-            Alert(
-                "Feel free to reach out for collaborations, projects, or hiring.",
-                variant="info",
-                cls="mb-4",
-            ),
-            Form(
-                Input("name", label="Full Name", placeholder="Enter your name", required=True),
-                Input(
-                    "email",
-                    label="Email Address",
-                    input_type="email",
-                    placeholder="you@example.com",
-                    required=True,
-                ),
-                Input("subject", label="Subject", placeholder="Message subject"),
-                Label("Message", cls="form-label"),
-                Textarea(
-                    "message",
-                    placeholder="Write your message...",
-                    cls="form-control mb-3",
-                    rows="4",
-                ),
-                Button("Send Message", variant="primary", size="lg"),
-                method="post",
-                action="/contact",
-                cls="p-4 bg-dark rounded",
-            ),
-            cls="py-5",
-            id="contact",
-        )
-    )
-
-
-# ============================================================
-# ROUTES
-# ============================================================
-@app.route("/")
-def home():
+# -------------------------------------------------------
+# Landing Page Route
+# -------------------------------------------------------
+@rt("/")
+def landing():
     return Div(
-        navbar,
-        hero_section(),
-        about_section(),
-        portfolio_section(),
-        testimonials_section(),
-        contact_section(),
-        cls="pb-5",
+        # ---------------- HERO SECTION -----------------
+        Div(
+            Div(
+                H1(
+                    "Hi, I'm Meshell — Software Engineer & AI Systems Architect",
+                    cls="hero-title mb-3",
+                ),
+                P(
+                    "I build scalable APIs, AI-driven systems, distributed backends, "
+                    "and elegant cross-platform applications.",
+                    cls="hero-subtitle mb-4",
+                ),
+                Div(
+                    Button(
+                        "View My Work",
+                        variant="primary",
+                        size="lg",
+                        icon="arrow-right",
+                        cls="me-3",
+                        hx_get="#portfolio",
+                        hx_target="#portfolio",
+                    ),
+                    Button("Hire Me", variant="success", size="lg", icon="chat-dots"),
+                    cls="d-flex flex-wrap",
+                ),
+                cls="container",
+            ),
+            cls="hero",
+        ),
+        # ---------------- ABOUT SECTION -----------------
+        Div(
+            Div(
+                H2("About Me", cls="section-title"),
+                P(
+                    """I’m a full-stack software engineer specialized in FastAPI,
+                    distributed systems, SQLAlchemy, AI agent development, Kivy/KivyMD,
+                    PyQt/PySide, Reflex, and modern backend architecture.
+                    I build fast, reliable, secure, and user-focused applications.""",
+                    cls="lead text-muted",
+                ),
+                cls="container py-5",
+            ),
+            id="about",
+        ),
+        # ---------------- PORTFOLIO SECTION -----------------
+        Div(
+            Div(
+                H2("Portfolio", cls="section-title text-center mb-5"),
+                Div(
+                    # Project 1
+                    Div(
+                        Div(
+                            Img(src="https://picsum.photos/600/400?1", cls="portfolio-img"),
+                            Div(
+                                H4("QRive — Verified Business Identity Platform", cls="fw-bold"),
+                                P(
+                                    "End-to-end Reflex + FastAPI platform for verified digital hubs."
+                                ),
+                                Button("View Details", outline=True, variant="primary", size="sm"),
+                                cls="p-3",
+                            ),
+                            cls="portfolio-card bg-white shadow-sm",
+                        ),
+                        cls="col-md-4 mb-4",
+                    ),
+                    # Project 2
+                    Div(
+                        Div(
+                            Img(src="https://picsum.photos/600/400?2", cls="portfolio-img"),
+                            Div(
+                                H4("Cooperative Financial Manager (Offline-First)", cls="fw-bold"),
+                                P("KivyMD + FastAPI system for rural cooperatives."),
+                                Button("View Details", outline=True, variant="primary", size="sm"),
+                                cls="p-3",
+                            ),
+                            cls="portfolio-card bg-white shadow-sm",
+                        ),
+                        cls="col-md-4 mb-4",
+                    ),
+                    # Project 3
+                    Div(
+                        Div(
+                            Img(src="https://picsum.photos/600/400?3", cls="portfolio-img"),
+                            Div(
+                                H4("Church Population Analytics Server", cls="fw-bold"),
+                                P("SQLAlchemy + FastAPI + Permission-based analytics dashboard."),
+                                Button("View Details", outline=True, variant="primary", size="sm"),
+                                cls="p-3",
+                            ),
+                            cls="portfolio-card bg-white shadow-sm",
+                        ),
+                        cls="col-md-4 mb-4",
+                    ),
+                    cls="row",
+                ),
+                cls="container py-5",
+            ),
+            id="portfolio",
+        ),
+        # ---------------- TESTIMONIALS SECTION -----------------
+        Div(
+            Div(
+                H2("What People Say", cls="section-title text-center mb-5"),
+                Div(
+                    # Testimonial 1
+                    Div(
+                        Div(
+                            P(
+                                "“One of the most reliable engineers I’ve worked with. "
+                                "Understands systems deeply.”",
+                                cls="mb-2",
+                            ),
+                            Strong("— CEO, Quoin Lab Technology"),
+                            cls="testimonial-box",
+                        ),
+                        cls="col-md-4 mb-4",
+                    ),
+                    # Testimonial 2
+                    Div(
+                        Div(
+                            P(
+                                "“Delivers fast, clean architecture. Solves problems we "
+                                "couldn’t even debug.”",
+                                cls="mb-2",
+                            ),
+                            Strong("— Lead Engineer, Startup Founder"),
+                            cls="testimonial-box",
+                        ),
+                        cls="col-md-4 mb-4",
+                    ),
+                    # Testimonial 3
+                    Div(
+                        Div(
+                            P(
+                                "“A machine learning and backend expert. Highly recommended.”",
+                                cls="mb-2",
+                            ),
+                            Strong("— Research Partner"),
+                            cls="testimonial-box",
+                        ),
+                        cls="col-md-4 mb-4",
+                    ),
+                    cls="row",
+                ),
+                cls="container py-5",
+            ),
+            id="testimonials",
+        ),
+        # ---------------- CONTACT SECTION -----------------
+        Div(
+            Div(
+                H2("Contact Me", cls="section-title text-center"),
+                P("Let’s build something great together.", cls="text-center text-muted mb-4"),
+                Div(
+                    Div(
+                        Icon("envelope", cls="text-primary fs-2 mb-2"),
+                        P("evayoungtech@gmail.com", cls="fw-bold"),
+                        cls="text-center col-md-4 mb-4",
+                    ),
+                    Div(
+                        Icon("phone", cls="text-primary fs-2 mb-2"),
+                        P("+234 902 995 2120", cls="fw-bold"),
+                        cls="text-center col-md-4 mb-4",
+                    ),
+                    Div(
+                        Icon("github", cls="text-primary fs-2 mb-2"),
+                        P("github.com/Faststrap-org", cls="fw-bold"),
+                        cls="text-center col-md-4 mb-4",
+                    ),
+                    cls="row justify-content-center",
+                ),
+                cls="container py-5",
+            ),
+            id="contact",
+        ),
     )
 
 
-@app.route("/contact", methods=["POST"])
-def send_message(request):
-    data = request.form
-    print("New Contact Message:", data)
-    return Alert("Thank you! Your message was received.", variant="success")
-
-
-# ============================================================
-# RUN SERVER
-# ============================================================
 if __name__ == "__main__":
-    print("🚀 Portfolio running at http://localhost:5001")
-    serve()
+    print("\n" + "=" * 70)
+    print("\n📍 Visit: http://localhost:5000")
+    print("\n" + "=" * 70)
+    serve(port=5000)

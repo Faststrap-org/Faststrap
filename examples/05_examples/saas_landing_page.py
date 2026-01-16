@@ -37,7 +37,7 @@ from faststrap import (
 # --- Configuration ---
 APP_TITLE = "FastAuth SaaS Platform"
 custom_css = """
-    body { background-color: #121212; } 
+    body { background-color: #121212; }
     .card { background-color: #1e1e1e; border-color: #333; }
     .text-white-60 { color: rgba(255, 255, 255, 0.6); }
     .hero-section { background-color: #1a1a1a; }

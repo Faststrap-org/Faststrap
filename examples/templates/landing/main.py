@@ -114,7 +114,7 @@ add_bootstrap(app)
 def get():
     return Card(
         "Welcome to Faststrap!",
-        Button("Get Started", 
+        Button("Get Started",
                variant="primary"),
         header="Hello World 👋"
     )
@@ -649,7 +649,7 @@ def get():
             .hover-shadow:hover {
                 box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
             }
-            
+
             /* Responsive typography */
             @media (max-width: 767.98px) {
                 .display-4 {
@@ -659,18 +659,18 @@ def get():
                     font-size: 2rem !important;
                 }
             }
-            
+
             /* Responsive button widths */
             .w-md-auto {
                 width: 100%;
             }
-            
+
             @media (min-width: 768px) {
                 .w-md-auto {
                     width: auto !important;
                 }
             }
-            
+
             /* Ensure proper wrapping and no shrinking on mobile */
             @media (max-width: 767.98px) {
                 .d-flex {
@@ -684,12 +684,12 @@ def get():
                     flex-shrink: 0 !important;
                 }
             }
-            
+
             /* Prevent content shrinking */
             * {
                 flex-shrink: 1;
             }
-            
+
             @media (max-width: 767.98px) {
                 .container, .container-fluid {
                     padding-left: 1rem !important;

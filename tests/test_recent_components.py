@@ -284,7 +284,7 @@ class TestPlaceholder:
         html = to_xml(btn)
         assert "placeholder" in html
         assert "btn-success" in html
-        assert "width: 120px" in html
+        assert "width:120px" in html
 
     def test_placeholder_button_with_animation(self):
         btn = PlaceholderButton(animation="glow")
