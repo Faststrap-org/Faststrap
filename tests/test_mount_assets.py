@@ -1,11 +1,10 @@
 """Tests for assets module including mount_assets helper."""
 
-import os
 import pytest
-from pathlib import Path
 from fasthtml.common import FastHTML
-from faststrap import mount_assets
 from starlette.routing import Mount
+
+from faststrap import mount_assets
 
 
 def test_mount_assets_basic(tmp_path):
@@ -83,7 +82,7 @@ def test_mount_assets_no_priority(tmp_path):
     def test_route():
         return "test"
 
-    initial_route_count = len(app.routes)
+
 
     # Mount with priority=False (should be last)
     mount_assets(app, str(assets_dir), url_path="/assets", priority=False)
@@ -132,7 +131,7 @@ def test_mount_assets_auto_name_generation(tmp_path):
     assets_dir = tmp_path / "assets"
     assets_dir.mkdir()
 
-    app = FastHTML()
+
 
     # Test various URL paths
     test_cases = [
