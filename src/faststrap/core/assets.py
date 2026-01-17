@@ -87,8 +87,6 @@ CUSTOM_STYLES = Style(
 .toast-fade-out {
   animation: toastFadeOut 0.5s ease-in-out forwards;
 }
-    animation: toastFadeOut 0.5s ease-in-out forwards;
-}
 """
 )
 
@@ -356,3 +354,105 @@ def add_bootstrap(
                 )
 
     return app
+
+
+def mount_assets(
+    app: Any,
+    directory: str,
+    url_path: str = "/assets",
+    name: str | None = None,
+    priority: bool = True,
+) -> None:
+    """Mount a static files directory to your FastHTML app.
+
+    This is a convenience wrapper around Starlette's Mount and StaticFiles
+    that handles path resolution and mounting order automatically.
+
+    Args:
+        app: FastHTML application instance
+        directory: Path to directory containing static files.
+                  Can be relative (to calling file) or absolute.
+        url_path: URL path to mount at (default: "/assets").
+                 Must start with "/".
+        name: Mount name for Starlette routing.
+             If None, auto-generated from url_path.
+        priority: If True, insert at start of routes to take precedence
+                 over catch-all routes (default: True).
+
+    Raises:
+        ValueError: If url_path doesn't start with "/"
+        FileNotFoundError: If directory doesn't exist
+
+    Example:
+        Basic usage:
+        >>> from fasthtml.common import FastHTML
+        >>> from faststrap import add_bootstrap, mount_assets
+        >>>
+        >>> app = FastHTML()
+        >>> add_bootstrap(app)
+        >>> mount_assets(app, "assets")  # Mounts assets/ at /assets/
+
+        Multiple directories:
+        >>> mount_assets(app, "images", url_path="/img")
+        >>> mount_assets(app, "uploads", url_path="/uploads")
+
+        Absolute path:
+        >>> mount_assets(app, "/var/www/static", url_path="/static-files")
+    """
+    import os
+    import sys
+    from pathlib import Path
+
+    from starlette.routing import Mount
+
+    # Validate url_path
+    if not url_path.startswith("/"):
+        raise ValueError(f"url_path must start with '/'. Got: {url_path}")
+
+    # Resolve directory path
+    if os.path.isabs(directory):
+        # Absolute path - use as-is
+        assets_path = Path(directory)
+    else:
+        # Relative path - resolve relative to calling file
+        # Get the caller's file path from the stack
+        frame = sys._getframe(1)
+        caller_file = frame.f_globals.get("__file__")
+
+        if caller_file:
+            caller_dir = os.path.dirname(os.path.abspath(caller_file))
+            assets_path = Path(caller_dir) / directory
+        else:
+            # Fallback to current working directory
+            assets_path = Path.cwd() / directory
+
+    # Check if directory exists
+    if not assets_path.exists():
+        raise FileNotFoundError(
+            f"Static directory not found: {assets_path}\n"
+            f"Make sure the directory exists before calling mount_assets()."
+        )
+
+    if not assets_path.is_dir():
+        raise ValueError(
+            f"Path is not a directory: {assets_path}\n"
+            f"mount_assets() requires a directory, not a file."
+        )
+
+    # Auto-generate name if not provided
+    if name is None:
+        # Convert /assets to "assets", /my-files to "my_files"
+        name = url_path.strip("/").replace("-", "_").replace("/", "_")
+        if not name:
+            name = "static"
+
+    # Create the mount
+    mount = Mount(url_path, StaticFiles(directory=str(assets_path)), name=name)
+
+    # Add to routes
+    if priority:
+        # Insert at beginning to take precedence
+        app.routes.insert(0, mount)
+    else:
+        # Append to end
+        app.routes.append(mount)

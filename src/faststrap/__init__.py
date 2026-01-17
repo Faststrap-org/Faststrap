@@ -3,7 +3,7 @@
 Build beautiful web UIs in pure Python with zero JavaScript knowledge.
 """
 
-__version__ = "0.5.0"
+__version__ = "0.5.1"
 __author__ = "FastStrap Contributors"
 __license__ = "MIT"
 
@@ -96,7 +96,7 @@ from .components.patterns import (
     PricingTier,
 )
 from .core._stability import beta, experimental, stable
-from .core.assets import add_bootstrap, get_assets
+from .core.assets import add_bootstrap, get_assets, mount_assets
 from .core.base import merge_classes
 from .core.effects import Fx
 from .core.theme import (
@@ -118,6 +118,7 @@ __all__ = [
     # Core
     "add_bootstrap",
     "get_assets",
+    "mount_assets",
     "merge_classes",
     # Theme
     "Theme",

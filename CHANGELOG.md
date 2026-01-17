@@ -5,6 +5,27 @@ All notable changes to Faststrap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2026-01-17
+
+### Added
+- **`mount_assets()` Helper Function**: Simplified static file mounting for user assets
+  - Smart path resolution (handles relative and absolute paths automatically)
+  - Auto-detects caller's directory using stack inspection
+  - Validates directory exists before mounting
+  - Auto-generates mount names from URL paths
+  - Support for multiple directories with custom URL paths
+  - Priority control for route ordering
+  - Example: `mount_assets(app, "assets")` - one line instead of five!
+
+### Fixed
+- **CSS Bug**: Removed duplicate `animation` property in `.toast-fade-out` class (lines 90-91 in `core/assets.py`)
+  - This duplicate could cause CSS parsing issues in some browsers
+  - No functional impact, but improves code quality
+
+### Documentation
+- Added comprehensive examples for `mount_assets()` in function docstring
+- Improved code quality: All tests passing (423 tests), ruff ✅, black ✅, mypy ✅
+
 ## [0.5.0] - 2026-01-16
 
 ### Added

@@ -44,50 +44,18 @@ def home():
         # Section 1: Entrance Animations
         H2("1. Entrance Animations", cls="mb-4 border-bottom pb-2"),
         Row(
-            Col(
-                Card("This card fades in", header="Fade In", cls=[Fx.fade_in, "h-100"]),
-                xs=12,
-                sm=6,
-                lg=3,
-            ),
-            Col(
-                Card("This card slides up", header="Slide Up", cls=[Fx.slide_up, "h-100"]),
-                xs=12,
-                sm=6,
-                lg=3,
-            ),
-            Col(
-                Card("This card slides down", header="Slide Down", cls=[Fx.slide_down, "h-100"]),
-                xs=12,
-                sm=6,
-                lg=3,
-            ),
-            Col(
-                Card("This card zooms in", header="Zoom In", cls=[Fx.zoom_in, "h-100"]),
-                xs=12,
-                sm=6,
-                lg=3,
-            ),
-            Col(
-                Card("This slides from right", header="Slide Left", cls=[Fx.slide_left, "h-100"]),
-                xs=12,
-                sm=6,
-                lg=3,
-            ),
-            Col(
-                Card("This slides from left", header="Slide Right", cls=[Fx.slide_right, "h-100"]),
-                xs=12,
-                sm=6,
-                lg=3,
-            ),
-            Col(
-                Card("This bounces in!", header="Bounce In", cls=[Fx.bounce_in, "h-100"]),
-                xs=12,
-                sm=6,
-                lg=3,
-            ),
-            cls="g-3 mb-5",
-        ),
+            Col(Card("This card fades in", header="Fade In", cls=[Fx.fade_in, "h-100"])),
+            Col(Card("This card slides up", header="Slide Up", cls=[Fx.slide_up, "h-100"])),
+            Col(Card("This card slides down", header="Slide Down", cls=[Fx.slide_down, "h-100"])),
+            Col(Card("This card zooms in", header="Zoom In", cls=[Fx.zoom_in, "h-100"])),
+            Col(Card("This slides from right", header="Slide Left", cls=[Fx.slide_left, "h-100"])),
+            Col(Card("This slides from left", header="Slide Right", cls=[Fx.slide_right, "h-100"])),
+            Col(Card("This bounces in!", header="Bounce In", cls=[Fx.bounce_in, "h-100"])),
+            cls="g-3",
+            cols=2,
+            cols_md=3,
+            cols_lg=4,
+        ), 
         # Section 2: Hover Interactions
         H2("2. Hover Interactions", cls="mb-4 border-bottom pb-2 mt-4"),
         P("Hover over these cards to see micro-interactions.", cls="text-muted mb-4"),
@@ -98,9 +66,6 @@ def home():
                     header="Hover Lift",
                     cls=[Fx.base, Fx.hover_lift, "cursor-pointer h-100"],
                 ),
-                xs=12,
-                sm=6,
-                lg=3,
             ),
             Col(
                 Card(
@@ -108,9 +73,6 @@ def home():
                     header="Hover Scale",
                     cls=[Fx.base, Fx.hover_scale, "cursor-pointer h-100"],
                 ),
-                xs=12,
-                sm=6,
-                lg=3,
             ),
             Col(
                 Card(
@@ -118,9 +80,6 @@ def home():
                     header="Hover Tilt",
                     cls=[Fx.base, Fx.hover_tilt, "cursor-pointer h-100"],
                 ),
-                xs=12,
-                sm=6,
-                lg=3,
             ),
             Col(
                 Card(
@@ -128,9 +87,6 @@ def home():
                     header="Hover Glow",
                     cls=[Fx.base, Fx.hover_glow, "cursor-pointer h-100"],
                 ),
-                xs=12,
-                sm=6,
-                lg=3,
             ),
             Col(
                 Card(
@@ -138,52 +94,37 @@ def home():
                     header="Hover Colorize",
                     cls=[Fx.base, Fx.hover_colorize, "bg-success text-white cursor-pointer h-100"],
                 ),
-                xs=12,
-                sm=6,
-                lg=3,
             ),
-            cls="g-3 mb-5",
+            cls="g-3",
+            cols=2,
+            cols_md=3,
+            cols_lg=4,
         ),
         # Section 3: Modifiers (Speed & Delay)
         H2("3. Speed & Delay Modifiers", cls="mb-4 border-bottom pb-2 mt-4"),
         Row(
             Col(
                 Card("Fast (150ms)", cls=[Fx.base, Fx.hover_lift, Fx.fast, "h-100"]),
-                xs=12,
-                sm=6,
-                lg=4,
             ),
             Col(
                 Card("Slow (500ms)", cls=[Fx.base, Fx.hover_lift, Fx.slow, "h-100"]),
-                xs=12,
-                sm=6,
-                lg=4,
             ),
             Col(
                 Card("Slower (1000ms)", cls=[Fx.base, Fx.hover_lift, Fx.slower, "h-100"]),
-                xs=12,
-                sm=6,
-                lg=4,
             ),
             Col(
                 Card("Delayed (200ms)", cls=[Fx.slide_up, Fx.delay_sm, "bg-light h-100"]),
-                xs=12,
-                sm=6,
-                lg=4,
             ),
             Col(
                 Card("Delayed (300ms)", cls=[Fx.slide_up, Fx.delay_md, "bg-light h-100"]),
-                xs=12,
-                sm=6,
-                lg=4,
             ),
             Col(
                 Card("Delayed (1000ms)", cls=[Fx.slide_up, Fx.delay_xl, "bg-light h-100"]),
-                xs=12,
-                sm=6,
-                lg=4,
             ),
-            cls="g-3 mb-5",
+            cls="g-3",
+            cols=2,
+            cols_md=3,
+            cols_lg=4,
         ),
         # Section 4: Loading States
         H2("4. Loading States", cls="mb-4 border-bottom pb-2 mt-4"),
@@ -197,9 +138,6 @@ def home():
                     header="Shimmer Effect",
                     cls="h-100",
                 ),
-                xs=12,
-                sm=6,
-                lg=4,
             ),
             Col(
                 Card(
@@ -210,9 +148,6 @@ def home():
                     header="Pulse Effect",
                     cls="h-100",
                 ),
-                xs=12,
-                sm=6,
-                lg=4,
             ),
             Col(
                 Card(
@@ -223,11 +158,11 @@ def home():
                     header="Spin Effect",
                     cls="h-100",
                 ),
-                xs=12,
-                sm=6,
-                lg=4,
             ),
-            cls="g-3 mb-5",
+            cls="g-3",
+            cols=2,
+            cols_md=3,
+            cols_lg=4,
         ),
         # Section 5: Visual Effects
         H2("5. Visual Effects", cls="mb-4 border-bottom pb-2 mt-4"),
@@ -238,9 +173,6 @@ def home():
                     header="Soft Shadow",
                     cls=[Fx.shadow_soft, "h-100 border-0"],
                 ),
-                xs=12,
-                sm=6,
-                lg=3,
             ),
             Col(
                 Card(
@@ -248,9 +180,6 @@ def home():
                     header="Sharp Shadow",
                     cls=[Fx.shadow_sharp, "h-100 border-dark"],
                 ),
-                xs=12,
-                sm=6,
-                lg=3,
             ),
             Col(
                 Div(
@@ -259,9 +188,6 @@ def home():
                     cls=f"p-4 rounded {Fx.glass} text-dark",
                 ),
                 style="background: url('https://picsum.photos/id/16/300/200'); background-size: cover; padding: 50px !important;",
-                xs=12,
-                sm=6,
-                lg=3,
             ),
             Col(
                 Card(
@@ -270,13 +196,14 @@ def home():
                     cls=[Fx.gradient_shift, "h-100 text-white"],
                     style="background: linear-gradient(270deg, #ff0000, #0000ff, #00ff00);",
                 ),
-                xs=12,
-                sm=6,
-                lg=3,
             ),
-            cls="g-3 mb-5",
+            cls="g-3",
+            cols=1,
+            cols_md=2,
+            cols_lg=3,
         ),
         cls="py-4",
+        # style="background-color: #f8f9fa; width: 100%;",
     )
 
 
