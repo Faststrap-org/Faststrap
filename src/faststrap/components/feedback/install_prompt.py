@@ -69,21 +69,21 @@ def InstallPrompt(
         f"""
     document.addEventListener('DOMContentLoaded', () => {{
         // Check if already installed (standalone mode)
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
                              window.navigator.standalone === true;
-                             
+
         if (isStandalone) return;
-        
+
         // Detect Platform
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        
+
         // Logic
         setTimeout(() => {{
             const toastEl = document.getElementById('{toast_id}');
             if (!toastEl) return;
-            
+
             const toast = new bootstrap.Toast(toastEl);
-            
+
             if (isIOS) {{
                 // Show iOS instructions
                 toastEl.querySelector('.ios-instruction').classList.remove('d-none');
@@ -93,11 +93,11 @@ def InstallPrompt(
                 window.addEventListener('beforeinstallprompt', (e) => {{
                     e.preventDefault();
                     window.deferredPrompt = e;
-                    
+
                     // Show Install Button
                     const btn = toastEl.querySelector('.android-instruction');
                     btn.classList.remove('d-none');
-                    
+
                     btn.addEventListener('click', () => {{
                         window.deferredPrompt.prompt();
                         window.deferredPrompt.userChoice.then((choiceResult) => {{
@@ -107,7 +107,7 @@ def InstallPrompt(
                             }}
                         }});
                     }});
-                    
+
                     toast.show();
                 }});
             }}
