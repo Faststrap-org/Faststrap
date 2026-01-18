@@ -10,6 +10,56 @@ from ...core.registry import register
 from ...utils.icons import Icon
 from ..feedback.toast import Toast, ToastContainer
 
+# JS Template for Install Prompt
+_INSTALL_SCRIPT_TEMPLATE = """
+document.addEventListener('DOMContentLoaded', () => {{
+    // Check if already installed (standalone mode)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                         window.navigator.standalone === true;
+
+    if (isStandalone) return;
+
+    // Detect Platform
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    // Logic
+    setTimeout(() => {{
+        const toastEl = document.getElementById('{toast_id}');
+        if (!toastEl) return;
+
+        const toast = new bootstrap.Toast(toastEl);
+
+        if (isIOS) {{
+            // Show iOS instructions
+            toastEl.querySelector('.ios-instruction').classList.remove('d-none');
+            toast.show();
+        }} else {{
+            // Listen for 'beforeinstallprompt' stash the event
+            window.addEventListener('beforeinstallprompt', (e) => {{
+                e.preventDefault();
+                window.deferredPrompt = e;
+
+                // Show Install Button
+                const btn = toastEl.querySelector('.android-instruction');
+                btn.classList.remove('d-none');
+
+                btn.addEventListener('click', () => {{
+                    window.deferredPrompt.prompt();
+                    window.deferredPrompt.userChoice.then((choiceResult) => {{
+                        window.deferredPrompt = null;
+                        if (choiceResult.outcome === 'accepted') {{
+                            toast.hide();
+                        }}
+                    }});
+                }});
+
+                toast.show();
+            }});
+        }}
+    }}, {delay});
+}});
+"""
+
 
 @register(category="feedback", requires_js=True)
 def InstallPrompt(
@@ -64,56 +114,8 @@ def InstallPrompt(
         id="faststrap-pwa-prompt",
     )
 
-    # Client-side Logic
-    script = Script(
-        f"""
-    document.addEventListener('DOMContentLoaded', () => {{
-        // Check if already installed (standalone mode)
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
-                             window.navigator.standalone === true;
-
-        if (isStandalone) return;
-
-        // Detect Platform
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-        // Logic
-        setTimeout(() => {{
-            const toastEl = document.getElementById('{toast_id}');
-            if (!toastEl) return;
-
-            const toast = new bootstrap.Toast(toastEl);
-
-            if (isIOS) {{
-                // Show iOS instructions
-                toastEl.querySelector('.ios-instruction').classList.remove('d-none');
-                toast.show();
-            }} else {{
-                // Listen for 'beforeinstallprompt' stash the event
-                window.addEventListener('beforeinstallprompt', (e) => {{
-                    e.preventDefault();
-                    window.deferredPrompt = e;
-
-                    // Show Install Button
-                    const btn = toastEl.querySelector('.android-instruction');
-                    btn.classList.remove('d-none');
-
-                    btn.addEventListener('click', () => {{
-                        window.deferredPrompt.prompt();
-                        window.deferredPrompt.userChoice.then((choiceResult) => {{
-                            window.deferredPrompt = null;
-                            if (choiceResult.outcome === 'accepted') {{
-                                toast.hide();
-                            }}
-                        }});
-                    }});
-
-                    toast.show();
-                }});
-            }}
-        }}, {delay});
-    }});
-    """
-    )
+    # Client-side Logic (extracted for cleaner formatting)
+    js_logic = _INSTALL_SCRIPT_TEMPLATE.format(toast_id=toast_id, delay=delay)
+    script = Script(js_logic)
 
     return Div(container, script)
