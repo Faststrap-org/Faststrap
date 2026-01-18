@@ -8,6 +8,17 @@ from starlette.responses import FileResponse, JSONResponse
 
 from ..components.display.empty_state import EmptyState
 
+# SW Registration Script (Extracted for formatting)
+_SW_REGISTER_SCRIPT = """
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('SW registered!', reg))
+            .catch(err => console.log('SW failed', err));
+    });
+}
+"""
+
 
 def PwaMeta(
     name: str | None = None,
@@ -125,8 +136,16 @@ def add_pwa(
         "start_url": start_url,
         "scope": scope,
         "icons": [
-            {"src": icon_path, "sizes": "192x192", "type": "image/png"},
-            {"src": icon_path, "sizes": "512x512", "type": "image/png"},
+            {
+                "src": icon_path,
+                "sizes": "192x192",
+                "type": "image/png",
+            },
+            {
+                "src": icon_path,
+                "sizes": "512x512",
+                "type": "image/png",
+            },
         ],
     }
 
@@ -144,17 +163,7 @@ def add_pwa(
             return FileResponse(sw_path, media_type="application/javascript")
 
         # Register the SW in the app (inject script)
-        reg_script = Script(
-            """
-            if ('serviceWorker' in navigator) {
-                window.addEventListener('load', () => {
-                    navigator.serviceWorker.register('/sw.js')
-                        .then(reg => console.log('SW registered!', reg))
-                        .catch(err => console.log('SW failed', err));
-                });
-            }
-        """
-        )
+        reg_script = Script(_SW_REGISTER_SCRIPT)
         app.hdrs = list(app.hdrs) + [reg_script]
 
     # 4. Serve Offline Page

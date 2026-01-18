@@ -24,28 +24,33 @@ from .theme import ModeType, Theme, get_builtin_theme
 BOOTSTRAP_VERSION = "5.3.3"
 BOOTSTRAP_ICONS_VERSION = "1.11.3"
 
+# Asset URLs (Extracted for formatting stability)
+BOOTSTRAP_CSS_URL = (
+    f"https://cdn.jsdelivr.net/npm/bootstrap@{BOOTSTRAP_VERSION}/dist/css/bootstrap.min.css"
+)
+BOOTSTRAP_ICONS_URL = f"https://cdn.jsdelivr.net/npm/bootstrap-icons@{BOOTSTRAP_ICONS_VERSION}/font/bootstrap-icons.min.css"
+BOOTSTRAP_JS_URL = (
+    f"https://cdn.jsdelivr.net/npm/bootstrap@{BOOTSTRAP_VERSION}/dist/js/bootstrap.bundle.min.js"
+)
+
+BOOTSTRAP_CSS_INTEGRITY = "sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+BOOTSTRAP_JS_INTEGRITY = "sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 
 # CDN assets with SRI hashes
 CDN_ASSETS = (
     Link(
         rel="stylesheet",
-        href=(
-            f"https://cdn.jsdelivr.net/npm/bootstrap@{BOOTSTRAP_VERSION}"
-            "/dist/css/bootstrap.min.css"
-        ),
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH",
+        href=BOOTSTRAP_CSS_URL,
+        integrity=BOOTSTRAP_CSS_INTEGRITY,
         crossorigin="anonymous",
     ),
     Link(
         rel="stylesheet",
-        href=f"https://cdn.jsdelivr.net/npm/bootstrap-icons@{BOOTSTRAP_ICONS_VERSION}/font/bootstrap-icons.min.css",
+        href=BOOTSTRAP_ICONS_URL,
     ),
     Script(
-        src=(
-            f"https://cdn.jsdelivr.net/npm/bootstrap@{BOOTSTRAP_VERSION}"
-            "/dist/js/bootstrap.bundle.min.js"
-        ),
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz",
+        src=BOOTSTRAP_JS_URL,
+        integrity=BOOTSTRAP_JS_INTEGRITY,
         crossorigin="anonymous",
         defer=True,
     ),
@@ -65,8 +70,7 @@ def local_assets(static_url: str) -> tuple[Any, ...]:
 
 
 # Custom FastStrap enhancements
-CUSTOM_STYLES = Style(
-    """
+CUSTOM_STYLES_CSS = """
 :root {
   --fs-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --fs-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
@@ -94,11 +98,11 @@ CUSTOM_STYLES = Style(
   animation: toastFadeOut 0.5s ease-in-out forwards;
 }
 """
-)
+
+CUSTOM_STYLES = Style(CUSTOM_STYLES_CSS)
 
 # Automatic initialization for Tooltips and Popovers (supports HTMX)
-INIT_SCRIPT = Script(
-    """
+INIT_SCRIPT_JS = """
     document.addEventListener('DOMContentLoaded', () => {
         const initBS = (scope) => {
             if (!window.bootstrap) return;
@@ -117,8 +121,9 @@ INIT_SCRIPT = Script(
             initBS(evt.detail.elt);
         });
     });
-    """
-)
+"""
+
+INIT_SCRIPT = Script(INIT_SCRIPT_JS)
 
 
 def get_assets(
