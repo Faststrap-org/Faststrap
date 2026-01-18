@@ -20,7 +20,7 @@ add_pwa(
     short_name="FS PWA",
     description="A demo of Faststrap PWA capabilities",
     theme_color="#6F42C1",  # Matches purple-magic primary
-    icon_path="https://faststrap.org/logo.png",  # Example icon
+    icon_path="https://placehold.co/512x512.png",  # Reliable placeholder for demo
 )
 
 
