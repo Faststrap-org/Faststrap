@@ -12,6 +12,20 @@ from ...core.theme import resolve_defaults
 from ...core.types import ExpandType
 from ...utils.attrs import convert_attrs
 
+# Deterministic ID counter for navbar togglers
+_navbar_id_counter = 0
+
+
+def _get_next_navbar_id() -> str:
+    """Generate deterministic navbar ID for collapse toggler.
+
+    Returns:
+        Unique navbar ID string (e.g., 'navbar1', 'navbar2', etc.)
+    """
+    global _navbar_id_counter
+    _navbar_id_counter += 1
+    return f"navbar{_navbar_id_counter}"
+
 
 @stable
 def Navbar(
@@ -121,11 +135,9 @@ def Navbar(
 
         # Toggler for mobile (collapse button)
         if c_expand:
-            toggler_id = kwargs.get("id", "navbarContent")
-            if "id" not in kwargs:
-                import random
-
-                toggler_id = f"navbar{random.randint(1000, 9999)}"
+            toggler_id = kwargs.get("id")
+            if not toggler_id:
+                toggler_id = _get_next_navbar_id()
 
             toggler = Button(
                 Span(cls="navbar-toggler-icon"),
@@ -154,11 +166,9 @@ def Navbar(
 
         if c_expand:
             # Still need collapse for mobile
-            toggler_id = kwargs.get("id", "navbarContent")
-            if "id" not in kwargs:
-                import random
-
-                toggler_id = f"navbar{random.randint(1000, 9999)}"
+            toggler_id = kwargs.get("id")
+            if not toggler_id:
+                toggler_id = _get_next_navbar_id()
 
             toggler = Button(
                 Span(cls="navbar-toggler-icon"),

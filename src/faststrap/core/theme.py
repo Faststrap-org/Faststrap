@@ -433,7 +433,8 @@ def list_builtin_themes() -> list[str]:
 # Component Defaults System
 # ============================================================================
 
-_COMPONENT_DEFAULTS: dict[str, dict[str, Any]] = {
+# Base default values for all components (immutable reference)
+_DEFAULT_COMPONENT_DEFAULTS: dict[str, dict[str, Any]] = {
     "Alert": {"variant": "primary", "dismissible": False},
     "Badge": {"variant": "primary", "pill": False},
     "Breadcrumb": {},
@@ -450,6 +451,11 @@ _COMPONENT_DEFAULTS: dict[str, dict[str, Any]] = {
     "Spinner": {"variant": "primary", "size": None, "spinner_type": "border"},
     "Tabs": {"variant": "tabs", "fill": False, "justified": False},
     "Toast": {"autohide": True, "delay": 5000},
+}
+
+# Mutable working copy of defaults (can be modified via set_component_defaults)
+_COMPONENT_DEFAULTS: dict[str, dict[str, Any]] = {
+    k: v.copy() for k, v in _DEFAULT_COMPONENT_DEFAULTS.items()
 }
 
 
@@ -489,29 +495,14 @@ def reset_component_defaults(component: str | None = None) -> None:
     """
     global _COMPONENT_DEFAULTS
 
-    original: dict[str, dict[str, Any]] = {
-        "Alert": {"variant": "primary", "dismissible": False},
-        "Badge": {"variant": "primary", "pill": False},
-        "Breadcrumb": {},
-        "Button": {"variant": "primary", "size": None, "outline": False},
-        "Card": {"header_cls": "", "body_cls": "", "footer_cls": ""},
-        "Drawer": {"placement": "start", "backdrop": True},
-        "Dropdown": {"variant": "primary", "direction": "down"},
-        "Input": {"size": None, "input_type": "text"},
-        "Modal": {"size": None, "centered": False, "scrollable": False},
-        "Navbar": {"expand": "lg", "color_scheme": "light"},
-        "Pagination": {"size": None, "align": "start"},
-        "Progress": {"variant": "primary", "striped": False, "animated": False},
-        "Select": {"size": None},
-        "Spinner": {"variant": "primary", "size": None, "spinner_type": "border"},
-        "Tabs": {"variant": "tabs", "fill": False, "justified": False},
-        "Toast": {"autohide": True, "delay": 5000},
-    }
-
     if component is None:
-        _COMPONENT_DEFAULTS = original
-    elif component in original:
-        _COMPONENT_DEFAULTS[component] = original[component].copy()
+        # Reset all components to original defaults
+        _COMPONENT_DEFAULTS = {
+            k: v.copy() for k, v in _DEFAULT_COMPONENT_DEFAULTS.items()
+        }
+    elif component in _DEFAULT_COMPONENT_DEFAULTS:
+        # Reset specific component to original default
+        _COMPONENT_DEFAULTS[component] = _DEFAULT_COMPONENT_DEFAULTS[component].copy()
 
 
 def resolve_defaults(component: str, **kwargs: Any) -> dict[str, Any]:

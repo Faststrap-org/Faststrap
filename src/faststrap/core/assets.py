@@ -8,6 +8,7 @@ from __future__ import annotations
 import warnings
 from os import environ
 from typing import Any
+from urllib.parse import quote
 
 from fasthtml.common import Link, Script, Style
 from starlette.staticfiles import StaticFiles
@@ -165,7 +166,9 @@ def get_assets(
     if font_family:
         weights = font_weights or [400, 500, 700]
         weights_str = ";".join(str(w) for w in weights)
-        font_url = f"https://fonts.googleapis.com/css2?family={font_family.replace(' ', '+')}:wght@{weights_str}&display=swap"
+        # Properly encode font family name for URL (handles spaces and special characters)
+        encoded_family = quote(font_family)
+        font_url = f"https://fonts.googleapis.com/css2?family={encoded_family}:wght@{weights_str}&display=swap"
         # Add preconnect for performance
         elements.insert(0, Link(rel="preconnect", href="https://fonts.googleapis.com"))
         elements.insert(

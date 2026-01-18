@@ -158,14 +158,14 @@ def test_google_fonts_custom_weights():
 
 
 def test_google_fonts_with_spaces():
-    """Test font names with spaces are properly encoded."""
+    """Test font names with spaces are properly URL-encoded."""
     app = FastHTML()
 
     add_bootstrap(app, font_family="Open Sans")
 
     hdrs_str = [str(h) for h in app.hdrs]
-    # Should encode spaces as +
-    assert any("Open+Sans" in s for s in hdrs_str)
+    # Should encode spaces as %20 (URL encoding)
+    assert any("Open%20Sans" in s for s in hdrs_str)
 
 
 def test_no_font_when_not_specified():

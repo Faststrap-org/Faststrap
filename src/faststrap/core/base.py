@@ -13,7 +13,35 @@ class Component(Protocol):
 
 
 class BaseComponent(ABC):
-    """Base class for components with shared functionality."""
+    """Base class for stateful components with shared functionality.
+
+    Note: Most Faststrap components are implemented as functions for simplicity.
+    This base class is provided for:
+
+    1. **Advanced users** who want to create stateful component classes
+    2. **Future framework extensions** that may need class-based components
+    3. **Third-party component libraries** built on Faststrap
+
+    For most use cases, prefer function-based components as shown in the
+    Faststrap component library (see Button, Card, Navbar, etc.).
+
+    Example:
+        Creating a custom stateful component:
+
+        >>> from faststrap.core.base import BaseComponent
+        >>> from faststrap import Card, Button
+        >>>
+        >>> class StatefulCounter(BaseComponent):
+        ...     def __init__(self, initial=0, **kwargs):
+        ...         super().__init__(**kwargs)
+        ...         self.count = initial
+        ...
+        ...     def render(self):
+        ...         return Card(
+        ...             Button(f"Count: {self.count}"),
+        ...             **self.merge_attrs(cls="counter-card")
+        ...         )
+    """
 
     def __init__(self, *children: Any, **kwargs: Any):
         self.children = list(children)

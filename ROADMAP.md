@@ -134,27 +134,121 @@ Faststrap commits to the following architectural contracts:
 
 
 
+
+
 ---
 
-## Phase 6 – Data & Ecosystem (v0.6.x – Apr-Jul 2026)
+## Phase 6 – Data Science & Visualization (v0.6.x – Apr-Jul 2026)
 
-**Goal:** Deep Python integration and developer experience.
+**Goal:** Make Faststrap the #1 choice for Python data scientists building dashboards and data applications.
 
-### v0.6.0 – Data Layer (Apr 2026)
-- [ ] `Table.from_df()`: Pandas/Polars integration (Sort/Search/Export)
-- [ ] `Chart` Wrapper: Static SVG (Matplotlib) + Responsive container
+**Vision:** Zero-JavaScript data visualization with the power of pandas, Matplotlib, Plotly, and Altair - all in pure Python.
 
-### v0.6.1 – Productivity Layer (May 2026)
-- [ ] `Form.from_pydantic()`: Type-safe form generation + Validation
-- [ ] HTMX Presets: `ActiveSearch`, `InfiniteScroll`, `ConfirmAction`
+### v0.6.0 – Data Foundations (Apr 2026)
 
-### v0.6.2 – Auth & DX Layer (Jun 2026)
-- [ ] `faststrap.auth`: Drop-in `LoginCard`, `SignupForm`, `AuthFlow`
-- [ ] `faststrap.dev`: Inspector middleware (HTMX debugging)
-- [ ] `faststrap lint`: Static analysis for best practices
+**Focus:** Core data components for tables, charts, and DataFrame integration.
 
-### v0.6.3 – Realtime Layer (Jul 2026)
-- [ ] `faststrap.realtime`: SSE wrappers (`LiveBadge`, `LiveTable`)
+| Priority | Component | Description | Status |
+|----------|-----------|-------------|--------|
+| 1 | `DataTable` | Advanced table with sort/filter/pagination for DataFrames | Planned |
+| 2 | `Chart` | Wrapper for Matplotlib, Plotly, Altair with responsive sizing | Planned |
+| 3 | `Table.from_df()` | Convert pandas/polars DataFrame to Bootstrap table | Planned |
+| 4 | `MetricCard` | Enhanced StatCard with trends and deltas | Planned |
+| 5 | `TrendCard` | KPI card with sparkline visualization | Planned |
+| 6 | `KPICard` | Multi-metric dashboard card | Planned |
+
+**Features:**
+- Pandas & Polars DataFrame support
+- Client-side sorting/filtering for small datasets (<1000 rows)
+- Server-side pagination for large datasets
+- CSV/Excel export buttons
+- Automatic type inference and formatting
+- Theme-aware chart colors
+
+### v0.6.1 – Advanced Data Components (May 2026)
+
+**Focus:** Dashboard layouts, filters, and data visualization patterns.
+
+| Priority | Component | Description | Status |
+|----------|-----------|-------------|--------|
+| 1 | `DashboardGrid` | Responsive grid system for dashboards | Planned |
+| 2 | `FilterBar` | Composable filter components | Planned |
+| 3 | `DateRangePicker` | Date range selection with presets | Planned |
+| 4 | `MultiSelect` | Multi-select dropdown for filtering | Planned |
+| 5 | `RangeSlider` | Numeric range slider | Planned |
+| 6 | `ExportButton` | Export data to CSV/Excel/PDF | Planned |
+| 7 | `DistributionPlot` | Histogram with KDE overlay | Planned |
+| 8 | `CorrelationMatrix` | Heatmap for correlation analysis | Planned |
+
+**Features:**
+- HTMX-powered filtering (zero-JS)
+- Auto-refresh dashboards
+- Print-friendly layouts
+- Responsive dashboard grids
+
+### v0.6.2 – Real-time & ML Integration (Jun 2026)
+
+**Focus:** Live data updates and machine learning model visualization.
+
+| Priority | Component | Description | Status |
+|----------|-----------|-------------|--------|
+| 1 | `LiveChart` | Auto-updating chart with SSE | Planned |
+| 2 | `LiveMetric` | Real-time metric display | Planned |
+| 3 | `ConfusionMatrix` | ML model confusion matrix | Planned |
+| 4 | `ROCCurve` | ROC curve visualization | Planned |
+| 5 | `FeatureImportance` | Feature importance chart | Planned |
+| 6 | `ModelMetrics` | Comprehensive model evaluation dashboard | Planned |
+
+**Features:**
+- Server-Sent Events (SSE) for real-time updates
+- Streaming data tables
+- ML model performance tracking
+- Interactive cross-filtering
+
+### v0.6.3 – Productivity & Polish (Jul 2026)
+
+**Focus:** Developer experience, form builders, and HTMX presets.
+
+| Priority | Component | Description | Status |
+|----------|-----------|-------------|--------|
+| 1 | `Form.from_pydantic()` | Auto-generate forms from Pydantic models | Planned |
+| 2 | `ActiveSearch` | HTMX preset for live search | Planned |
+| 3 | `InfiniteScroll` | HTMX preset for infinite scrolling | Planned |
+| 4 | `TimeSeriesPlot` | Time series with moving averages | Planned |
+| 5 | `GeoMap` | Geographic visualization (optional) | Planned |
+
+**Features:**
+- Type-safe form generation
+- Automatic validation from Pydantic
+- HTMX patterns library
+- Complete documentation with 20+ examples
+
+---
+
+## 🎯 Data Science Positioning
+
+Faststrap is uniquely positioned for data scientists:
+
+**vs. Streamlit:**
+- ✅ More customizable (full Bootstrap control)
+- ✅ Production-ready (integrates into any FastHTML app)
+- ✅ Better performance (server-side rendering)
+
+**vs. Dash (Plotly):**
+- ✅ Simpler API (no React, no callbacks)
+- ✅ Zero JavaScript required
+- ✅ Lighter weight
+
+**vs. Panel (HoloViz):**
+- ✅ Cleaner, more Pythonic API
+- ✅ Better documentation
+- ✅ Professional Bootstrap aesthetics
+
+**Target Users:**
+- Data scientists building internal dashboards
+- Data analysts creating stakeholder reports
+- ML engineers monitoring model performance
+- Business intelligence developers
 
 ---
 

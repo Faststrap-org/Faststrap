@@ -91,12 +91,21 @@ def autodiscover() -> None:
             components.__path__, prefix="faststrap.components."
         ):
             try:
-                # Access the .name attribute
-                importlib.import_module(module_info.name)
+                # Safely access module name attribute
+                module_name = getattr(module_info, "name", None)
+                if module_name:
+                    importlib.import_module(module_name)
+                else:
+                    warnings.warn(
+                        f"Module info missing 'name' attribute: {module_info}",
+                        ImportWarning,
+                        stacklevel=2,
+                    )
             except ImportError as e:
-                # Added stacklevel=2 so the warning points to the import context
+                # Get module name safely for error message
+                module_name = getattr(module_info, "name", "unknown")
                 warnings.warn(
-                    f"Could not import {module_info.name}: {e}",
+                    f"Could not import {module_name}: {e}",
                     ImportWarning,
                     stacklevel=2,
                 )

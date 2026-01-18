@@ -5,6 +5,56 @@ All notable changes to Faststrap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.3] - 2026-01-18
+
+### Fixed
+- **Bug #1**: Eliminated duplicate component defaults code in `core/theme.py`
+  - Extracted defaults to `_DEFAULT_COMPONENT_DEFAULTS` constant
+  - Reduced code duplication by 30 lines
+  - Improved maintainability and consistency
+- **Bug #2**: Fixed non-deterministic navbar IDs in `components/navigation/navbar.py`
+  - Replaced `random.randint()` with deterministic counter
+  - Enables consistent HTML output for snapshot testing
+  - Better debugging experience
+- **Bug #3**: Fixed Google Fonts URL encoding in `core/assets.py`
+  - Now uses `urllib.parse.quote()` for proper URL encoding
+  - Handles font names with spaces and special characters correctly
+  - Standards-compliant font loading
+- **Bug #4**: Improved registry autodiscovery error handling in `core/registry.py`
+  - Safe attribute access using `getattr()` with fallback
+  - Better error messages for malformed modules
+  - More robust component discovery
+
+### Documentation
+- **Added**: Comprehensive docstring for `BaseComponent` class
+  - Explains purpose for advanced users and third-party libraries
+  - Includes usage examples for stateful components
+  - Clarifies when to use class-based vs function-based components
+- **Added**: README for `components/advance/` directory
+  - Documents planned advanced components (DataTable, Chart, etc.)
+  - Explains future roadmap for data science features
+- **Added**: Component documentation for:
+  - `Carousel` and `CarouselItem` - Image slideshow component
+  - `Image` - Responsive image utilities
+  - `Scrollspy` - Auto-updating navigation
+  - `InstallPrompt` - PWA installation prompt
+
+### Roadmap
+- **Updated**: Phase 6 roadmap with comprehensive data science vision
+  - v0.6.0: Data Foundations (DataTable, Chart, DataFrame integration)
+  - v0.6.1: Advanced Data Components (Dashboards, Filters, Visualizations)
+  - v0.6.2: Real-time & ML Integration (Live updates, Model metrics)
+  - v0.6.3: Productivity & Polish (Pydantic forms, HTMX presets)
+- **Added**: Competitive positioning vs Streamlit, Dash, and Panel
+- **Added**: Target audience definition for data scientists and analysts
+
+### Quality
+- ✅ All 426 tests passing
+- ✅ Ruff linting passed (0 errors)
+- ✅ Mypy type checking passed (64 files)
+- ✅ Black formatting applied
+- ✅ 100% backward compatible (no breaking changes)
+
 ## [0.5.2] - 2026-01-18
 
 ### Added
