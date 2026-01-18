@@ -55,7 +55,7 @@ def home():
             cols=2,
             cols_md=3,
             cols_lg=4,
-        ), 
+        ),
         # Section 2: Hover Interactions
         H2("2. Hover Interactions", cls="mb-4 border-bottom pb-2 mt-4"),
         P("Hover over these cards to see micro-interactions.", cls="text-muted mb-4"),

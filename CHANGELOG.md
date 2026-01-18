@@ -5,6 +5,20 @@ All notable changes to Faststrap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.2] - 2026-01-18
+
+### Added
+- **PWA Support (`faststrap.pwa`)**: New module to make Faststrap apps installable.
+    - `add_pwa()` helper for one-line PWA setup.
+    - `PwaMeta` component for iOS/Android meta tags.
+    - Automatic `manifest.json` generation.
+    - Generic "Network-First" Service Worker (`sw.js`).
+- **Mobile Components**:
+    - `BottomNav` and `BottomNavItem` for mobile app navigation.
+    - `Sheet` (Bottom Drawer) for modern mobile menus.
+    - `InstallPrompt` for guiding users to install the app.
+- **Documentation**: New `docs/PWA_GUIDE.md`.
+
 ## [0.5.1] - 2026-01-17
 
 ### Added

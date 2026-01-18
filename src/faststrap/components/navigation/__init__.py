@@ -1,6 +1,7 @@
 """Navigation components."""
 
 from .accordion import Accordion, AccordionItem
+from .bottom_nav import BottomNav, BottomNavItem
 from .breadcrumb import Breadcrumb
 from .drawer import Drawer
 from .dropdown import Dropdown, DropdownDivider, DropdownItem
@@ -15,6 +16,8 @@ from .tabs import TabPane, Tabs
 __all__ = [
     "Accordion",
     "AccordionItem",
+    "BottomNav",
+    "BottomNavItem",
     "Breadcrumb",
     "Collapse",
     "Drawer",

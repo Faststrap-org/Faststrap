@@ -2,6 +2,7 @@
 
 from .alert import Alert
 from .confirm import ConfirmDialog
+from .install_prompt import InstallPrompt
 from .modal import Modal
 from .overlays import Popover, Tooltip
 from .placeholder import Placeholder, PlaceholderButton, PlaceholderCard
@@ -12,6 +13,7 @@ from .toast import SimpleToast, Toast, ToastContainer
 __all__ = [
     "Alert",
     "ConfirmDialog",
+    "InstallPrompt",
     "Modal",
     "Placeholder",
     "PlaceholderButton",

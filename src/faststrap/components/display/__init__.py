@@ -6,6 +6,7 @@ from .carousel import Carousel, CarouselItem
 from .empty_state import EmptyState
 from .figure import Figure
 from .image import Image
+from .sheet import Sheet
 from .stat_card import StatCard
 from .table import Table, TBody, TCell, THead, TRow
 
@@ -17,6 +18,7 @@ __all__ = [
     "EmptyState",
     "Figure",
     "Image",
+    "Sheet",
     "StatCard",
     "Table",
     "THead",

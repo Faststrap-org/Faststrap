@@ -3,11 +3,12 @@
 Build beautiful web UIs in pure Python with zero JavaScript knowledge.
 """
 
-__version__ = "0.5.1"
+__version__ = "0.5.2"
 __author__ = "FastStrap Contributors"
 __license__ = "MIT"
 
 # Core functionality
+
 # Display
 from .components.display import (
     Badge,
@@ -17,6 +18,7 @@ from .components.display import (
     EmptyState,
     Figure,
     Image,
+    Sheet,
     StatCard,
     Table,
     TBody,
@@ -29,6 +31,7 @@ from .components.display import (
 from .components.feedback import (
     Alert,
     ConfirmDialog,
+    InstallPrompt,
     Modal,
     Placeholder,
     PlaceholderButton,
@@ -68,6 +71,8 @@ from .components.layout import Col, Container, Hero, Row
 from .components.navigation import (
     Accordion,
     AccordionItem,
+    BottomNav,
+    BottomNavItem,
     Breadcrumb,
     Collapse,
     Drawer,
@@ -110,6 +115,9 @@ from .core.theme import (
 )
 from .layouts import DashboardLayout, LandingLayout
 
+# PWA
+from .pwa import PwaMeta, add_pwa
+
 # Utils
 from .utils import cleanup_static_resources, get_faststrap_static_url
 from .utils.icons import Icon
@@ -120,6 +128,9 @@ __all__ = [
     "get_assets",
     "mount_assets",
     "merge_classes",
+    # PWA
+    "PwaMeta",
+    "add_pwa",
     # Theme
     "Theme",
     "create_theme",
@@ -151,6 +162,7 @@ __all__ = [
     "EmptyState",
     "Figure",
     "Image",
+    "Sheet",
     "StatCard",
     "Table",
     "THead",
@@ -158,6 +170,7 @@ __all__ = [
     "TRow",
     "TCell",
     "Alert",
+    "InstallPrompt",
     "ConfirmDialog",
     "Toast",
     "SimpleToast",
@@ -184,6 +197,8 @@ __all__ = [
     "ListGroup",
     "ListGroupItem",
     "Navbar",
+    "BottomNav",
+    "BottomNavItem",
     "GlassNavbar",
     "GlassNavItem",
     "Scrollspy",
