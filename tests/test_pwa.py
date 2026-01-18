@@ -11,13 +11,13 @@ def test_pwa_meta_generation():
 
     # Check for essential tags
     assert any(
-        isinstance(t, Meta)
+        t.tag == "meta"
         and t.attrs.get("name") == "theme-color"
         and t.attrs.get("content") == "#000000"
         for t in tags
     )
-    assert any(isinstance(t, Link) and t.attrs.get("rel") == "manifest" for t in tags)
-    assert any(isinstance(t, Link) and t.attrs.get("rel") == "apple-touch-icon" for t in tags)
+    assert any(t.tag == "link" and t.attrs.get("rel") == "manifest" for t in tags)
+    assert any(t.tag == "link" and t.attrs.get("rel") == "apple-touch-icon" for t in tags)
 
 
 def test_add_pwa_injection():
@@ -30,7 +30,7 @@ def test_add_pwa_injection():
     assert len(app.hdrs) > 0
     # Check for service worker registration script
     assert any(
-        isinstance(h, Script) and "navigator.serviceWorker.register" in str(h) for h in app.hdrs
+        h.tag == "script" and "navigator.serviceWorker.register" in str(h) for h in app.hdrs
     )
 
     # Check routes added
