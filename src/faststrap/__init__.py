@@ -3,13 +3,15 @@
 Build beautiful web UIs in pure Python with zero JavaScript knowledge.
 """
 
-__version__ = "0.5.3"
+__version__ = "0.5.4"
 __author__ = "FastStrap Contributors"
 __license__ = "MIT"
 
 # Core functionality
 
 # Display
+# Presets (HTMX interaction helpers)
+from . import presets
 from .components.display import (
     Badge,
     Card,
@@ -31,6 +33,8 @@ from .components.display import (
 from .components.feedback import (
     Alert,
     ConfirmDialog,
+    ErrorDialog,
+    ErrorPage,
     InstallPrompt,
     Modal,
     Placeholder,
@@ -55,13 +59,16 @@ from .components.forms import (
     CloseButton,
     FileInput,
     FloatingLabel,
+    FormGroup,
     Input,
     InputGroup,
     InputGroupText,
     Radio,
     Range,
+    SearchableSelect,
     Select,
     Switch,
+    ThemeToggle,
 )
 
 # Layout
@@ -96,9 +103,12 @@ from .components.navigation import (
 from .components.patterns import (
     Feature,
     FeatureGrid,
+    FooterModern,
     NavbarModern,
     PricingGroup,
     PricingTier,
+    Testimonial,
+    TestimonialSection,
 )
 from .core._stability import beta, experimental, stable
 from .core.assets import add_bootstrap, get_assets, mount_assets
@@ -113,10 +123,13 @@ from .core.theme import (
     resolve_defaults,
     set_component_defaults,
 )
-from .layouts import DashboardLayout, LandingLayout
+from .layouts import AuthLayout, DashboardLayout, LandingLayout
 
 # PWA
 from .pwa import PwaMeta, add_pwa
+
+# SEO helpers
+from .seo import SEO, StructuredData
 
 # Utils
 from .utils import cleanup_static_resources, get_faststrap_static_url
@@ -146,6 +159,7 @@ __all__ = [
     "ButtonToolbar",
     "Checkbox",
     "FileInput",
+    "FormGroup",
     "Radio",
     "Switch",
     "Range",
@@ -153,7 +167,9 @@ __all__ = [
     "InputGroup",
     "InputGroupText",
     "FloatingLabel",
+    "SearchableSelect",
     "Select",
+    "ThemeToggle",
     # Display
     "Badge",
     "Card",
@@ -170,6 +186,8 @@ __all__ = [
     "TRow",
     "TCell",
     "Alert",
+    "ErrorPage",
+    "ErrorDialog",
     "InstallPrompt",
     "ConfirmDialog",
     "Toast",
@@ -212,14 +230,23 @@ __all__ = [
     "Tabs",
     "TabPane",
     # Layouts
+    "AuthLayout",
     "DashboardLayout",
     "LandingLayout",
     # Patterns
     "NavbarModern",
     "Feature",
     "FeatureGrid",
+    "FooterModern",
+    "Testimonial",
+    "TestimonialSection",
     "PricingGroup",
     "PricingTier",
+    # Presets
+    "presets",
+    # SEO
+    "SEO",
+    "StructuredData",
     # Utils
     "Icon",
     "get_faststrap_static_url",

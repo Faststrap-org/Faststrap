@@ -2,6 +2,8 @@
 
 from .alert import Alert
 from .confirm import ConfirmDialog
+from .error_dialog import ErrorDialog
+from .error_page import ErrorPage
 from .install_prompt import InstallPrompt
 from .modal import Modal
 from .overlays import Popover, Tooltip
@@ -13,6 +15,8 @@ from .toast import SimpleToast, Toast, ToastContainer
 __all__ = [
     "Alert",
     "ConfirmDialog",
+    "ErrorDialog",
+    "ErrorPage",
     "InstallPrompt",
     "Modal",
     "Placeholder",

@@ -14,7 +14,9 @@
 
 FastHTML is amazing for building web apps in pure Python, but it lacks pre-built UI components. FastStrap fills that gap by providing:
 
-✅ **51 Bootstrap components** - Buttons, Cards, Modals, Forms, Navigation, and more  
+✅ **67 Bootstrap components** - Buttons, Cards, Modals, Forms, Navigation, and more  
+✅ **HTMX Presets Module** - 12 ready-to-use patterns for common interactions  
+✅ **SEO Module** - Comprehensive meta tags, Open Graph, Twitter Cards, and structured data  
 ✅ **Zero JavaScript knowledge required** - Components just work  
 ✅ **No build steps** - Pure Python, no npm/webpack/vite  
 ✅ **Full HTMX integration** - Dynamic updates without page reloads  
@@ -212,6 +214,7 @@ add_bootstrap(app, theme=my_theme)
 ```
 
 Available built-in themes:
+
 - `green-nature`
 - `blue-ocean`
 - `purple-magic`
@@ -242,11 +245,27 @@ modal = get_component("Modal")
 
 ---
 
-## Available Components (51 Total)
+## Available Components (67 Total)
 
 All components are production-ready with comprehensive documentation, HTMX integration, and accessibility features.
 
-### Forms (13 Components)
+### Presets Module (12 Utilities)
+
+- **ActiveSearch** - Live search with debouncing
+- **InfiniteScroll** - Infinite scrolling pagination
+- **AutoRefresh** - Auto-refreshing content
+- **LazyLoad** - Lazy loading for images/content
+- **LoadingButton** - Button with loading state
+- **hx_redirect()** - Server-side redirects
+- **hx_refresh()** - Full page refresh
+- **hx_trigger()** - Custom event triggers
+- **hx_reswap()** - Dynamic swap strategies
+- **hx_retarget()** - Dynamic target changes
+- **toast_response()** - Toast notifications from server
+- **@require_auth** - Session-based route protection
+
+### Forms (16 Components)
+
 - **Button** - Buttons with variants, sizes, loading states, icons
 - **CloseButton** - Reusable close button for dismissible components
 - **ButtonGroup** - Grouped buttons and toolbars
@@ -260,8 +279,12 @@ All components are production-ready with comprehensive documentation, HTMX integ
 - **FileInput** - File upload inputs
 - **InputGroup** - Input addons (text, buttons, icons)
 - **FloatingLabel** - Animated floating labels
+- **FormGroup** - Form field wrapper with labels and validation
+- **ThemeToggle** - Dark/light mode toggle switch
+- **SearchableSelect** - Server-side searchable dropdown
 
 ### Display (10 Components)
+
 - **Card** - Content containers with headers/footers/images
 - **Badge** - Status indicators and labels
 - **Table** - Data tables with striped, hover, bordered styles
@@ -273,7 +296,8 @@ All components are production-ready with comprehensive documentation, HTMX integ
 - **Carousel** - Auto-play image sliders with controls, indicators, fade
 - **Placeholder** - Skeleton loading with glow/wave animations
 
-### Feedback (10 Components)
+### Feedback (12 Components)
+
 - **Alert** - Dismissible alerts with variants
 - **Modal** - Dialog boxes and confirmations
 - **ConfirmDialog** - Pre-configured confirmation modals
@@ -286,8 +310,11 @@ All components are production-ready with comprehensive documentation, HTMX integ
 - **Tooltip** - Hover tooltips
 - **Popover** - Click popovers
 - **Collapse** - Show/hide content areas
+- **ErrorPage** - Full-page error displays (404, 500, 403)
+- **ErrorDialog** - Modal error displays with retry
 
 ### Navigation (14 Components)
+
 - **Navbar** - Responsive navigation bars
 - **NavbarModern** - Glassmorphism navbar
 - **Tabs** - Navigation tabs and pills
@@ -307,16 +334,20 @@ All components are production-ready with comprehensive documentation, HTMX integ
 - **GlassNavbar** - Premium glassmorphism navbar
 
 ### Layout (4 Components)
+
 - **Container** - Responsive containers (fixed/fluid)
 - **Row** - Grid rows with gutters
 - **Col** - Grid columns with breakpoints
 - **Hero** - Hero sections with backgrounds/overlays
 
-### Layouts (2 Composed Layouts)
+### Layouts (3 Composed Layouts)
+
 - **DashboardLayout** - Admin panel with sidebar
 - **LandingLayout** - Marketing page layout
+- **AuthLayout** - Centered authentication page layout
 
 ### Effects (1 Module)
+
 - **Fx** - Zero-JS animations and visual effects
   - Entrance animations (fade, slide, zoom, bounce)
   - Hover interactions (lift, scale, glow, tilt)
@@ -324,11 +355,15 @@ All components are production-ready with comprehensive documentation, HTMX integ
   - Visual effects (glass, shadows, gradients)
   - Speed and delay modifiers
 
-### Patterns (5 Composed Components)
+### Patterns (8 Composed Components)
+
 - **Feature** - Feature highlight component
 - **FeatureGrid** - Grid of features
 - **PricingTier** - Pricing card component
 - **PricingGroup** - Group of pricing tiers
+- **FooterModern** - Multi-column footer with branding and social links
+- **Testimonial** - Customer testimonial card with ratings
+- **TestimonialSection** - Grid of testimonials
 
 ---
 
@@ -352,24 +387,26 @@ All components are production-ready with comprehensive documentation, HTMX integ
 Comprehensive examples organized by learning path:
 
 ### 01_getting_started/
+
 - `hello_world.py` - Your first Faststrap app
 - `first_card.py` - Working with components
 - `simple_form.py` - Building forms
 - `adding_htmx.py` - HTMX interactivity
 
 ### 03_real_world_apps/
+
 - `blog/` - Complete blog with posts, comments, admin
 - `calculator/` - HTMX-powered calculator
 - `game/` - Tic-tac-toe with win detection
 - `ecommerce/` - E-commerce store (existing)
 
 ### 04_advanced/
+
 - `effects_showcase.py` - All Faststrap effects demo
 - `custom_themes.py` - Theme customization
 - `component_defaults.py` - Global configuration
 
 **See**: `examples/README.md` for complete guide
-
 
 | **Dropdown** | Contextual menus with split buttons | ✅ |
 | **Input** | Text form controls with validation | ✅ |
@@ -407,10 +444,40 @@ Comprehensive examples organized by learning path:
 | **StatCard** | Metric display card | ✅ |
 | **Hero** | Landing page hero section | ✅ |
 
-### 🗓️ Phase 5+ (v0.5.0 - v1.0.0)
+### ✅ Phase 5A (v0.5.0-v0.5.3) - 6 Components
 
-- **Sidebar**, **Footer**, **DashboardLayout**
-- **DataTable** with sorting/filtering/pagination
+| Component | Description | Status |
+|-----------|-------------|--------|
+| **Image** | Responsive images with utilities | ✅ |
+| **Carousel** | Image/content sliders | ✅ |
+| **Placeholder** | Skeleton loading states | ✅ |
+| **Scrollspy** | Auto-updating navigation | ✅ |
+| **SidebarNavbar** | Premium vertical sidebar | ✅ |
+| **GlassNavbar** | Glassmorphism navbar | ✅ |
+
+### ✅ Phase 5B (v0.5.4) - 16 Components & Modules
+
+**HTMX Presets Module (12 helpers):**
+
+- `ActiveSearch`, `InfiniteScroll`, `AutoRefresh`, `LazyLoad`, `LoadingButton`
+- `hx_redirect`, `hx_refresh`, `hx_trigger`, `hx_reswap`, `hx_retarget`, `toast_response`
+- `@require_auth` decorator
+
+**SEO Module (2 components):**
+
+- `SEO` - Meta tags, Open Graph, Twitter Cards, Article metadata
+- `StructuredData` - JSON-LD for Article, Product, Breadcrumb, Organization, LocalBusiness
+
+**UI Components (7):**
+
+- `ErrorPage`, `ErrorDialog`, `FormGroup`, `ThemeToggle`, `SearchableSelect`
+- `FooterModern`, `Testimonial`, `TestimonialSection`, `AuthLayout`
+
+### 🗓️ Phase 6+ (v0.6.0+)
+
+- **Data Science Components**: DataTable, Chart, MetricCard, TrendCard
+- **Dashboard Layouts**: DashboardLayout, DashboardGrid, FilterBar
+- **Advanced Forms**: Form.from_pydantic(), DateRangePicker, MultiSelect
 - **FormWizard**, **Stepper**
 - **Timeline**, **ProfileDropdown**, **SearchBar**
 - **Carousel**, **MegaMenu**, **NotificationCenter**
@@ -763,6 +830,7 @@ mount_assets(app, "assets")  # Mounts assets/ at /assets/
 ```
 
 Then reference files with the correct path:
+
 ```python
 Div(style="background-image: url('/assets/hero-bg.jpg')")  # ✅ Correct
 Div(style="background-image: url('/hero-bg.jpg')")         # ❌ Wrong
@@ -775,6 +843,7 @@ See [Static Files](docs/STATIC_FILES.md) for full guide.
 ## Roadmap
 
 ### v0.3.1 (Current - December 2025)
+
 - ✅ 20 components (12 + 8 new)
 - ✅ 219 tests, 80% coverage
 - ✅ Centralized `convert_attrs()` utility
@@ -784,21 +853,25 @@ See [Static Files](docs/STATIC_FILES.md) for full guide.
 - ✅ Component defaults system with `resolve_defaults()`
 
 ### v0.4.0 (Phase 4A - Complete)
+
 - ✅ Table, Accordion, Checkbox, Radio, Switch
 - ✅ Range, ListGroup, Collapse, InputGroup, FloatingLabel
 - ✅ 30 components total
 
 ### v0.4.5 (Phase 4B - Complete)
+
 - ✅ FileInput, Tooltip, Popover, Figure
 - ✅ ConfirmDialog, EmptyState, StatCard, Hero
 - ✅ 38 components total
 
 ### v0.5.0 (Phase 5 - Mar 2026)
+
 - Sidebar, Footer, DashboardLayout
 - Timeline, Carousel, MegaMenu
 - 50 components total
 
 ### v1.0.0 (Target Aug 2026)
+
 - 100+ components
 - Component playground
 - Full documentation website

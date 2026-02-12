@@ -1,0 +1,21 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.0.2, pluggy-1.6.0 -- C:\Python 3.13.7\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Meshell\Desktop\FastHTML\Faststrap
+configfile: pyproject.toml
+plugins: anyio-4.11.0, asyncio-1.3.0, cov-7.0.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 23 items
+
+tests/test_seo_meta.py::TestSEOBasicTags::test_title_tag FAILED          [  4%]
+
+================================== FAILURES ===================================
+_______________________ TestSEOBasicTags.test_title_tag _______________________
+tests\test_seo_meta.py:18: in test_title_tag
+    titles = [e for e in elements if isinstance(e, Title)]
+                                     ^^^^^^^^^^^^^^^^^^^^
+E   TypeError: isinstance() arg 2 must be a type, a tuple of types, or a union
+=========================== short test summary info ===========================
+FAILED tests/test_seo_meta.py::TestSEOBasicTags::test_title_tag - TypeError: isinstance() arg 2 must be a type, a tuple of types, or a union
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+============================== 1 failed in 0.43s ==============================

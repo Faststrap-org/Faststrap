@@ -376,6 +376,7 @@ def mount_assets(
     url_path: str = "/assets",
     name: str | None = None,
     priority: bool = True,
+    allow_override: bool = False,
 ) -> None:
     """Mount a static files directory to your FastHTML app.
 
@@ -392,10 +393,17 @@ def mount_assets(
              If None, auto-generated from url_path.
         priority: If True, insert at start of routes to take precedence
                  over catch-all routes (default: True).
+        allow_override: If True, allow overriding Faststrap's static mount.
+                       NOT recommended as it will break Bootstrap CSS/JS loading.
+                       (default: False)
 
     Raises:
-        ValueError: If url_path doesn't start with "/"
+        ValueError: If url_path doesn't start with "/" or conflicts with Faststrap
         FileNotFoundError: If directory doesn't exist
+
+    Warning:
+        Do not use the same url_path as Faststrap's static files (usually "/static").
+        This will cause Bootstrap CSS/JS to fail loading. Use "/assets" or another path.
 
     Example:
         Basic usage:
@@ -412,6 +420,10 @@ def mount_assets(
 
         Absolute path:
         >>> mount_assets(app, "/var/www/static", url_path="/static-files")
+
+        Custom static URL for Faststrap (to use /static for your files):
+        >>> add_bootstrap(app, static_url="/faststrap-static")
+        >>> mount_assets(app, "static", url_path="/static")  # Now safe!
     """
     import os
     import sys
@@ -422,6 +434,31 @@ def mount_assets(
     # Validate url_path
     if not url_path.startswith("/"):
         raise ValueError(f"url_path must start with '/'. Got: {url_path}")
+
+    # Check for conflicts with Faststrap's static mount
+    faststrap_url = getattr(app, "_faststrap_static_url", None)
+    if faststrap_url and url_path.rstrip("/") == faststrap_url.rstrip("/"):
+        if not allow_override:
+            raise ValueError(
+                f"Cannot mount assets at '{url_path}' - this conflicts with Faststrap's static files.\n"
+                f"Faststrap is using '{faststrap_url}' for Bootstrap CSS/JS.\n\n"
+                f"Solutions:\n"
+                f"1. Use a different url_path:\n"
+                f"   mount_assets(app, '{directory}', url_path='/assets')\n\n"
+                f"2. Configure Faststrap to use a different URL:\n"
+                f"   add_bootstrap(app, static_url='/faststrap-static')\n"
+                f"   mount_assets(app, '{directory}', url_path='/static')\n\n"
+                f"3. Override Faststrap (NOT recommended, will break Bootstrap):\n"
+                f"   mount_assets(app, '{directory}', url_path='{url_path}', allow_override=True)\n\n"
+                f"Recommended: Use '/assets' for your files and '{faststrap_url}' for Faststrap."
+            )
+        else:
+            warnings.warn(
+                f"Overriding Faststrap's static mount at '{url_path}'. "
+                f"Bootstrap CSS/JS may not load correctly.",
+                RuntimeWarning,
+                stacklevel=2,
+            )
 
     # Resolve directory path
     if os.path.isabs(directory):

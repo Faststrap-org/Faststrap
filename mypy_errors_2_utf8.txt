@@ -1,0 +1,9 @@
+﻿src\faststrap\components\forms\formgroup.py:87: error: Incompatible types in assignment (expression has type "tuple[str, Any]", variable has type "str")  [assignment]
+src\faststrap\presets\interactions.py:388: error: Argument 4 to "Button" has incompatible type "**dict[str, str]"; expected "Literal['button', 'a']"  [arg-type]
+src\faststrap\presets\interactions.py:388: error: Argument 4 to "Button" has incompatible type "**dict[str, str]"; expected "Literal['sm', 'lg'] | None"  [arg-type]
+src\faststrap\presets\interactions.py:388: error: Argument 4 to "Button" has incompatible type "**dict[str, str]"; expected "bool"  [arg-type]
+src\faststrap\presets\interactions.py:388: error: Argument 4 to "Button" has incompatible type "**dict[str, str]"; expected "Literal['start', 'end']"  [arg-type]
+src\faststrap\presets\interactions.py:388: error: Argument 4 to "Button" has incompatible type "**dict[str, str]"; expected "dict[str, Any] | None"  [arg-type]
+src\faststrap\presets\interactions.py:388: note: "dict" is invariant -- see https://mypy.readthedocs.io/en/stable/common_issues.html#variance
+src\faststrap\presets\interactions.py:388: note: Consider using "Mapping" instead, which is covariant in the value type
+Found 6 errors in 2 files (checked 83 source files)
