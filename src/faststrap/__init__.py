@@ -3,7 +3,7 @@
 Build beautiful web UIs in pure Python with zero JavaScript knowledge.
 """
 
-__version__ = "0.5.4"
+__version__ = "0.5.5"
 __author__ = "FastStrap Contributors"
 __license__ = "MIT"
 
