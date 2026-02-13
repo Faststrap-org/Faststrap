@@ -20,30 +20,29 @@
 
 FastStrap aims to be the **standard component library for FastHTML**, providing 100+ production-ready Bootstrap 5 components. It combines the power of **Python**, the simplicity of **FastHTML**, and the maturity of **Bootstrap** into a single, cohesive experience.
 
-
 ## Why FastStrap?
 
 FastHTML is amazing for building web apps in pure Python, but building UI from scratch can be time-consuming. FastStrap bridges the gap by providing a comprehensive set of **production-ready Bootstrap 5 components** that just work.
 
--   :material-language-python: **Pure Python**
+- :material-language-python: **Pure Python**
 
     ---
 
     No JavaScript, HTML, or CSS knowledge required. Define your UI with Python classes and intuitive keyword arguments.
 
--   :material-flash: **FastHTML Native**
+- :material-flash: **FastHTML Native**
 
     ---
 
     Built specifically for FastHTML. Seamlessly integrates with HTMX for dynamic, SPA-like experiences without the complexity.
 
--   :material-bootstrap: **Bootstrap 5.3**
+- :material-bootstrap: **Bootstrap 5.3**
 
     ---
 
     Leverages the world's most popular CSS framework. Responsive, accessible, and themeable out of the box.
 
--   :material-eye: **Type Safe**
+- :material-eye: **Type Safe**
 
     ---
 
@@ -88,16 +87,20 @@ def home():
 
 ## Features
 
-- **38+ Components**: From Buttons to Modals, Navbars to Tables.
+- **67 Components**: From Buttons to Modals, Navbars to Tables, SearchableSelect to ErrorPage.
+- **HTMX Presets**: ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton — zero JS.
+- **SEO Module**: SEO meta tags, Open Graph, Twitter Cards, and JSON-LD structured data.
 - **Zero Build Step**: No webpack, no npm, no node_modules.
 - **Dark Mode**: Automatic or user-toggled dark mode support.
 - **HTMX Ready**: `hx_*` attributes are first-class citizens.
 - **Icons Included**: Built-in helper for Bootstrap Icons.
+- **Visual Effects**: Scroll-reveal animations, hover effects, and transitions — CSS only.
 
 ## Stats
 
-- **38 components** implemented.
-- **230+ tests** passing.
+- **67 components** implemented.
+- **250+ tests** passing.
+- **5 HTMX presets** + **4 response helpers**.
 - **100% Python**.
 
 ## License

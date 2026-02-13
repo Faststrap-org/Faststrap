@@ -123,6 +123,17 @@ def ErrorPage(
             style="font-size: 8rem;",
         )
 
+    # Build action button
+    action_button = None
+    if action_text:
+        from fasthtml.common import A
+
+        action_button = A(
+            action_text,
+            href=action_href,
+            cls="btn btn-primary btn-lg",
+        )
+
     # Build classes
     base_classes = ["min-vh-100", "d-flex", "align-items-center", "justify-content-center"]
     user_cls = kwargs.pop("cls", "")
@@ -137,8 +148,7 @@ def ErrorPage(
         title=final_title,
         description=final_message,
         icon=final_icon,
-        action_text=action_text,
-        action_href=action_href if action_text else None,
+        action=action_button,
         cls="text-center",
     )
 

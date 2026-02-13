@@ -3,9 +3,18 @@ Presets Responses Demo
 Demonstrates response helpers: hx_redirect, hx_refresh, toast_response, and @require_auth decorator
 """
 
-from fasthtml.common import *
+from fasthtml.common import A, Div, FastHTML, H1, H4, H5, Hr, P, serve
 
-from faststrap import *
+from faststrap import (
+    Alert,
+    Button,
+    Card,
+    Container,
+    FormGroup,
+    Icon,
+    Input,
+    add_bootstrap,
+)
 from faststrap.presets import hx_redirect, hx_refresh, require_auth, toast_response
 
 app = FastHTML()
@@ -51,8 +60,18 @@ def home():
         Card(
             H5("3. toast_response() - Toast Notifications", cls="card-title"),
             P("Click to show toast notifications:", cls="text-muted"),
-            Button("Success Toast", variant="success", hx_post="/api/toast-success", cls="me-2"),
-            Button("Error Toast", variant="danger", hx_post="/api/toast-error", cls="me-2"),
+            Button(
+                "Success Toast",
+                variant="success",
+                hx_post="/api/toast-success",
+                cls="me-2",
+            ),
+            Button(
+                "Error Toast",
+                variant="danger",
+                hx_post="/api/toast-error",
+                cls="me-2",
+            ),
             Button(
                 "Info Toast",
                 variant="info",
@@ -132,25 +151,35 @@ def refresh_demo():
 @app.post("/api/toast-success")
 def toast_success():
     """Show success toast"""
-    return toast_response("Operation completed successfully!", variant="success", title="Success")
+    return toast_response(
+        content="",
+        message="Operation completed successfully!",
+        variant="success",
+    )
 
 
 @app.post("/api/toast-error")
 def toast_error():
     """Show error toast"""
     return toast_response(
-        "Something went wrong. Please try again.", variant="danger", title="Error"
+        content="",
+        message="Something went wrong. Please try again.",
+        variant="danger",
     )
 
 
 @app.post("/api/toast-info")
 def toast_info():
     """Show info toast"""
-    return toast_response("This is an informational message.", variant="info", title="Info")
+    return toast_response(
+        content="",
+        message="This is an informational message.",
+        variant="info",
+    )
 
 
 @app.get("/api/protected")
-@require_auth(session_key="user_id", redirect_url="/")
+@require_auth(session_key="user_id", login_url="/")
 def protected_route(request):
     """Protected route - requires authentication"""
     user_id = request.session.get("user_id")

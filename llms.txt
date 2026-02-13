@@ -1,0 +1,332 @@
+# FastStrap — LLM Context
+
+> FastStrap is a Python component library for [FastHTML](https://fastht.ml) that provides 67 production-ready Bootstrap 5 components with zero JavaScript.
+
+## Overview
+
+- **Version**: 0.5.4
+- **License**: MIT
+- **Python**: 3.10+
+- **Dependencies**: FastHTML, Starlette
+
+## Installation
+
+```
+pip install faststrap
+```
+
+## Core Concepts
+
+### 1. Every component is a Python function that returns FastHTML-compatible FT objects
+
+```python
+from faststrap import Button, Card, Alert
+
+# All components return FT objects that render to HTML
+button = Button("Click me", variant="primary", size="lg")
+card = Card("Hello World", title="My Card")
+alert = Alert("Success!", variant="success", dismissible=True)
+```
+
+### 2. Bootstrap Setup
+
+```python
+from fasthtml.common import *
+from faststrap import add_bootstrap
+
+app = FastHTML()
+add_bootstrap(app)  # Adds Bootstrap 5.3 CSS/JS + Bootstrap Icons
+```
+
+### 3. All components accept `**kwargs` for arbitrary HTML/HTMX attributes
+
+```python
+Button("Save", variant="primary", hx_post="/save", hx_target="#result")
+Card("Content", id="my-card", data_custom="value")
+```
+
+---
+
+## Component Reference
+
+### Forms
+
+| Component | Import | Key Parameters |
+|---|---|---|
+| `Button` | `from faststrap import Button` | `variant`, `size`, `outline`, `loading`, `disabled` |
+| `Input` | `from fasthtml.common import Input` | Standard HTML input (use with FormGroup) |
+| `Select` | `from fasthtml.common import Select` | Standard HTML select |
+| `FormGroup` | `from faststrap import FormGroup` | `label`, `help_text`, `required`, `error`, `success`, `is_valid`, `is_invalid` |
+| `InputGroup` | `from faststrap import InputGroup` | `prepend`, `append` |
+| `FloatingLabel` | `from faststrap import FloatingLabel` | `label`, `input_type` |
+| `ButtonGroup` | `from faststrap import ButtonGroup` | `size`, `vertical` |
+| `SearchableSelect` | `from faststrap import SearchableSelect` | `endpoint`, `name`, `placeholder`, `min_chars`, `debounce`, `initial_options` |
+| `ThemeToggle` | `from faststrap import ThemeToggle` | `current_theme`, `endpoint`, `show_label`, `label_text` |
+
+### Display
+
+| Component | Import | Key Parameters |
+|---|---|---|
+| `Card` | `from faststrap import Card` | `title`, `header`, `footer`, `variant`, `body_cls` |
+| `Table` | `from faststrap import Table` | `thead`, `data`, `striped`, `hover`, `responsive`, `bordered` |
+| `Badge` | `from faststrap import Badge` | `variant`, `pill` |
+| `Icon` | `from faststrap import Icon` | Icon name (Bootstrap Icons), `size` |
+| `Image` | `from faststrap import Image` | `src`, `alt`, `rounded`, `thumbnail` |
+| `Figure` | `from faststrap import Figure` | `src`, `caption` |
+| `EmptyState` | `from faststrap import EmptyState` | `title`, `description`, `icon`, `action` |
+| `StatCard` | `from faststrap import StatCard` | `title`, `value`, `icon`, `trend`, `trend_label` |
+
+### Feedback
+
+| Component | Import | Key Parameters |
+|---|---|---|
+| `Alert` | `from faststrap import Alert` | `variant`, `dismissible` |
+| `Modal` | `from faststrap import Modal` | `title`, `body`, `footer`, `size`, `static_backdrop` |
+| `Toast` | `from faststrap import Toast` | `title`, `body`, `variant`, `autohide` |
+| `ToastContainer` | `from faststrap import ToastContainer` | `position` |
+| `Spinner` | `from faststrap import Spinner` | `variant`, `size`, `grow` |
+| `Progress` | `from faststrap import Progress` | `value`, `max_val`, `variant`, `striped`, `animated` |
+| `Collapse` | `from faststrap import Collapse` | `trigger_text`, `content` |
+| `ErrorPage` | `from faststrap import ErrorPage` | `status_code`, `action_text`, `action_href` |
+| `ErrorDialog` | `from faststrap import ErrorDialog` | `title`, `message`, `variant` |
+
+### Navigation
+
+| Component | Import | Key Parameters |
+|---|---|---|
+| `Navbar` | `from faststrap import Navbar` | `brand`, `items`, `variant`, `expand`, `sticky`, `fixed` |
+| `Tabs` | `from faststrap import Tabs` | Children are `Tab(label, content, active=True/False)` |
+| `Tab` | `from faststrap import Tab` | `label`, child content, `active` |
+| `Dropdown` | `from faststrap import Dropdown` | `label`, `items`, `variant` |
+| `Breadcrumb` | `from faststrap import Breadcrumb` | `items` (list of dicts with `text`, `href`) |
+| `Pagination` | `from faststrap import Pagination` | `current`, `total`, `base_url` |
+| `Accordion` | `from faststrap import Accordion` | `items`, `flush`, `always_open` |
+| `ListGroup` | `from faststrap import ListGroup` | Children are `ListGroupItem`, `flush` |
+| `Drawer` | `from faststrap import Drawer` | `title`, `placement` |
+
+### Layout
+
+| Component | Import | Key Parameters |
+|---|---|---|
+| `Container` | `from faststrap import Container` | `fluid` |
+| `Row` | `from faststrap import Row` | Grid row |
+| `Col` | `from faststrap import Col` | `cols`, `sm`, `md`, `lg`, `xl`, `offset_md` etc. |
+| `Hero` | `from faststrap import Hero` | `title`, `subtitle`, child content, `align` |
+
+### Patterns
+
+| Component | Import | Key Parameters |
+|---|---|---|
+| `FooterModern` | `from faststrap import FooterModern` | `brand`, `tagline`, `columns`, `social_links`, `copyright_text` |
+| `Testimonial` | `from faststrap import Testimonial` | `quote`, `author`, `role`, `rating` |
+| `TestimonialSection` | `from faststrap import TestimonialSection` | Children are `Testimonial` components, `columns` |
+
+### Layouts
+
+| Component | Import | Key Parameters |
+|---|---|---|
+| `AuthLayout` | `from faststrap import AuthLayout` | `*form_fields`, `title`, `subtitle`, `logo`, `brand_name`, `action`, `footer_text`, `footer_link`, `footer_link_text` |
+
+---
+
+## HTMX Presets (Zero-JS Interactive Patterns)
+
+Import: `from faststrap.presets import ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton`
+
+### ActiveSearch — Live Search
+```python
+ActiveSearch(
+    endpoint="/api/search",    # Server endpoint
+    target="#results",          # Where to put results
+    placeholder="Search...",
+    debounce=300,              # ms delay
+)
+```
+
+### InfiniteScroll — Load on Scroll
+```python
+InfiniteScroll(
+    endpoint="/api/feed?page=2",
+    target="#feed",
+    threshold="200px",
+)
+```
+
+### AutoRefresh — Polling
+```python
+AutoRefresh(
+    endpoint="/api/stats",
+    target="#stats-panel",
+    interval=5000,  # ms between requests
+)
+```
+
+### LazyLoad — Load on Visibility
+```python
+LazyLoad(endpoint="/api/heavy-content")
+```
+
+### LoadingButton — Button with Spinner
+```python
+LoadingButton(
+    "Save",
+    endpoint="/api/save",
+    target="#result",
+    variant="primary",
+    method="post",
+)
+```
+
+---
+
+## Response Helpers
+
+Import: `from faststrap.presets import hx_redirect, hx_refresh, toast_response, require_auth`
+
+```python
+# Redirect via HTMX header
+return hx_redirect("/dashboard")
+
+# Full page refresh
+return hx_refresh()
+
+# Response + toast notification
+return toast_response(
+    content=Card("Saved!"),
+    message="Changes saved!",
+    variant="success",
+)
+
+# Protect routes
+@app.get("/admin")
+@require_auth(login_url="/login", session_key="user")
+def admin(request):
+    return AdminPage()
+```
+
+---
+
+## SEO Module
+
+```python
+from faststrap import SEO, StructuredData
+
+@app.get("/blog/post")
+def blog():
+    return (
+        SEO(
+            title="Post Title - My Blog",
+            description="Post description",
+            image="/assets/og.jpg",
+            url="https://example.com/blog/post",
+            article=True,
+            author="Author Name",
+            published_time="2026-02-12T10:00:00Z",
+            twitter_site="@handle",
+        ),
+        StructuredData.article(
+            headline="Post Title",
+            description="Description",
+            image="/assets/og.jpg",
+            author="Author",
+            published="2026-02-12T10:00:00Z",
+        ),
+        Container(H1("Post Title")),
+    )
+```
+
+StructuredData methods: `.article()`, `.product()`, `.breadcrumb()`, `.organization()`, `.local_business()`
+
+---
+
+## Visual Effects (Fx)
+
+```python
+from faststrap import Fx
+
+# CSS class constants — no JavaScript
+Card("Content", cls=f"{Fx.fade_in} {Fx.hover_lift} {Fx.shadow_soft}")
+```
+
+### Available Effects
+- **Entrance**: `Fx.fade_in`, `Fx.slide_up`, `Fx.slide_down`, `Fx.slide_left`, `Fx.slide_right`, `Fx.zoom_in`, `Fx.bounce_in`
+- **Hover**: `Fx.hover_lift`, `Fx.hover_scale`, `Fx.hover_glow`, `Fx.hover_tilt`, `Fx.hover_colorize`
+- **Loading**: `Fx.spin`, `Fx.pulse`, `Fx.shimmer`
+- **Visual**: `Fx.glass`, `Fx.shadow_soft`, `Fx.shadow_sharp`, `Fx.gradient_shift`
+- **Speed**: `Fx.fast` (150ms), `Fx.slow` (500ms), `Fx.slower` (1000ms)
+- **Delay**: `Fx.delay_xs` (100ms), `Fx.delay_sm` (200ms), `Fx.delay_md` (300ms), `Fx.delay_lg` (500ms), `Fx.delay_xl` (1000ms)
+
+---
+
+## Common Patterns
+
+### Full App Skeleton
+```python
+from fasthtml.common import *
+from faststrap import *
+
+app = FastHTML()
+add_bootstrap(app)
+
+@app.get("/")
+def home():
+    return Container(
+        Navbar(brand="MyApp", items=[...]),
+        Hero("Welcome", subtitle="Built with FastStrap"),
+        Row(
+            Col(Card("Feature 1"), md=4),
+            Col(Card("Feature 2"), md=4),
+            Col(Card("Feature 3"), md=4),
+        ),
+        FooterModern(brand="MyApp", ...),
+    )
+
+serve()
+```
+
+### HTMX Form with Toast Feedback
+```python
+@app.get("/")
+def form_page():
+    return Container(
+        FormGroup(Input(name="email", type="email"), label="Email"),
+        LoadingButton("Submit", endpoint="/api/submit", target="#result"),
+        Div(id="result"),
+        ToastContainer(position="top-end"),
+    )
+
+@app.post("/api/submit")
+def submit(email: str):
+    return toast_response(
+        content=Alert("Saved!", variant="success"),
+        message=f"Email {email} saved",
+        variant="success",
+    )
+```
+
+### Authenticated Dashboard
+```python
+from faststrap.presets import require_auth
+
+@app.get("/dashboard")
+@require_auth(login_url="/login")
+def dashboard(request):
+    return Container(
+        Row(
+            Col(StatCard("Users", "1,247", icon="people-fill", trend="+12"), md=3),
+            Col(StatCard("Revenue", "$48K", icon="currency-dollar", trend="+8%"), md=3),
+        ),
+    )
+```
+
+---
+
+## Important Notes
+
+1. `from faststrap import *` exports all components, layouts, Fx, SEO, StructuredData
+2. HTMX presets must be imported separately: `from faststrap.presets import ...`
+3. All `variant` params accept Bootstrap variants: primary, secondary, success, danger, warning, info, light, dark
+4. All `size` params accept: sm, md, lg
+5. Use `cls=` to add custom CSS classes to any component
+6. Use `hx_*` kwargs for HTMX attributes (converted to `hx-*` in HTML)
+7. `ToastContainer` must be on the page for `toast_response` to work

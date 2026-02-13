@@ -156,15 +156,15 @@ def InfiniteScroll(
     user_cls = kwargs.pop("cls", "")
     all_classes = merge_classes("infinite-scroll-trigger", user_cls)
 
+    # Extract content BEFORE converting remaining attrs
+    content = kwargs.pop("content", Div("Loading more...", cls="text-center text-muted py-3"))
+
     # Build final attributes
     attrs: dict[str, Any] = {
         "cls": all_classes,
         **hx_attrs,
     }
     attrs.update(convert_attrs(kwargs))
-
-    # Default content: loading indicator
-    content = kwargs.pop("content", Div("Loading more...", cls="text-center text-muted py-3"))
 
     return Div(content, **attrs)
 
@@ -228,15 +228,15 @@ def AutoRefresh(
     user_cls = kwargs.pop("cls", "")
     all_classes = merge_classes("auto-refresh", user_cls)
 
+    # Extract content BEFORE converting remaining attrs
+    content = kwargs.pop("content", Div("Loading...", cls="text-muted"))
+
     # Build final attributes
     attrs: dict[str, Any] = {
         "cls": all_classes,
         **hx_attrs,
     }
     attrs.update(convert_attrs(kwargs))
-
-    # Default content
-    content = kwargs.pop("content", Div("Loading...", cls="text-muted"))
 
     return Div(content, **attrs)
 
@@ -383,7 +383,7 @@ def LoadingButton(
     # Use the existing Button component
     return Button(
         *children,
-        variant=kwargs.pop("variant", "primary"),  # type: ignore
+        variant=variant,  # type: ignore
         loading=False,  # We'll use hx-indicator instead
         **hx_attrs,  # type: ignore
         **kwargs,

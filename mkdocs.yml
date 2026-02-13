@@ -86,6 +86,9 @@ nav:
       - ButtonGroup: components/forms/buttongroup.md
       - Checkbox & Switch: components/forms/checks.md
       - FileInput: components/forms/file-input.md
+      - FormGroup: components/forms/formgroup.md
+      - SearchableSelect: components/forms/searchable-select.md
+      - ThemeToggle: components/forms/theme-toggle.md
     - Display:
       - Card: components/display/card.md
       - Table: components/display/table.md
@@ -102,6 +105,9 @@ nav:
       - Spinner: components/feedback/spinner.md
       - Progress: components/feedback/progress.md
       - Collapse: components/feedback/collapse.md
+      - Error Page: components/feedback/error-page.md
+      - Error Dialog: components/feedback/error-dialog.md
+      - Install Prompt: components/feedback/install-prompt.md
     - Navigation:
       - Navbar: components/navigation/navbar.md
       - Tabs: components/navigation/tabs.md
@@ -111,11 +117,27 @@ nav:
       - Accordion: components/navigation/accordion.md
       - ListGroup: components/navigation/listgroup.md
       - Drawer: components/navigation/drawer.md
+    - Patterns:
+      - Footer Modern: components/patterns/footer-modern.md
+      - Testimonial Section: components/patterns/testimonial-section.md
     - Layout:
       - Grid: components/layout/grid.md
       - Hero: components/layout/hero.md
-      - Dashboard: layouts/dashboard.md
-      - Landing: layouts/landing.md
+  - HTMX Presets:
+    - Overview: presets/index.md
+    - ActiveSearch: presets/active-search.md
+    - InfiniteScroll: presets/infinite-scroll.md
+    - AutoRefresh: presets/auto-refresh.md
+    - LazyLoad: presets/lazy-load.md
+    - LoadingButton: presets/loading-button.md
+    - Response Helpers: presets/responses.md
+    - Route Protection: presets/require-auth.md
+  - Layouts:
+    - Auth Layout: layouts/auth.md
+    - Dashboard: layouts/dashboard.md
+    - Landing: layouts/landing.md
+  - SEO:
+    - Overview: seo/index.md
   - Showcase:
     - Portfolios: showcase/portfolios.md
     - SaaS Landing: showcase/saas-landing.md

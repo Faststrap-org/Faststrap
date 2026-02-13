@@ -5,7 +5,7 @@ Server-side searchable dropdown using HTMX.
 
 from typing import Any
 
-from fasthtml.common import Div, Input, Option, Select
+from fasthtml.common import A, Div, Input, Select
 
 from ...core.base import merge_classes
 from ...core.theme import resolve_defaults
@@ -124,8 +124,11 @@ def SearchableSelect(
         autocomplete="off",
     )
 
-    # Build initial options
-    option_elements = [Option(text, value=value) for value, text in initial_options]
+    # Build initial options as list-group items
+    option_elements = [
+        A(text, href="#", cls="list-group-item list-group-item-action", data_value=value)
+        for value, text in initial_options
+    ]
 
     # Build results container
     results_container = Div(

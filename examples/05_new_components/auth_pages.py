@@ -3,9 +3,22 @@ Auth Pages Demo
 Demonstrates AuthLayout component for login, register, and password reset pages
 """
 
-from fasthtml.common import *
+from fasthtml.common import A, Div, FastHTML, H1, H5, Label, P, serve
 
-from faststrap import *
+from faststrap import (
+    Alert,
+    AuthLayout,
+    Button,
+    Card,
+    Col,
+    Container,
+    FormGroup,
+    Icon,
+    Input,
+    Row,
+    add_bootstrap,
+)
+from faststrap.presets import hx_redirect
 
 app = FastHTML()
 add_bootstrap(app)
@@ -69,8 +82,12 @@ def login_page():
             label="Password",
             required=True,
         ),
-        Div(Checkbox("remember", label="Remember me", inline=True), cls="mb-3"),
-        Button("Sign In", variant="primary", type="submit", full_width=True),
+        Div(
+            Input(type="checkbox", name="remember", id="remember", cls="form-check-input"),
+            Label("Remember me", fr="remember", cls="form-check-label ms-2"),
+            cls="form-check mb-3",
+        ),
+        Button("Sign In", variant="primary", type="submit", cls="w-100"),
         title="Sign In",
         subtitle="Welcome back! Please sign in to continue.",
         logo="/assets/logo.svg",  # Optional logo
@@ -109,19 +126,18 @@ def register_page():
             required=True,
         ),
         Div(
-            Checkbox(
-                "terms",
-                label=Span(
-                    "I agree to the ",
-                    A("Terms of Service", href="/terms", target="_blank"),
-                    " and ",
-                    A("Privacy Policy", href="/privacy", target="_blank"),
-                ),
-                required=True,
+            Input(type="checkbox", name="terms", id="terms", required=True, cls="form-check-input"),
+            Label(
+                "I agree to the ",
+                A("Terms of Service", href="/terms", target="_blank"),
+                " and ",
+                A("Privacy Policy", href="/privacy", target="_blank"),
+                fr="terms",
+                cls="form-check-label ms-2",
             ),
-            cls="mb-3",
+            cls="form-check mb-3",
         ),
-        Button("Create Account", variant="success", type="submit", full_width=True),
+        Button("Create Account", variant="success", type="submit", cls="w-100"),
         title="Create Account",
         subtitle="Join us today! Fill in the details below.",
         brand_name="FastStrap",
@@ -147,7 +163,7 @@ def reset_password_page():
             label="Email Address",
             required=True,
         ),
-        Button("Send Reset Link", variant="primary", type="submit", full_width=True),
+        Button("Send Reset Link", variant="primary", type="submit", cls="w-100"),
         title="Reset Password",
         subtitle="Forgot your password? No problem!",
         brand_name="FastStrap",

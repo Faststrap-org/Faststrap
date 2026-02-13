@@ -3,9 +3,17 @@ Presets Interactions Demo
 Demonstrates all 5 HTMX interaction presets: ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton
 """
 
-from fasthtml.common import *
+from fasthtml.common import Br, Div, FastHTML, H1, H5, P, Small, Strong, serve
 
-from faststrap import *
+from faststrap import (
+    Alert,
+    Card,
+    Container,
+    Icon,
+    ListGroup,
+    ListGroupItem,
+    add_bootstrap,
+)
 from faststrap.presets import ActiveSearch, AutoRefresh, InfiniteScroll, LazyLoad, LoadingButton
 
 app = FastHTML()
@@ -28,11 +36,11 @@ def home():
         # ActiveSearch Demo
         Card(
             H5("1. ActiveSearch - Live Search with Debouncing", cls="card-title"),
-            P("Type to search users (debounced, min 2 chars):", cls="text-muted"),
+            P("Type to search users (debounced):", cls="text-muted"),
             ActiveSearch(
                 endpoint="/api/search-users",
+                target="#search-results",
                 placeholder="Search users...",
-                min_chars=2,
                 debounce=300,
             ),
             Div(id="search-results", cls="mt-3"),
@@ -46,10 +54,14 @@ def home():
                 *[Div(f"Item {i}", cls="p-3 border-bottom") for i in range(1, 6)],
                 InfiniteScroll(
                     endpoint="/api/load-more",
+                    target="#infinite-list",
                     threshold="200px",
                 ),
                 id="infinite-list",
-                style="max-height: 300px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 0.25rem;",
+                style=(
+                    "max-height: 300px; overflow-y: auto;"
+                    " border: 1px solid #dee2e6; border-radius: 0.25rem;"
+                ),
             ),
             cls="mb-4",
         ),
@@ -60,6 +72,7 @@ def home():
             Div(
                 AutoRefresh(
                     endpoint="/api/current-time",
+                    target="#auto-refresh-content",
                     interval=5000,
                 ),
                 id="auto-refresh-content",
@@ -72,11 +85,13 @@ def home():
             H5("4. LazyLoad - Load Content on Visibility", cls="card-title"),
             P("Content loads when scrolled into view:", cls="text-muted"),
             Div(
-                P("Scroll down to see lazy-loaded content...", cls="text-center text-muted"),
+                P(
+                    "Scroll down to see lazy-loaded content...",
+                    cls="text-center text-muted",
+                ),
                 Div(style="height: 400px;"),  # Spacer
                 LazyLoad(
                     endpoint="/api/lazy-content",
-                    threshold="0px",
                 ),
                 id="lazy-content",
             ),
@@ -89,8 +104,8 @@ def home():
             LoadingButton(
                 "Process Data",
                 endpoint="/api/slow-operation",
+                target="#operation-result",
                 variant="primary",
-                loading_text="Processing...",
             ),
             Div(id="operation-result", cls="mt-3"),
             cls="mb-4",
@@ -110,7 +125,10 @@ def search_users(q: str = ""):
     ]
 
     if not results:
-        return Div(Alert("No users found", variant="info"), hx_swap_oob="innerHTML:#search-results")
+        return Div(
+            Alert("No users found", variant="info"),
+            hx_swap_oob="innerHTML:#search-results",
+        )
 
     return Div(
         ListGroup(
@@ -142,7 +160,13 @@ def load_more():
 
     # Add another infinite scroll trigger if more items available
     if end < 50:
-        items.append(InfiniteScroll(endpoint="/api/load-more", threshold="200px"))
+        items.append(
+            InfiniteScroll(
+                endpoint="/api/load-more",
+                target="#infinite-list",
+                threshold="200px",
+            )
+        )
     else:
         items.append(Div("No more items", cls="p-3 text-center text-muted"))
 
@@ -155,7 +179,11 @@ def current_time():
     from datetime import datetime
 
     now = datetime.now().strftime("%H:%M:%S")
-    return Div(Icon("clock", cls="me-2"), f"Current time: {now}", cls="d-flex align-items-center")
+    return Div(
+        Icon("clock", cls="me-2"),
+        f"Current time: {now}",
+        cls="d-flex align-items-center",
+    )
 
 
 @app.get("/api/lazy-content")

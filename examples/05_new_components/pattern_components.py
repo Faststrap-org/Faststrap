@@ -3,9 +3,17 @@ Pattern Components Demo
 Demonstrates FooterModern, Testimonial, and TestimonialSection components
 """
 
-from fasthtml.common import *
+from fasthtml.common import Div, FastHTML, H1, H2, serve
 
-from faststrap import *
+from faststrap import (
+    Col,
+    Container,
+    FooterModern,
+    Row,
+    Testimonial,
+    TestimonialSection,
+    add_bootstrap,
+)
 
 app = FastHTML()
 add_bootstrap(app)
@@ -21,24 +29,30 @@ def home():
             H2("Customer Testimonials", cls="text-center mb-4"),
             TestimonialSection(
                 Testimonial(
-                    quote="FastStrap has completely transformed how we build web applications. The zero-JS philosophy is brilliant!",
+                    quote=(
+                        "FastStrap has completely transformed how we build"
+                        " web applications. The zero-JS philosophy is brilliant!"
+                    ),
                     author="Sarah Johnson",
                     role="CTO, TechCorp",
-                    avatar="/assets/avatar1.jpg",
                     rating=5,
                 ),
                 Testimonial(
-                    quote="The component library is comprehensive and the documentation is excellent. Highly recommended!",
+                    quote=(
+                        "The component library is comprehensive and the"
+                        " documentation is excellent. Highly recommended!"
+                    ),
                     author="Michael Chen",
                     role="Lead Developer, StartupXYZ",
-                    avatar="/assets/avatar2.jpg",
                     rating=5,
                 ),
                 Testimonial(
-                    quote="We migrated from React to FastHTML + FastStrap and our development speed doubled.",
+                    quote=(
+                        "We migrated from React to FastHTML + FastStrap"
+                        " and our development speed doubled."
+                    ),
                     author="Emily Rodriguez",
                     role="Engineering Manager, BigCo",
-                    avatar="/assets/avatar3.jpg",
                     rating=4,
                 ),
                 columns=3,
@@ -48,13 +62,15 @@ def home():
             Row(
                 Col(
                     Testimonial(
-                        quote="FastStrap's HTMX presets saved us weeks of development time. The ActiveSearch and InfiniteScroll components work flawlessly out of the box.",
+                        quote=(
+                            "FastStrap's HTMX presets saved us weeks of"
+                            " development time. The ActiveSearch and"
+                            " InfiniteScroll components work flawlessly"
+                            " out of the box."
+                        ),
                         author="David Park",
                         role="Senior Full-Stack Developer",
-                        company="Innovation Labs",
-                        avatar="/assets/avatar4.jpg",
                         rating=5,
-                        variant="primary",
                     ),
                     cols=12,
                     md=8,

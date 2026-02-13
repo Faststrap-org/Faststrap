@@ -3,6 +3,7 @@
 Simple session-based authentication guard for FastHTML routes.
 """
 
+import asyncio
 from collections.abc import Callable
 from functools import wraps
 from typing import Any
@@ -104,8 +105,6 @@ def require_auth(
             return func(request, *args, **kwargs)
 
         # Return appropriate wrapper based on function type
-        import asyncio
-
         if asyncio.iscoroutinefunction(func):
             return async_wrapper
         return sync_wrapper
