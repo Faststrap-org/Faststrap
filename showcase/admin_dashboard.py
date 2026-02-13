@@ -7,16 +7,17 @@ Toast, Tabs, Badge, Table, Fx effects.
 """
 
 import random
+from typing import Any
 
 from fasthtml.common import (
+    H3,
+    H4,
+    H5,
     A,
     Br,
     Code,
     Div,
     FastHTML,
-    H3,
-    H4,
-    H5,
     P,
     Small,
     Span,
@@ -34,14 +35,16 @@ from faststrap import (
     FormGroup,
     Fx,
     Icon,
+    Input,
     ListGroup,
     ListGroupItem,
     Row,
     StatCard,
-    Tab,
+    TabPane,
     Table,
     Tabs,
     ThemeToggle,
+    ToastContainer,
     add_bootstrap,
 )
 from faststrap.presets import ActiveSearch, AutoRefresh, LoadingButton, toast_response
@@ -51,7 +54,7 @@ add_bootstrap(app)
 
 
 # ─── Mock Data ───────────────────────────────────────────────────────
-USERS = [
+USERS: list[dict[str, Any]] = [
     {
         "id": 1,
         "name": "Alice Johnson",
@@ -111,7 +114,7 @@ USERS = [
 ]
 
 
-def sidebar():
+def sidebar() -> Any:
     """Dashboard sidebar navigation."""
     links = [
         ("speedometer2", "Dashboard", "/", True),
@@ -158,7 +161,7 @@ def sidebar():
     )
 
 
-def dashboard_content():
+def dashboard_content() -> Any:
     """Main dashboard content."""
     return Div(
         # ── Top Bar ──────────────────────────────────────────
@@ -246,8 +249,14 @@ def dashboard_content():
         # ── Main Content Tabs ────────────────────────────────
         Div(
             Tabs(
-                Tab(
-                    "Users",
+                ("users-tab", "Users", True),
+                ("analytics-tab", "Analytics"),
+                ("settings-tab", "Settings"),
+                variant="pills",
+                cls="mb-4",
+            ),
+            Div(
+                TabPane(
                     # Users table
                     Div(
                         Div(
@@ -297,13 +306,15 @@ def dashboard_content():
                                     Div(
                                         Button(
                                             Icon("pencil"),
-                                            variant="outline-primary",
+                                            variant="primary",
+                                            outline=True,
                                             size="sm",
                                             cls="me-1",
                                         ),
                                         Button(
                                             Icon("trash"),
-                                            variant="outline-danger",
+                                            variant="danger",
+                                            outline=True,
                                             size="sm",
                                         ),
                                     ),
@@ -316,10 +327,10 @@ def dashboard_content():
                             cls=f"{Fx.fade_in}",
                         ),
                     ),
+                    tab_id="users-tab",
                     active=True,
                 ),
-                Tab(
-                    "Analytics",
+                TabPane(
                     Div(
                         Row(
                             Col(
@@ -374,9 +385,9 @@ def dashboard_content():
                             ),
                         ),
                     ),
+                    tab_id="analytics-tab",
                 ),
-                Tab(
-                    "Settings",
+                TabPane(
                     Card(
                         H5("Application Settings", cls="card-title"),
                         FormGroup(
@@ -402,7 +413,9 @@ def dashboard_content():
                         ),
                         cls=f"{Fx.fade_in}",
                     ),
+                    tab_id="settings-tab",
                 ),
+                cls="tab-content",
             ),
             cls=f"{Fx.slide_up} {Fx.delay_sm}",
         ),
@@ -414,7 +427,7 @@ def dashboard_content():
 
 
 @app.get("/")
-def home():
+def home() -> Any:
     return Div(
         sidebar(),
         dashboard_content(),
@@ -424,7 +437,7 @@ def home():
 
 # ─── API Endpoints ───────────────────────────────────────────────────
 @app.get("/api/stats/users")
-def stats_users():
+def stats_users() -> Any:
     val = 1247 + random.randint(-5, 15)
     return StatCard(
         title="Total Users",
@@ -437,7 +450,7 @@ def stats_users():
 
 
 @app.get("/api/stats/revenue")
-def stats_revenue():
+def stats_revenue() -> Any:
     val = 48200 + random.randint(-500, 800)
     return StatCard(
         title="Revenue",
@@ -450,7 +463,7 @@ def stats_revenue():
 
 
 @app.get("/api/stats/orders")
-def stats_orders():
+def stats_orders() -> Any:
     val = 342 + random.randint(-5, 12)
     return StatCard(
         title="Orders",
@@ -463,7 +476,7 @@ def stats_orders():
 
 
 @app.get("/api/stats/uptime")
-def stats_uptime():
+def stats_uptime() -> Any:
     return StatCard(
         title="Uptime",
         value="99.9%",
@@ -473,7 +486,7 @@ def stats_uptime():
 
 
 @app.get("/api/search-users")
-def search_users(q: str = ""):
+def search_users(q: str = "") -> Any:
     if len(q) < 2:
         return ""
     results = [
@@ -502,7 +515,7 @@ def search_users(q: str = ""):
 
 
 @app.post("/api/add-user")
-def add_user():
+def add_user() -> Any:
     return toast_response(
         content="",
         message="New user invitation sent!",
@@ -511,7 +524,7 @@ def add_user():
 
 
 @app.post("/api/save-settings")
-def save_settings():
+def save_settings() -> Any:
     return toast_response(
         content="",
         message="Settings saved successfully.",
@@ -520,7 +533,7 @@ def save_settings():
 
 
 @app.post("/api/toggle-theme")
-def toggle_theme():
+def toggle_theme() -> Any:
     return toast_response(
         content="",
         message="Theme toggled!",
@@ -529,9 +542,9 @@ def toggle_theme():
 
 
 @app.get("/error")
-def error_page():
+def error_page() -> Any:
     return ErrorPage(
-        status_code=404,
+        404,
         action_text="Go Home",
         action_href="/",
     )

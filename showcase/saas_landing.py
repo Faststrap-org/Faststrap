@@ -5,16 +5,18 @@ and all major Faststrap components. Demonstrates ActiveSearch, LazyLoad,
 testimonials, pricing cards, and animated metrics.
 """
 
+from typing import Any
+
 from fasthtml.common import (
+    H1,
+    H2,
+    H4,
+    H5,
     A,
     Br,
     Code,
     Div,
     FastHTML,
-    H1,
-    H2,
-    H4,
-    H5,
     Li,
     P,
     Pre,
@@ -50,7 +52,7 @@ add_bootstrap(app)
 
 
 # ─── Data ────────────────────────────────────────────────────────────
-FEATURES = [
+FEATURES: list[dict[str, Any]] = [
     {
         "icon": "lightning-charge-fill",
         "title": "Blazingly Fast",
@@ -83,7 +85,7 @@ FEATURES = [
     },
 ]
 
-PRICING = [
+PRICING: list[dict[str, Any]] = [
     {
         "name": "Starter",
         "price": "Free",
@@ -128,7 +130,7 @@ PRICING = [
 ]
 
 
-def section_heading(title, subtitle="", delay=0):
+def section_heading(title: str, subtitle: str = "", delay: int = 0) -> Any:
     """Reusable animated section heading."""
     delay_cls = f" {Fx.delay_sm}" if delay else ""
     return Div(
@@ -143,7 +145,7 @@ def section_heading(title, subtitle="", delay=0):
 
 # ─── Routes ──────────────────────────────────────────────────────────
 @app.get("/")
-def home():
+def home() -> Any:
     return Div(
         # ── Hero Section ─────────────────────────────────────────
         Div(
@@ -485,7 +487,7 @@ def home():
 
 
 # ─── API Endpoints ───────────────────────────────────────────────────
-COMPONENTS = [
+COMPONENTS: list[str] = [
     "Button",
     "Card",
     "Modal",
@@ -520,7 +522,7 @@ COMPONENTS = [
 
 
 @app.get("/api/search")
-def search(q: str = ""):
+def search(q: str = "") -> Any:
     """Search Faststrap components."""
     if len(q) < 2:
         return ""
@@ -542,7 +544,7 @@ def search(q: str = ""):
 
 
 @app.post("/api/signup")
-def signup():
+def signup() -> Any:
     """Demo signup endpoint."""
     return toast_response(
         content="",

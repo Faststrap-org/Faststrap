@@ -6,14 +6,16 @@ Demonstrates: Fx.glass, Fx.hover_glow, LazyLoad, InfiniteScroll, FormGroup,
 LoadingButton, SEO, FooterModern.
 """
 
+from typing import Any
+
 from fasthtml.common import (
+    H1,
+    H2,
+    H5,
     A,
     Br,
     Div,
     FastHTML,
-    H1,
-    H2,
-    H5,
     P,
     Span,
     Textarea,
@@ -30,6 +32,7 @@ from faststrap import (
     FormGroup,
     Fx,
     Icon,
+    Input,
     Navbar,
     Row,
     Spinner,
@@ -45,7 +48,7 @@ add_bootstrap(app)
 
 
 # ─── Data ────────────────────────────────────────────────────────────
-PROJECTS = [
+PROJECTS: list[dict[str, Any]] = [
     {
         "title": "Nebula Dashboard",
         "category": "Web App",
@@ -84,7 +87,7 @@ PROJECTS = [
     },
 ]
 
-SERVICES = [
+SERVICES: list[dict[str, Any]] = [
     {
         "icon": "palette-fill",
         "title": "Brand Identity",
@@ -107,7 +110,7 @@ SERVICES = [
     },
 ]
 
-TEAM = [
+TEAM: list[dict[str, Any]] = [
     {"name": "Luna Park", "role": "Creative Director", "initial": "LP"},
     {"name": "Kai Zhang", "role": "Lead Developer", "initial": "KZ"},
     {"name": "Maya Singh", "role": "UX Designer", "initial": "MS"},
@@ -115,7 +118,7 @@ TEAM = [
 ]
 
 
-def project_card(project, index=0):
+def project_card(project: dict[str, Any], index: int = 0) -> Any:
     """Single project card with glassmorphism and hover glow."""
     return Card(
         Div(
@@ -146,7 +149,7 @@ def project_card(project, index=0):
 
 
 @app.get("/")
-def home():
+def home() -> Any:
     return Div(
         # ── Navigation ───────────────────────────────────────
         Navbar(
@@ -159,7 +162,7 @@ def home():
             ],
             variant="dark",
             expand="lg",
-            sticky=True,
+            sticky="top",
             cls="border-bottom border-secondary",
         ),
         # ── Hero ─────────────────────────────────────────────
@@ -483,7 +486,7 @@ def home():
 
 
 # ─── API Endpoints ───────────────────────────────────────────────────
-MORE_PROJECTS = [
+MORE_PROJECTS: list[dict[str, Any]] = [
     {
         "title": "Horizon Travel",
         "category": "Web App",
@@ -506,7 +509,7 @@ MORE_PROJECTS = [
 
 
 @app.get("/api/more-projects")
-def more_projects(page: int = 2):
+def more_projects(page: int = 2) -> Any:
     """Load more projects via InfiniteScroll."""
     import time
 
@@ -545,7 +548,7 @@ def more_projects(page: int = 2):
 
 
 @app.post("/api/contact")
-def contact():
+def contact() -> Any:
     """Handle contact form submission."""
     return toast_response(
         content=Alert(

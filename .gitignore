@@ -38,6 +38,7 @@ venv.bak/
 htmlcov/
 .tox/
 .hypothesis/
+coverage.xml
 
 # IDE
 .vscode/

@@ -3,7 +3,7 @@ Presets Interactions Demo
 Demonstrates all 5 HTMX interaction presets: ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton
 """
 
-from fasthtml.common import Br, Div, FastHTML, H1, H5, P, Small, Strong, serve
+from fasthtml.common import H1, H5, Br, Div, FastHTML, P, Small, Strong, serve
 
 from faststrap import (
     Alert,

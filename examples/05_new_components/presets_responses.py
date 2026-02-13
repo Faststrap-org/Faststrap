@@ -3,7 +3,7 @@ Presets Responses Demo
 Demonstrates response helpers: hx_redirect, hx_refresh, toast_response, and @require_auth decorator
 """
 
-from fasthtml.common import A, Div, FastHTML, H1, H4, H5, Hr, P, serve
+from fasthtml.common import H1, H4, H5, A, Div, FastHTML, Hr, P, serve
 
 from faststrap import (
     Alert,
@@ -13,6 +13,7 @@ from faststrap import (
     FormGroup,
     Icon,
     Input,
+    ToastContainer,
     add_bootstrap,
 )
 from faststrap.presets import hx_redirect, hx_refresh, require_auth, toast_response

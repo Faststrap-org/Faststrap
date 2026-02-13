@@ -3,7 +3,7 @@ Pattern Components Demo
 Demonstrates FooterModern, Testimonial, and TestimonialSection components
 """
 
-from fasthtml.common import Div, FastHTML, H1, H2, serve
+from fasthtml.common import H1, H2, Div, FastHTML, serve
 
 from faststrap import (
     Col,

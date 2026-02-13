@@ -3,7 +3,7 @@ Auth Pages Demo
 Demonstrates AuthLayout component for login, register, and password reset pages
 """
 
-from fasthtml.common import A, Div, FastHTML, H1, H5, Label, P, serve
+from fasthtml.common import H1, H4, H5, A, Div, FastHTML, Label, P, serve
 
 from faststrap import (
     Alert,
