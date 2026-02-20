@@ -1,4 +1,4 @@
-# @require_auth — Route Protection
+# @require_auth - Route Protection
 
 Decorator to protect routes with session-based authentication. Checks if the specified session key exists. If not, redirects to the login page.
 
@@ -27,7 +27,7 @@ def dashboard(request):
 
 ## How It Works
 
-1. User visits `/dashboard` → not authenticated
+1. User visits `/dashboard` -> not authenticated
 2. Redirects to `/login?next=/dashboard`
 3. After login, read `?next=` to redirect back:
 

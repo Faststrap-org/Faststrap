@@ -47,7 +47,7 @@ app = FastHTML()
 
 # Use built-in theme or create custom
 theme = create_theme(primary="#7BA05B", secondary="#48C774")
-add_bootstrap(app, theme=theme, theme="dark")
+add_bootstrap(app, theme=theme, mode="dark")
 
 @app.route("/")
 def home():
@@ -207,7 +207,7 @@ my_theme = create_theme(
 )
 
 # Use built-in themes
-add_bootstrap(app, theme="green-nature")  # or "blue-ocean", "dark-mode", etc.
+add_bootstrap(app, theme="green-nature")  # or "blue-ocean", "purple-magic", etc.
 
 # Or use custom theme
 add_bootstrap(app, theme=my_theme)
@@ -502,8 +502,8 @@ app = FastHTML()
 # Basic setup (includes default FastStrap favicon)
 add_bootstrap(app)
 
-# With dark theme
-add_bootstrap(app, theme="dark")
+# With dark mode
+add_bootstrap(app, mode="dark")
 
 # Custom theme
 theme = create_theme(primary="#7BA05B", secondary="#48C774")

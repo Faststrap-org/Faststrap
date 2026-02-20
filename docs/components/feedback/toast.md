@@ -65,8 +65,8 @@ For rich content, headers, and custom timing, use the base `Toast` component.
 ```python
 Toast(
     "Your message has been sent.",
-    header="Messenger",
-    body_cls="p-3",
+    title="Messenger",
+    cls="shadow-sm",
     delay=5000
 )
 ```
@@ -106,7 +106,7 @@ def add_item():
 
 | FastStrap Param | Type | Bootstrap Attribute | Description |
 | :--- | :--- | :--- | :--- |
-| `header` | `Any` | `.toast-header` | Optional header element/text. |
+| `title` | `Any` | `.toast-header` | Optional header element/text. |
 | `autohide` | `bool` | `data-bs-autohide` | If `True`, closes automatically. |
 | `delay` | `int` | `data-bs-delay` | Duration in milliseconds before closing. |
 | `position` | `str` | - | Location: `top-end`, `bottom-start`, etc. |

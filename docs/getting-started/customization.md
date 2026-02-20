@@ -83,13 +83,13 @@ FastStrap supports Bootstrap's native color modes.
 
 ```python
 # 1. Automatic (Matches user's system settings) - Default
-add_bootstrap(app, theme="auto")
+add_bootstrap(app, mode="auto")
 
 # 2. Forced Dark Mode
-add_bootstrap(app, theme="dark")
+add_bootstrap(app, mode="dark")
 
 # 3. Forced Light Mode
-add_bootstrap(app, theme="light")
+add_bootstrap(app, mode="light")
 ```
 
 ### Dark Mode Toggle

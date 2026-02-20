@@ -21,9 +21,6 @@ from faststrap.presets import hx_redirect, hx_refresh, require_auth, toast_respo
 app = FastHTML()
 add_bootstrap(app)
 
-# Simple session simulation
-sessions = {}
-
 
 @app.get("/")
 def home():
@@ -192,19 +189,18 @@ def protected_route(request):
 
 
 @app.post("/api/login")
-def login(username: str):
+def login(request, username: str):
     """Simple login endpoint"""
     if not username:
         return Alert("Please enter a username", variant="danger")
 
-    # Simulate login
-    user_id = len(sessions) + 1
-    sessions[user_id] = username
+    # Persist auth state in session so @require_auth can validate it.
+    request.session["user_id"] = username
 
     return Div(
         Alert(
             Icon("check-circle-fill", cls="me-2"),
-            f"Logged in as {username}! Now try accessing the protected route.",
+            f"Logged in as {username}. You can now access the protected route.",
             variant="success",
         ),
         hx_swap_oob="innerHTML:#login-result",

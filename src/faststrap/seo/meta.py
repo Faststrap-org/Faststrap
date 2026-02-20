@@ -40,8 +40,7 @@ def SEO(
 ) -> tuple[Any, ...]:
     """Generate comprehensive SEO meta tags.
 
-    Creates meta tags for basic SEO, Open Graph, and Twitter Cards. Automatically
-    merges with global SEO config from add_bootstrap() if available.
+    Creates meta tags for basic SEO, Open Graph, and Twitter Cards.
 
     Args:
         title: Page title (also used for og:title and twitter:title)
@@ -87,28 +86,12 @@ def SEO(
         ...     tags=["python", "fasthtml"]
         ... )
 
-        With global config (set via add_bootstrap):
-        >>> # In app setup:
-        >>> add_bootstrap(app, seo={
-        ...     "site_name": "My Site",
-        ...     "default_image": "/assets/default-og.jpg",
-        ...     "twitter_handle": "@mysite"
-        ... })
-        >>>
-        >>> # In route (merges with global config):
-        >>> SEO(title="Page Title", description="Page description")
-
     Note:
         - Title, description, and image are used for both basic meta tags and social sharing
         - If article=True, type is automatically set to "article"
-        - Twitter site/creator default to global config if not provided
         - Canonical URL defaults to url parameter if not explicitly set
     """
     elements: list[Any] = []
-
-    # Get global SEO config if available (set via add_bootstrap)
-    # This would be stored in app context, but for now we'll use direct values
-    # In real implementation, this would merge with app._faststrap_seo_config
 
     # Basic meta tags
     if title:

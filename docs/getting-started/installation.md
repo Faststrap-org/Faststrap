@@ -54,7 +54,7 @@ add_bootstrap(app, mode="dark")
 # Force Light Mode
 add_bootstrap(app, mode="light")
 
-# Auto (matches system preference - default)
+# Auto (matches system preference)
 add_bootstrap(app, mode="auto")
 ```
 

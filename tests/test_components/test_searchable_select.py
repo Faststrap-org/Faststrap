@@ -93,3 +93,33 @@ def test_searchable_select_custom_classes():
 
     assert "custom-searchable" in html
     assert "searchable-select" in html
+
+
+def test_searchable_select_respects_min_chars():
+    """Search input sets minlength when min_chars is provided."""
+    select = SearchableSelect(endpoint="/api/search", name="test", min_chars=3)
+    html = to_xml(select)
+
+    assert 'minlength="3"' in html
+
+
+def test_searchable_select_required_hidden_select():
+    """Hidden select receives required attribute."""
+    select = SearchableSelect(endpoint="/api/search", name="user_id", required=True)
+    html = to_xml(select)
+
+    assert 'required="True"' in html or "required" in html
+
+
+def test_searchable_select_initial_options_wire_click_handler():
+    """Initial options include click handler to update hidden select value."""
+    select = SearchableSelect(
+        endpoint="/api/search",
+        name="user_id",
+        select_id="user-select",
+        initial_options=[("1", "Alice")],
+    )
+    html = to_xml(select)
+
+    assert "hx-on-click" in html
+    assert "user-select" in html

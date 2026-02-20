@@ -76,6 +76,9 @@ nav:
     - Quick Start: getting-started/quick-start.md
     - Customization: getting-started/customization.md
     - Visual Effects: effects.md
+    - Static Files: STATIC_FILES.md
+    - PWA Guide: PWA_GUIDE.md
+    - Troubleshooting: TROUBLESHOOTING.md
   - Components:
     - Forms:
       - Button: components/forms/button.md
@@ -95,6 +98,8 @@ nav:
       - Figure: components/display/figure.md
       - Badge: components/display/badge.md
       - Icon: components/display/icon.md
+      - Image: components/display/image.md
+      - Carousel: components/display/carousel.md
       - Empty State: components/display/empty_state.md
       - Stat Card: components/display/stat_card.md
     - Feedback:
@@ -117,6 +122,7 @@ nav:
       - Accordion: components/navigation/accordion.md
       - ListGroup: components/navigation/listgroup.md
       - Drawer: components/navigation/drawer.md
+      - Scrollspy: components/navigation/scrollspy.md
     - Patterns:
       - Footer Modern: components/patterns/footer-modern.md
       - Testimonial Section: components/patterns/testimonial-section.md
@@ -144,3 +150,5 @@ nav:
     - Admin Dashboard: showcase/admin-dashboard.md
   - API Reference:
     - Core: api/core.md
+    - Presets: api/presets.md
+    - SEO: api/seo.md

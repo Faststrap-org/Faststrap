@@ -92,6 +92,7 @@ def home():
             SearchableSelect(
                 endpoint="/api/search-countries",
                 name="country_search",
+                select_id="country-search",
                 placeholder="Search countries...",
                 min_chars=2,
                 debounce=300,
@@ -161,10 +162,7 @@ def search_countries(q: str = ""):
     results = [(code, name) for code, name in COUNTRIES if q.lower() in name.lower()]
 
     if not results:
-        return Div(
-            P("No countries found", cls="text-muted text-center p-3"),
-            hx_swap_oob="innerHTML:#searchable-select-results",
-        )
+        return P("No countries found", cls="text-muted text-center p-3")
 
     options = [
         A(
@@ -172,6 +170,21 @@ def search_countries(q: str = ""):
             href="#",
             cls="list-group-item list-group-item-action",
             data_value=code,
+            hx_on_click=(
+                "event.preventDefault();"
+                "const sel=document.getElementById('country-search');"
+                "if(!sel){return;}"
+                "sel.innerHTML='';"
+                "const opt=document.createElement('option');"
+                f"opt.value='{code}';"
+                f"opt.text='{name}';"
+                "opt.selected=true;"
+                "sel.appendChild(opt);"
+                "const inp=document.getElementById('country-search-input');"
+                f"if(inp){{inp.value='{name}';}}"
+                "const box=document.getElementById('country-search-results');"
+                "if(box){box.innerHTML='';}"
+            ),
         )
         for code, name in results
     ]

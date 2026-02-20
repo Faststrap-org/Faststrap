@@ -164,6 +164,7 @@ def Toast(
 def ToastContainer(
     *toasts: Any,
     position: ToastPositionType | None = None,
+    container_id: str = "toast-container",
     **kwargs: Any,
 ) -> Div:
     """Container for positioning toasts on the page."""
@@ -193,7 +194,8 @@ def ToastContainer(
     all_classes = merge_classes(" ".join(classes), user_cls)
 
     # Build attributes
-    attrs: dict[str, Any] = {"cls": all_classes}
+    container_id = kwargs.pop("id", container_id)
+    attrs: dict[str, Any] = {"cls": all_classes, "id": container_id}
     attrs.update(convert_attrs(kwargs))
 
     return Div(*toasts, **attrs)

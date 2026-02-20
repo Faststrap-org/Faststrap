@@ -54,8 +54,9 @@ def home():
                 *[Div(f"Item {i}", cls="p-3 border-bottom") for i in range(1, 6)],
                 InfiniteScroll(
                     endpoint="/api/load-more",
-                    target="#infinite-list",
+                    target="this",
                     threshold="200px",
+                    hx_swap="outerHTML",
                 ),
                 id="infinite-list",
                 style=(
@@ -69,13 +70,11 @@ def home():
         Card(
             H5("3. AutoRefresh - Auto-updating Content", cls="card-title"),
             P("Updates every 5 seconds:", cls="text-muted"),
-            Div(
-                AutoRefresh(
-                    endpoint="/api/current-time",
-                    target="#auto-refresh-content",
-                    interval=5000,
-                ),
-                id="auto-refresh-content",
+            AutoRefresh(
+                endpoint="/api/current-time",
+                target="this",
+                interval=5000,
+                content=Div("Loading current time...", cls="text-muted"),
                 cls="p-3 bg-light rounded",
             ),
             cls="mb-4",
@@ -125,19 +124,13 @@ def search_users(q: str = ""):
     ]
 
     if not results:
-        return Div(
-            Alert("No users found", variant="info"),
-            hx_swap_oob="innerHTML:#search-results",
-        )
+        return Alert("No users found", variant="info")
 
-    return Div(
-        ListGroup(
-            *[
-                ListGroupItem(Div(Strong(u["name"]), Br(), Small(u["email"], cls="text-muted")))
-                for u in results
-            ]
-        ),
-        hx_swap_oob="innerHTML:#search-results",
+    return ListGroup(
+        *[
+            ListGroupItem(Div(Strong(u["name"]), Br(), Small(u["email"], cls="text-muted")))
+            for u in results
+        ]
     )
 
 
@@ -163,8 +156,9 @@ def load_more():
         items.append(
             InfiniteScroll(
                 endpoint="/api/load-more",
-                target="#infinite-list",
+                target="this",
                 threshold="200px",
+                hx_swap="outerHTML",
             )
         )
     else:
@@ -214,8 +208,7 @@ def slow_operation():
             "Operation completed successfully!",
             variant="success",
             dismissible=True,
-        ),
-        hx_swap_oob="innerHTML:#operation-result",
+        )
     )
 
 

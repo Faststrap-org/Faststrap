@@ -119,7 +119,7 @@ def home():
                 {"icon": "linkedin", "href": "https://linkedin.com"},
                 {"icon": "discord", "href": "https://discord.com"},
             ],
-            copyright_text="© 2026 FastStrap. All rights reserved.",
+            copyright_text="(c) 2026 FastStrap. All rights reserved.",
             bg_variant="dark",
             text_variant="light",
         ),

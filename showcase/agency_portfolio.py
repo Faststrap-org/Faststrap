@@ -2,8 +2,8 @@
 Showcase 3 — Creative Agency Portfolio
 A dark-themed creative agency portfolio with glassmorphism, scroll-reveal
 animations, InfiniteScroll project gallery, and contact form with toast feedback.
-Demonstrates: Fx.glass, Fx.hover_glow, LazyLoad, InfiniteScroll, FormGroup,
-LoadingButton, SEO, FooterModern.
+Demonstrates: Fx.glass, Fx.hover_glow, InfiniteScroll, FormGroup,
+LoadingButton, and FooterModern.
 """
 
 from typing import Any
@@ -101,7 +101,7 @@ SERVICES: list[dict[str, Any]] = [
     {
         "icon": "code-slash",
         "title": "Development",
-        "desc": "Full-stack development — Python, FastHTML, FastStrap.",
+        "desc": "Full-stack development - Python, FastHTML, FastStrap.",
     },
     {
         "icon": "megaphone-fill",
@@ -123,15 +123,13 @@ def project_card(project: dict[str, Any], index: int = 0) -> Any:
     return Card(
         Div(
             Div(
+                Icon("image", size="3rem", cls="text-white-50"),
                 style=(
                     f"background: linear-gradient(135deg, {project['color']}66,"
                     f" {project['color']}22);"
                     " height: 200px; border-radius: 0.5rem 0.5rem 0 0;"
                     " display: flex; align-items: center; justify-content: center;"
                 ),
-                children=[
-                    Icon("image", size="3rem", cls="text-white-50"),
-                ],
             ),
         ),
         Div(
@@ -474,7 +472,7 @@ def home() -> Any:
                 {"icon": "behance", "href": "#"},
                 {"icon": "linkedin", "href": "#"},
             ],
-            copyright_text="© 2026 Vortex Agency. All rights reserved.",
+            copyright_text="(c) 2026 Vortex Agency. All rights reserved.",
             bg_variant="dark",
             text_variant="light",
         ),

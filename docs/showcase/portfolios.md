@@ -24,7 +24,7 @@ A dark-themed, high-impact portfolio featuring custom backgrounds and advanced s
 ### Key Features
 - **Premium Hero**: Demonstrated with a custom background image and linear gradient overlay via the `style` attribute.
 - **Stat Cards**: Showcasing achievements using `StatCard` with icons and dark variants.
-- **Dark Mode**: Integrated with `add_bootstrap(theme="dark")`.
+- **Dark Mode**: Integrated with `add_bootstrap(mode="dark")`.
 - **Card-Base Gallery**: Using images and custom border colors for a "Zinc" look.
 
 **Source Code**: [portfolio_premium.py](https://github.com/Faststrap-org/Faststrap/blob/main/examples/showcase/portfolio_premium.py)

@@ -1,8 +1,16 @@
 # tests/conftest.py
 """Pytest configuration and fixtures."""
 
+import sys
+from pathlib import Path
+
 import pytest
 from fasthtml.common import FastHTML, to_xml
+
+# Ensure tests import local src/ package, not an older site-packages install.
+SRC_PATH = Path(__file__).resolve().parents[1] / "src"
+if str(SRC_PATH) not in sys.path:
+    sys.path.insert(0, str(SRC_PATH))
 
 
 @pytest.fixture

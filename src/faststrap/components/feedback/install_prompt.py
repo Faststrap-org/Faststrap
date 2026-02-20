@@ -97,12 +97,12 @@ def InstallPrompt(
             ),
             # Android/Generic Install Button (hidden by default)
             Button(
-                "Install",
+                android_text,
                 cls="btn btn-sm btn-primary w-100 mt-2 d-none android-instruction",
                 id="pwa-install-btn",
             ),
         ),
-        header=Div(Strong(title), cls="me-auto"),
+        title=Div(Strong(title), cls="me-auto"),
         id=toast_id,
         autohide=False,  # We want it to stay until dismissed
         **kwargs,
@@ -110,7 +110,7 @@ def InstallPrompt(
 
     # Wrapper with ID for targeting
     container = Div(
-        ToastContainer(toast_html, placement="bottom-center", cls="p-3 mb-5"),
+        ToastContainer(toast_html, position="bottom-center", cls="p-3 mb-5"),
         id="faststrap-pwa-prompt",
     )
 

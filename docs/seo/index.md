@@ -427,7 +427,7 @@ Use these tools to validate:
 
 ## API Reference
 
-See the [API documentation](./api.md) for complete parameter details and return types.
+See the [SEO API documentation](../api/seo.md) for complete parameter details and return types.
 
 ## Examples
 

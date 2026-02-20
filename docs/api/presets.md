@@ -145,7 +145,7 @@ Card(
     H4("Analytics"),
     LazyLoad(
         endpoint="/widgets/analytics",
-        loading_text="Loading analytics..."
+        placeholder=Div("Loading analytics...", cls="text-muted")
     )
 )
 
@@ -279,11 +279,11 @@ def dashboard(req):
 def admin_panel(req):
     return AdminPanel()
 
-# With message
+# Disable return-url query parameter
 @app.get("/premium")
 @require_auth(
     login_url="/login",
-    message="Please log in to access premium features"
+    redirect_param=None
 )
 def premium_feature(req):
     return PremiumContent()
@@ -387,8 +387,8 @@ def get_posts_page(page: int = 1):
 | `ActiveSearch` | `endpoint`, `target`, `placeholder`, `debounce` | Live search input |
 | `InfiniteScroll` | `endpoint`, `target`, `threshold` | Infinite scroll loader |
 | `AutoRefresh` | `endpoint`, `target`, `interval` | Auto-polling element |
-| `LazyLoad` | `endpoint`, `loading_text` | Lazy-loaded content |
-| `LoadingButton` | `text`, `endpoint`, `target`, `loading_text` | Button with loading state |
+| `LazyLoad` | `endpoint`, `placeholder`, `trigger` | Lazy-loaded content |
+| `LoadingButton` | `text`, `endpoint`, `target`, `method` | Button with loading state |
 
 ### Response Helpers
 
@@ -405,7 +405,7 @@ def get_posts_page(page: int = 1):
 
 | Decorator | Parameters | Description |
 | :--- | :--- | :--- |
-| `@require_auth` | `login_url`, `session_key`, `message` | Protect routes |
+| `@require_auth` | `login_url`, `session_key`, `redirect_param` | Protect routes |
 
 ---
 

@@ -9,9 +9,10 @@ from faststrap import InstallPrompt
 
 InstallPrompt(
     title="Install Our App",
-    message="Get the best experience by installing our app!",
-    install_text="Install",
-    dismiss_text="Not now"
+    description="Get the best experience by installing our app!",
+    ios_text="Tap Share and choose Add to Home Screen.",
+    android_text="Tap Install to add this app to your home screen.",
+    delay=3000
 )
 ```
 
@@ -20,10 +21,10 @@ InstallPrompt(
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `title` | str | "Install App" | Prompt title |
-| `message` | str | - | Prompt message |
-| `install_text` | str | "Install" | Install button text |
-| `dismiss_text` | str | "Dismiss" | Dismiss button text |
-| `variant` | str | "primary" | Button variant |
+| `description` | str | "Add this app to your home screen for the best experience." | Prompt message |
+| `ios_text` | str | iOS install instruction | iOS-specific helper text |
+| `android_text` | str | Android install instruction | Android install button text |
+| `delay` | int | `3000` | Milliseconds before prompt appears |
 | `**kwargs` | Any | - | Additional HTML attributes |
 
 ## Example
@@ -31,10 +32,10 @@ InstallPrompt(
 ```python
 InstallPrompt(
     title="Install FastApp",
-    message="Install our app for offline access and faster performance!",
-    install_text="Install Now",
-    dismiss_text="Maybe Later",
-    variant="success"
+    description="Install our app for offline access and faster performance!",
+    ios_text="Tap Share then Add to Home Screen.",
+    android_text="Install Now",
+    delay=2000
 )
 ```
 

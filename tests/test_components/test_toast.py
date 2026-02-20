@@ -1,8 +1,8 @@
-"""Tests for Toast component."""
+"""Tests for Toast components."""
 
 from fasthtml.common import to_xml
 
-from faststrap.components.feedback import Toast, ToastContainer
+from faststrap.components.feedback import SimpleToast, Toast, ToastContainer
 
 
 def test_toast_basic():
@@ -98,6 +98,7 @@ def test_toast_container_basic():
     assert "position-fixed" in html
     assert "Toast 1" in html
     assert "Toast 2" in html
+    assert 'id="toast-container"' in html
 
 
 def test_toast_container_positions():
@@ -135,3 +136,40 @@ def test_toast_data_attributes():
 
     assert 'data-id="123"' in html
     assert 'data-type="notification"' in html
+
+
+def test_simple_toast_basic():
+    """SimpleToast renders basic alert-style toast."""
+    toast = SimpleToast("Saved successfully")
+    html = to_xml(toast)
+
+    assert "Saved successfully" in html
+    assert "alert" in html
+    assert 'role="alert"' in html
+
+
+def test_simple_toast_with_title():
+    """SimpleToast supports title."""
+    toast = SimpleToast("Body", title="Notice")
+    html = to_xml(toast)
+
+    assert "Notice" in html
+    assert "Body" in html
+
+
+def test_simple_toast_position():
+    """SimpleToast supports fixed positioning."""
+    toast = SimpleToast("Body", position="bottom-center")
+    html = to_xml(toast)
+
+    assert "position-fixed" in html
+    assert "bottom-0" in html
+    assert "start-50" in html
+
+
+def test_simple_toast_custom_duration():
+    """SimpleToast supports custom auto-hide animation duration."""
+    toast = SimpleToast("Body", duration=3)
+    html = to_xml(toast)
+
+    assert "toastFadeOut 3s" in html
