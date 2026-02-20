@@ -44,11 +44,12 @@ def home():
                     H5("1. ToggleGroup"),
                     P("Single-active state for grouped buttons."),
                     ToggleGroup(
-                        Button("Newest", variant="outline-primary"),
-                        Button("Popular", variant="outline-primary"),
+                        Button("Newest", variant="outline-primary", cls="me-2"),
+                        Button("Popular", variant="outline-primary", active=True, cls="me-2"),
                         Button("Trending", variant="outline-primary"),
                         name="sort",
                         values=["new", "popular", "trending"],
+                        # cls="d-flex gap-4"
                     ),
                     cls="mb-4",
                 ),

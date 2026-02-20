@@ -3,7 +3,7 @@ Presets Responses Demo
 Demonstrates response helpers: hx_redirect, hx_refresh, toast_response, and @require_auth decorator
 """
 
-from fasthtml.common import H1, H4, H5, A, Div, FastHTML, Hr, P, serve
+from fasthtml.common import H1, H4, H5, A, Div, FastHTML, Hr, P, Script, serve
 
 from faststrap import (
     Alert,
@@ -20,6 +20,19 @@ from faststrap.presets import hx_redirect, hx_refresh, require_auth, toast_respo
 
 app = FastHTML()
 add_bootstrap(app)
+
+TOAST_INIT_SCRIPT = """
+document.body.addEventListener('htmx:afterSwap', function(evt) {
+  if (!window.bootstrap) return;
+  const scope = evt.detail && evt.detail.elt ? evt.detail.elt : document;
+  const toasts = scope.querySelectorAll('.toast');
+  toasts.forEach(function(el) {
+    try {
+      bootstrap.Toast.getOrCreateInstance(el).show();
+    } catch (e) {}
+  });
+});
+"""
 
 
 @app.get("/")
@@ -110,6 +123,7 @@ def home():
         ),
         # Toast container
         ToastContainer(position="top-end"),
+        Script(TOAST_INIT_SCRIPT),
         cls="my-5",
     )
 
@@ -174,6 +188,12 @@ def toast_info():
         message="This is an informational message.",
         variant="info",
     )
+
+
+@app.get("/api/current-time")
+def current_time():
+    """Compatibility endpoint to avoid 404 noise from previously opened polling demos."""
+    return ""
 
 
 @app.get("/api/protected")

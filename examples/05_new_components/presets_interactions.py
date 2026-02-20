@@ -195,7 +195,7 @@ def lazy_content():
     )
 
 
-@app.get("/api/slow-operation")
+@app.post("/api/slow-operation")
 def slow_operation():
     """Simulate slow operation"""
     import time

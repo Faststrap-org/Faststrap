@@ -34,11 +34,11 @@ def home():
                 ),
                 FormGroup(
                     Select(
-                        Option("Select a country", value="", selected=True, disabled=True),
-                        Option("United States", value="us"),
-                        Option("United Kingdom", value="uk"),
-                        Option("Canada", value="ca"),
-                        name="country",
+                        "country",
+                        ("", "Select a country", True),
+                        ("us", "United States"),
+                        ("uk", "United Kingdom"),
+                        ("ca", "Canada"),
                     ),
                     label="Country",
                     required=True,
