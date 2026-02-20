@@ -56,6 +56,9 @@ Issues = "https://github.com/Faststrap-org/Faststrap/issues"
 Documentation = "https://github.com/Faststrap-org/Faststrap#readme"
 Changelog = "https://github.com/Faststrap-org/Faststrap/blob/main/CHANGELOG.md"
 
+[project.scripts]
+faststrap = "faststrap.cli:main"
+
 # ============================================================================
 # Build Configuration
 # ============================================================================

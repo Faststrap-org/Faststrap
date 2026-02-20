@@ -2466,7 +2466,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
 ---
 
 **Last Updated:** January 2026  
-**Current Version:** v0.4.5 (38 components)  
+**Current Version:** v0.5.6 (pre-v0.6 additions)  
 **Next Release:** v0.5.0 (February 2026)
 
 **Let's build the definitive UI library for FastHTML — together.** 🚀

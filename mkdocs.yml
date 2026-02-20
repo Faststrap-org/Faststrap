@@ -75,6 +75,8 @@ nav:
     - Installation: getting-started/installation.md
     - Quick Start: getting-started/quick-start.md
     - Customization: getting-started/customization.md
+    - Accessibility: accessibility.md
+    - Doctor CLI: getting-started/doctor-cli.md
     - Visual Effects: effects.md
     - Static Files: STATIC_FILES.md
     - PWA Guide: PWA_GUIDE.md
@@ -92,6 +94,7 @@ nav:
       - FormGroup: components/forms/formgroup.md
       - SearchableSelect: components/forms/searchable-select.md
       - ThemeToggle: components/forms/theme-toggle.md
+      - ToggleGroup: components/forms/toggle-group.md
     - Display:
       - Card: components/display/card.md
       - Table: components/display/table.md
@@ -102,6 +105,7 @@ nav:
       - Carousel: components/display/carousel.md
       - Empty State: components/display/empty_state.md
       - Stat Card: components/display/stat_card.md
+      - TextClamp: components/display/text-clamp.md
     - Feedback:
       - Alert: components/feedback/alert.md
       - Modal: components/feedback/modal.md
@@ -113,6 +117,7 @@ nav:
       - Error Page: components/feedback/error-page.md
       - Error Dialog: components/feedback/error-dialog.md
       - Install Prompt: components/feedback/install-prompt.md
+      - Notification Presets: components/feedback/notification-presets.md
     - Navigation:
       - Navbar: components/navigation/navbar.md
       - Tabs: components/navigation/tabs.md
@@ -144,6 +149,7 @@ nav:
     - Landing: layouts/landing.md
   - SEO:
     - Overview: seo/index.md
+    - PageMeta: components/seo/page-meta.md
   - Showcase:
     - Portfolios: showcase/portfolios.md
     - SaaS Landing: showcase/saas-landing.md

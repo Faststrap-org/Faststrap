@@ -4,7 +4,7 @@
 
 ---
 
-## Current Status (v0.5.4 – February 2026)
+## Current Status (v0.5.6 – February 2026)
 
 **67 components live** – Phase 1 through 5B complete  
 **530+ tests** – 90%+ coverage  
@@ -473,6 +473,6 @@ Your votes directly influence what gets built next.
 ---
 
 **Last Updated: February 2026**  
-**Current Version: 0.5.4 (67 components live)**
+**Current Version: 0.5.6 (pre-v0.6 additions live)**
 
 **Let's build the definitive UI library for FastHTML — together.**

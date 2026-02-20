@@ -115,11 +115,102 @@ INIT_SCRIPT_JS = """
                  .forEach(el => new bootstrap.Popover(el));
         };
 
+        const initToggleGroups = (scope) => {
+            scope.querySelectorAll('[data-fs-toggle-group="true"]').forEach(group => {
+                if (group.dataset.fsToggleInit === 'true') return;
+                group.dataset.fsToggleInit = 'true';
+
+                const activeClass = group.dataset.fsActiveClass || 'active';
+                const inputId = group.dataset.fsInputId;
+                const hiddenInput = inputId ? document.getElementById(inputId) : null;
+
+                const setActive = (btn) => {
+                    group.querySelectorAll('[data-fs-toggle-item="true"]').forEach(item => {
+                        item.classList.remove(activeClass);
+                        item.setAttribute('aria-pressed', 'false');
+                        item.setAttribute('aria-current', 'false');
+                    });
+                    btn.classList.add(activeClass);
+                    btn.setAttribute('aria-pressed', 'true');
+                    btn.setAttribute('aria-current', 'true');
+                    if (hiddenInput) hiddenInput.value = btn.dataset.fsValue || '';
+                };
+
+                group.querySelectorAll('[data-fs-toggle-item="true"]').forEach(btn => {
+                    btn.addEventListener('click', () => setActive(btn));
+                });
+            });
+        };
+
+        const initTextClamp = (scope) => {
+            scope.querySelectorAll('[data-fs-text-clamp="true"]').forEach(container => {
+                if (container.dataset.fsTextClampInit === 'true') return;
+                container.dataset.fsTextClampInit = 'true';
+
+                const btn = container.querySelector('[data-fs-text-toggle="true"]');
+                const preview = container.querySelector('[data-fs-preview="true"]');
+                const full = container.querySelector('[data-fs-full="true"]');
+                if (!btn || !preview || !full) return;
+
+                const expandLabel = btn.dataset.fsExpandLabel || 'Show more';
+                const collapseLabel = btn.dataset.fsCollapseLabel || 'Show less';
+                let expanded = false;
+
+                btn.addEventListener('click', () => {
+                    expanded = !expanded;
+                    preview.classList.toggle('d-none', expanded);
+                    full.classList.toggle('d-none', !expanded);
+                    btn.textContent = expanded ? collapseLabel : expandLabel;
+                    btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                });
+            });
+        };
+
+        const initFocusTraps = (scope) => {
+            const FOCUSABLE =
+                'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+            scope.querySelectorAll('[data-fs-focus-trap="true"]').forEach(container => {
+                if (container.dataset.fsFocusTrapInit === 'true') return;
+                container.dataset.fsFocusTrapInit = 'true';
+
+                const focusables = Array.from(container.querySelectorAll(FOCUSABLE));
+                if (focusables.length === 0) return;
+
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+                const autofocusSelector = container.dataset.fsAutofocus;
+                if (autofocusSelector) {
+                    const target = container.querySelector(autofocusSelector);
+                    if (target) target.focus();
+                } else {
+                    first.focus();
+                }
+
+                container.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Tab') return;
+                    if (e.shiftKey && document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    } else if (!e.shiftKey && document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                });
+            });
+        };
+
         initBS(document);
+        initToggleGroups(document);
+        initTextClamp(document);
+        initFocusTraps(document);
 
         // HTMX support: Re-initialize on content swap
         document.body.addEventListener('htmx:afterSwap', (evt) => {
             initBS(evt.detail.elt);
+            initToggleGroups(evt.detail.elt);
+            initTextClamp(evt.detail.elt);
+            initFocusTraps(evt.detail.elt);
         });
     });
 """

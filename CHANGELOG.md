@@ -5,6 +5,39 @@ All notable changes to Faststrap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.6] - 2026-02-20
+
+### Added
+
+- **Accessibility module (`faststrap.accessibility`)**:
+  - `SkipLink`
+  - `VisuallyHidden`
+  - `LiveRegion`
+  - `FocusTrap`
+- **Single-active group component**:
+  - `ToggleGroup` for sort/tab/filter style button groups
+- **Long text utility component**:
+  - `TextClamp` with optional expandable/collapsible button
+- **Notification presets** on top of existing feedback components:
+  - `NoticeToast`, `NoticeAlert`
+  - `SuccessToast`, `ErrorToast`, `WarningToast`, `InfoToast`
+- **Head/meta composer**:
+  - `PageMeta` for SEO + canonical + optional PWA/favicon composition with dedupe
+- **Form validation bridge**:
+  - `extract_field_error`, `map_formgroup_validation`, `FormGroupFromErrors`
+- **CLI support**:
+  - `faststrap` entrypoint
+  - `faststrap doctor` diagnostics command
+
+### Documentation
+
+- Added docs for accessibility helpers, doctor CLI, ToggleGroup, TextClamp, notification presets, and PageMeta.
+- Added feature demo app: `examples/05_new_components/pre_v060_features.py`.
+
+### Quality
+
+- Added focused tests for all new modules and integrations.
+
 ## [0.5.4] - 2026-02-11
 
 ### Added
@@ -337,8 +370,6 @@ This release dramatically improves the developer experience with ready-to-use SE
 - Timeline, Carousel, MegaMenu
 
 ---
-
-## [0.4.0] - 2026-01-01
 
 ## [0.3.1] - 2025-12-31
 

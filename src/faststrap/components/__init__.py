@@ -1,7 +1,5 @@
 """FastStrap components."""
 
-# Forms
-# Display
 from .display import (
     Badge,
     Card,
@@ -11,22 +9,27 @@ from .display import (
     Table,
     TBody,
     TCell,
+    TextClamp,
     THead,
     TRow,
 )
-
-# Feedback
 from .feedback import (
     Alert,
     ConfirmDialog,
+    ErrorToast,
+    InfoToast,
     Modal,
+    NoticeAlert,
+    NoticeToast,
     Popover,
     Progress,
     ProgressBar,
     Spinner,
+    SuccessToast,
     Toast,
     ToastContainer,
     Tooltip,
+    WarningToast,
 )
 from .forms import (
     Button,
@@ -35,6 +38,7 @@ from .forms import (
     Checkbox,
     FileInput,
     FloatingLabel,
+    FormGroupFromErrors,
     Input,
     InputGroup,
     InputGroupText,
@@ -42,12 +46,11 @@ from .forms import (
     Range,
     Select,
     Switch,
+    ToggleGroup,
+    extract_field_error,
+    map_formgroup_validation,
 )
-
-# Layout
 from .layout import Col, Container, Hero, Row
-
-# Navigation
 from .navigation import (
     Accordion,
     AccordionItem,
@@ -64,16 +67,9 @@ from .navigation import (
     TabPane,
     Tabs,
 )
-from .patterns import (
-    Feature,
-    FeatureGrid,
-    NavbarModern,
-    PricingGroup,
-    PricingTier,
-)
+from .patterns import Feature, FeatureGrid, NavbarModern, PricingGroup, PricingTier
 
 __all__ = [
-    # Forms
     "Button",
     "ButtonGroup",
     "ButtonToolbar",
@@ -87,20 +83,29 @@ __all__ = [
     "Range",
     "Select",
     "Switch",
-    # Display
+    "ToggleGroup",
+    "extract_field_error",
+    "map_formgroup_validation",
+    "FormGroupFromErrors",
     "Badge",
     "Card",
     "EmptyState",
     "Figure",
     "StatCard",
+    "TextClamp",
     "Table",
     "THead",
     "TBody",
     "TRow",
     "TCell",
-    # Feedback
     "Alert",
     "ConfirmDialog",
+    "NoticeToast",
+    "NoticeAlert",
+    "SuccessToast",
+    "ErrorToast",
+    "WarningToast",
+    "InfoToast",
     "Toast",
     "ToastContainer",
     "Modal",
@@ -109,12 +114,10 @@ __all__ = [
     "ProgressBar",
     "Spinner",
     "Tooltip",
-    # Layout
     "Container",
     "Row",
     "Col",
     "Hero",
-    # Navigation
     "Accordion",
     "AccordionItem",
     "Drawer",
@@ -126,7 +129,6 @@ __all__ = [
     "DropdownDivider",
     "Tabs",
     "TabPane",
-    # Patterns
     "NavbarModern",
     "Feature",
     "FeatureGrid",

@@ -3,7 +3,7 @@
 Build beautiful web UIs in pure Python with zero JavaScript knowledge.
 """
 
-__version__ = "0.5.5"
+__version__ = "0.5.6"
 __author__ = "FastStrap Contributors"
 __license__ = "MIT"
 
@@ -12,6 +12,7 @@ __license__ = "MIT"
 # Display
 # Presets (HTMX interaction helpers)
 from . import presets
+from .accessibility import FocusTrap, LiveRegion, SkipLink, VisuallyHidden
 from .components.display import (
     Badge,
     Card,
@@ -25,6 +26,7 @@ from .components.display import (
     Table,
     TBody,
     TCell,
+    TextClamp,
     THead,
     TRow,
 )
@@ -35,8 +37,12 @@ from .components.feedback import (
     ConfirmDialog,
     ErrorDialog,
     ErrorPage,
+    ErrorToast,
+    InfoToast,
     InstallPrompt,
     Modal,
+    NoticeAlert,
+    NoticeToast,
     Placeholder,
     PlaceholderButton,
     PlaceholderCard,
@@ -45,9 +51,11 @@ from .components.feedback import (
     ProgressBar,
     SimpleToast,
     Spinner,
+    SuccessToast,
     Toast,
     ToastContainer,
     Tooltip,
+    WarningToast,
 )
 
 # Forms
@@ -60,6 +68,7 @@ from .components.forms import (
     FileInput,
     FloatingLabel,
     FormGroup,
+    FormGroupFromErrors,
     Input,
     InputGroup,
     InputGroupText,
@@ -69,6 +78,9 @@ from .components.forms import (
     Select,
     Switch,
     ThemeToggle,
+    ToggleGroup,
+    extract_field_error,
+    map_formgroup_validation,
 )
 
 # Layout
@@ -129,7 +141,7 @@ from .layouts import AuthLayout, DashboardLayout, LandingLayout
 from .pwa import PwaMeta, add_pwa
 
 # SEO helpers
-from .seo import SEO, StructuredData
+from .seo import SEO, PageMeta, StructuredData
 
 # Utils
 from .utils import cleanup_static_resources, get_faststrap_static_url
@@ -141,6 +153,11 @@ __all__ = [
     "get_assets",
     "mount_assets",
     "merge_classes",
+    # Accessibility
+    "SkipLink",
+    "LiveRegion",
+    "VisuallyHidden",
+    "FocusTrap",
     # PWA
     "PwaMeta",
     "add_pwa",
@@ -170,6 +187,10 @@ __all__ = [
     "SearchableSelect",
     "Select",
     "ThemeToggle",
+    "ToggleGroup",
+    "extract_field_error",
+    "map_formgroup_validation",
+    "FormGroupFromErrors",
     # Display
     "Badge",
     "Card",
@@ -180,6 +201,7 @@ __all__ = [
     "Image",
     "Sheet",
     "StatCard",
+    "TextClamp",
     "Table",
     "THead",
     "TBody",
@@ -192,6 +214,12 @@ __all__ = [
     "ConfirmDialog",
     "Toast",
     "SimpleToast",
+    "NoticeToast",
+    "NoticeAlert",
+    "SuccessToast",
+    "ErrorToast",
+    "WarningToast",
+    "InfoToast",
     "ToastContainer",
     "Modal",
     "Placeholder",
@@ -246,6 +274,7 @@ __all__ = [
     "presets",
     # SEO
     "SEO",
+    "PageMeta",
     "StructuredData",
     # Utils
     "Icon",

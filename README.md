@@ -455,7 +455,7 @@ Comprehensive examples organized by learning path:
 | **SidebarNavbar** | Premium vertical sidebar | ✅ |
 | **GlassNavbar** | Glassmorphism navbar | ✅ |
 
-### ✅ Phase 5B (v0.5.4) - 16 Components & Modules
+### ✅ Phase 5B+ (v0.5.6) - pre-v0.6 additions
 
 **HTMX Presets Module (12 helpers):**
 

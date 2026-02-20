@@ -9,6 +9,7 @@ from .image import Image
 from .sheet import Sheet
 from .stat_card import StatCard
 from .table import Table, TBody, TCell, THead, TRow
+from .text_clamp import TextClamp
 
 __all__ = [
     "Badge",
@@ -20,6 +21,7 @@ __all__ = [
     "Image",
     "Sheet",
     "StatCard",
+    "TextClamp",
     "Table",
     "THead",
     "TBody",
