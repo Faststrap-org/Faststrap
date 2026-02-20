@@ -9,6 +9,13 @@ This section provides API-level reference for FastStrap SEO helpers.
         show_root_heading: true
         show_source: true
 
+## PageMeta Composer
+
+::: faststrap.seo.page_meta.PageMeta
+    options:
+        show_root_heading: true
+        show_source: true
+
 ## Structured Data
 
 ::: faststrap.seo.structured_data.StructuredData

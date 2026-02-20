@@ -2,11 +2,35 @@
 
 The SEO module provides comprehensive tools for adding search engine optimization metadata to your FastHTML applications. It includes components for meta tags, Open Graph, Twitter Cards, and structured data (JSON-LD).
 
+## SEO vs PageMeta
+
+Faststrap provides both `SEO(...)` and `PageMeta(...)` intentionally.
+
+### `SEO(...)` is the low-level SEO builder
+
+Use it when you want direct control over SEO and social metadata only.
+
+### `PageMeta(...)` is the high-level head composer
+
+Use it when you want one call that can combine:
+
+- SEO tags
+- canonical handling
+- optional PWA tags
+- optional favicon links
+- dedupe guarantees
+
+### Quick decision
+
+- Need only SEO/social tags: use `SEO(...)`.
+- Need full head composition with less boilerplate: use `PageMeta(...)`.
+- Need JSON-LD schema: use `StructuredData.*(...)` with either `SEO(...)` or `PageMeta(...)`.
+
 ## Quick Start
 
 ```python
 from fasthtml.common import *
-from faststrap import SEO, StructuredData
+from faststrap import SEO, StructuredData, PageMeta
 
 app = FastHTML()
 
@@ -22,6 +46,24 @@ def home():
         Container(
             H1("Welcome!"),
         )
+    )
+```
+
+### Alternative quick start with `PageMeta`
+
+```python
+@app.get("/")
+def home():
+    return (
+        PageMeta(
+            title="My Site - Welcome",
+            description="The best site on the internet",
+            canonical="https://mysite.com/",
+            include_pwa=True,
+            pwa_name="My Site",
+            pwa_short_name="MySite",
+        ),
+        Container(H1("Welcome!")),
     )
 ```
 

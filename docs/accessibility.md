@@ -8,6 +8,13 @@ Faststrap now includes built-in accessibility primitives in `faststrap.accessibi
 - Make keyboard and screen-reader support default.
 - Keep APIs simple and composable with existing FastHTML/Faststrap components.
 
+## When to use these helpers
+
+1. Any page with keyboard users in mind.
+2. Dynamic pages that update content after interactions.
+3. Dialog-like UI that must keep tab focus contained.
+4. Icon-only controls that need screen-reader labels.
+
 ## Components
 
 ### `SkipLink`
@@ -56,6 +63,18 @@ FocusTrap(
 
 Wrap dialog-like content to constrain tab focus inside the container.
 
+## Practical pattern for dynamic updates
+
+```python
+Div(
+    Button("Save", hx_post="/save", hx_target="#status"),
+    Div(id="status"),
+    LiveRegion(id="a11y-status"),
+)
+```
+
+Use route responses to update both visible status and the live region where appropriate.
+
 ## Recommended pattern
 
 ```python
@@ -75,3 +94,8 @@ def home():
     )
 ```
 
+## Accessibility notes
+
+- `SkipLink` should appear early in the DOM.
+- `LiveRegion` should be used for meaningful state changes (avoid noisy updates).
+- `FocusTrap` is best for overlays, dialogs, and modal-like content.

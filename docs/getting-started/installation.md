@@ -13,6 +13,21 @@ Getting started with FastStrap is easy.
 pip install faststrap
 ```
 
+## Local development install (editable)
+
+If you want to test this exact repo locally before publishing:
+
+```bash
+cd Faststrap
+python -m pip install -e .
+```
+
+Install dev tools too:
+
+```bash
+python -m pip install -e ".[dev]"
+```
+
 ## Verify Installation
 
 You can verify that FastStrap is installed correctly by running:
@@ -20,6 +35,14 @@ You can verify that FastStrap is installed correctly by running:
 ```bash
 python -c "import faststrap; print(faststrap.__version__)"
 ```
+
+## Run a local feature example
+
+```bash
+python examples/05_new_components/pre_v060_features.py
+```
+
+Then open the local URL shown by FastHTML (commonly `http://localhost:5000`).
 
 ---
 
