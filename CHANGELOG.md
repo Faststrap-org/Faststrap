@@ -5,6 +5,22 @@ All notable changes to Faststrap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.6.post1] - 2026-02-20
+
+### Changed
+
+- Harmonized release documentation between `README.md` and `ROADMAP.md` to reflect what is already shipped vs deferred after v0.6.
+- Added explicit suggested release-cut sequence:
+  - `v0.5.6`: accessibility + toggle group + text clamp + notification presets
+  - `v0.5.7`: PageMeta + form error mapper
+  - `v0.5.8`: doctor CLI + docs/version/changelog consistency cleanup
+  - `v0.6.0`: broader milestone after markdown/location decisions
+- Updated roadmap status labels to align with the current pre-v0.6 planning view.
+
+### Quality
+
+- Re-ran formatting, linting, type checks, and full test suite before finalizing this patch release.
+
 ## [0.5.6] - 2026-02-20
 
 ### Added

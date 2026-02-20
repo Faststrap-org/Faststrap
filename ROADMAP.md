@@ -14,6 +14,27 @@
 **NEW: HTMX Presets Module** – 12 interaction helpers + auth  
 **NEW: SEO Module** – Comprehensive meta tags + structured data
 
+### Pre-v0.6 Delivered in v0.5.6
+
+- Accessibility mini-module: `SkipLink`, `LiveRegion`, `VisuallyHidden`, `FocusTrap`
+- `PageMeta` composer for SEO/social/canonical/favicon head tags
+- Form validation bridge for backend errors -> `FormGroup`
+- `faststrap doctor` CLI diagnostics
+- `ToggleGroup` and `TextClamp` UI helpers
+
+### Deferred Post-v0.6
+
+- `OptimisticAction` preset (needs robust rollback event contract)
+- Full markdown renderer (sanitization policy + optional dependency strategy)
+- Location component (browser permissions/privacy and non-JS constraints)
+
+### Suggested release cut
+
+- `v0.5.6`: accessibility + toggle group + text clamp + notification presets
+- `v0.5.7`: PageMeta + form error mapper
+- `v0.5.8`: doctor CLI + docs/version/changelog consistency cleanup
+- `v0.6.0`: broader milestone once markdown/location decisions are finalized
+
 ## 📈 Overall Progress to v1.0
 
 ```text
@@ -104,7 +125,7 @@ Faststrap commits to the following architectural contracts:
 
 ---
 
-## Phase 5 – Composed UI & Design System Layer (v0.5.0 – Target Feb 2026)
+## Phase 5 – Composed UI & Design System Layer (v0.5.x – Complete + pre-v0.6 extensions)
 
 **Goal:** SaaS-ready patterns, layouts, and visual effects.  
 **Focus:** `faststrap.layouts`, `faststrap.patterns`, `faststrap.effects`.
@@ -116,13 +137,13 @@ Faststrap commits to the following architectural contracts:
 | Priority | Component | Module | Status | Notes |
 |----------|-----------|--------|--------|-------|
 | 1 | `faststrap.effects` | New Module | ✅ Complete | Zero-JS visual effects (fade, lift, highlight) |
-| 2 | `DashboardLayout` | layouts | Planned | Admin panel layout with sidebar |
-| 3 | `LandingLayout` | layouts | Planned | Marketing page layout |
+| 2 | `DashboardLayout` | layouts | Complete | Admin panel layout with sidebar |
+| 3 | `LandingLayout` | layouts | Complete | Marketing page layout |
 | 4 | `NavbarModern` | patterns | ✅ Complete | Implemented as `GlassNavbar` |
 | 5 | `FeatureGrid` | patterns | ✅ Complete | Icon + Title + Text grid |
 | 6 | `PricingGroup` | patterns | ✅ Complete | 3-column pricing cards |
-| 7 | `TestimonialSection` | patterns | Planned | Customer testimonials |
-| 8 | `FooterModern` | patterns | Planned | Modern multi-column footer |
+| 7 | `TestimonialSection` | patterns | Complete | Customer testimonials |
+| 8 | `FooterModern` | patterns | Complete | Modern multi-column footer |
 
 **2. Core Enhancements (Added in v0.5.0)**
 
@@ -139,7 +160,7 @@ Faststrap commits to the following architectural contracts:
 
 ---
 
-### Phase 5B – HTMX Presets, Error Handling & SEO (v0.5.4 – Complete)
+### Phase 5B – HTMX Presets, Error Handling & SEO (v0.5.6 – Complete)
 
 ✅ **67 total components reached**
 
@@ -287,7 +308,7 @@ Faststrap commits to the following architectural contracts:
 * Automatic validation from Pydantic
 * Complete documentation with 20+ examples
 
-> **Note:** `ActiveSearch` and `InfiniteScroll` are already available in v0.5.4 as part of the `faststrap.presets` module.
+> **Note:** `ActiveSearch` and `InfiniteScroll` are already available in v0.5.6 as part of the `faststrap.presets` module.
 
 ---
 
@@ -426,7 +447,7 @@ What Faststrap intentionally *won't* do:
 
 ## Success Metrics
 
-| Metric | v0.3.1 | v0.4.5 | v0.5.4 (Now) | v1.0.0 |
+| Metric | v0.3.1 | v0.4.5 | v0.5.6 (Now) | v1.0.0 |
 |--------|--------------|--------------|--------------|--------|
 | Components | 20 | 38 | 67 | 100+ |
 | Tests | 219 | 230+ | 530+ | 800+ |
@@ -473,6 +494,6 @@ Your votes directly influence what gets built next.
 ---
 
 **Last Updated: February 2026**  
-**Current Version: 0.5.6 (pre-v0.6 additions live)**
+**Current Version: 0.5.6.post1 (patch release for roadmap/readme/changelog harmonization)**
 
 **Let's build the definitive UI library for FastHTML — together.**

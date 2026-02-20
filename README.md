@@ -468,10 +468,35 @@ Comprehensive examples organized by learning path:
 - `SEO` - Meta tags, Open Graph, Twitter Cards, Article metadata
 - `StructuredData` - JSON-LD for Article, Product, Breadcrumb, Organization, LocalBusiness
 
-**UI Components (7):**
+**UI Components (9):**
 
 - `ErrorPage`, `ErrorDialog`, `FormGroup`, `ThemeToggle`, `SearchableSelect`
 - `FooterModern`, `Testimonial`, `TestimonialSection`, `AuthLayout`
+
+## Release Snapshot (v0.5.6)
+
+### Implemented now (pre-v0.6)
+
+- Accessibility mini-module: `SkipLink`, `LiveRegion`, `VisuallyHidden`, `FocusTrap`
+- `PageMeta` for unified SEO + social + canonical + favicon composition
+- Form validation bridge: `map_formgroup_validation`, `FormGroupFromErrors`
+- `faststrap doctor` CLI diagnostics command
+- `ToggleGroup` for single-active button groups
+- `TextClamp` for long text truncation with optional "show more"
+- Notification preset improvements and refreshed examples/showcases
+
+### Deferred to post-v0.6 (intentional)
+
+- `OptimisticAction` preset (requires stronger rollback contract)
+- Full "any markdown" renderer (parser + sanitization policy)
+- Out-of-the-box location component (permission/privacy + JS constraints)
+
+### Suggested release cut
+
+- `v0.5.6`: accessibility + toggle group + text clamp + notification presets
+- `v0.5.7`: PageMeta + form error mapper
+- `v0.5.8`: doctor CLI + docs/version/changelog consistency cleanup
+- `v0.6.0`: broader milestone once markdown/location decisions are finalized
 
 ### 🗓️ Phase 6+ (v0.6.0+)
 
@@ -798,7 +823,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ### Quick Contribution Guide
 
-1. **Pick a component** from [ROADMAP.md](ROADMAP.md) Phase 4
+1. **Pick a component** from [ROADMAP.md](ROADMAP.md) active or planned sections
 2. **Follow patterns** in [BUILDING_COMPONENTS.md](BUILDING_COMPONENTS.md)
 3. **Write tests** - Aim for 100% coverage (8-15 tests per component)
 4. **Submit PR** - We review within 48 hours
@@ -812,83 +837,6 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 - 🗺️ **Roadmap**: [ROADMAP.md](ROADMAP.md)
 - 🤝 **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md)
 - 📝 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
-
----
-
-## Troubleshooting
-
-### Static Files Not Loading (404 Errors)
-
-**Problem**: Background images or custom assets return 404 Not Found.
-
-**Solution**: Use `mount_assets()` to properly mount your static directory:
-
-```python
-from faststrap import mount_assets
-
-mount_assets(app, "assets")  # Mounts assets/ at /assets/
-```
-
-Then reference files with the correct path:
-
-```python
-Div(style="background-image: url('/assets/hero-bg.jpg')")  # ✅ Correct
-Div(style="background-image: url('/hero-bg.jpg')")         # ❌ Wrong
-```
-
-See [Static Files](docs/STATIC_FILES.md) for full guide.
-
----
-
-## Roadmap
-
-### v0.3.1 (Current - December 2025)
-
-- ✅ 20 components (12 + 8 new)
-- ✅ 219 tests, 80% coverage
-- ✅ Centralized `convert_attrs()` utility
-- ✅ Default FastStrap favicon
-- ✅ Full HTMX integration
-- ✅ Enhanced customization (slot classes, CSS vars, themes)
-- ✅ Component defaults system with `resolve_defaults()`
-
-### v0.4.0 (Phase 4A - Complete)
-
-- ✅ Table, Accordion, Checkbox, Radio, Switch
-- ✅ Range, ListGroup, Collapse, InputGroup, FloatingLabel
-- ✅ 30 components total
-
-### v0.4.5 (Phase 4B - Complete)
-
-- ✅ FileInput, Tooltip, Popover, Figure
-- ✅ ConfirmDialog, EmptyState, StatCard, Hero
-- ✅ 38 components total
-
-### v0.5.0 (Phase 5 - Mar 2026)
-
-- Sidebar, Footer, DashboardLayout
-- Timeline, Carousel, MegaMenu
-- 50 components total
-
-### v1.0.0 (Target Aug 2026)
-
-- 100+ components
-- Component playground
-- Full documentation website
-- Video tutorials
-- Production ready
-
-See [ROADMAP.md](ROADMAP.md) for complete timeline.
-
----
-
-## Stats
-
-- **38 components** across 5 categories
-- **219+ passing tests**
-- **Zero custom JavaScript** required
-- **Full HTMX integration**
-- **Enhanced customization** with slot classes, CSS variables, and themes
 
 ---
 
