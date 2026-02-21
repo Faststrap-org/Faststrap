@@ -43,6 +43,8 @@ test_output.txt
 pytest_fail.txt
 test_fail.txt
 debug_imports.py
+log.txt
+fasthtml_exports.txt
 
 # IDE
 .vscode/
