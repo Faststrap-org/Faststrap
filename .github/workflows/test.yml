@@ -21,7 +21,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
-    
+
+      - name: Guard against tracked generated artifacts
+        run: |
+          files="$(git ls-files coverage.xml test_output.txt pytest_fail.txt test_fail.txt debug_imports.py)"
+          if [ -n "$files" ]; then
+            echo "Generated/debug artifacts must not be tracked:"
+            echo "$files"
+            exit 1
+          fi
+
       - name: Run tests
         run: |
           pytest --cov=faststrap --cov-report=xml

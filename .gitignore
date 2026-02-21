@@ -39,6 +39,10 @@ htmlcov/
 .tox/
 .hypothesis/
 coverage.xml
+test_output.txt
+pytest_fail.txt
+test_fail.txt
+debug_imports.py
 
 # IDE
 .vscode/

@@ -5,6 +5,18 @@ All notable changes to Faststrap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.6.post2] - 2026-02-21
+
+### Changed
+
+- Untracked generated coverage artifact (`coverage.xml`) from the repository root.
+- Added CI guardrails to fail builds when generated/debug artifact files are tracked in commits.
+- Bumped package version marker to `0.5.6.post2` for this maintenance patch.
+
+### Quality
+
+- Re-ran formatting, linting, type checks, and full test suite before tagging.
+
 ## [0.5.6.post1] - 2026-02-20
 
 ### Changed

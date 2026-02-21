@@ -494,6 +494,6 @@ Your votes directly influence what gets built next.
 ---
 
 **Last Updated: February 2026**  
-**Current Version: 0.5.6.post1 (patch release for roadmap/readme/changelog harmonization)**
+**Current Version: 0.5.6.post2 (maintenance patch: repo hygiene and CI guardrails)**
 
 **Let's build the definitive UI library for FastHTML — together.**
