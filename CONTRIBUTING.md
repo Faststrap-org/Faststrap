@@ -164,6 +164,20 @@ git push origin feature/my-awesome-feature
 5. **Update CHANGELOG.md** under "Unreleased"
 6. **Submit PR** with clear description
 
+### Release checklist (required for tags/releases)
+
+Before creating a release tag, confirm all of the following:
+
+1. `src/faststrap/__init__.py` version is updated.
+2. `CHANGELOG.md` has a matching release entry.
+3. `README.md` and `ROADMAP.md` are aligned with shipped vs deferred scope.
+4. No generated/debug artifacts are tracked (`coverage.xml`, `test_output.txt`, `pytest_fail.txt`, `test_fail.txt`, `debug_imports.py`).
+5. Quality gates pass:
+   - `black --check src tests examples showcase`
+   - `ruff check src tests examples showcase`
+   - `mypy src/faststrap`
+   - `pytest -q`
+
 ---
 
 ## 📝 Code Style

@@ -90,6 +90,7 @@ def home():
 - **67 Components**: From Buttons to Modals, Navbars to Tables, SearchableSelect to ErrorPage.
 - **HTMX Presets**: ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton — zero JS.
 - **SEO Module**: SEO meta tags, Open Graph, Twitter Cards, and JSON-LD structured data.
+- **PWA Module**: one-call installable app setup (manifest, service worker, install flow).
 - **Zero Build Step**: No webpack, no npm, no node_modules.
 - **Dark Mode**: Automatic or user-toggled dark mode support.
 - **HTMX Ready**: `hx_*` attributes are first-class citizens.
@@ -99,8 +100,8 @@ def home():
 ## Stats
 
 - **67 components** implemented.
-- **250+ tests** passing.
-- **5 HTMX presets** + **4 response helpers**.
+- **569+ tests** passing.
+- **5 interaction presets** + **6 response helpers** + **1 auth decorator**.
 - **100% Python**.
 
 ## License

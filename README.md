@@ -14,6 +14,8 @@
 
 FastHTML is amazing for building web apps in pure Python, but it lacks pre-built UI components. FastStrap fills that gap by providing:
 
+It also ships higher-level modules for HTMX presets, SEO metadata composition, and PWA setup so production concerns are covered alongside UI components.
+
 ✅ **67 Bootstrap components** - Buttons, Cards, Modals, Forms, Navigation, and more  
 ✅ **HTMX Presets Module** - 12 ready-to-use patterns for common interactions  
 ✅ **SEO Module** - Comprehensive meta tags, Open Graph, Twitter Cards, and structured data  

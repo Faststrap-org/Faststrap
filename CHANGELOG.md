@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Untracked generated coverage artifact (`coverage.xml`) from the repository root.
 - Added CI guardrails to fail builds when generated/debug artifact files are tracked in commits.
 - Bumped package version marker to `0.5.6.post2` for this maintenance patch.
+- Added release-process tracking sections:
+  - contributor release checklist
+  - roadmap implementation-tracking notes for agreed follow-ups
+- Refreshed docs/roadmap status metadata to reduce version/metrics drift.
 
 ### Quality
 

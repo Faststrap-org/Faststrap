@@ -4,10 +4,10 @@
 
 ---
 
-## Current Status (v0.5.6 – February 2026)
+## Current Status (v0.5.6.post2 - February 2026)
 
 **67 components live** – Phase 1 through 5B complete  
-**530+ tests** – 90%+ coverage  
+**569+ tests** - 90%+ coverage  
 **Full HTMX + Bootstrap 5.3.3 support**  
 **100% Bootstrap parity achieved** ✅  
 **Zero custom JavaScript required**  
@@ -34,6 +34,21 @@
 - `v0.5.7`: PageMeta + form error mapper
 - `v0.5.8`: doctor CLI + docs/version/changelog consistency cleanup
 - `v0.6.0`: broader milestone once markdown/location decisions are finalized
+
+### Implementation tracking (agreed follow-ups)
+
+These items are intentionally tracked here so they are not lost between releases.
+
+- `v0.5.8`:
+  - Integrate `requires_js` metadata into `add_bootstrap(...)` via explicit component list input.
+  - Add explicit duplicate `add_bootstrap(...)` guard using app state and clear error messaging.
+  - Add CDN SRI (`integrity` + `crossorigin`) support for `use_cdn=True`.
+- `v0.6.0`:
+  - Implement `Form.from_pydantic()` as a first-class data/form bridge.
+  - Implement `Table.from_df()` (static first, then paginated HTMX mode).
+- `v0.6.1+`:
+  - SSE helper/preset layer.
+  - Rich DataTable query contract and optional ORM bridges.
 
 ## 📈 Overall Progress to v1.0
 
