@@ -1,10 +1,10 @@
 """Core PWA functionality for Faststrap."""
 
-from pathlib import Path
+from collections.abc import Sequence
 from typing import Any
 
 from fasthtml.common import Link, Meta, Script, Title
-from starlette.responses import FileResponse, JSONResponse
+from starlette.responses import JSONResponse, Response
 
 from ..components.display.empty_state import EmptyState
 
@@ -17,6 +17,122 @@ if ('serviceWorker' in navigator) {
             .catch(err => console.log('SW failed', err));
     });
 }
+"""
+
+_DEFAULT_PRECACHE_URLS = (
+    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+    "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js",
+    "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css",
+    "/static/css/faststrap-fx.css",
+    "/static/css/faststrap-layouts.css",
+)
+
+
+def _render_sw_script(
+    *,
+    cache_name: str,
+    cache_version: str,
+    pre_cache_urls: Sequence[str],
+    offline_fallback_path: str,
+) -> str:
+    """Render a robust network-first + runtime-caching service worker."""
+    escaped_urls = ",\n  ".join(f'"{url}"' for url in pre_cache_urls)
+    full_cache_name = f"{cache_name}-{cache_version}"
+
+    return f"""const CACHE_NAME = "{full_cache_name}";
+const OFFLINE_FALLBACK = "{offline_fallback_path}";
+const PRECACHE_URLS = [
+  {escaped_urls}
+];
+
+const STATIC_DESTINATIONS = new Set(["style", "script", "image", "font"]);
+
+function isHttpRequest(request) {{
+  return request.url.startsWith("http://") || request.url.startsWith("https://");
+}}
+
+function isStaticRequest(request) {{
+  if (STATIC_DESTINATIONS.has(request.destination)) return true;
+  const url = new URL(request.url);
+  return url.pathname.startsWith("/static/") || url.pathname.endsWith(".css") || url.pathname.endsWith(".js");
+}}
+
+async function safePrecache() {{
+  const cache = await caches.open(CACHE_NAME);
+  await Promise.allSettled(PRECACHE_URLS.map((url) => cache.add(url)));
+}}
+
+async function cleanupOldCaches() {{
+  const names = await caches.keys();
+  await Promise.all(names.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name)));
+}}
+
+async function networkFirst(request) {{
+  try {{
+    const response = await fetch(request);
+    if (response && response.ok) {{
+      const cache = await caches.open(CACHE_NAME);
+      cache.put(request, response.clone());
+    }}
+    return response;
+  }} catch (_error) {{
+    const cached = await caches.match(request);
+    if (cached) return cached;
+    if (request.mode === "navigate") {{
+      const offline = await caches.match(OFFLINE_FALLBACK);
+      if (offline) return offline;
+    }}
+    return new Response("Offline", {{ status: 503, statusText: "Service Unavailable" }});
+  }}
+}}
+
+async function staleWhileRevalidate(request) {{
+  const cached = await caches.match(request);
+  const networkPromise = fetch(request)
+    .then(async (response) => {{
+      if (response && response.ok) {{
+        const cache = await caches.open(CACHE_NAME);
+        cache.put(request, response.clone());
+      }}
+      return response;
+    }})
+    .catch(() => null);
+
+  if (cached) {{
+    networkPromise.catch(() => null);
+    return cached;
+  }}
+
+  const networkResponse = await networkPromise;
+  if (networkResponse) return networkResponse;
+  return new Response("", {{ status: 504, statusText: "Gateway Timeout" }});
+}}
+
+self.addEventListener("install", (event) => {{
+  event.waitUntil(safePrecache());
+  self.skipWaiting();
+}});
+
+self.addEventListener("activate", (event) => {{
+  event.waitUntil(cleanupOldCaches());
+  self.clients.claim();
+}});
+
+self.addEventListener("fetch", (event) => {{
+  if (event.request.method !== "GET" || !isHttpRequest(event.request)) return;
+
+  if (event.request.mode === "navigate") {{
+    event.respondWith(networkFirst(event.request));
+    return;
+  }}
+
+  if (isStaticRequest(event.request)) {{
+    event.respondWith(staleWhileRevalidate(event.request));
+    return;
+  }}
+
+  event.respondWith(networkFirst(event.request));
+}});
 """
 
 
@@ -86,6 +202,9 @@ def add_pwa(
     scope: str = "/",
     service_worker: bool = True,
     offline_page: bool = True,
+    cache_name: str = "faststrap-app",
+    cache_version: str = "v1",
+    pre_cache_urls: Sequence[str] | None = None,
 ) -> None:
     """
     Enable PWA capabilities for the FastHTML app.
@@ -109,6 +228,9 @@ def add_pwa(
         scope: Scope of the PWA
         service_worker: Enable automatic Service Worker
         offline_page: Enable automatic /offline route
+        cache_name: Service worker cache name prefix
+        cache_version: Cache version suffix used for cache invalidation
+        pre_cache_urls: Optional extra URLs to precache (in addition to defaults)
     """
 
     # 1. Inject Headers
@@ -150,17 +272,25 @@ def add_pwa(
     }
 
     @app.get("/manifest.json")
-    def manifest() -> JSONResponse:
+    def manifest() -> Any:
         return JSONResponse(manifest_data)
 
     # 3. Serve Service Worker
     if service_worker:
-        # Load the template
-        sw_path = Path(__file__).parent / "templates" / "sw.js"
+        # Build robust service worker script with safe defaults and optional extension points.
+        deduped_precache = list(
+            dict.fromkeys([*_DEFAULT_PRECACHE_URLS, *(pre_cache_urls or []), "/offline"])
+        )
+        sw_script = _render_sw_script(
+            cache_name=cache_name,
+            cache_version=cache_version,
+            pre_cache_urls=deduped_precache,
+            offline_fallback_path="/offline",
+        )
 
         @app.get("/sw.js")
-        def sw() -> FileResponse:
-            return FileResponse(sw_path, media_type="application/javascript")
+        def sw() -> Any:
+            return Response(sw_script, media_type="application/javascript")
 
         # Register the SW in the app (inject script)
         reg_script = Script(_SW_REGISTER_SCRIPT)

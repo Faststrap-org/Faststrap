@@ -1,6 +1,7 @@
 """Tests for PWA module."""
 
 from fasthtml.common import FastHTML
+from starlette.testclient import TestClient
 
 from faststrap.pwa import PwaMeta, add_pwa
 
@@ -47,3 +48,68 @@ def test_add_pwa_no_sw():
     route_paths = [r.path for r in app.routes]
     assert "/manifest.json" in route_paths
     assert "/sw.js" not in route_paths
+
+
+def test_manifest_route_returns_json():
+    """Manifest route should return JSON payload directly."""
+    app = FastHTML()
+    add_pwa(app, name="My PWA")
+
+    client = TestClient(app)
+    response = client.get("/manifest.json")
+
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("application/json")
+    payload = response.json()
+    assert payload["name"] == "My PWA"
+    assert payload["start_url"] == "/"
+
+
+def test_service_worker_route_returns_javascript():
+    """Service worker route should return JS file without response double-wrapping."""
+    app = FastHTML()
+    add_pwa(app, service_worker=True)
+
+    client = TestClient(app)
+    response = client.get("/sw.js")
+
+    assert response.status_code == 200
+    assert "application/javascript" in response.headers["content-type"]
+    assert "self.addEventListener" in response.text
+
+
+def test_service_worker_uses_hardened_precache_and_runtime_caching():
+    """Default service worker should be resilient and include runtime caching strategies."""
+    app = FastHTML()
+    add_pwa(app, service_worker=True)
+
+    client = TestClient(app)
+    response = client.get("/sw.js")
+
+    assert response.status_code == 200
+    sw = response.text
+    assert "Promise.allSettled(PRECACHE_URLS.map((url) => cache.add(url)))" in sw
+    assert "cache.put(request, response.clone())" in sw
+    assert 'if (event.request.mode === "navigate")' in sw
+    assert "staleWhileRevalidate(event.request)" in sw
+
+
+def test_service_worker_accepts_cache_and_precache_configuration():
+    """Service worker should reflect optional cache naming and additional precache URLs."""
+    app = FastHTML()
+    add_pwa(
+        app,
+        service_worker=True,
+        cache_name="myapp-cache",
+        cache_version="v2026-02-23",
+        pre_cache_urls=("/health", "/assets/logo.png"),
+    )
+
+    client = TestClient(app)
+    response = client.get("/sw.js")
+
+    assert response.status_code == 200
+    sw = response.text
+    assert 'const CACHE_NAME = "myapp-cache-v2026-02-23";' in sw
+    assert '"/health"' in sw
+    assert '"/assets/logo.png"' in sw

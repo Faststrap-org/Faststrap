@@ -4,7 +4,7 @@
 
 ---
 
-## 📊 Current Status (v0.4.5 – January 2026)
+## 📊 Current Status (v0.5.6.post3 – February 2026)
 
 **38 components live** – Phase 1 through 4B complete  
 **230+ tests** – 85%+ coverage  
@@ -2466,8 +2466,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
 ---
 
 **Last Updated:** January 2026  
-**Current Version:** v0.5.6 (pre-v0.6 additions)  
-**Next Release:** v0.5.0 (February 2026)
+**Current Version:** v0.5.6.post3 (PWA route fix + resilient caching baseline)  
+**Next Release:** v0.5.7 (PageMeta + form error mapper focus)
 
 **Let's build the definitive UI library for FastHTML — together.** 🚀
 

@@ -14,7 +14,6 @@
 
 FastHTML is amazing for building web apps in pure Python, but it lacks pre-built UI components. FastStrap fills that gap by providing:
 
-It also ships higher-level modules for HTMX presets, SEO metadata composition, and PWA setup so production concerns are covered alongside UI components.
 
 ✅ **67 Bootstrap components** - Buttons, Cards, Modals, Forms, Navigation, and more  
 ✅ **HTMX Presets Module** - 12 ready-to-use patterns for common interactions  
@@ -28,6 +27,8 @@ It also ships higher-level modules for HTMX presets, SEO metadata composition, a
 ✅ **Pythonic API** - Intuitive kwargs style  
 ✅ **Enhanced customization** - Slot classes, CSS variables, themes, and more  
 ✅ **95% documented** - Comprehensive docs with examples
+
+It also ships higher-level modules for HTMX presets, SEO metadata composition, and PWA setup so production concerns are covered alongside UI components.
 
 ---
 
@@ -492,13 +493,17 @@ Comprehensive examples organized by learning path:
 - `OptimisticAction` preset (requires stronger rollback contract)
 - Full "any markdown" renderer (parser + sanitization policy)
 - Out-of-the-box location component (permission/privacy + JS constraints)
+- Advanced PWA opt-in presets (planned):
+  - Background Sync queue/retry helpers
+  - Push Notification scaffolding
+  - Fine-grained route-aware caching policies
 
 ### Suggested release cut
 
 - `v0.5.6`: accessibility + toggle group + text clamp + notification presets
 - `v0.5.7`: PageMeta + form error mapper
 - `v0.5.8`: doctor CLI + docs/version/changelog consistency cleanup
-- `v0.6.0`: broader milestone once markdown/location decisions are finalized
+- `v0.6.0`: data foundations + advanced PWA opt-in design
 
 ### 🗓️ Phase 6+ (v0.6.0+)
 

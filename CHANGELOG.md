@@ -5,6 +5,33 @@ All notable changes to Faststrap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.6.post3] - 2026-02-23
+
+### Fixed
+
+- Fixed `add_pwa()` `/sw.js` route response handling to avoid FastHTML response double-wrapping.
+
+### Changed
+
+- Upgraded built-in service worker to a production-safe baseline:
+  - tolerant pre-cache installation (`Promise.allSettled`)
+  - runtime cache writes for successful GET responses
+  - network-first navigation with offline fallback
+  - stale-while-revalidate for static assets
+- Added `add_pwa()` cache configuration knobs:
+  - `cache_name`
+  - `cache_version`
+  - `pre_cache_urls`
+- Added PWA regression tests that perform real HTTP requests for `/manifest.json` and `/sw.js`.
+- Updated `docs/PWA_GUIDE.md` with current PWA capabilities, strategy details, and customization guidance.
+- Updated `README.md`, `ROADMAP.md`, and `ROADMAP_EXPANDED.md` to document:
+  - stable default `add_pwa()` behavior
+  - advanced PWA features as explicit opt-in roadmap work
+
+### Quality
+
+- Re-ran formatting, linting, type checks, and full test suite before tagging.
+
 ## [0.5.6.post2] - 2026-02-21
 
 ### Changed

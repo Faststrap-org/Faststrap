@@ -1,89 +1,90 @@
 # Building PWAs with Faststrap
 
-Faststrap v0.5.2 introduces "PWA Mode" – a set of tools to make your FastHTML application installable on mobile devices with zero hassle.
+Faststrap provides a production-safe PWA baseline through `add_pwa()`:
+
+- Manifest generation (`/manifest.json`)
+- Service worker route (`/sw.js`)
+- Automatic service worker registration
+- Offline fallback route (`/offline`)
+- Runtime caching for better resilience
 
 ## Quick Start
 
-Transform any Faststrap app into a PWA in 1 line of code:
-
 ```python
-from faststrap import add_pwa
+from fasthtml.common import FastHTML
+from faststrap import add_bootstrap, add_pwa
 
 app = FastHTML()
 add_bootstrap(app)
 
-# 🚀 Enable PWA Mode
-add_pwa(app, 
-    name="My Native App",
-    theme_color="#6F42C1",
-    icon_path="/static/icon.png"
+add_pwa(
+    app,
+    name="My App",
+    short_name="MyApp",
+    theme_color="#0d6efd",
+    icon_path="/static/icon.png",
 )
 ```
 
-## What `add_pwa` Does
+## What `add_pwa()` Configures
 
-This single function handles the complex "glue" required for PWA installation:
+1. Injects required PWA/mobile meta tags.
+2. Serves a generated `manifest.json`.
+3. Serves a robust service worker script at `/sw.js`.
+4. Injects service worker registration code into app headers.
+5. Serves `/offline` page (enabled by default).
 
-1.  **Injects Meta Tags**: Automatically adds `viewport`, `theme-color`, and iOS-specific tags (`apple-mobile-web-app-capable`).
-2.  **Serves Manifest**: Generates and serves a valid `/manifest.json` based on your arguments.
-3.  **Service Worker**: Mounts a background worker (`sw.js`) that caches core assets for offline usage.
-4.  **Offline Page**: Serves a default `/offline` route when the user has no network.
+## Default Offline/Caching Strategy
+
+The built-in service worker uses:
+
+- Install: tolerant pre-cache (`Promise.allSettled`) so one failed URL does not break install.
+- Navigation requests: network-first with cache fallback, then `/offline`.
+- Static assets (`css`, `js`, `images`, fonts): stale-while-revalidate.
+- Other GET requests: network-first with runtime cache write-through.
+
+This is a practical baseline for production apps that need reliable offline fallback behavior.
+
+## Advanced Configuration
+
+`add_pwa()` now supports cache controls:
+
+```python
+add_pwa(
+    app,
+    cache_name="myapp-cache",
+    cache_version="v2026-02-23",
+    pre_cache_urls=(
+        "/health",
+        "/assets/logo.png",
+    ),
+)
+```
+
+- `cache_name`: prefix for cache storage
+- `cache_version`: version suffix for cache invalidation on deploy
+- `pre_cache_urls`: additional URLs to pre-cache
+
+Faststrap still pre-caches its core defaults and `/offline`.
+
+## When to Use a Custom Service Worker
+
+Use a custom `sw.js` when you need:
+
+- fine-grained API caching rules
+- background sync
+- push notifications
+- per-route cache policies
+
+In that case:
+
+1. pass `service_worker=False` to `add_pwa()`
+2. mount your own `/sw.js` route
 
 ## Mobile Components
 
-To make your app *feel* native, use these new components:
+Faststrap also includes mobile-oriented UI components:
 
-### 1. Bottom Navigation (`BottomNav`)
-
-The standard tab bar for mobile apps.
-
-```python
-BottomNav(
-    BottomNavItem("Home", icon="house-fill", active=True),
-    BottomNavItem("Profile", icon="person-circle"),
-    fixed=True,
-    variant="light"
-)
-```
-
-### 2. Sheet (`Sheet`)
-
-A bottom-up modal implementation of the Drawer, perfect for menus and options.
-
-```python
-Sheet(
-    Div(
-        H5("Options"),
-        Button("Save", cls="btn btn-primary w-100 mb-2"),
-        Button("Cancel", cls="btn btn-outline-secondary w-100", data_bs_dismiss="offcanvas")
-    ),
-    sheet_id="mySheet",
-    title="Edit Item"
-)
-```
-
-### 3. Install Prompt (`InstallPrompt`)
-
-A smart component that helps users install your app.
-- **On Android/Desktop**: Shows a button that triggers the native install dialog.
-- **On iOS**: Shows a toast usage instruction ("Tap Share -> Add to Home Screen") because iOS doesn't support automatic prompts.
-
-```python
-InstallPrompt(
-    title="Get the App",
-    description="Install for a better experience!"
-)
-```
-
-## Customizing the Service Worker
-
-`add_pwa()` uses a default "Network First, Cache Fallback" strategy. If you need custom caching logic:
-
-1.  Set `service_worker=False` in `add_pwa`.
-2.  Write your own `sw.js`.
-3.  Mount it manually:
-    ```python
-    @app.get("/sw.js")
-    def sw():
-        return FileResponse("path/to/my/sw.js")
-    ```
+- `BottomNav`, `BottomNavItem`
+- `Sheet`
+- `InstallPrompt`

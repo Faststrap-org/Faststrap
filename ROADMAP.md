@@ -4,7 +4,7 @@
 
 ---
 
-## Current Status (v0.5.6.post2 - February 2026)
+## Current Status (v0.5.6.post3 - February 2026)
 
 **67 components live** – Phase 1 through 5B complete  
 **569+ tests** - 90%+ coverage  
@@ -27,13 +27,17 @@
 - `OptimisticAction` preset (needs robust rollback event contract)
 - Full markdown renderer (sanitization policy + optional dependency strategy)
 - Location component (browser permissions/privacy and non-JS constraints)
+- Advanced PWA opt-in presets:
+  - Background Sync queue/retry helpers
+  - Push notification scaffolding
+  - Route-aware cache policy controls
 
 ### Suggested release cut
 
 - `v0.5.6`: accessibility + toggle group + text clamp + notification presets
 - `v0.5.7`: PageMeta + form error mapper
 - `v0.5.8`: doctor CLI + docs/version/changelog consistency cleanup
-- `v0.6.0`: broader milestone once markdown/location decisions are finalized
+- `v0.6.0`: data foundations + advanced PWA opt-in layer
 
 ### Implementation tracking (agreed follow-ups)
 
@@ -49,6 +53,7 @@ These items are intentionally tracked here so they are not lost between releases
 - `v0.6.1+`:
   - SSE helper/preset layer.
   - Rich DataTable query contract and optional ORM bridges.
+  - Advanced PWA opt-in implementations (Background Sync, Push, route-aware caching).
 
 ## 📈 Overall Progress to v1.0
 
@@ -509,6 +514,6 @@ Your votes directly influence what gets built next.
 ---
 
 **Last Updated: February 2026**  
-**Current Version: 0.5.6.post2 (maintenance patch: repo hygiene and CI guardrails)**
+**Current Version: 0.5.6.post3 (PWA route fix + resilient caching baseline + advanced PWA plan formalized)**
 
 **Let's build the definitive UI library for FastHTML — together.**
