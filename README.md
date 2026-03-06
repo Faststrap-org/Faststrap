@@ -707,35 +707,22 @@ Pagination(
 
 ```
 faststrap/
-├── src/faststrap/
-│   ├── __init__.py              # Public API
-│   ├── core/
-│   │   ├── assets.py            # Bootstrap injection + favicon
-│   │   ├── base.py              # Component base classes
-│   │   ├── registry.py          # Component registry
-│   │   └── theme.py             # Theme system
-│   ├── components/
-│   │   ├── forms/               # Button, Input, Select
-│   │   ├── display/             # Card, Badge
-│   │   ├── feedback/            # Alert, Toast, Modal, Spinner, Progress
-│   │   ├── navigation/          # Navbar, Drawer, Tabs, Dropdown, Breadcrumb, Pagination
-│   │   └── layout/              # Container, Row, Col
-│   ├── static/                  # Bootstrap assets + favicon
-│   │   ├── css/
-│   │   │   ├── bootstrap.min.css
-│   │   │   └── bootstrap-icons.min.css
-│   │   ├── js/
-│   │   │   └── bootstrap.bundle.min.js
-│   │   └── favicon.svg          # Default FastStrap favicon
-│   ├── templates/               # Component templates
-│   └── utils/
-│       ├── icons.py             # Bootstrap Icons
-│       ├── static_management.py # Assets extended helper functions
-│       └── attrs.py             # Centralized attribute conversion
-├── tests/                       # 219 tests (80% coverage)
-├── examples/                    # Demo applications
-│   └── demo_all.py              # Comprehensive demo
-└── docs/                        # Documentation
+├── src/faststrap/               # Library source
+│   ├── components/              # 67 UI components
+│   ├── core/                    # Assets, theme, registry, base primitives
+│   ├── presets/                 # HTMX interaction/response helpers
+│   ├── seo/                     # SEO + structured data helpers
+│   ├── pwa/                     # PWA manifest and install helpers
+│   ├── layouts/                 # Composed page layouts
+│   └── static/                  # Vendored Bootstrap/Faststrap assets + favicon
+├── tests/                       # 530+ tests (currently 569+ in CI)
+├── examples/                    # Structured examples by learning path
+│   ├── 01_getting_started/
+│   ├── 02_ui_components/
+│   ├── 03_real_world_apps/
+│   └── 04_advanced/
+├── docs/                        # MkDocs site + guides (incl. deployment)
+└── pyproject.toml               # Packaging, tooling, and quality gates
 ```
 
 ---
