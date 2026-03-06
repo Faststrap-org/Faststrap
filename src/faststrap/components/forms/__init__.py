@@ -5,6 +5,7 @@ from .buttongroup import ButtonGroup, ButtonToolbar
 from .checks import Checkbox, Radio, Range, Switch
 from .errors import FormGroupFromErrors, extract_field_error, map_formgroup_validation
 from .file import FileInput
+from .form import Form
 from .formgroup import FormGroup
 from .input import Input
 from .inputgroup import FloatingLabel, InputGroup, InputGroupText
@@ -24,6 +25,7 @@ __all__ = [
     "Range",
     "ToggleGroup",
     "FileInput",
+    "Form",
     "FormGroup",
     "extract_field_error",
     "map_formgroup_validation",

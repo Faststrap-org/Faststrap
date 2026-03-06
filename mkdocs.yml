@@ -100,6 +100,7 @@ nav:
       - Checkbox & Switch: components/forms/checks.md
       - FileInput: components/forms/file-input.md
       - FormGroup: components/forms/formgroup.md
+      - Form Builder: components/forms/form-builder.md
       - SearchableSelect: components/forms/searchable-select.md
       - ThemeToggle: components/forms/theme-toggle.md
       - ToggleGroup: components/forms/toggle-group.md
