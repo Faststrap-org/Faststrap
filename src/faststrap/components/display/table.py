@@ -324,6 +324,10 @@ def _table_from_df(
     **table_kwargs: Any,
 ) -> FTTable | Div:
     """Build a table from pandas/polars data or list-of-dict records."""
+    if max_rows is not None and max_rows < 0:
+        msg = f"max_rows must be >= 0, got {max_rows}"
+        raise ValueError(msg)
+
     resolved_columns: list[str]
     records: list[dict[str, Any]]
     index_values: list[str] | None = None
@@ -348,6 +352,10 @@ def _table_from_df(
         if cls_name == "DataFrame" and module_name.startswith("pandas"):
             df = data
             if columns is not None:
+                missing = [col for col in columns if col not in df.columns]
+                if missing:
+                    msg = f"Requested columns not found in DataFrame: {missing}"
+                    raise ValueError(msg)
                 df = df[columns]
             if max_rows is not None:
                 df = df.head(max_rows)
@@ -361,6 +369,10 @@ def _table_from_df(
         elif cls_name == "DataFrame" and module_name.startswith("polars"):
             df = data
             if columns is not None:
+                missing = [col for col in columns if col not in df.columns]
+                if missing:
+                    msg = f"Requested columns not found in DataFrame: {missing}"
+                    raise ValueError(msg)
                 df = df.select(columns)
             if max_rows is not None:
                 df = df.head(max_rows)

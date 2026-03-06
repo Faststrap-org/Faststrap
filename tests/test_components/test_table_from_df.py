@@ -65,3 +65,20 @@ def test_table_from_df_rejects_unsupported_input() -> None:
         raise AssertionError("Expected TypeError for unsupported input")
     except TypeError as exc:
         assert "expects pandas/polars DataFrame or list[dict]" in str(exc)
+
+
+def test_table_from_df_rejects_negative_max_rows() -> None:
+    try:
+        Table.from_df([], max_rows=-1)  # type: ignore[attr-defined]
+        raise AssertionError("Expected ValueError for negative max_rows")
+    except ValueError as exc:
+        assert "max_rows must be >= 0" in str(exc)
+
+
+def test_table_from_df_rejects_missing_requested_columns() -> None:
+    df = pd.DataFrame([{"name": "Alice", "age": 25}])
+    try:
+        Table.from_df(df, columns=["name", "email"])  # type: ignore[attr-defined]
+        raise AssertionError("Expected ValueError for unknown column")
+    except ValueError as exc:
+        assert "Requested columns not found" in str(exc)

@@ -5,6 +5,48 @@ All notable changes to Faststrap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.9] - 2026-03-07
+
+### Added
+
+- `MapView` experimental display component for embedding lightweight map views.
+- `Markdown` display component with optional renderer and sanitization strategy.
+- `Form.from_pydantic()` beta helper for generating forms from Pydantic models.
+- `Table.from_df()` beta helper for static table generation from pandas/polars dataframes.
+- Preset expansions:
+  - `OptimisticAction`
+  - `LocationAction`
+- PWA advanced foundations:
+  - background sync scaffolding
+  - push scaffolding
+  - route-aware cache policy controls
+
+### Changed
+
+- Extended deployment documentation and navigation coverage (including Render).
+- Release docs (`README.md`, `ROADMAP.md`) aligned to current pre-v0.6 delivery state.
+
+### Fixed
+
+- `MapView` coordinate and zoom input validation now fails fast with clear `ValueError`s.
+- `Table.from_df()` now validates:
+  - non-negative `max_rows`
+  - requested dataframe columns exist
+- `Form.from_pydantic()` optional type detection improved for `X | None` unions.
+- `Form.from_pydantic()` now maps field descriptions to `FormGroup` help text.
+
+### Quality
+
+- Added/updated focused tests for:
+  - map input validation
+  - dataframe bridge validation paths
+  - pydantic description/help-text mapping
+- Full gate pass:
+  - `ruff check .`
+  - `black --check .`
+  - `mypy .`
+  - `pytest -q` (627 passed)
+
 ## [0.5.8] - 2026-03-06
 
 ### Fixed

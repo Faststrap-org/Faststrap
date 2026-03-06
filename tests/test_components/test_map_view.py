@@ -29,3 +29,11 @@ def test_map_view_has_stability_and_registry_metadata() -> None:
     assert getattr(MapView, "__faststrap_experimental__", False) is True
     metadata = getattr(MapView, "__faststrap_metadata__", {})
     assert metadata.get("requires_js") is True
+
+
+def test_map_view_rejects_invalid_coordinates() -> None:
+    try:
+        MapView(latitude=120, longitude=3.0)
+        raise AssertionError("Expected ValueError for invalid latitude")
+    except ValueError as exc:
+        assert "latitude must be between -90 and 90" in str(exc)

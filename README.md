@@ -15,7 +15,7 @@
 FastHTML is amazing for building web apps in pure Python, but it lacks pre-built UI components. FastStrap fills that gap by providing:
 
 
-✅ **67 Bootstrap components** - Buttons, Cards, Modals, Forms, Navigation, and more  
+✅ **72+ components and utilities** - Buttons, Cards, Modals, Forms, Navigation, presets, and more  
 ✅ **HTMX Presets Module** - 12 ready-to-use patterns for common interactions  
 ✅ **SEO Module** - Comprehensive meta tags, Open Graph, Twitter Cards, and structured data  
 ✅ **Zero JavaScript knowledge required** - Components just work  
@@ -248,17 +248,19 @@ modal = get_component("Modal")
 
 ---
 
-## Available Components (67 Total)
+## Available Components (72 Total)
 
 All components are production-ready with comprehensive documentation, HTMX integration, and accessibility features.
 
-### Presets Module (12 Utilities)
+### Presets Module (14 Utilities)
 
 - **ActiveSearch** - Live search with debouncing
 - **InfiniteScroll** - Infinite scrolling pagination
 - **AutoRefresh** - Auto-refreshing content
 - **LazyLoad** - Lazy loading for images/content
 - **LoadingButton** - Button with loading state
+- **OptimisticAction** - Optimistic UI interactions with rollback events
+- **LocationAction** - Geolocation-powered interaction trigger helper
 - **hx_redirect()** - Server-side redirects
 - **hx_refresh()** - Full page refresh
 - **hx_trigger()** - Custom event triggers
@@ -286,7 +288,7 @@ All components are production-ready with comprehensive documentation, HTMX integ
 - **ThemeToggle** - Dark/light mode toggle switch
 - **SearchableSelect** - Server-side searchable dropdown
 
-### Display (10 Components)
+### Display (13 Components)
 
 - **Card** - Content containers with headers/footers/images
 - **Badge** - Status indicators and labels
@@ -298,8 +300,11 @@ All components are production-ready with comprehensive documentation, HTMX integ
 - **Image** - Responsive images with fluid, thumbnail, rounded, alignment
 - **Carousel** - Auto-play image sliders with controls, indicators, fade
 - **Placeholder** - Skeleton loading with glow/wave animations
+- **Markdown** - Rendered markdown blocks with optional sanitization
+- **MapView** - Lightweight embedded map component (experimental)
+- **Sheet** - Slide-up sheet/panel display container
 
-### Feedback (12 Components)
+### Feedback (14 Components)
 
 - **Alert** - Dismissible alerts with variants
 - **Modal** - Dialog boxes and confirmations
@@ -458,11 +463,12 @@ Comprehensive examples organized by learning path:
 | **SidebarNavbar** | Premium vertical sidebar | ✅ |
 | **GlassNavbar** | Glassmorphism navbar | ✅ |
 
-### ✅ Phase 5B+ (v0.5.6) - pre-v0.6 additions
+### ✅ Phase 5B+ (v0.5.6-v0.5.9) - pre-v0.6 additions
 
-**HTMX Presets Module (12 helpers):**
+**HTMX Presets Module (14 helpers):**
 
 - `ActiveSearch`, `InfiniteScroll`, `AutoRefresh`, `LazyLoad`, `LoadingButton`
+- `OptimisticAction`, `LocationAction`
 - `hx_redirect`, `hx_refresh`, `hx_trigger`, `hx_reswap`, `hx_retarget`, `toast_response`
 - `@require_auth` decorator
 
@@ -476,7 +482,7 @@ Comprehensive examples organized by learning path:
 - `ErrorPage`, `ErrorDialog`, `FormGroup`, `ThemeToggle`, `SearchableSelect`
 - `FooterModern`, `Testimonial`, `TestimonialSection`, `AuthLayout`
 
-## Release Snapshot (v0.5.6)
+## Release Snapshot (v0.5.9)
 
 ### Implemented now (pre-v0.6)
 
@@ -487,23 +493,25 @@ Comprehensive examples organized by learning path:
 - `ToggleGroup` for single-active button groups
 - `TextClamp` for long text truncation with optional "show more"
 - Notification preset improvements and refreshed examples/showcases
+- `OptimisticAction` and `LocationAction` preset foundations
+- `Markdown` and `MapView` display components (experimental)
+- `Form.from_pydantic()` and `Table.from_df()` beta bridges
+- PWA background sync/push/route-cache baseline controls
 
 ### Deferred to post-v0.6 (intentional)
 
-- `OptimisticAction` preset (requires stronger rollback contract)
-- Full "any markdown" renderer (parser + sanitization policy)
-- Out-of-the-box location component (permission/privacy + JS constraints)
-- Advanced PWA opt-in presets (planned):
-  - Background Sync queue/retry helpers
-  - Push Notification scaffolding
-  - Fine-grained route-aware caching policies
+- Rich DataTable query APIs + optional ORM bridges
+- SSE/realtime helper layer
+- Production map provider integrations and geospatial presets
+- Advanced PWA reliability presets (queue persistence/retry telemetry)
 
 ### Suggested release cut
 
 - `v0.5.6`: accessibility + toggle group + text clamp + notification presets
 - `v0.5.7`: PageMeta + form error mapper
 - `v0.5.8`: doctor CLI + docs/version/changelog consistency cleanup
-- `v0.6.0`: data foundations + advanced PWA opt-in design
+- `v0.5.9`: markdown/map/data bridges + PWA foundations
+- `v0.6.0`: advanced data APIs + realtime/preset hardening
 
 ### 🗓️ Phase 6+ (v0.6.0+)
 
@@ -708,14 +716,14 @@ Pagination(
 ```
 faststrap/
 ├── src/faststrap/               # Library source
-│   ├── components/              # 67 UI components
+│   ├── components/              # 70+ UI components
 │   ├── core/                    # Assets, theme, registry, base primitives
 │   ├── presets/                 # HTMX interaction/response helpers
 │   ├── seo/                     # SEO + structured data helpers
 │   ├── pwa/                     # PWA manifest and install helpers
 │   ├── layouts/                 # Composed page layouts
 │   └── static/                  # Vendored Bootstrap/Faststrap assets + favicon
-├── tests/                       # 530+ tests (currently 569+ in CI)
+├── tests/                       # 627+ tests in CI
 ├── examples/                    # Structured examples by learning path
 │   ├── 01_getting_started/
 │   ├── 02_ui_components/

@@ -4,40 +4,42 @@
 
 ---
 
-## Current Status (v0.5.8 - March 2026)
+## Current Status (v0.5.9 - March 2026)
 
-**67 components live** – Phase 1 through 5B complete  
-**569+ tests** - 90%+ coverage  
+**70 components live** – Phase 1 through pre-v0.6 extensions complete  
+**627+ tests** - 90%+ coverage  
 **Full HTMX + Bootstrap 5.3.3 support**  
 **100% Bootstrap parity achieved** ✅  
 **Zero custom JavaScript required**  
-**NEW: HTMX Presets Module** – 12 interaction helpers + auth  
+**NEW: HTMX Presets Module** – 14 interaction/response/auth helpers  
 **NEW: SEO Module** – Comprehensive meta tags + structured data
 
-### Pre-v0.6 Delivered in v0.5.6
+### Pre-v0.6 Delivered by v0.5.9
 
 - Accessibility mini-module: `SkipLink`, `LiveRegion`, `VisuallyHidden`, `FocusTrap`
 - `PageMeta` composer for SEO/social/canonical/favicon head tags
 - Form validation bridge for backend errors -> `FormGroup`
 - `faststrap doctor` CLI diagnostics
 - `ToggleGroup` and `TextClamp` UI helpers
+- `OptimisticAction` and `LocationAction` interaction presets
+- `Markdown` and `MapView` display components (experimental)
+- `Form.from_pydantic()` and `Table.from_df()` beta data bridges
+- PWA advanced foundations (background sync, push scaffolding, route-aware cache controls)
 
 ### Deferred Post-v0.6
 
-- `OptimisticAction` preset (needs robust rollback event contract)
-- Full markdown renderer (sanitization policy + optional dependency strategy)
-- Location component (browser permissions/privacy and non-JS constraints)
-- Advanced PWA opt-in presets:
-  - Background Sync queue/retry helpers
-  - Push notification scaffolding
-  - Route-aware cache policy controls
+- Advanced DataTable query contract and optional ORM bridges
+- SSE helper/preset layer
+- Production map provider integrations and geospatial presets
+- Extended PWA reliability presets (queue persistence, richer retry/telemetry)
 
 ### Suggested release cut
 
 - `v0.5.6`: accessibility + toggle group + text clamp + notification presets
 - `v0.5.7`: PageMeta + form error mapper
 - `v0.5.8`: doctor CLI + docs/version/changelog consistency cleanup
-- `v0.6.0`: data foundations + advanced PWA opt-in layer
+- `v0.5.9`: markdown/map/data bridges + PWA foundations
+- `v0.6.0`: advanced data APIs + realtime/preset hardening
 
 ### Implementation tracking (agreed follow-ups)
 
@@ -47,9 +49,12 @@ These items are intentionally tracked here so they are not lost between releases
   - Integrate `requires_js` metadata into `add_bootstrap(...)` via explicit component list input.
   - Add explicit duplicate `add_bootstrap(...)` guard using app state and clear error messaging.
   - Add CDN SRI (`integrity` + `crossorigin`) support for `use_cdn=True`.
-- `v0.6.0`:
-  - Implement `Form.from_pydantic()` as a first-class data/form bridge.
-  - Implement `Table.from_df()` (static first, then paginated HTMX mode).
+- `v0.5.9`:
+  - Ship `Form.from_pydantic()` beta data/form bridge.
+  - Ship `Table.from_df()` beta dataframe bridge.
+  - Ship `OptimisticAction` + `LocationAction` preset foundations.
+  - Ship `Markdown` + `MapView` experimental display components.
+  - Ship advanced PWA baseline controls.
 - `v0.6.1+`:
   - SSE helper/preset layer.
   - Rich DataTable query contract and optional ORM bridges.
@@ -58,8 +63,8 @@ These items are intentionally tracked here so they are not lost between releases
 ## 📈 Overall Progress to v1.0
 
 ```text
-Components:   ██████████ 67/100 (67%)
-Tests:        ██████░░░░ 530/800 (66%)
+Components:   ███████░░░ 70/100 (70%)
+Tests:        ███████░░░ 627/800 (78%)
 Coverage:     █████████░ 90/95   (95%)
 Contributors: ███░░░░░░░ 15+/100 (15%)
 
@@ -77,7 +82,7 @@ Contributors: ███░░░░░░░ 15+/100 (15%)
 | 5A | +6 (Image, Carousel, Placeholders, Scrollspy, SidebarNavbar, GlassNavbar) + Examples Reorganization | ✅ Complete | Jan 2026 |
 | 5B | +16 (Presets Module [12 helpers], SEO Module [2 components], ErrorPage, ErrorDialog, FormGroup, ThemeToggle, SearchableSelect, FooterModern, Testimonial, TestimonialSection, AuthLayout) | ✅ Complete | Feb 2026 |
 
-**Total: 67 production-ready components** (100% Bootstrap parity + HTMX presets + SEO tools)
+**Total: 70 production-ready components** (100% Bootstrap parity + HTMX presets + SEO tools)
 
 ---
 
@@ -467,10 +472,10 @@ What Faststrap intentionally *won't* do:
 
 ## Success Metrics
 
-| Metric | v0.3.1 | v0.4.5 | v0.5.6 (Now) | v1.0.0 |
+| Metric | v0.3.1 | v0.4.5 | v0.5.9 (Now) | v1.0.0 |
 |--------|--------------|--------------|--------------|--------|
-| Components | 20 | 38 | 67 | 100+ |
-| Tests | 219 | 230+ | 530+ | 800+ |
+| Components | 20 | 38 | 70 | 100+ |
+| Tests | 219 | 230+ | 627+ | 800+ |
 | Coverage | 80% | 85%+ | 90%+ | 95%+ |
 | Contributors | 5+ | 15+ | 20+ | 50+ |
 
@@ -514,7 +519,7 @@ Your votes directly influence what gets built next.
 ---
 
 **Last Updated: March 2026**  
-**Current Version: 0.5.8 (CDN mode completion, deployment docs, and doctor checks)**
+**Current Version: 0.5.9 (map/markdown/data bridges, PWA foundations, and release hardening)**
 
 **Let's build the definitive UI library for FastHTML — together.**
 

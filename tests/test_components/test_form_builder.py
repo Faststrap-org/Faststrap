@@ -58,3 +58,18 @@ def test_form_from_pydantic_rejects_non_model() -> None:
         raise AssertionError("Expected TypeError for non-Pydantic model")
     except TypeError as exc:
         assert "BaseModel class" in str(exc)
+
+
+def test_form_from_pydantic_uses_field_description_as_help_text() -> None:
+    class ModelWithDescription(BaseModel):
+        bio: str = ...
+
+        model_config = {
+            "json_schema_extra": {},
+        }
+
+    # Patch description on field metadata for deterministic check
+    ModelWithDescription.model_fields["bio"].description = "Tell us about yourself"
+    form = Form.from_pydantic(ModelWithDescription)
+    html = to_xml(form)
+    assert "Tell us about yourself" in html

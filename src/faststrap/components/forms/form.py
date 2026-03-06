@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import importlib
 from enum import Enum
+from types import UnionType
 from typing import Any, Literal, get_args, get_origin
 
 from fasthtml.common import Button as FTButton
@@ -27,7 +28,7 @@ def _unwrap_optional(annotation: Any) -> tuple[Any, bool]:
     args = get_args(annotation)
     if origin in (list, tuple, dict, set):
         return annotation, False
-    if str(origin) == "typing.Union" or origin is getattr(__import__("types"), "UnionType", object):
+    if str(origin) == "typing.Union" or origin is UnionType:
         non_none = [a for a in args if a is not type(None)]
         if len(non_none) == 1 and len(non_none) != len(args):
             return non_none[0], True
@@ -144,10 +145,12 @@ class Form:
 
             input_element, required = _build_field_input(name, field_info)
             label = getattr(field_info, "title", None) or _pretty_label(name)
+            description = getattr(field_info, "description", None)
             fields.append(
                 FormGroup(
                     input_element,
                     label=label,
+                    help_text=description,
                     required=required,
                 )
             )

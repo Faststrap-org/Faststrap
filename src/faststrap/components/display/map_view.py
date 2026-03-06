@@ -45,6 +45,16 @@ def MapView(
     - Experimental API; may evolve before v0.6.0.
     - Leaflet is CDN-first by default to avoid increasing package size.
     """
+    if not (-90 <= latitude <= 90):
+        msg = f"latitude must be between -90 and 90, got {latitude}"
+        raise ValueError(msg)
+    if not (-180 <= longitude <= 180):
+        msg = f"longitude must be between -180 and 180, got {longitude}"
+        raise ValueError(msg)
+    if zoom < 0 or zoom > 22:
+        msg = f"zoom must be between 0 and 22, got {zoom}"
+        raise ValueError(msg)
+
     resolved_map_id = map_id or f"faststrap-map-{uuid4().hex[:8]}"
     user_cls = kwargs.pop("cls", "")
 
