@@ -1,6 +1,29 @@
-# New Components Examples (v0.5.4)
+# New Components Examples (v0.5.9)
 
-This directory contains comprehensive examples demonstrating all new components added in Faststrap v0.5.4.
+This directory contains comprehensive examples demonstrating newly added components and presets up to Faststrap v0.5.9.
+
+## New in v0.5.9
+
+### `v059_showcase.py` - Detailed v0.5.9 Feature Demo
+
+Single app that demonstrates:
+
+- `OptimisticAction`
+- `LocationAction`
+- `Markdown` (with optional dependency fallback)
+- `MapView` (experimental)
+- `Form.from_pydantic()` (with fallback when pydantic is missing)
+- `Table.from_df()` for list records and pandas DataFrame
+- Advanced `add_pwa(...)` options:
+  - background sync registration
+  - push scaffolding
+  - route-aware cache policies
+
+**Run:**
+
+```bash
+python examples/05_new_components/v059_showcase.py
+```
 
 ## Examples Overview
 
