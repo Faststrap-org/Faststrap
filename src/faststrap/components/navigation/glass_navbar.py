@@ -125,12 +125,15 @@ def GlassNavbar(
 
     # Merge with user style
     user_style = kwargs.pop("style", {})
+    merged_style: dict[str, Any] | str = glass_style
     if isinstance(user_style, dict):
         glass_style.update(user_style)
+        merged_style = glass_style
+    elif isinstance(user_style, str) and user_style.strip():
+        base_style = "; ".join(f"{key}: {value}" for key, value in glass_style.items())
+        merged_style = f"{base_style}; {user_style.strip()}"
     else:
-        # Convert string style to dict
-        # For simplicity, just use glass_style
-        pass
+        merged_style = glass_style
 
     # Build navbar parts
     navbar_parts = []
@@ -182,7 +185,7 @@ def GlassNavbar(
     navbar_parts.append(Div(*container_parts, cls="container-fluid"))
 
     # Build attributes
-    attrs: dict[str, Any] = {"cls": all_classes, "style": glass_style}
+    attrs: dict[str, Any] = {"cls": all_classes, "style": merged_style}
 
     attrs.update(convert_attrs(kwargs))
 

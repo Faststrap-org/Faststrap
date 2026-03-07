@@ -20,6 +20,18 @@ def test_carousel_with_id():
     assert 'id="myCarousel"' in html
 
 
+def test_carousel_auto_id_is_deterministic():
+    """Auto-generated carousel ID should be stable for same config."""
+    c1 = Carousel(CarouselItem(Img(src="1.jpg"), active=True), indicators=True)
+    c2 = Carousel(CarouselItem(Img(src="1.jpg"), active=True), indicators=True)
+    h1 = to_xml(c1)
+    h2 = to_xml(c2)
+    marker = 'id="carousel-'
+    id1 = h1.split(marker, 1)[1].split('"', 1)[0]
+    id2 = h2.split(marker, 1)[1].split('"', 1)[0]
+    assert id1 == id2
+
+
 def test_carousel_controls():
     """Test carousel with controls."""
     carousel = Carousel(CarouselItem(Img(src="1.jpg"), active=True), controls=True)

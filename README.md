@@ -723,7 +723,7 @@ faststrap/
 │   ├── pwa/                     # PWA manifest and install helpers
 │   ├── layouts/                 # Composed page layouts
 │   └── static/                  # Vendored Bootstrap/Faststrap assets + favicon
-├── tests/                       # 627+ tests in CI
+├── tests/                       # 637+ tests in CI
 ├── examples/                    # Structured examples by learning path
 │   ├── 01_getting_started/
 │   ├── 02_ui_components/

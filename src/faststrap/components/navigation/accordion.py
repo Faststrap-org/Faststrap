@@ -2,13 +2,38 @@
 
 from __future__ import annotations
 
-import uuid
+import hashlib
+import json
 from typing import Any
 
 from fasthtml.common import H2, Button, Div
 
 from ...core.base import merge_classes
 from ...utils.attrs import convert_attrs
+
+
+def _stable_accordion_id(children: tuple[Any, ...], flush: bool, always_open: bool) -> str:
+    signature: list[dict[str, Any]] = []
+    for child in children:
+        if isinstance(child, AccordionItemBuilder):
+            signature.append(
+                {
+                    "title": child.title,
+                    "expanded": child.expanded,
+                    "header_cls": child.header_cls,
+                    "body_cls": child.body_cls,
+                    "button_cls": child.button_cls,
+                }
+            )
+        else:
+            signature.append({"type": child.__class__.__name__})
+    digest = hashlib.sha1(
+        json.dumps(
+            {"children": signature, "flush": flush, "always_open": always_open},
+            sort_keys=True,
+        ).encode("utf-8")
+    ).hexdigest()[:8]
+    return f"accordion-{digest}"
 
 
 def Accordion(
@@ -57,8 +82,8 @@ def Accordion(
     See Also:
         Bootstrap docs: https://getbootstrap.com/docs/5.3/components/accordion/
     """
-    # Generate ID if not provided
-    acc_id = accordion_id or f"accordion-{uuid.uuid4().hex[:8]}"
+    # Generate deterministic ID when not explicitly provided.
+    acc_id = accordion_id or _stable_accordion_id(children, flush, always_open)
 
     # Build classes
     classes = ["accordion"]

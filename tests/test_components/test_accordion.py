@@ -36,6 +36,18 @@ class TestAccordion:
         assert 'aria-controls="test-acc-collapse-0"' in html
         assert 'id="test-acc-collapse-0"' in html
 
+    def test_accordion_auto_id_is_deterministic(self):
+        """Auto-generated accordion IDs should be stable for same shape."""
+        acc1 = Accordion(AccordionItem("Content 1", title="Item 1"))
+        acc2 = Accordion(AccordionItem("Content 1", title="Item 1"))
+        html1 = to_xml(acc1)
+        html2 = to_xml(acc2)
+
+        marker = 'id="accordion-'
+        id1 = html1.split(marker, 1)[1].split('"', 1)[0]
+        id2 = html2.split(marker, 1)[1].split('"', 1)[0]
+        assert id1 == id2
+
     def test_flush(self):
         """Flush variant adds class."""
         acc = Accordion(AccordionItem("C"), flush=True)

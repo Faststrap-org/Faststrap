@@ -3,9 +3,9 @@
 Server-side searchable dropdown using HTMX.
 """
 
+import hashlib
 import json
 from typing import Any
-from uuid import uuid4
 
 from fasthtml.common import A, Div, Input, Option, Select
 
@@ -13,6 +13,29 @@ from ...core.base import merge_classes
 from ...core.theme import resolve_defaults
 from ...core.types import SizeType
 from ...utils.attrs import convert_attrs
+
+
+def _stable_searchable_select_id(
+    *,
+    endpoint: str,
+    name: str,
+    placeholder: str,
+    min_chars: int,
+    debounce: int,
+) -> str:
+    digest = hashlib.sha1(
+        json.dumps(
+            {
+                "endpoint": endpoint,
+                "name": name,
+                "placeholder": placeholder,
+                "min_chars": min_chars,
+                "debounce": debounce,
+            },
+            sort_keys=True,
+        ).encode("utf-8")
+    ).hexdigest()[:8]
+    return f"searchable-select-{digest}"
 
 
 def SearchableSelect(
@@ -106,7 +129,13 @@ def SearchableSelect(
 
     # Generate ID if not provided
     if select_id is None:
-        select_id = f"searchable-select-{uuid4().hex[:8]}"
+        select_id = _stable_searchable_select_id(
+            endpoint=endpoint,
+            name=name,
+            placeholder=placeholder,
+            min_chars=min_chars,
+            debounce=debounce,
+        )
 
     results_id = f"{select_id}-results"
     input_id = f"{select_id}-input"

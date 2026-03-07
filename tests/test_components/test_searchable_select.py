@@ -68,6 +68,18 @@ def test_searchable_select_custom_id():
     assert "custom-select-id" in html
 
 
+def test_searchable_select_auto_id_is_deterministic():
+    """Auto-generated select ID should be stable for same endpoint/name."""
+    s1 = SearchableSelect(endpoint="/api/search", name="user_id")
+    s2 = SearchableSelect(endpoint="/api/search", name="user_id")
+    h1 = to_xml(s1)
+    h2 = to_xml(s2)
+    marker = 'id="searchable-select-'
+    id1 = h1.split(marker, 1)[1].split('"', 1)[0]
+    id2 = h2.split(marker, 1)[1].split('"', 1)[0]
+    assert id1 == id2
+
+
 def test_searchable_select_results_container():
     """SearchableSelect has results container."""
     select = SearchableSelect(endpoint="/api/search", name="test")

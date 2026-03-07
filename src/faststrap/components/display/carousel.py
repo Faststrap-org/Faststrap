@@ -1,7 +1,8 @@
 """Bootstrap Carousel component for image/content sliders."""
 
+import hashlib
+import json
 from typing import Any
-from uuid import uuid4
 
 from fasthtml.common import Button, Div, Span
 
@@ -9,6 +10,32 @@ from ...core.base import merge_classes
 from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...utils.attrs import convert_attrs
+
+
+def _stable_carousel_id(
+    items: tuple[Any, ...],
+    *,
+    controls: bool,
+    indicators: bool,
+    interval: int | bool,
+    fade: bool,
+    dark: bool,
+) -> str:
+    signature = [{"type": item.__class__.__name__} for item in items]
+    digest = hashlib.sha1(
+        json.dumps(
+            {
+                "items": signature,
+                "controls": controls,
+                "indicators": indicators,
+                "interval": interval,
+                "fade": fade,
+                "dark": dark,
+            },
+            sort_keys=True,
+        ).encode("utf-8")
+    ).hexdigest()[:8]
+    return f"carousel-{digest}"
 
 
 @register(category="display", requires_js=True)
@@ -91,7 +118,14 @@ def Carousel(
 
     # Generate ID if not provided
     if carousel_id is None:
-        carousel_id = f"carousel-{uuid4().hex[:8]}"
+        carousel_id = _stable_carousel_id(
+            items,
+            controls=c_controls,
+            indicators=c_indicators,
+            interval=c_interval,
+            fade=c_fade,
+            dark=c_dark,
+        )
 
     # Build classes
     classes = ["carousel", "slide"]

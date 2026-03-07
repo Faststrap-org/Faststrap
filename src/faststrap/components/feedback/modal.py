@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from typing import Any, Literal
-from uuid import uuid4
 
 from fasthtml.common import H5, Div
 
@@ -13,6 +14,31 @@ from ...core.theme import resolve_defaults
 from ...core.types import SizeType
 from ...utils.attrs import convert_attrs
 from ..forms.button import CloseButton
+
+
+def _stable_modal_id(
+    children: tuple[Any, ...],
+    *,
+    title: str | None,
+    size: SizeType | None,
+    centered: bool,
+    scrollable: bool,
+    fullscreen: bool | str,
+) -> str:
+    digest = hashlib.sha1(
+        json.dumps(
+            {
+                "title": title,
+                "size": size,
+                "centered": centered,
+                "scrollable": scrollable,
+                "fullscreen": fullscreen,
+                "children_count": len(children),
+            },
+            sort_keys=True,
+        ).encode("utf-8")
+    ).hexdigest()[:10]
+    return f"modal-{digest}"
 
 
 @register(category="feedback", requires_js=True)
@@ -87,7 +113,14 @@ def Modal(
 
     # Ensure modal id
     if modal_id is None:
-        modal_id = f"modal-{uuid4().hex}"
+        modal_id = _stable_modal_id(
+            children,
+            title=title,
+            size=c_size,
+            centered=c_centered,
+            scrollable=c_scrollable,
+            fullscreen=c_fullscreen,
+        )
 
     # Build modal dialog classes
     dialog_classes = ["modal-dialog"]

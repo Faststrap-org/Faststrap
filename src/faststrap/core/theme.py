@@ -9,6 +9,7 @@ This module provides:
 
 from __future__ import annotations
 
+import re
 import warnings
 from typing import Any, Literal
 
@@ -395,16 +396,39 @@ def create_theme(
 
 
 def _hex_to_rgb(hex_color: str) -> str | None:
-    """Convert hex color to RGB string."""
+    """Convert color inputs to an ``r, g, b`` string.
+
+    Supports:
+    - 3/4-digit hex: ``#abc``, ``#abcd``
+    - 6/8-digit hex: ``#aabbcc``, ``#aabbccdd``
+    - ``rgb(...)`` and ``rgba(...)`` strings
+    """
     try:
-        hex_color = hex_color.lstrip("#")
-        if len(hex_color) == 3:
-            hex_color = "".join(c * 2 for c in hex_color)
-        if len(hex_color) != 6:
+        color = hex_color.strip()
+        rgb_match = re.fullmatch(
+            r"rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*[\d.]+\s*)?\)",
+            color,
+        )
+        if rgb_match:
+            r, g, b = (int(rgb_match.group(i)) for i in (1, 2, 3))
+            if all(0 <= n <= 255 for n in (r, g, b)):
+                return f"{r}, {g}, {b}"
             return None
-        r = int(hex_color[0:2], 16)
-        g = int(hex_color[2:4], 16)
-        b = int(hex_color[4:6], 16)
+
+        if not color.startswith("#"):
+            return None
+
+        color = color[1:]
+        if len(color) in {3, 4}:
+            color = "".join(c * 2 for c in color)
+        if len(color) == 8:
+            color = color[:6]
+        if len(color) != 6:
+            return None
+
+        r = int(color[0:2], 16)
+        g = int(color[2:4], 16)
+        b = int(color[4:6], 16)
         return f"{r}, {g}, {b}"
     except (ValueError, IndexError):
         return None

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import Any
 from uuid import uuid4
 
@@ -74,8 +75,7 @@ def MapView(
 const marker = L.marker([{latitude}, {longitude}]).addTo(map);
 """
         if popup_text:
-            escaped_popup = popup_text.replace("\\", "\\\\").replace("`", "\\`")
-            marker_block += f"marker.bindPopup(`{escaped_popup}`);"
+            marker_block += f"marker.bindPopup({json.dumps(popup_text)});"
 
     init_script = Script(
         NotStr(

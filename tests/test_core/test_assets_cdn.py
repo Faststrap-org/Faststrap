@@ -40,6 +40,13 @@ def test_build_cdn_assets_excludes_favicon_when_disabled():
     assert "/favicon.svg" not in rendered
 
 
+def test_build_cdn_assets_uses_main_branch_ref_without_v_prefix():
+    assets = _build_cdn_assets("main", include_favicon=True, include_js=False)
+    rendered = "\n".join(str(a) for a in assets)
+    assert "@main/src/faststrap/static" in rendered
+    assert "@vmain/" not in rendered
+
+
 def test_get_assets_cdn_includes_faststrap_css():
     assets = get_assets(use_cdn=True)
     rendered = "\n".join(str(a) for a in assets)
@@ -62,6 +69,26 @@ def test_add_bootstrap_duplicate_call_raises():
         raise AssertionError("Expected duplicate add_bootstrap() guard")
     except RuntimeError as exc:
         assert "already been called" in str(exc)
+
+
+def test_add_bootstrap_sets_guard_only_after_success(monkeypatch):
+    app = FastHTML()
+
+    def _boom(*args, **kwargs):  # type: ignore[no-untyped-def]
+        raise RuntimeError("boom")
+
+    monkeypatch.setattr("faststrap.core.assets.get_assets", _boom)
+
+    try:
+        add_bootstrap(app, use_cdn=True)
+        raise AssertionError("Expected RuntimeError")
+    except RuntimeError as exc:
+        assert "boom" in str(exc)
+
+    # Retry should not be blocked by duplicate-call guard.
+    monkeypatch.setattr("faststrap.core.assets.get_assets", get_assets)
+    add_bootstrap(app, use_cdn=True)
+    assert BOOTSTRAP_CSS_URL in _hdrs_to_text(app)
 
 
 def test_add_bootstrap_components_none_includes_js():

@@ -76,7 +76,7 @@ def PageMeta(
             image=image,
             url=url,
             canonical=canonical,
-            type=type,
+            og_type=type,
             robots=robots,
             twitter_site=twitter_site,
             twitter_creator=twitter_creator,

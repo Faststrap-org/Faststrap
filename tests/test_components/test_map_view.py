@@ -37,3 +37,9 @@ def test_map_view_rejects_invalid_coordinates() -> None:
         raise AssertionError("Expected ValueError for invalid latitude")
     except ValueError as exc:
         assert "latitude must be between -90 and 90" in str(exc)
+
+
+def test_map_view_popup_uses_plain_js_string_not_template_literal() -> None:
+    parts = MapView(latitude=1.0, longitude=2.0, popup_text="${alert(1)}")
+    html = _render_parts(parts)
+    assert 'marker.bindPopup("${alert(1)}");' in html

@@ -5,6 +5,7 @@ from faststrap.core import assets as assets_module
 from faststrap.core.assets import add_bootstrap
 from faststrap.core.theme import (
     Theme,
+    create_theme,
     get_builtin_theme,
     reset_component_defaults,
     resolve_defaults,
@@ -16,6 +17,12 @@ def test_theme_initialization():
     """Test Theme object creation and properties."""
     theme = Theme({"--bs-primary": "#112233"})
     assert theme.variables["--bs-primary"] == "#112233"
+
+
+def test_create_theme_rgb_extraction_supports_rgba_and_alpha_hex():
+    theme = create_theme(primary="#12345678", secondary="rgba(12, 34, 56, 0.4)")
+    assert theme.variables["--bs-primary-rgb"] == "18, 52, 86"
+    assert theme.variables["--bs-secondary-rgb"] == "12, 34, 56"
 
 
 def test_builtin_themes():

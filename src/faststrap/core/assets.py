@@ -100,9 +100,13 @@ def _build_cdn_assets(
     include_js: bool = True,
 ) -> list[Any]:
     """Build complete CDN assets list for use_cdn mode."""
-    static_base = (
-        f"https://cdn.jsdelivr.net/gh/Faststrap-org/Faststrap@v{version}/src/faststrap/static"
-    )
+    if version == "main":
+        ref = "main"
+    elif version.startswith("v"):
+        ref = version
+    else:
+        ref = f"v{version}"
+    static_base = f"https://cdn.jsdelivr.net/gh/Faststrap-org/Faststrap@{ref}/src/faststrap/static"
     assets: list[Any] = [
         Link(
             rel="stylesheet",
@@ -457,8 +461,6 @@ def add_bootstrap(
             "If you are using fast_app(), call add_bootstrap() after "
             "fast_app() returns the app object."
         )
-    app._faststrap_bootstrap_added = True
-
     if use_cdn is None:
         use_cdn = environ.get("FASTSTRAP_USE_CDN", "false").lower() == "true"
     include_js = True if components is None else _any_requires_js(components)
@@ -567,6 +569,7 @@ def add_bootstrap(
                 app.hdrs = fallback_fs_hdrs + filtered_hdrs
                 app._faststrap_hdrs = fallback_fs_hdrs
 
+    app._faststrap_bootstrap_added = True
     return app
 
 

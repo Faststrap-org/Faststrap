@@ -114,6 +114,7 @@ nav:
       - Markdown: components/display/markdown.md
       - Image: components/display/image.md
       - Carousel: components/display/carousel.md
+      - Sheet: components/display/sheet.md
       - Empty State: components/display/empty_state.md
       - Stat Card: components/display/stat_card.md
       - TextClamp: components/display/text-clamp.md
@@ -137,6 +138,7 @@ nav:
       - Pagination: components/navigation/pagination.md
       - Accordion: components/navigation/accordion.md
       - ListGroup: components/navigation/listgroup.md
+      - BottomNav: components/navigation/bottom-nav.md
       - Drawer: components/navigation/drawer.md
       - Scrollspy: components/navigation/scrollspy.md
     - Patterns:

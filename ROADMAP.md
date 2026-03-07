@@ -7,7 +7,7 @@
 ## Current Status (v0.5.9 - March 2026)
 
 **70 components live** – Phase 1 through pre-v0.6 extensions complete  
-**627+ tests** - 90%+ coverage  
+**637+ tests** - 90%+ coverage  
 **Full HTMX + Bootstrap 5.3.3 support**  
 **100% Bootstrap parity achieved** ✅  
 **Zero custom JavaScript required**  
@@ -475,7 +475,7 @@ What Faststrap intentionally *won't* do:
 | Metric | v0.3.1 | v0.4.5 | v0.5.9 (Now) | v1.0.0 |
 |--------|--------------|--------------|--------------|--------|
 | Components | 20 | 38 | 70 | 100+ |
-| Tests | 219 | 230+ | 627+ | 800+ |
+| Tests | 219 | 230+ | 637+ | 800+ |
 | Coverage | 80% | 85%+ | 90%+ | 95%+ |
 | Contributors | 5+ | 15+ | 20+ | 50+ |
 

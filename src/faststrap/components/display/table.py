@@ -338,10 +338,13 @@ def _table_from_df(
             resolved_columns = columns
         else:
             key_order: list[str] = []
+            seen_keys: set[str] = set()
             for item in records:
                 for key in item.keys():
-                    if key not in key_order:
-                        key_order.append(str(key))
+                    key_str = str(key)
+                    if key_str not in seen_keys:
+                        key_order.append(key_str)
+                        seen_keys.add(key_str)
             resolved_columns = key_order
         if max_rows is not None:
             records = records[:max_rows]

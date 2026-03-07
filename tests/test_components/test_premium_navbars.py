@@ -132,6 +132,14 @@ def test_glass_navbar_expand():
     assert "navbar-expand-md" in html
 
 
+def test_glass_navbar_preserves_string_style():
+    """String style should be merged, not dropped."""
+    nav = GlassNavbar(("Home", "/"), style="margin-top: 10px;")
+    html = to_xml(nav).replace(": ", ":")
+    assert "backdrop-filter:blur(" in html
+    assert "margin-top:10px;" in html
+
+
 def test_glass_nav_item():
     """Test glass nav item."""
     item = GlassNavItem("Home", href="/", active=True)
