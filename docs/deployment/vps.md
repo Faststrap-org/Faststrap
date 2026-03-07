@@ -1,8 +1,8 @@
-# Deploying to a VPS
+﻿# Deploying to a VPS
 
 Recommended VPS providers by price:
 
-- Hetzner CX11: �3.29/month (best price/performance in Europe)
+- Hetzner CX11: €3.29/month (best price/performance in Europe)
 - DigitalOcean Basic: $4/month
 - Vultr: $2.50/month
 - Oracle Cloud Always Free: permanently free (2 AMD VMs)
@@ -49,3 +49,4 @@ cloudflared tunnel run --url http://localhost:5001 my-app
 ```
 
 Benefits: DDoS protection, SSL termination, global CDN, no firewall port opening, full SSE/WebSocket support.
+
