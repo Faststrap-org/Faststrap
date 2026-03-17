@@ -5,6 +5,7 @@ from .buttongroup import ButtonGroup, ButtonToolbar
 from .checks import Checkbox, Radio, Range, Switch
 from .errors import FormGroupFromErrors, extract_field_error, map_formgroup_validation
 from .file import FileInput
+from .filter_bar import FilterBar
 from .form import Form
 from .formgroup import FormGroup
 from .input import Input
@@ -27,6 +28,7 @@ __all__ = [
     "FileInput",
     "Form",
     "FormGroup",
+    "FilterBar",
     "extract_field_error",
     "map_formgroup_validation",
     "FormGroupFromErrors",

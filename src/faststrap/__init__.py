@@ -78,6 +78,7 @@ from .components.forms import (
     Checkbox,
     CloseButton,
     FileInput,
+    FilterBar,
     FloatingLabel,
     Form,
     FormGroup,
@@ -97,7 +98,7 @@ from .components.forms import (
 )
 
 # Layout
-from .components.layout import Col, Container, Hero, Row
+from .components.layout import Col, Container, DashboardGrid, Hero, Row
 
 # Navigation
 from .components.navigation import (
@@ -191,6 +192,7 @@ __all__ = [
     "FileInput",
     "Form",
     "FormGroup",
+    "FilterBar",
     "Radio",
     "Switch",
     "Range",
@@ -255,6 +257,7 @@ __all__ = [
     "Container",
     "Row",
     "Col",
+    "DashboardGrid",
     "Hero",
     # Navigation
     "Accordion",

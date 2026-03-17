@@ -56,6 +56,7 @@ from .forms import (
     Checkbox,
     CloseButton,
     FileInput,
+    FilterBar,
     FloatingLabel,
     Form,
     FormGroup,
@@ -73,7 +74,7 @@ from .forms import (
     extract_field_error,
     map_formgroup_validation,
 )
-from .layout import Col, Container, Hero, Row
+from .layout import Col, Container, DashboardGrid, Hero, Row
 from .navigation import (
     Accordion,
     AccordionItem,
@@ -122,6 +123,7 @@ __all__ = [
     "InputGroupText",
     "Radio",
     "Range",
+    "FilterBar",
     "SearchableSelect",
     "Select",
     "Switch",
@@ -179,6 +181,7 @@ __all__ = [
     "Container",
     "Row",
     "Col",
+    "DashboardGrid",
     "Hero",
     "Accordion",
     "AccordionItem",
