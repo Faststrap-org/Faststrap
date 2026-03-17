@@ -15,6 +15,16 @@ from ...core.types import SizeType
 from ...utils.attrs import convert_attrs
 from ..forms.button import CloseButton
 
+_MODAL_ID_COUNTS: dict[str, int] = {}
+
+
+def _unique_modal_id(base_id: str) -> str:
+    count = _MODAL_ID_COUNTS.get(base_id, 0) + 1
+    _MODAL_ID_COUNTS[base_id] = count
+    if count == 1:
+        return base_id
+    return f"{base_id}-{count}"
+
 
 def _stable_modal_id(
     children: tuple[Any, ...],
@@ -38,7 +48,7 @@ def _stable_modal_id(
             sort_keys=True,
         ).encode("utf-8")
     ).hexdigest()[:10]
-    return f"modal-{digest}"
+    return f"modal-{digest}-auto"
 
 
 @register(category="feedback", requires_js=True)
@@ -113,7 +123,7 @@ def Modal(
 
     # Ensure modal id
     if modal_id is None:
-        modal_id = _stable_modal_id(
+        base_id = _stable_modal_id(
             children,
             title=title,
             size=c_size,
@@ -121,6 +131,7 @@ def Modal(
             scrollable=c_scrollable,
             fullscreen=c_fullscreen,
         )
+        modal_id = _unique_modal_id(base_id)
 
     # Build modal dialog classes
     dialog_classes = ["modal-dialog"]

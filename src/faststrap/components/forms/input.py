@@ -6,13 +6,16 @@ from typing import Any
 
 from fasthtml.common import Div, Label, Small
 from fasthtml.common import Input as FTInput
+from fasthtml.common import Textarea as FTTextarea
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import InputType, SizeType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="forms")
 def Input(
     name: str,
     input_type: InputType | None = None,
@@ -100,8 +103,12 @@ def Input(
     # Convert remaining kwargs
     attrs.update(convert_attrs(kwargs))
 
-    # Create input element
-    input_elem = FTInput(**attrs)
+    # Create input element (special-case textarea)
+    if c_type == "textarea":
+        attrs.pop("type", None)
+        input_elem = FTTextarea(value or "", **attrs)
+    else:
+        input_elem = FTInput(**attrs)
 
     # Wrap in div with label, help text, and validation message
     elements = []

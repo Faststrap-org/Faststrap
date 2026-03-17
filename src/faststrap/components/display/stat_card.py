@@ -5,10 +5,12 @@ from typing import Any, Literal
 from fasthtml.common import H3, Div, P, Span
 
 from ...core._stability import beta
+from ...core.registry import register
 from ...core.types import VariantType
 from .card import Card
 
 
+@register(category="display")
 @beta
 def StatCard(
     title: str,

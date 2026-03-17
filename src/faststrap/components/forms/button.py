@@ -8,11 +8,13 @@ from fasthtml.common import A, I, Span
 from fasthtml.common import Button as FTButton
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import SizeType, VariantType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="forms")
 def CloseButton(
     *children: Any,
     white: bool = False,
@@ -43,6 +45,7 @@ def CloseButton(
     return FTButton(*children, **attrs)
 
 
+@register(category="forms")
 def Button(
     *children: Any,
     as_: Literal["button", "a"] = "button",
@@ -89,6 +92,10 @@ def Button(
         style: Custom inline style
         **kwargs: Additional HTML attributes (cls, id, hx-*, data-*, etc.)
     """
+
+    # Auto-promote to anchor if href is provided
+    if as_ == "button" and "href" in kwargs:
+        as_ = "a"
 
     # Resolve API defaults
     # This automatically picks up global defaults for 'variant', 'size', etc. if the user didn't pass them

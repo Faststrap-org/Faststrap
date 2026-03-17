@@ -32,3 +32,8 @@ def test_convert_attrs_preserves_structured_false_values() -> None:
     attrs = convert_attrs({"data": {"enabled": False}, "aria": {"hidden": False}})
     assert attrs["data-enabled"] == "false"
     assert attrs["aria-hidden"] == "false"
+
+
+def test_convert_attrs_preserves_direct_aria_false() -> None:
+    attrs = convert_attrs({"aria_hidden": False})
+    assert attrs["aria-hidden"] == "false"

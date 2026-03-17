@@ -240,7 +240,7 @@ hdrs = (
 )
 
 app = FastHTML(hdrs=hdrs)
-add_bootstrap(app, theme="dark", use_cdn=True)
+add_bootstrap(app, mode="dark", use_cdn=True)
 
 
 # ==============================================

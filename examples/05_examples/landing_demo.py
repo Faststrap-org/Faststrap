@@ -61,7 +61,7 @@ hrds = (
 # App Initialization
 # -------------------------------------------------------
 app = FastHTML(hdrs=hrds)
-add_bootstrap(app, theme="dark")
+add_bootstrap(app, mode="dark")
 
 
 # -------------------------------------------------------

@@ -8,9 +8,11 @@ from typing import Any
 from fasthtml.common import Div, Label, Small
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 
+@register(category="forms")
 def FormGroup(
     input_element: Any,
     label: str | None = None,

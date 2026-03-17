@@ -61,7 +61,7 @@ hrds = (
 # App Initialization
 # -------------------------------------------------------
 app, rt = fast_app(hdrs=hrds)
-add_bootstrap(app, theme="dark", use_cdn=False)
+add_bootstrap(app, mode="dark", use_cdn=False)
 
 
 # -------------------------------------------------------

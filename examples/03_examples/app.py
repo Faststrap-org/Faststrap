@@ -26,7 +26,7 @@ from faststrap import (
 )
 
 app = FastHTML()
-add_bootstrap(app, theme="dark", use_cdn=False)
+add_bootstrap(app, mode="dark", use_cdn=False)
 
 
 @app.route("/")

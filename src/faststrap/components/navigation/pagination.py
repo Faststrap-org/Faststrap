@@ -7,11 +7,13 @@ from typing import Any
 from fasthtml.common import A, Li, Nav, Span, Ul
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import AlignType, SizeType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="navigation")
 def Pagination(
     current_page: int,
     total_pages: int,

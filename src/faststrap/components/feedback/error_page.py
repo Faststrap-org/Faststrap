@@ -9,7 +9,9 @@ from typing import Any, Literal
 from fasthtml.common import H1, Div, Title
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
+from ...utils.icons import Icon
 from ..display.empty_state import EmptyState
 
 ErrorCodeType = Literal[403, 404, 500]
@@ -35,6 +37,7 @@ _ERROR_DEFAULTS = {
 }
 
 
+@register(category="feedback")
 def ErrorPage(
     code: ErrorCodeType | int,
     title: str | None = None,
@@ -144,10 +147,11 @@ def ErrorPage(
     attrs.update(convert_attrs(kwargs))
 
     # Use EmptyState for the error display
+    icon_component = Icon(final_icon) if isinstance(final_icon, str) else final_icon
     error_content = EmptyState(
         title=final_title,
         description=final_message,
-        icon=final_icon,
+        icon=icon_component,
         action=action_button,
         cls="text-center",
     )

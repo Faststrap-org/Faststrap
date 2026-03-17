@@ -8,11 +8,13 @@ from fasthtml.common import Span
 
 from ...core._stability import stable
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import VariantType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="display")
 @stable
 def Badge(
     *children: Any,

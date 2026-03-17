@@ -12,7 +12,7 @@ from ...utils.attrs import convert_attrs
 BlurStrength = Literal["low", "medium", "high"]
 
 
-@register(category="navigation")
+@register(category="navigation", requires_js=True)
 def GlassNavbar(
     *items: Any,
     brand: str | None = None,
@@ -192,6 +192,7 @@ def GlassNavbar(
     return Nav(*navbar_parts, **attrs)
 
 
+@register(category="navigation")
 def GlassNavItem(
     label: str,
     href: str = "#",

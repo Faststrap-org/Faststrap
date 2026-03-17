@@ -7,11 +7,13 @@ from typing import Any
 from fasthtml.common import Div
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import VariantType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="feedback")
 def Progress(
     value: int,
     max_value: int = 100,
@@ -41,8 +43,11 @@ def Progress(
     c_striped = cfg.get("striped", False)
     c_animated = cfg.get("animated", False)
 
-    # Calculate percentage
-    pct = min(100, max(0, (value / max_value) * 100))
+    # Calculate percentage (guard against zero/negative max)
+    if max_value <= 0:
+        pct: float = 0.0
+    else:
+        pct = min(100.0, max(0.0, (value / max_value) * 100))
 
     # Build bar classes
     bar_classes = ["progress-bar"]
@@ -78,6 +83,7 @@ def Progress(
     return Div(bar, **wrapper_attrs)
 
 
+@register(category="feedback")
 def ProgressBar(
     value: int,
     max_value: int = 100,
@@ -97,8 +103,11 @@ def ProgressBar(
     c_striped = cfg.get("striped", False)
     c_animated = cfg.get("animated", False)
 
-    # Calculate percentage
-    pct = min(100, max(0, (value / max_value) * 100))
+    # Calculate percentage (guard against zero/negative max)
+    if max_value <= 0:
+        pct: float = 0.0
+    else:
+        pct = min(100.0, max(0.0, (value / max_value) * 100))
 
     # Build classes
     classes = ["progress-bar"]

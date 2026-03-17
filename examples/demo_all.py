@@ -127,8 +127,8 @@ def showcase_section():
         Card(
             H3("Card Slot Classes", cls="card-title"),
             P("header_cls, body_cls, footer_cls, title_cls, etc."),
+            Div("Custom body with padding", cls="p-4"),
             header=Div("Custom Header", cls="bg-primary text-white p-3"),
-            body=Div("Custom body with padding", cls="p-4"),
             footer=Div("Custom footer", cls="text-muted"),
             header_cls="custom-header",
             body_cls="custom-body",
@@ -285,8 +285,7 @@ def showcase_section():
             cls="mb-3",
         ),
         # Custom CSS for pagination
-        Style(
-            """
+        Style("""
             /* Ensure pagination items are properly layered */
             .pagination-wrapper .page-item .page-link {
                 position: relative;
@@ -299,8 +298,7 @@ def showcase_section():
             .pagination-wrapper .page-item .page-link {
                 margin: 0 2px;
             }
-        """
-        ),
+        """),
     )
 
 

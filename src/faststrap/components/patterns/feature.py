@@ -5,9 +5,11 @@ from typing import Any
 from fasthtml.common import H3, Div, I, P
 
 from ...core._stability import beta
+from ...core.registry import register
 from ..layout.grid import Col, Row
 
 
+@register(category="patterns")
 @beta
 def Feature(
     title: str,
@@ -46,6 +48,7 @@ def Feature(
     )
 
 
+@register(category="patterns")
 @beta
 def FeatureGrid(
     *features: Any,

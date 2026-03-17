@@ -21,7 +21,7 @@ def test_carousel_with_id():
 
 
 def test_carousel_auto_id_is_deterministic():
-    """Auto-generated carousel ID should be stable for same config."""
+    """Auto-generated carousel ID should share a stable base for same config."""
     c1 = Carousel(CarouselItem(Img(src="1.jpg"), active=True), indicators=True)
     c2 = Carousel(CarouselItem(Img(src="1.jpg"), active=True), indicators=True)
     h1 = to_xml(c1)
@@ -29,7 +29,10 @@ def test_carousel_auto_id_is_deterministic():
     marker = 'id="carousel-'
     id1 = h1.split(marker, 1)[1].split('"', 1)[0]
     id2 = h2.split(marker, 1)[1].split('"', 1)[0]
-    assert id1 == id2
+    base1 = "-".join(id1.split("-")[:2])
+    base2 = "-".join(id2.split("-")[:2])
+    assert base1 == base2
+    assert id1 != id2
 
 
 def test_carousel_controls():

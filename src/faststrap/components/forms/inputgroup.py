@@ -8,10 +8,12 @@ from fasthtml.common import Div, Label, Span
 from fasthtml.common import Input as FTInput
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.types import SizeType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="forms")
 def InputGroup(
     *children: Any,
     size: SizeType | None = None,
@@ -74,6 +76,7 @@ def InputGroup(
     return Div(*children, **attrs)
 
 
+@register(category="forms")
 def InputGroupText(
     *children: Any,
     **kwargs: Any,
@@ -103,6 +106,7 @@ def InputGroupText(
     return Span(*children, **attrs)
 
 
+@register(category="forms")
 def FloatingLabel(
     name: str,
     *,

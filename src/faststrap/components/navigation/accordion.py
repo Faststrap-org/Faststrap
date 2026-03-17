@@ -9,6 +9,7 @@ from typing import Any
 from fasthtml.common import H2, Button, Div
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 
@@ -36,6 +37,7 @@ def _stable_accordion_id(children: tuple[Any, ...], flush: bool, always_open: bo
     return f"accordion-{digest}"
 
 
+@register(category="navigation", requires_js=True)
 def Accordion(
     *children: Any,
     accordion_id: str | None = None,
@@ -198,6 +200,7 @@ class AccordionItemBuilder:
         )
 
 
+@register(category="navigation", requires_js=True)
 def AccordionItem(
     *children: Any,
     title: str = "",

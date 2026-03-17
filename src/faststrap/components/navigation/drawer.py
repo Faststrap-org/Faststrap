@@ -19,6 +19,7 @@ def Drawer(
     *children: Any,
     drawer_id: str | None = None,
     title: str | None = None,
+    footer: Any | None = None,
     placement: PlacementType | None = None,
     backdrop: bool | None = None,
     scroll: bool | None = None,
@@ -36,6 +37,7 @@ def Drawer(
         *children: Drawer body content
         drawer_id: Unique ID for the drawer (required for Bootstrap JS)
         title: Drawer header title
+        footer: Drawer footer content
         placement: Drawer position (start=left, end=right, top, bottom)
         backdrop: Show backdrop overlay
         scroll: Allow body scroll when drawer is open
@@ -120,11 +122,9 @@ def Drawer(
     body = Div(*children, cls=merge_classes("offcanvas-body", c_body_cls))
     parts.append(body)
 
-    # Footer (if children contain a footer part or specifically requested, but Drawer usually doesn't have a standard footer)
-    # Adding support for footer_cls anyway for consistency
-    if c_footer_cls:
-        # If footer content is needed, it would be added here. Drawer usually just has body.
-        pass
+    # Footer (optional)
+    if footer is not None:
+        parts.append(Div(footer, cls=merge_classes("offcanvas-footer", c_footer_cls)))
 
     # Create the drawer with correct attrs including id
     return Div(*parts, id=drawer_id, **attrs)

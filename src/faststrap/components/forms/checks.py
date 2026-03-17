@@ -8,10 +8,12 @@ from fasthtml.common import Div, Label
 from fasthtml.common import Input as FTInput
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.types import SizeType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="forms")
 def Checkbox(
     name: str,
     *,
@@ -115,6 +117,7 @@ def Checkbox(
     return Div(*elements, cls=wrapper_cls)
 
 
+@register(category="forms")
 def Radio(
     name: str,
     *,
@@ -207,6 +210,7 @@ def Radio(
     return Div(*elements, cls=wrapper_cls)
 
 
+@register(category="forms")
 def Switch(
     name: str,
     *,
@@ -293,6 +297,7 @@ def Switch(
     return Div(*elements, cls=wrapper_cls)
 
 
+@register(category="forms")
 def Range(
     name: str,
     *,

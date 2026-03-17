@@ -48,6 +48,7 @@ ExpandType = Literal["sm", "md", "lg", "xl", "xxl", "always", "never", True, Fal
 ButtonType = Literal["button", "submit", "reset"]
 InputType = Literal[
     "text",
+    "textarea",
     "password",
     "email",
     "number",

@@ -7,10 +7,12 @@ from typing import Any
 from fasthtml.common import Div, Img, Input, Label, Script
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.types import SizeType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="forms")
 def FileInput(
     name: str,
     *,

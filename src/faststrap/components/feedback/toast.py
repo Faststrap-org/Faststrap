@@ -8,11 +8,13 @@ from typing import Any
 from fasthtml.common import Button, Div, Strong
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import ToastPositionType, VariantType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="feedback")
 def SimpleToast(
     *children: Any,
     title: str | None = None,
@@ -106,6 +108,7 @@ def SimpleToast(
     return Div(*parts, **attrs)
 
 
+@register(category="feedback", requires_js=True)
 def Toast(
     *children: Any,
     title: str | None = None,
@@ -178,6 +181,7 @@ def Toast(
     return Div(*parts, **attrs)
 
 
+@register(category="feedback")
 def ToastContainer(
     *toasts: Any,
     position: ToastPositionType | None = None,

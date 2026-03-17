@@ -7,11 +7,13 @@ from typing import Any
 from fasthtml.common import Button, Div
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import VariantType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="feedback", requires_js=True)
 def Alert(
     *children: Any,
     variant: VariantType | None = None,

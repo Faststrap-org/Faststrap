@@ -7,8 +7,10 @@ from fasthtml.common import Nav
 from ...components.navigation.navbar import Navbar
 from ...core._stability import beta
 from ...core.base import merge_classes
+from ...core.registry import register
 
 
+@register(category="patterns", requires_js=True)
 @beta
 def NavbarModern(
     brand: Any,

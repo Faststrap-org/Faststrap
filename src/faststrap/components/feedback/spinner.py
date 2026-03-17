@@ -7,11 +7,13 @@ from typing import Any
 from fasthtml.common import Div, Span
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import VariantType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="feedback")
 def Spinner(
     variant: VariantType | None = None,
     size: str | None = None,

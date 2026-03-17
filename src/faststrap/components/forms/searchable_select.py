@@ -10,6 +10,7 @@ from typing import Any
 from fasthtml.common import A, Div, Input, Option, Select
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import SizeType
 from ...utils.attrs import convert_attrs
@@ -38,6 +39,7 @@ def _stable_searchable_select_id(
     return f"searchable-select-{digest}"
 
 
+@register(category="forms")
 def SearchableSelect(
     endpoint: str,
     name: str,
@@ -182,10 +184,11 @@ def SearchableSelect(
                     "data_fs_input_id": input_id,
                     "data_fs_results_id": results_id,
                     "data_fs_label": text,
+                    "data_fs_value": value,
                 }
             )
         else:
-            option_attrs["hx_on_click"] = (
+            option_attrs["hx-on:click"] = (
                 "event.preventDefault();"
                 f"const sel=document.getElementById({safe_select_id});"
                 "if(!sel){return;}"

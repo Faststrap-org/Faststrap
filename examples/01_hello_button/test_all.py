@@ -5,7 +5,7 @@ from fasthtml.common import H1, Div, FastHTML, P, serve
 from faststrap import Button, Icon, add_bootstrap
 
 app = FastHTML()
-add_bootstrap(app, theme="light")
+add_bootstrap(app, mode="light")
 
 
 @app.get("/")

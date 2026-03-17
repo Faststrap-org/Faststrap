@@ -10,23 +10,23 @@
 
 ---
 
-## Why FastStrap?
+## Why FastStrap
 
 FastHTML is amazing for building web apps in pure Python, but it lacks pre-built UI components. FastStrap fills that gap by providing:
 
 
-✅ **72+ components and utilities** - Buttons, Cards, Modals, Forms, Navigation, presets, and more  
-✅ **HTMX Presets Module** - 12 ready-to-use patterns for common interactions  
-✅ **SEO Module** - Comprehensive meta tags, Open Graph, Twitter Cards, and structured data  
-✅ **Zero JavaScript knowledge required** - Components just work  
-✅ **No build steps** - Pure Python, no npm/webpack/vite  
-✅ **Full HTMX integration** - Dynamic updates without page reloads  
-✅ **Zero-JS animations** - Beautiful effects with pure CSS (Fx module)  
-✅ **Dark mode built-in** - Automatic theme switching  
-✅ **Type-safe** - Full type hints for better IDE support  
-✅ **Pythonic API** - Intuitive kwargs style  
-✅ **Enhanced customization** - Slot classes, CSS variables, themes, and more  
-✅ **95% documented** - Comprehensive docs with examples
+ **93+ components and utilities** - Buttons, Cards, Modals, Forms, Navigation, presets, and more  
+ **HTMX Presets Module** - 14 ready-to-use patterns for common interactions  
+ **SEO Module** - Comprehensive meta tags, Open Graph, Twitter Cards, and structured data  
+ **Zero JavaScript knowledge required** - Components just work  
+ **No build steps** - Pure Python, no npm/webpack/vite  
+ **Full HTMX integration** - Dynamic updates without page reloads  
+ **Zero-JS animations** - Beautiful effects with pure CSS (Fx module)  
+ **Dark mode built-in** - Automatic theme switching  
+ **Type-safe** - Full type hints for better IDE support  
+ **Pythonic API** - Intuitive kwargs style  
+ **Enhanced customization** - Slot classes, CSS variables, themes, and more  
+ **Docs and examples included** - Coverage is expanding
 
 It also ships higher-level modules for HTMX presets, SEO metadata composition, and PWA setup so production concerns are covered alongside UI components.
 
@@ -56,7 +56,7 @@ add_bootstrap(app, theme=theme, mode="dark")
 def home():
     return Card(
         "Welcome to FastStrap! Build beautiful UIs in pure Python.",
-        header="Hello World 👋",
+        header="Hello World!",
         footer=Button("Get Started", variant="primary")
     )
 
@@ -228,12 +228,10 @@ Available built-in themes:
 - `pink-love`
 - `cyan-sky`
 - `gray-mist`
-- `dark-mode`
-- `light-mode`
 
 ### 6. Registry Metadata
 
-Components now include metadata about JavaScript requirements:
+Components include metadata about JavaScript requirements:
 
 ```python
 from faststrap.core.registry import list_components, get_component
@@ -248,143 +246,158 @@ modal = get_component("Modal")
 
 ---
 
-## Available Components (72 Total)
+## Available Components (93 Total)
 
-All components are production-ready with comprehensive documentation, HTMX integration, and accessibility features.
+Components are typed, HTMX-friendly, and follow Bootstrap conventions. Stability markers (`@stable`, `@beta`, `@experimental`) indicate API maturity.
 
 ### Presets Module (14 Utilities)
 
-- **ActiveSearch** - Live search with debouncing
-- **InfiniteScroll** - Infinite scrolling pagination
-- **AutoRefresh** - Auto-refreshing content
-- **LazyLoad** - Lazy loading for images/content
-- **LoadingButton** - Button with loading state
-- **OptimisticAction** - Optimistic UI interactions with rollback events
-- **LocationAction** - Geolocation-powered interaction trigger helper
-- **hx_redirect()** - Server-side redirects
-- **hx_refresh()** - Full page refresh
-- **hx_trigger()** - Custom event triggers
-- **hx_reswap()** - Dynamic swap strategies
-- **hx_retarget()** - Dynamic target changes
-- **toast_response()** - Toast notifications from server
-- **@require_auth** - Session-based route protection
+- `ActiveSearch`
+- `InfiniteScroll`
+- `AutoRefresh`
+- `LazyLoad`
+- `LoadingButton`
+- `OptimisticAction`
+- `LocationAction`
+- `hx_redirect`
+- `hx_refresh`
+- `hx_trigger`
+- `hx_reswap`
+- `hx_retarget`
+- `toast_response`
+- `@require_auth`
 
-### Forms (16 Components)
+### Forms (20 Components)
 
-- **Button** - Buttons with variants, sizes, loading states, icons
-- **CloseButton** - Reusable close button for dismissible components
-- **ButtonGroup** - Grouped buttons and toolbars
-- **ButtonToolbar** - Multiple button groups
-- **Input** - Text inputs with validation and types
-- **Select** - Dropdown selections with multiple options
-- **Checkbox** - Checkboxes with inline/stacked layouts
-- **Radio** - Radio buttons with groups
-- **Switch** - Toggle switches
-- **Range** - Range sliders
-- **FileInput** - File upload inputs
-- **InputGroup** - Input addons (text, buttons, icons)
-- **FloatingLabel** - Animated floating labels
-- **FormGroup** - Form field wrapper with labels and validation
-- **ThemeToggle** - Dark/light mode toggle switch
-- **SearchableSelect** - Server-side searchable dropdown
+- `Button`
+- `ButtonGroup`
+- `ButtonToolbar`
+- `Checkbox`
+- `CloseButton`
+- `FileInput`
+- `FloatingLabel`
+- `Form`
+- `FormGroup`
+- `FormGroupFromErrors`
+- `Input`
+- `InputGroup`
+- `InputGroupText`
+- `Radio`
+- `Range`
+- `SearchableSelect`
+- `Select`
+- `Switch`
+- `ThemeToggle`
+- `ToggleGroup`
 
-### Display (13 Components)
+### Display (17 Components)
 
-- **Card** - Content containers with headers/footers/images
-- **Badge** - Status indicators and labels
-- **Table** - Data tables with striped, hover, bordered styles
-- **Figure** - Images with captions
-- **Icon** - Bootstrap Icons helper (2,000+ icons)
-- **EmptyState** - Empty state placeholders
-- **StatCard** - Statistics display cards
-- **Image** - Responsive images with fluid, thumbnail, rounded, alignment
-- **Carousel** - Auto-play image sliders with controls, indicators, fade
-- **Placeholder** - Skeleton loading with glow/wave animations
-- **Markdown** - Rendered markdown blocks with optional sanitization
-- **MapView** - Lightweight embedded map component (experimental)
-- **Sheet** - Slide-up sheet/panel display container
+- `Badge`
+- `Card`
+- `Carousel`
+- `CarouselItem`
+- `EmptyState`
+- `Figure`
+- `Image`
+- `MapView`
+- `Markdown`
+- `Sheet`
+- `StatCard`
+- `Table`
+- `THead`
+- `TBody`
+- `TRow`
+- `TCell`
+- `TextClamp`
 
-### Feedback (14 Components)
+### Feedback (23 Components)
 
-- **Alert** - Dismissible alerts with variants
-- **Modal** - Dialog boxes and confirmations
-- **ConfirmDialog** - Pre-configured confirmation modals
-- **Toast** - Auto-dismiss notifications
-- **SimpleToast** - Quick toast helper
-- **ToastContainer** - Toast positioning container
-- **Spinner** - Loading indicators (border/grow)
-- **Progress** - Progress bars with stripes/animation
-- **ProgressBar** - Individual progress bar component
-- **Tooltip** - Hover tooltips
-- **Popover** - Click popovers
-- **Collapse** - Show/hide content areas
-- **ErrorPage** - Full-page error displays (404, 500, 403)
-- **ErrorDialog** - Modal error displays with retry
+- `Alert`
+- `ConfirmDialog`
+- `ErrorDialog`
+- `ErrorPage`
+- `ErrorToast`
+- `InfoToast`
+- `InstallPrompt`
+- `Modal`
+- `NoticeAlert`
+- `NoticeToast`
+- `Placeholder`
+- `PlaceholderButton`
+- `PlaceholderCard`
+- `Popover`
+- `Progress`
+- `ProgressBar`
+- `SimpleToast`
+- `Spinner`
+- `SuccessToast`
+- `Toast`
+- `ToastContainer`
+- `Tooltip`
+- `WarningToast`
 
-### Navigation (14 Components)
+### Navigation (21 Components)
 
-- **Navbar** - Responsive navigation bars
-- **NavbarModern** - Glassmorphism navbar
-- **Tabs** - Navigation tabs and pills
-- **TabPane** - Tab content panes
-- **Dropdown** - Contextual dropdown menus
-- **DropdownItem** - Dropdown menu items
-- **DropdownDivider** - Dropdown separators
-- **Breadcrumb** - Navigation breadcrumbs
-- **Pagination** - Page navigation
-- **Accordion** - Collapsible panels
-- **AccordionItem** - Individual accordion panels
-- **ListGroup** - Versatile content lists
-- **ListGroupItem** - List items with badges/variants
-- **Drawer** - Offcanvas side panels
-- **Scrollspy** - Auto-updating navigation based on scroll
-- **SidebarNavbar** - Premium vertical sidebar for dashboards
-- **GlassNavbar** - Premium glassmorphism navbar
+- `Accordion`
+- `AccordionItem`
+- `BottomNav`
+- `BottomNavItem`
+- `Breadcrumb`
+- `Collapse`
+- `Drawer`
+- `Dropdown`
+- `DropdownDivider`
+- `DropdownItem`
+- `GlassNavbar`
+- `GlassNavItem`
+- `ListGroup`
+- `ListGroupItem`
+- `Navbar`
+- `Pagination`
+- `Scrollspy`
+- `SidebarNavbar`
+- `SidebarNavItem`
+- `TabPane`
+- `Tabs`
 
 ### Layout (4 Components)
 
-- **Container** - Responsive containers (fixed/fluid)
-- **Row** - Grid rows with gutters
-- **Col** - Grid columns with breakpoints
-- **Hero** - Hero sections with backgrounds/overlays
-
-### Layouts (3 Composed Layouts)
-
-- **DashboardLayout** - Admin panel with sidebar
-- **LandingLayout** - Marketing page layout
-- **AuthLayout** - Centered authentication page layout
-
-### Effects (1 Module)
-
-- **Fx** - Zero-JS animations and visual effects
-  - Entrance animations (fade, slide, zoom, bounce)
-  - Hover interactions (lift, scale, glow, tilt)
-  - Loading states (spin, pulse, shimmer)
-  - Visual effects (glass, shadows, gradients)
-  - Speed and delay modifiers
+- `Container`
+- `Row`
+- `Col`
+- `Hero`
 
 ### Patterns (8 Composed Components)
 
-- **Feature** - Feature highlight component
-- **FeatureGrid** - Grid of features
-- **PricingTier** - Pricing card component
-- **PricingGroup** - Group of pricing tiers
-- **FooterModern** - Multi-column footer with branding and social links
-- **Testimonial** - Customer testimonial card with ratings
-- **TestimonialSection** - Grid of testimonials
+- `Feature`
+- `FeatureGrid`
+- `FooterModern`
+- `NavbarModern`
+- `PricingGroup`
+- `PricingTier`
+- `Testimonial`
+- `TestimonialSection`
 
----
+### Layouts (3 Composed Layouts)
+
+- `DashboardLayout`
+- `LandingLayout`
+- `AuthLayout`
+
+### Accessibility (4 Helpers)
+
+- `SkipLink`
+- `LiveRegion`
+- `VisuallyHidden`
+- `FocusTrap`
+
+### Effects (1 Module)
+
+- `Fx` - Zero-JS animations and visual effects
 
 ## Documentation Coverage
 
-- **95% documented** (43/45 components)
-- All docs include:
-  - Bootstrap CSS class guides
-  - HTMX integration examples
-  - `set_component_defaults` usage
-  - Responsive design patterns
-  - Accessibility best practices
-  - Common recipes and patterns
+Docs are actively being expanded to match the full API surface. See the docs site and `examples/` for current coverage and usage patterns.
 
 **View docs**: [https://faststrap-org.github.io/Faststrap/](https://faststrap-org.github.io/Faststrap/)
 
@@ -416,54 +429,54 @@ Comprehensive examples organized by learning path:
 
 **See**: `examples/README.md` for complete guide
 
-| **Dropdown** | Contextual menus with split buttons | ✅ |
-| **Input** | Text form controls with validation | ✅ |
-| **Select** | Dropdown selections (single/multiple) | ✅ |
-| **Breadcrumb** | Navigation trail with icons | ✅ |
-| **Pagination** | Page navigation with customization | ✅ |
-| **Spinner** | Loading indicators (border/grow) | ✅ |
-| **Progress** | Progress bars with animations | ✅ |
+| **Dropdown** | Contextual menus with split buttons |  |
+| **Input** | Text form controls with validation |  |
+| **Select** | Dropdown selections (single/multiple) |  |
+| **Breadcrumb** | Navigation trail with icons |  |
+| **Pagination** | Page navigation with customization |  |
+| **Spinner** | Loading indicators (border/grow) |  |
+| **Progress** | Progress bars with animations |  |
 
-### ✅ Phase 4A (v0.4.0) - 10 Components
-
-| Component | Description | Status |
-|-----------|-------------|--------|
-| **Table** | Responsive data tables | ✅ |
-| **Accordion** | Collapsible panels | ✅ |
-| **Checkbox** | Checkbox form controls | ✅ |
-| **Radio** | Radio button controls | ✅ |
-| **Switch** | Toggle switch variant | ✅ |
-| **Range** | Slider input control | ✅ |
-| **ListGroup** | Versatile lists | ✅ |
-| **Collapse** | Show/hide content | ✅ |
-| **InputGroup** | Prepend/append addons | ✅ |
-| **FloatingLabel** | Animated label inputs | ✅ |
-
-### ✅ Phase 4B (v0.4.5) - 8 Components
+###  Phase 4A (v0.4.0) - 10 Components
 
 | Component | Description | Status |
 |-----------|-------------|--------|
-| **FileInput** | File uploads with preview | ✅ |
-| **Tooltip** | Contextual hints | ✅ |
-| **Popover** | Rich overlays | ✅ |
-| **Figure** | Image + caption | ✅ |
-| **ConfirmDialog** | Modal confirmation preset | ✅ |
-| **EmptyState** | Placeholder component | ✅ |
-| **StatCard** | Metric display card | ✅ |
-| **Hero** | Landing page hero section | ✅ |
+| **Table** | Responsive data tables |  |
+| **Accordion** | Collapsible panels |  |
+| **Checkbox** | Checkbox form controls |  |
+| **Radio** | Radio button controls |  |
+| **Switch** | Toggle switch variant |  |
+| **Range** | Slider input control |  |
+| **ListGroup** | Versatile lists |  |
+| **Collapse** | Show/hide content |  |
+| **InputGroup** | Prepend/append addons |  |
+| **FloatingLabel** | Animated label inputs |  |
 
-### ✅ Phase 5A (v0.5.0-v0.5.3) - 6 Components
+###  Phase 4B (v0.4.5) - 8 Components
 
 | Component | Description | Status |
 |-----------|-------------|--------|
-| **Image** | Responsive images with utilities | ✅ |
-| **Carousel** | Image/content sliders | ✅ |
-| **Placeholder** | Skeleton loading states | ✅ |
-| **Scrollspy** | Auto-updating navigation | ✅ |
-| **SidebarNavbar** | Premium vertical sidebar | ✅ |
-| **GlassNavbar** | Glassmorphism navbar | ✅ |
+| **FileInput** | File uploads with preview |  |
+| **Tooltip** | Contextual hints |  |
+| **Popover** | Rich overlays |  |
+| **Figure** | Image + caption |  |
+| **ConfirmDialog** | Modal confirmation preset |  |
+| **EmptyState** | Placeholder component |  |
+| **StatCard** | Metric display card |  |
+| **Hero** | Landing page hero section |  |
 
-### ✅ Phase 5B+ (v0.5.6-v0.5.9) - pre-v0.6 additions
+###  Phase 5A (v0.5.0-v0.5.3) - 6 Components
+
+| Component | Description | Status |
+|-----------|-------------|--------|
+| **Image** | Responsive images with utilities |  |
+| **Carousel** | Image/content sliders |  |
+| **Placeholder** | Skeleton loading states |  |
+| **Scrollspy** | Auto-updating navigation |  |
+| **SidebarNavbar** | Premium vertical sidebar |  |
+| **GlassNavbar** | Glassmorphism navbar |  |
+
+###  Phase 5B+ (v0.5.6-v0.5.9) - pre-v0.6 additions
 
 **HTMX Presets Module (14 helpers):**
 
@@ -472,9 +485,10 @@ Comprehensive examples organized by learning path:
 - `hx_redirect`, `hx_refresh`, `hx_trigger`, `hx_reswap`, `hx_retarget`, `toast_response`
 - `@require_auth` decorator
 
-**SEO Module (2 components):**
+**SEO Module (3 helpers):**
 
 - `SEO` - Meta tags, Open Graph, Twitter Cards, Article metadata
+- `PageMeta` - Unified SEO + social + canonical + favicon composition
 - `StructuredData` - JSON-LD for Article, Product, Breadcrumb, Organization, LocalBusiness
 
 **UI Components (9):**
@@ -513,7 +527,7 @@ Comprehensive examples organized by learning path:
 - `v0.5.9`: markdown/map/data bridges + PWA foundations
 - `v0.6.0`: advanced data APIs + realtime/preset hardening
 
-### 🗓️ Phase 6+ (v0.6.0+)
+###  Phase 6+ (v0.6.0+)
 
 - **Data Science Components**: DataTable, Chart, MetricCard, TrendCard
 - **Dashboard Layouts**: DashboardLayout, DashboardGrid, FilterBar
@@ -715,22 +729,22 @@ Pagination(
 
 ```
 faststrap/
-├── src/faststrap/               # Library source
-│   ├── components/              # 70+ UI components
-│   ├── core/                    # Assets, theme, registry, base primitives
-│   ├── presets/                 # HTMX interaction/response helpers
-│   ├── seo/                     # SEO + structured data helpers
-│   ├── pwa/                     # PWA manifest and install helpers
-│   ├── layouts/                 # Composed page layouts
-│   └── static/                  # Vendored Bootstrap/Faststrap assets + favicon
-├── tests/                       # 646+ tests in CI
-├── examples/                    # Structured examples by learning path
-│   ├── 01_getting_started/
-│   ├── 02_ui_components/
-│   ├── 03_real_world_apps/
-│   └── 04_advanced/
-├── docs/                        # MkDocs site + guides (incl. deployment)
-└── pyproject.toml               # Packaging, tooling, and quality gates
+ src/faststrap/               # Library source
+    components/              # 93+ UI components
+    core/                    # Assets, theme, registry, base primitives
+    presets/                 # HTMX interaction/response helpers
+    seo/                     # SEO + structured data helpers
+    pwa/                     # PWA manifest and install helpers
+    layouts/                 # Composed page layouts
+    static/                  # Vendored Bootstrap/Faststrap assets + favicon
+ tests/                       # 646+ tests in CI
+ examples/                    # Structured examples by learning path
+    01_getting_started/
+    02_ui_components/
+    03_real_world_apps/
+    04_advanced/
+ docs/                        # MkDocs site + guides (incl. deployment)
+ pyproject.toml               # Packaging, tooling, and quality gates
 ```
 
 ---
@@ -795,7 +809,7 @@ add_bootstrap(app, mode="light")
 def get():
     return Div(
         YourContent(),
-        data_bs_theme="light",  # ← Add this for proper theming
+        data_bs_theme="light",  #  Add this for proper theming
     )
 ```
 
@@ -809,7 +823,7 @@ def get():
     return Html(
         Head(
             Title("My App"),
-            *app.hdrs,  # ← Required for Faststrap styles
+            *app.hdrs,  #  Required for Faststrap styles
         ),
         Body(YourContent())
     )
@@ -834,20 +848,20 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## Documentation
 
-- 📖 **Component Spec**: [COMPONENT_SPEC.md](COMPONENT_SPEC.md)
-- 🏗️ **Building Guide**: [BUILDING_COMPONENTS.md](BUILDING_COMPONENTS.md)
-- 🗺️ **Roadmap**: [ROADMAP.md](ROADMAP.md)
-- 🤝 **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md)
-- 📝 **Changelog**: [CHANGELOG.md](CHANGELOG.md)
+-  **Component Spec**: [COMPONENT_SPEC.md](COMPONENT_SPEC.md)
+-  **Building Guide**: [BUILDING_COMPONENTS.md](BUILDING_COMPONENTS.md)
+-  **Roadmap**: [ROADMAP.md](ROADMAP.md)
+-  **Contributing**: [CONTRIBUTING.md](CONTRIBUTING.md)
+-  **Changelog**: [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
 ## Support
 
-- 📖 **Documentation**: [GitHub README](https://github.com/Faststrap-org/Faststrap#readme)
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/Faststrap-org/Faststrap/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/Faststrap-org/Faststrap/discussions)
-- 🎮 **Discord**: [FastHTML Community](https://discord.gg/qcXvcxMhdP)
+-  **Documentation**: [GitHub README](https://github.com/Faststrap-org/Faststrap#readme)
+-  **Bug Reports**: [GitHub Issues](https://github.com/Faststrap-org/Faststrap/issues)
+-  **Discussions**: [GitHub Discussions](https://github.com/Faststrap-org/Faststrap/discussions)
+-  **Discord**: [FastHTML Community](https://discord.gg/qcXvcxMhdP)
 
 ---
 
@@ -862,9 +876,9 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - **FastHTML** - The amazing pure-Python web framework
 - **Bootstrap** - Battle-tested UI components
 - **HTMX** - Dynamic interactions without complexity
-- **Contributors** - Thank you! 🙏
+- **Contributors** - Thank you! 
 
 ---
 
-**Built with ❤️ for the FastHTML community**
+**Built with  for the FastHTML community**
 

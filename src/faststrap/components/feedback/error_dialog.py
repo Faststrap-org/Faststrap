@@ -7,12 +7,14 @@ from typing import Any
 
 from fasthtml.common import Div, P
 
+from ...core.registry import register
 from ...core.types import VariantType
 from ...utils.icons import Icon
 from ..forms.button import Button
 from .modal import Modal
 
 
+@register(category="feedback", requires_js=True)
 def ErrorDialog(
     message: str,
     title: str = "Error",

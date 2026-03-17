@@ -354,8 +354,7 @@ def PageLayout(content, active_page="dashboard", title="Dashboard"):
             id="maincontent",
         ),
         # Custom responsive styles
-        Style(
-            """
+        Style("""
             /* Desktop: Fixed sidebar */
             @media (min-width: 992px) {
                 #sidebar {
@@ -392,8 +391,7 @@ def PageLayout(content, active_page="dashboard", title="Dashboard"):
                     flex-wrap: wrap;
                 }
             }
-        """
-        ),
+        """),
     )
 
 

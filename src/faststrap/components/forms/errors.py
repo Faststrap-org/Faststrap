@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Mapping
 from typing import Any
 
+from ...core.registry import register
 from .formgroup import FormGroup
 
 
@@ -39,6 +40,7 @@ def map_formgroup_validation(
     }
 
 
+@register(category="forms")
 def FormGroupFromErrors(
     input_element: Any,
     field: str,

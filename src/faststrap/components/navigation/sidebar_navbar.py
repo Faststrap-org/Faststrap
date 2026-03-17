@@ -144,6 +144,7 @@ def SidebarNavbar(
     return Div(*sidebar_parts, **attrs)
 
 
+@register(category="navigation")
 def SidebarNavItem(
     label: str,
     href: str = "#",

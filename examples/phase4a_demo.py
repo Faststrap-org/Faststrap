@@ -209,7 +209,7 @@ def home():
                     ),
                     Collapse(
                         Card(
-                            body=Div(
+                            Div(
                                 "This content is hidden by default but shown via toggle.", cls="p-3"
                             )
                         ),

@@ -4,11 +4,13 @@ from typing import Any
 
 from fasthtml.common import Div, P
 
+from ...core.registry import register
 from ...core.types import VariantType
 from ..feedback.modal import Modal
 from ..forms.button import Button
 
 
+@register(category="feedback", requires_js=True)
 def ConfirmDialog(
     message: str | Any,
     *,

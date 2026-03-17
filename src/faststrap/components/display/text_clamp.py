@@ -7,9 +7,11 @@ from typing import Any
 from fasthtml.common import Button, Div, Span
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 
+@register(category="display")
 def TextClamp(
     text: str,
     max_chars: int = 180,

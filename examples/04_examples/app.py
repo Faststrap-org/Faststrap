@@ -48,16 +48,14 @@ def toggle_theme():
 
     # Return JavaScript to update HTML data-bs-theme attribute
     # This is the ONLY way to change theme without page reload for now
-    return NotStr(
-        f"""
+    return NotStr(f"""
         <script>
             document.documentElement.setAttribute('data-bs-theme', '{current_theme["theme"]}');
         </script>
         <span id="theme-status" class="badge bg-success">
             Theme changed to {current_theme["theme"].title()} mode!
         </span>
-    """
-    )
+    """)
 
 
 # ============================================================================
@@ -753,8 +751,7 @@ def home():
         # ============================================================================
         # MINIMAL BOOTSTRAP JS (Only for auto-showing welcome toast)
         # ============================================================================
-        Script(
-            """
+        Script("""
             // Auto-show welcome toast when page loads (using Bootstrap's own JS)
             document.addEventListener('DOMContentLoaded', function() {
                 const toastEl = document.getElementById('welcomeToast');
@@ -763,8 +760,7 @@ def home():
                     toast.show();
                 }
             });
-            """
-        ),
+            """),
     )
 
 

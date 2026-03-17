@@ -8,11 +8,13 @@ from typing import Any, Literal
 from fasthtml.common import Div, I, Input, Label
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 ThemeType = Literal["light", "dark", "auto"]
 
 
+@register(category="forms")
 def ThemeToggle(
     current_theme: ThemeType = "auto",
     endpoint: str = "/theme/toggle",

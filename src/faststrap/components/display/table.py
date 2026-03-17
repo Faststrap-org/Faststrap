@@ -9,6 +9,7 @@ from fasthtml.common import Table as FTTable
 
 from ...core._stability import beta, stable
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 # Table-specific types
@@ -17,6 +18,7 @@ TableVariantType = Literal[
 ]
 
 
+@register(category="display")
 @stable
 def Table(
     *children: Any,
@@ -126,6 +128,7 @@ def Table(
     return table
 
 
+@register(category="display")
 @stable
 def THead(
     *children: Any,
@@ -164,6 +167,7 @@ def THead(
     return Thead(*children, **attrs)
 
 
+@register(category="display")
 @stable
 def TBody(
     *children: Any,
@@ -208,6 +212,7 @@ def TBody(
     return Tbody(*children, **attrs)
 
 
+@register(category="display")
 @stable
 def TRow(
     *children: Any,
@@ -249,6 +254,7 @@ def TRow(
     return Tr(*children, **attrs)
 
 
+@register(category="display")
 @stable
 def TCell(
     *children: Any,

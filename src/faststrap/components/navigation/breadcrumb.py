@@ -7,9 +7,11 @@ from typing import Any
 from fasthtml.common import A, Li, Nav, Ol
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 
+@register(category="navigation")
 def Breadcrumb(
     *items: tuple[Any, str | None] | tuple[Any, str | None, bool],
     **kwargs: Any,

@@ -19,7 +19,7 @@ def test_modal_basic():
 
 
 def test_modal_auto_id_is_deterministic():
-    """Auto-generated modal ID should be stable for same config."""
+    """Auto-generated modal ID should share a stable base for same config."""
     m1 = Modal("Content", title="Demo")
     m2 = Modal("Content", title="Demo")
     h1 = to_xml(m1)
@@ -27,7 +27,10 @@ def test_modal_auto_id_is_deterministic():
     marker = 'id="modal-'
     id1 = h1.split(marker, 1)[1].split('"', 1)[0]
     id2 = h2.split(marker, 1)[1].split('"', 1)[0]
-    assert id1 == id2
+    base1 = "-".join(id1.split("-")[:2])
+    base2 = "-".join(id2.split("-")[:2])
+    assert base1 == base2
+    assert id1 != id2
 
 
 def test_modal_with_title():

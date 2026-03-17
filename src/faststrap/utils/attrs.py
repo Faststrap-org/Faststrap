@@ -61,11 +61,11 @@ def _merge_style(existing: str | None, addition: str | None) -> str | None:
 
 
 def convert_attrs(kwargs: dict[str, Any]) -> dict[str, Any]:
-    """Convert Python kwargs to HTML attributes (hx_get → hx-get).
+    """Convert Python kwargs to HTML attributes (hx_get -> hx-get).
 
     Rules:
     - `None` values are dropped
-    - boolean `False` values are dropped
+    - boolean `False` values are dropped (except `aria_*`, which are preserved)
     - boolean `True` values are kept (FastHTML will serialize appropriately)
     - `style` may be a `str` or a `dict` (dict is serialized)
     - `css_vars` may be a dict and will be merged into `style`
@@ -111,12 +111,6 @@ def convert_attrs(kwargs: dict[str, Any]) -> dict[str, Any]:
         if k in {"style", "css_vars", "data", "aria"}:
             continue
 
-        # Drop None and False
-        if v is None:
-            continue
-        if isinstance(v, bool) and v is False:
-            continue
-
         # Keep cls as-is (FastHTML convention)
         if k == "cls":
             converted[k] = v
@@ -125,6 +119,12 @@ def convert_attrs(kwargs: dict[str, Any]) -> dict[str, Any]:
         # Normalize aria booleans as strings (preferred for HTML output)
         if k.startswith("aria_") and isinstance(v, bool):
             converted[_to_kebab(k)] = "true" if v else "false"
+            continue
+
+        # Drop None and False
+        if v is None:
+            continue
+        if isinstance(v, bool) and v is False:
             continue
 
         converted[_to_kebab(k)] = v

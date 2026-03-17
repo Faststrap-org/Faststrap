@@ -60,36 +60,27 @@ def home():
             Row(
                 Col(
                     Card(
-                        Img(
-                            src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=400&q=80",
-                            cls="card-img-top",
-                        ),
+                        "UI/UX improvement for global retailer.",
                         title="E-Commerce Redesign",
-                        body="UI/UX improvement for global retailer.",
+                        img_top="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=400&q=80",
                         cls="bg-dark text-white border-secondary mb-4",
                     ),
                     md=4,
                 ),
                 Col(
                     Card(
-                        Img(
-                            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80",
-                            cls="card-img-top",
-                        ),
+                        "Complex data viz for banking platform.",
                         title="FinTech Dashboard",
-                        body="Complex data viz for banking platform.",
+                        img_top="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80",
                         cls="bg-dark text-white border-secondary mb-4",
                     ),
                     md=4,
                 ),
                 Col(
                     Card(
-                        Img(
-                            src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=400&q=80",
-                            cls="card-img-top",
-                        ),
+                        "Optimizing workflows for teams.",
                         title="Developer Tooling",
-                        body="Optimizing workflows for teams.",
+                        img_top="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=400&q=80",
                         cls="bg-dark text-white border-secondary mb-4",
                     ),
                     md=4,

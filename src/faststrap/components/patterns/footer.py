@@ -9,10 +9,12 @@ from fasthtml.common import A, Div, Footer, Hr, P, Span
 
 from ...core._stability import beta
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 from ...utils.icons import Icon
 
 
+@register(category="patterns")
 @beta
 def FooterModern(
     brand: str | Any | None = None,

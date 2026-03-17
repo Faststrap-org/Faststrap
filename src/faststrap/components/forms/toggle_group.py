@@ -8,9 +8,11 @@ from uuid import uuid4
 from fasthtml.common import Div, Input
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 
+@register(category="forms")
 def ToggleGroup(
     *buttons: Any,
     name: str | None = None,

@@ -8,6 +8,7 @@ from typing import Any, cast
 from fasthtml.common import Div, NotStr
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 DEFAULT_ALLOWED_TAGS = [
@@ -101,6 +102,7 @@ def render_markdown(
     )
 
 
+@register(category="display")
 def Markdown(
     text: str,
     *,

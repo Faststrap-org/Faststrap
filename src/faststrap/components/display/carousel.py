@@ -11,6 +11,16 @@ from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...utils.attrs import convert_attrs
 
+_CAROUSEL_ID_COUNTS: dict[str, int] = {}
+
+
+def _unique_carousel_id(base_id: str) -> str:
+    count = _CAROUSEL_ID_COUNTS.get(base_id, 0) + 1
+    _CAROUSEL_ID_COUNTS[base_id] = count
+    if count == 1:
+        return base_id
+    return f"{base_id}-{count}"
+
 
 def _stable_carousel_id(
     items: tuple[Any, ...],
@@ -35,7 +45,7 @@ def _stable_carousel_id(
             sort_keys=True,
         ).encode("utf-8")
     ).hexdigest()[:8]
-    return f"carousel-{digest}"
+    return f"carousel-{digest}-auto"
 
 
 @register(category="display", requires_js=True)
@@ -118,7 +128,7 @@ def Carousel(
 
     # Generate ID if not provided
     if carousel_id is None:
-        carousel_id = _stable_carousel_id(
+        base_id = _stable_carousel_id(
             items,
             controls=c_controls,
             indicators=c_indicators,
@@ -126,6 +136,7 @@ def Carousel(
             fade=c_fade,
             dark=c_dark,
         )
+        carousel_id = _unique_carousel_id(base_id)
 
     # Build classes
     classes = ["carousel", "slide"]
@@ -222,6 +233,7 @@ def Carousel(
     return Div(*carousel_parts, **attrs)
 
 
+@register(category="display", requires_js=True)
 def CarouselItem(
     *content: Any,
     caption: str | None = None,

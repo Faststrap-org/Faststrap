@@ -1,52 +1,52 @@
-# FastStrap Roadmap – Comprehensive Edition (January 2026)
+# FastStrap Roadmap  Comprehensive Edition (January 2026)
 
-**Vision:** The most complete, Pythonic, zero-JS Bootstrap 5 component library for FastHTML — 100+ production-ready components built by the community, for the community.
+**Vision:** The most complete, Pythonic, zero-JS Bootstrap 5 component library for FastHTML  100+ production-ready components built by the community, for the community.
 
 ---
 
-## 📊 Current Status (v0.5.6.post3 – February 2026)
+##  Current Status (v0.5.6.post3  February 2026)
 
-**38 components live** – Phase 1 through 4B complete  
-**230+ tests** – 85%+ coverage  
+**93 components live**  Phase 1 through 4B complete  
+**230+ tests**  85%+ coverage  
 **Full HTMX + Bootstrap 5.3.3 support**  
 **Zero custom JavaScript required**
 
 ### Overall Progress to v1.0
 
 ```text
-Components:   ████████░░ 38/100 (38%)
-Tests:        ████████░░ 230/800 (29%)
-Coverage:     ████████░░ 85/95   (89%)
-Contributors: ███░░░░░░░ 15+/100 (15%)
+Components:    38/100 (38%)
+Tests:         230/800 (29%)
+Coverage:      85/95   (89%)
+Contributors:  15+/100 (15%)
 ```
 
-### 🎉 Recent Achievements
+###  Recent Achievements
 
-- ✅ **Jan 2026**: Phase 4B shipped - 8 new components (FileInput, Tooltip, Popover, Figure, ConfirmDialog, EmptyState, StatCard, Hero)
-- ✅ **Jan 2026**: Documentation overhaul with live component previews and interactive examples
-- ✅ **Dec 2025**: 15+ contributors milestone reached - growing community!
-- ✅ **Dec 2025**: Phase 4A completed - Table, Accordion, comprehensive form controls
-- 🔜 **Feb 2026**: Phase 5 kickoff - Visual effects & professional layout system
+-  **Jan 2026**: Phase 4B shipped - 8 new components (FileInput, Tooltip, Popover, Figure, ConfirmDialog, EmptyState, StatCard, Hero)
+-  **Jan 2026**: Documentation overhaul with live component previews and interactive examples
+-  **Dec 2025**: 15+ contributors milestone reached - growing community!
+-  **Dec 2025**: Phase 4A completed - Table, Accordion, comprehensive form controls
+-  **Feb 2026**: Phase 5 kickoff - Visual effects & professional layout system
 
 ---
 
-## 📅 Release Timeline
+##  Release Timeline
 
 ```
-2025 Dec  ████ Phase 4B Complete (38 components)
-2026 Jan  ████ Documentation Overhaul
-2026 Feb  ░░░░ Phase 5 - Visual Polish (50 components)
-2026 Mar  ░░░░ v0.5.5 - Quick Wins
-2026 Apr  ░░░░ Phase 6.0 - Data Layer
-2026 May  ░░░░ Phase 6.1 - Productivity
-2026 Jun  ░░░░ Phase 6.2 - Auth & DX  
-2026 Jul  ░░░░ Phase 6.3 - Realtime
-2026 Aug  ░░░░ v1.0.0 Production Release 🎉
+2025 Dec   Phase 4B Complete (38 components)
+2026 Jan   Documentation Overhaul
+2026 Feb   Phase 5 - Visual Polish (50 components)
+2026 Mar   v0.5.5 - Quick Wins
+2026 Apr   Phase 6.0 - Data Layer
+2026 May   Phase 6.1 - Productivity
+2026 Jun   Phase 6.2 - Auth & DX  
+2026 Jul   Phase 6.3 - Realtime
+2026 Aug   v1.0.0 Production Release 
 ```
 
 ---
 
-## 🔒 Framework Guarantees (v1.0+)
+##  Framework Guarantees (v1.0+)
 
 Faststrap commits to the following architectural contracts to ensure stability, predictability, and enterprise readiness:
 
@@ -95,46 +95,46 @@ assert "btn btn-primary" in str(button)  # Always true
 
 ---
 
-## 📚 Completed Phases (For Reference)
+##  Completed Phases (For Reference)
 
-### Phase 1-2: Foundation (v0.1.0 - v0.2.2) – Dec 2025
+### Phase 1-2: Foundation (v0.1.0 - v0.2.2)  Dec 2025
 **12 components:** Button, ButtonGroup, Badge, Card, Alert, Modal, Drawer, Toast, Navbar, Container/Row/Col, Icon
 
 **Focus:** Core Bootstrap components, HTMX integration patterns, theming system
 
-### Phase 3: Forms & Navigation (v0.3.0) – Dec 2025
+### Phase 3: Forms & Navigation (v0.3.0)  Dec 2025
 **+8 components:** Tabs, Dropdown, Input, Select, Breadcrumb, Pagination, Spinner, Progress
 
 **Focus:** Form controls, navigation patterns, loading indicators
 
-### Phase 4A: Bootstrap Parity (v0.4.0) – Dec 2025
+### Phase 4A: Bootstrap Parity (v0.4.0)  Dec 2025
 **+10 components:** Table, Accordion, Checkbox, Radio, Switch, Range, ListGroup, Collapse, InputGroup, FloatingLabel
 
 **Focus:** Complete form control set, data display, collapsible content
 
-### Phase 4B: Enhanced UI (v0.4.5) – Jan 2026
+### Phase 4B: Enhanced UI (v0.4.5)  Jan 2026
 **+8 components:** FileInput, Tooltip, Popover, Figure, ConfirmDialog, EmptyState, StatCard, Hero
 
 **Focus:** Rich interactions, feedback patterns, landing page elements
 
-**Total: 38 production-ready components**
+**Total: 93 production-ready components**
 
 ---
 
-## 🎯 Quick Wins (v0.4.7 – February 2026)
+##  Quick Wins (v0.4.7  February 2026)
 
 **Goal:** Maintain momentum with high-value, low-effort additions while Phase 5 is in development.
 
 | Feature | Effort | Impact | Status | Notes |
 |---------|--------|--------|--------|-------|
-| `Table.from_dict()` | 2 days | 🔥 High | Planned | Render dicts/lists as tables instantly |
-| `Table.from_pydantic()` | 1 day | 🔥 High | Planned | Render Pydantic model lists as tables |
-| Example Gallery | 3 days | 🔥 High | Planned | 10+ real-world apps (e-commerce, blog, dashboard) |
+| `Table.from_dict()` | 2 days |  High | Planned | Render dicts/lists as tables instantly |
+| `Table.from_pydantic()` | 1 day |  High | Planned | Render Pydantic model lists as tables |
+| Example Gallery | 3 days |  High | Planned | 10+ real-world apps (e-commerce, blog, dashboard) |
 | `Badge` enhancements | 4 hours | Medium | Planned | `.pill()` helper, positioning utilities |
 | `Alert.flash()` preset | 1 day | Medium | Planned | Auto-dismiss with timer, session flash messages |
-| Component search | 2 days | 🔥 High | Planned | Search bar on docs site for quick component discovery |
+| Component search | 2 days |  High | Planned | Search bar on docs site for quick component discovery |
 
-**Why Quick Wins?**
+**Why Quick Wins**
 - Keeps contributors engaged between major phases
 - Provides immediate value to users
 - Tests smaller features before committing to large Phase implementations
@@ -174,7 +174,7 @@ def save():
 
 ---
 
-## 🎨 Phase 5 – Composed UI & Design System Layer (v0.5.0 – February 2026)
+##  Phase 5  Composed UI & Design System Layer (v0.5.0  February 2026)
 
 **Goal:** Transform Faststrap from a component library into a **complete design system** with professional patterns, layouts, and visual polish.
 
@@ -357,7 +357,7 @@ def dashboard():
         breadcrumbs=[("Home", "/"), ("Dashboard", None)],
         
         # Footer
-        footer="© 2026 MyApp. All rights reserved."
+        footer=" 2026 MyApp. All rights reserved."
     )
 ```
 
@@ -445,7 +445,7 @@ def home():
         # Feature sections
         sections=[
             FeatureGrid(
-                title="Why Choose Faststrap?",
+                title="Why Choose Faststrap",
                 features=[
                     Feature("Zero JavaScript", "Pure Python development", icon="code-slash"),
                     Feature("38+ Components", "Production-ready UI elements", icon="puzzle"),
@@ -540,8 +540,8 @@ faststrap init
 > Project name: my-app
 > Template: [dashboard, landing, ecommerce, blog, blank]
 > Choose: dashboard
-> Include auth? [y/N]: y
-> Include database? [y/N]: y
+> Include auth [y/N]: y
+> Include database [y/N]: y
 > Creating project...
 > Done! Run: cd my-app && python main.py
 
@@ -555,23 +555,23 @@ faststrap init --list-templates
 **Generated Structure:**
 ```
 my-app/
-├── main.py              # FastHTML app entry point
-├── routes/
-│   ├── __init__.py
-│   ├── dashboard.py
-│   ├── auth.py
-│   └── api.py
-├── models/
-│   ├── __init__.py
-│   └── user.py
-├── static/
-│   ├── css/
-│   └── js/
-├── templates/           # If using Jinja2
-├── .env.example
-├── requirements.txt
-├── README.md
-└── tests/
+ main.py              # FastHTML app entry point
+ routes/
+    __init__.py
+    dashboard.py
+    auth.py
+    api.py
+ models/
+    __init__.py
+    user.py
+ static/
+    css/
+    js/
+ templates/           # If using Jinja2
+ .env.example
+ requirements.txt
+ README.md
+ tests/
 ```
 
 **Implementation:**
@@ -621,13 +621,13 @@ def init(project_name, template, auth, db):
     if db != 'none':
         configure_database(project_path, db)
     
-    click.echo(f'\n✅ Project created: {project_path}')
+    click.echo(f'\n Project created: {project_path}')
     click.echo(f'Run: cd {project_name} && python main.py')
 ```
 
 ---
 
-## 📊 Phase 6 – Data & Ecosystem (v0.6.x – April-July 2026)
+##  Phase 6  Data & Ecosystem (v0.6.x  April-July 2026)
 
 **Goal:** Deep Python integration leveraging Pandas, Pydantic, and data science tools. Make Faststrap the **obvious choice for data-centric applications**.
 
@@ -637,7 +637,7 @@ def init(project_name, template, auth, db):
 - Faststrap + Python data tools = unbeatable developer experience
 - No other HTML framework has this tight integration
 
-### v0.6.0 – Data Layer (April 2026)
+### v0.6.0  Data Layer (April 2026)
 
 **Focus:** Seamless integration with Pandas/Polars for data-driven UIs.
 
@@ -769,7 +769,7 @@ def apply_dark_theme(fig):
         ax.yaxis.label.set_color('#e0e0e0')
 ```
 
-### v0.6.1 – Productivity Layer (May 2026)
+### v0.6.1  Productivity Layer (May 2026)
 
 **Focus:** Type-safe form generation and HTMX convenience wrappers to eliminate boilerplate.
 
@@ -990,7 +990,7 @@ from faststrap.htmx import InfiniteScroll
 
 container = InfiniteScroll(
     content=initial_items,
-    load_more_endpoint="/api/items?page=2",
+    load_more_endpoint="/api/itemspage=2",
     target="#items-container",
     trigger_offset="200px"  # Load when 200px from bottom
 )
@@ -1006,7 +1006,7 @@ delete_btn = ConfirmAction(
     "Delete User",
     action="/api/users/123/delete",
     method="DELETE",
-    confirm_title="Are you sure?",
+    confirm_title="Are you sure",
     confirm_message="This action cannot be undone.",
     variant="danger"
 )
@@ -1014,7 +1014,7 @@ delete_btn = ConfirmAction(
 # Uses Bootstrap Modal for confirmation
 ```
 
-### v0.6.2 – Auth & DX Layer (June 2026)
+### v0.6.2  Auth & DX Layer (June 2026)
 
 **Focus:** Authentication UI components and developer experience tools.
 
@@ -1037,7 +1037,7 @@ from faststrap.auth import LoginCard
 @app.get("/login")
 def login_page():
     return LoginCard(
-        logo="🛒 MyApp",
+        logo=" MyApp",
         title="Welcome Back",
         social_logins=["google", "github"],  # Optional OAuth buttons
         hx_post="/auth/login",
@@ -1143,14 +1143,14 @@ faststrap lint src/
 # - Missing tests for components
 ```
 
-### v0.6.3 – Realtime Layer (July 2026)
+### v0.6.3  Realtime Layer (July 2026)
 
 **Focus:** Live-updating components via Server-Sent Events (SSE).
 
 **Design: Lightweight SSE wrappers, not full WebSocket framework**
 
 **Why SSE over WebSockets:**
-- Simpler (one-way server→client)
+- Simpler (one-way serverclient)
 - Works with standard HTTP/2
 - Auto-reconnects
 - Sufficient for dashboards, notifications, live metrics
@@ -1230,7 +1230,7 @@ async def notify_user(user_id, message):
 
 ---
 
-## 🌍 Community Ecosystem (Safe Path)
+##  Community Ecosystem (Safe Path)
 
 **Goal:** Enable a thriving community-driven ecosystem while maintaining core stability and preventing the chaos that plagues other plugin systems.
 
@@ -1264,18 +1264,18 @@ Many frameworks struggle with extensions:
 **Example Theme Pack Structure:**
 ```
 faststrap-themes-cyberpunk/
-├── faststrap_themes_cyberpunk/
-│   ├── __init__.py
-│   ├── neon_pink.py
-│   ├── matrix_green.py
-│   └── blade_runner.py
-├── previews/
-│   ├── neon_pink.png
-│   ├── matrix_green.png
-│   └── blade_runner.png
-├── manifest.json
-├── README.md
-└── setup.py
+ faststrap_themes_cyberpunk/
+    __init__.py
+    neon_pink.py
+    matrix_green.py
+    blade_runner.py
+ previews/
+    neon_pink.png
+    matrix_green.png
+    blade_runner.png
+ manifest.json
+ README.md
+ setup.py
 ```
 
 **manifest.json:**
@@ -1330,18 +1330,18 @@ add_bootstrap(app, theme=neon_pink)
 **Example Component Pack Structure:**
 ```
 faststrap-components-calendar/
-├── faststrap_components_calendar/
-│   ├── __init__.py
-│   ├── calendar.py
-│   ├── date_picker.py
-│   └── styles.css
-├── tests/
-│   └── test_calendar.py
-├── examples/
-│   └── demo.py
-├── manifest.json
-├── README.md
-└── setup.py
+ faststrap_components_calendar/
+    __init__.py
+    calendar.py
+    date_picker.py
+    styles.css
+ tests/
+    test_calendar.py
+ examples/
+    demo.py
+ manifest.json
+ README.md
+ setup.py
 ```
 
 **Usage (Explicit Import):**
@@ -1398,20 +1398,20 @@ faststrap init my-blog --template=community/blog-pro
 **Registry Structure:**
 ```
 Faststrap-org/faststrap-extensions/ (GitHub repo)
-├── registry.json               # Master list
-├── themes/
-│   ├── cyberpunk-themes.json
-│   ├── nature-themes.json
-│   └── corporate-themes.json
-├── components/
-│   ├── calendar.json
-│   ├── kanban.json
-│   └── rich-editor.json
-├── templates/
-│   ├── blog-pro.json
-│   ├── saas-starter.json
-│   └── ecommerce-complete.json
-└── README.md
+ registry.json               # Master list
+ themes/
+    cyberpunk-themes.json
+    nature-themes.json
+    corporate-themes.json
+ components/
+    calendar.json
+    kanban.json
+    rich-editor.json
+ templates/
+    blog-pro.json
+    saas-starter.json
+    ecommerce-complete.json
+ README.md
 ```
 
 **registry.json:**
@@ -1455,15 +1455,15 @@ Faststrap-org/faststrap-extensions/ (GitHub repo)
    - Security scan
    - License verification
    - Contract compliance
-4. Approval → Merged → Listed on website
+4. Approval  Merged  Listed on website
 
 **Quality Badges:**
-- 🌟 **Featured** - Handpicked by maintainers
-- ✅ **Verified** - Passes all automated checks
-- 🔥 **Popular** - 100+ downloads
-- 🆕 **New** - Published in last 30 days
-- 📚 **Well-Documented** - Comprehensive README + examples
-- 🧪 **Tested** - >80% test coverage
+-  **Featured** - Handpicked by maintainers
+-  **Verified** - Passes all automated checks
+-  **Popular** - 100+ downloads
+-  **New** - Published in last 30 days
+-  **Well-Documented** - Comprehensive README + examples
+-  **Tested** - >80% test coverage
 
 ### 3. Discovery Tooling (v0.7+)
 
@@ -1526,7 +1526,7 @@ faststrap init my-app --template=community/saas-starter
    from faststrap_themes_cyberpunk import neon_pink
    
    # Not:
-   # theme="community/neon-pink"  ← Magic string, unclear provenance
+   # theme="community/neon-pink"   Magic string, unclear provenance
    ```
 
 3. **PyPI is the Distribution**
@@ -1551,13 +1551,13 @@ faststrap init my-app --template=community/saas-starter
 
 | System | Auto-Discovery | Runtime Hooks | Version Conflicts | Our Approach |
 |--------|----------------|---------------|-------------------|--------------|
-| WordPress Plugins | ✅ Yes | ✅ Yes | ⚠️ Common | ❌ No / ❌ No / ✅ Rare |
-| VS Code Extensions | ✅ Yes | ✅ Yes | ⚠️ Occasional | ❌ No / ❌ No / ✅ Rare |
-| Python Packages | ❌ No | ❌ No | ⚠️ Dependency Hell | ❌ No / ❌ No / ✅ Use venv |
+| WordPress Plugins |  Yes |  Yes |  Common |  No /  No /  Rare |
+| VS Code Extensions |  Yes |  Yes |  Occasional |  No /  No /  Rare |
+| Python Packages |  No |  No |  Dependency Hell |  No /  No /  Use venv |
 
 ---
 
-## 🔒 Stability & Versioning Policy
+##  Stability & Versioning Policy
 
 **Goal:** Give users confidence that upgrading won't break their apps.
 
@@ -1565,21 +1565,21 @@ faststrap init my-app --template=community/saas-starter
 
 Every component is marked with a stability decorator:
 
-🟢 **Stable** (`@stable`)
-- **API Guarantee:** Won't break in minor versions (0.5.x → 0.6.x)
+ **Stable** (`@stable`)
+- **API Guarantee:** Won't break in minor versions (0.5.x  0.6.x)
 - **Test Coverage:** >90%
 - **Production Usage:** Used in 3+ real projects
 - **Documentation:** Complete with examples
 - **Examples:** `Button`, `Card`, `Input`, `Table`, `Modal`
 
-🟡 **Beta** (`@beta`)
+ **Beta** (`@beta`)
 - **API Warning:** May change in minor versions
 - **Test Coverage:** >70%
 - **Production Usage:** Limited real-world usage
 - **Documentation:** Basic docs, may be incomplete
 - **Examples:** New Phase 6 components on first release
 
-🔴 **Experimental** (`@experimental`)
+ **Experimental** (`@experimental`)
 - **API Warning:** Will likely change
 - **Test Coverage:** Minimal (>50%)
 - **Production Usage:** Not recommended
@@ -1615,19 +1615,19 @@ class AIChat(Component):
 
 **Format:** MAJOR.MINOR.PATCH
 
-**MAJOR (1.0 → 2.0):**
+**MAJOR (1.0  2.0):**
 - Breaking API changes
 - Requires code updates
 - Migration guide provided
 - Minimum 6 months notice via deprecation warnings
 
-**MINOR (0.5.0 → 0.6.0):**
+**MINOR (0.5.0  0.6.0):**
 - New features
-- Beta → Stable promotions
+- Beta  Stable promotions
 - Non-breaking enhancements
 - Deprecated features (with warnings)
 
-**PATCH (0.5.0 → 0.5.1):**
+**PATCH (0.5.0  0.5.1):**
 - Bug fixes only
 - Security patches
 - Documentation updates
@@ -1687,16 +1687,16 @@ Button("Click", color="primary")
 Button("Click", variant="primary")
 ```
 
-**Find/Replace:** `color=` → `variant=`
+**Find/Replace:** `color=`  `variant=`
 ```
 
 ---
 
-## 🚫 Non-Goals
+##  Non-Goals
 
 What Faststrap intentionally **won't** do, and why:
 
-### ❌ Client-Side Reactivity
+###  Client-Side Reactivity
 
 **What we mean:**
 - React-style useState, useEffect
@@ -1711,7 +1711,7 @@ What Faststrap intentionally **won't** do, and why:
 
 **Alternative:** If you need client-side reactivity, use Alpine.js (works great with Faststrap/HTMX)
 
-### ❌ Custom CSS Framework
+###  Custom CSS Framework
 
 **What we mean:**
 - Building our own grid system
@@ -1726,7 +1726,7 @@ What Faststrap intentionally **won't** do, and why:
 
 **Alternative:** Use Bootstrap's built-in customization (Sass variables, utility API)
 
-### ❌ Database ORM
+###  Database ORM
 
 **What we mean:**
 - Building database models
@@ -1755,7 +1755,7 @@ users = await User.all()  # Tortoise ORM
 # We don't care which one you use
 ```
 
-### ❌ Full Auth Backend
+###  Full Auth Backend
 
 **What we mean:**
 - Password hashing
@@ -1787,7 +1787,7 @@ users = await User.all()  # Tortoise ORM
 
 ---
 
-## 🎯 Success Metrics
+##  Success Metrics
 
 How we measure progress toward v1.0:
 
@@ -1803,19 +1803,19 @@ How we measure progress toward v1.0:
 | **Documentation Pages** | 25 | 50 | 75 | 100 | 150+ |
 
 **Qualitative Goals:**
-- ✅ "Obvious choice" for FastHTML projects
-- ✅ Mentioned in FastHTML official docs
-- ✅ Conference talk accepted (PyCon, DjangoCon)
-- ✅ Corporate sponsor (≥$1000/year)
-- ✅ Full-time contributor (via sponsorship)
+-  "Obvious choice" for FastHTML projects
+-  Mentioned in FastHTML official docs
+-  Conference talk accepted (PyCon, DjangoCon)
+-  Corporate sponsor ($1000/year)
+-  Full-time contributor (via sponsorship)
 
 ---
 
-## 🤝 How to Contribute
+##  How to Contribute
 
 Whether you're a first-time contributor or seasoned developer, there's a way to help build Faststrap.
 
-### 🌱 First-Time Contributors
+###  First-Time Contributors
 
 **Perfect for getting started:**
 
@@ -1839,12 +1839,12 @@ Whether you're a first-time contributor or seasoned developer, there's a way to 
 **Issue Reporting:**
 - Report bugs with reproduction steps
 - Suggest new features with use cases
-- Vote on existing issues (👍 reactions)
+- Vote on existing issues ( reactions)
 
 **Good First Issues:**
 Check GitHub issues tagged [`good-first-issue`](https://github.com/Faststrap-org/Faststrap/labels/good-first-issue)
 
-### 🛠️ Component Developers (Intermediate)
+###  Component Developers (Intermediate)
 
 **Ready to build components:**
 
@@ -1874,7 +1874,7 @@ Check GitHub issues tagged [`good-first-issue`](https://github.com/Faststrap-org
 - **Examples:** Study existing components like `Button`, `Card`, `Table`
 - **Tests:** See `tests/components/` for testing patterns
 
-### 🏗️ Architecture & Design (Advanced)
+###  Architecture & Design (Advanced)
 
 **Shape the framework:**
 
@@ -1888,7 +1888,7 @@ Check GitHub issues tagged [`good-first-issue`](https://github.com/Faststrap-org
    - Alternatives considered
    - Breaking changes (if any)
 4. Community discussion (1-2 weeks)
-5. If accepted → Create implementation plan
+5. If accepted  Create implementation plan
 6. Either implement yourself or mentor others
 
 **Areas for Advanced Contributors:**
@@ -1923,30 +1923,30 @@ Check GitHub issues tagged [`good-first-issue`](https://github.com/Faststrap-org
 - Speak at conferences
 - Write blog posts
 
-### 🏆 Contribution Recognition
+###  Contribution Recognition
 
 We celebrate and reward contributors:
 
 **Levels:**
 
-**🥉 Contributor** (First PR merged)
+** Contributor** (First PR merged)
 - Name in CONTRIBUTORS.md
 - Contributor badge on profile
 - Access to private Discord channel
 
-**🥈 Regular Contributor** (5+ PRs merged)
+** Regular Contributor** (5+ PRs merged)
 - Featured on contributors page with bio
 - Vote on roadmap priorities
 - Early access to beta features
 - Special Discord role
 
-**🥇 Core Contributor** (Major feature or 20+ PRs)
+** Core Contributor** (Major feature or 20+ PRs)
 - Co-author credit in release notes
 - Listed as maintainer
 - Voting rights on major decisions
 - Monthly spotlight on social media
 
-**💎 Lead Maintainer**
+** Lead Maintainer**
 - Full commit access
 - Release authority
 - GitHub Sponsors profile link
@@ -1958,7 +1958,7 @@ We celebrate and reward contributors:
 - Conference ticket sponsorships
 - Swag (stickers, t-shirts) for active contributors
 
-### 💬 Getting Help
+###  Getting Help
 
 **Discord:** [FastHTML Community Server](https://discord.gg/qcXvcxMhdP)
 - `#faststrap` - General discussion
@@ -1990,11 +1990,11 @@ We celebrate and reward contributors:
 
 ---
 
-## 🏆 Built with Faststrap
+##  Built with Faststrap
 
 Real projects using Faststrap in production - proof that it works!
 
-### 🌟 Showcase Projects
+###  Showcase Projects
 
 **[FastShop](https://github.com/example/fastshop)** - E-commerce Platform
 - Full shopping cart, checkout, order tracking
@@ -2015,7 +2015,7 @@ Real projects using Faststrap in production - proof that it works!
 - Clean reading experience
 - **Author:** @janedoe
 
-### 🏢 In Production
+###  In Production
 
 **Company X** - Internal admin panel
 - 250+ users across 3 departments
@@ -2032,23 +2032,23 @@ Real projects using Faststrap in production - proof that it works!
 - Landing pages and blogs
 - Reduced development time by 60%
 
-### 📝 Case Studies
+###  Case Studies
 
 **"How FastShop Was Built in 4 Hours"**
 - Developer: Claude (AI Assistant)
 - Challenge: Full e-commerce system with cart, checkout, orders
 - Solution: Used Faststrap's pre-built components
 - Result: Production-ready system in record time
-- [Read full case study →](#)
+- [Read full case study ](#)
 
 **"Migrating from React to Faststrap"**
 - Company: TechCorp Inc.
 - Challenge: Complex React codebase, hard to maintain
 - Solution: Rebuilt admin panel with FastHTML + Faststrap
 - Result: 70% less code, faster performance, easier hiring
-- [Read full case study →](#)
+- [Read full case study ](#)
 
-### 🎨 Component Gallery
+###  Component Gallery
 
 Browse live examples of every Faststrap component:
 - [Component Playground](https://faststrap.dev/playground)
@@ -2056,9 +2056,9 @@ Browse live examples of every Faststrap component:
 - Copy-paste code examples
 - Dark mode preview
 
-### 📤 Submit Your Project
+###  Submit Your Project
 
-Built something awesome with Faststrap? Share it!
+Built something awesome with Faststrap Share it!
 
 **Requirements:**
 - Uses Faststrap components
@@ -2079,7 +2079,7 @@ Built something awesome with Faststrap? Share it!
 
 ---
 
-## 📚 Documentation Website
+##  Documentation Website
 
 **Live at:** [faststrap.dev](https://faststrap.dev) *(coming soon)*
 
@@ -2149,7 +2149,7 @@ Every component page has:
 
 ---
 
-## 🗺️ Phase 7+ (Post v1.0)
+##  Phase 7+ (Post v1.0)
 
 Ideas for the future (not committed, subject to change):
 
@@ -2199,7 +2199,7 @@ Ideas for the future (not committed, subject to change):
 
 ---
 
-## 🎯 v1.0.0 – Production Release (August 2026)
+##  v1.0.0  Production Release (August 2026)
 
 **The Big One:** Official production-ready release.
 
@@ -2283,7 +2283,7 @@ Ideas for the future (not committed, subject to change):
 
 ---
 
-## 📊 Appendix: Detailed Component List
+##  Appendix: Detailed Component List
 
 ### Current Components (v0.4.5 - 38 total)
 
@@ -2376,7 +2376,7 @@ Ideas for the future (not committed, subject to change):
 
 ---
 
-## 📞 Contact & Support
+##  Contact & Support
 
 **For Users:**
 - **Discord:** [#faststrap channel](https://discord.gg/qcXvcxMhdP)
@@ -2400,7 +2400,7 @@ Ideas for the future (not committed, subject to change):
 
 ---
 
-## 📜 License & Legal
+##  License & Legal
 
 **Faststrap** is open source software released under the **MIT License**.
 
@@ -2423,12 +2423,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
 ```
 
 **What this means:**
-- ✅ Use commercially (no restrictions)
-- ✅ Modify as needed
-- ✅ Distribute freely
-- ✅ Private use
-- ❌ No warranty (use at own risk)
-- ❌ Authors not liable
+-  Use commercially (no restrictions)
+-  Modify as needed
+-  Distribute freely
+-  Private use
+-  No warranty (use at own risk)
+-  Authors not liable
 
 **Third-Party Licenses:**
 - **Bootstrap:** MIT License
@@ -2440,7 +2440,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
 
 ---
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 **Built on the shoulders of giants:**
 
@@ -2469,11 +2469,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
 **Current Version:** v0.5.6.post3 (PWA route fix + resilient caching baseline)  
 **Next Release:** v0.5.7 (PageMeta + form error mapper focus)
 
-**Let's build the definitive UI library for FastHTML — together.** 🚀
+**Let's build the definitive UI library for FastHTML  together.** 
 
 ---
 
-## 🗂️ Quick Links
+##  Quick Links
 
 - **GitHub:** [Faststrap-org/Faststrap](https://github.com/Faststrap-org/Faststrap)
 - **Documentation:** [faststrap.dev](https://faststrap.dev)
@@ -2482,4 +2482,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
 - **Twitter:** [@faststrap](https://twitter.com/faststrap)
 - **Blog:** [faststrap.dev/blog](https://faststrap.dev/blog)
 
-**Star us on GitHub** ⭐ if Faststrap helps you build better apps!
+**Star us on GitHub**  if Faststrap helps you build better apps!

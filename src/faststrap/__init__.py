@@ -3,7 +3,12 @@
 Build beautiful web UIs in pure Python with zero JavaScript knowledge.
 """
 
-__version__ = "0.5.9"
+from importlib import metadata as _metadata
+
+try:
+    __version__ = _metadata.version("faststrap")
+except _metadata.PackageNotFoundError:
+    __version__ = "0.0.0+local"
 __author__ = "FastStrap Contributors"
 __license__ = "MIT"
 

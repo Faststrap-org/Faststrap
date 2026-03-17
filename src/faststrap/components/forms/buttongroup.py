@@ -5,11 +5,13 @@ from typing import Any, Literal
 from fasthtml.common import Div
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 SizeType = Literal["sm", "lg"]
 
 
+@register(category="forms")
 def ButtonGroup(
     *buttons: Any,
     size: SizeType | None = None,
@@ -95,6 +97,7 @@ def ButtonGroup(
     return Div(*buttons, **attrs)
 
 
+@register(category="forms")
 def ButtonToolbar(
     *groups: Any,
     **kwargs: Any,

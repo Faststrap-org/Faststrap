@@ -6,12 +6,14 @@ from fasthtml.common import Div
 
 from ...core._stability import stable
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 BreakpointType = Literal["sm", "md", "lg", "xl", "xxl"]
 ContainerType = Literal["fluid", "sm", "md", "lg", "xl", "xxl"]
 
 
+@register(category="layout")
 @stable
 def Container(
     *children: Any,
@@ -63,6 +65,7 @@ def Container(
     return Div(*children, **attrs)
 
 
+@register(category="layout")
 @stable
 def Row(
     *children: Any,
@@ -130,6 +133,7 @@ def Row(
     return Div(*children, **attrs)
 
 
+@register(category="layout")
 @stable
 def Col(
     *children: Any,

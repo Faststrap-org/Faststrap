@@ -7,10 +7,12 @@ from typing import Any, Literal
 from fasthtml.common import A, Button, Div, Li, Ul
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.types import VariantType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="navigation")
 def ListGroup(
     *children: Any,
     flush: bool = False,
@@ -94,6 +96,7 @@ def ListGroup(
     return Ul(*children, **attrs)
 
 
+@register(category="navigation")
 def ListGroupItem(
     *children: Any,
     variant: VariantType | None = None,
@@ -188,6 +191,7 @@ def ListGroupItem(
     return Li(*content, **attrs)
 
 
+@register(category="navigation", requires_js=True)
 def Collapse(
     *children: Any,
     collapse_id: str,

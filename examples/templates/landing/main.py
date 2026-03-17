@@ -641,8 +641,7 @@ def get():
         CTA(),
         Footer(),
         # Custom styles for responsiveness and animations
-        Style(
-            """
+        Style("""
             .hover-shadow {
                 transition: box-shadow 0.3s ease-in-out;
             }
@@ -696,8 +695,7 @@ def get():
                     padding-right: 1rem !important;
                 }
             }
-        """
-        ),
+        """),
         cls="bg-white",
         data_bs_theme="light",
     )

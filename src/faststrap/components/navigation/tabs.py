@@ -7,11 +7,13 @@ from typing import Any
 from fasthtml.common import Button, Div, Li, Ul
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import TabType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="navigation", requires_js=True)
 def Tabs(
     *items: tuple[str, Any, bool] | tuple[str, Any],
     variant: TabType | None = None,
@@ -57,6 +59,9 @@ def Tabs(
     # ---- Build nav items -------------------------------------------------- #
     nav_items = []
     has_active = False
+    has_explicit_active = any(
+        len(item) == 3 and bool(item[2]) for item in items  # type: ignore[index]
+    )
 
     for idx, item in enumerate(items):
         if len(item) == 3:
@@ -67,8 +72,8 @@ def Tabs(
         else:
             raise ValueError("Tab item must be (id, label) or (id, label, active)")
 
-        # First tab active fallback
-        if idx == 0 and not has_active and not is_active:
+        # First tab active fallback (only if no explicit active set)
+        if idx == 0 and not has_active and not is_active and not has_explicit_active:
             is_active = True
 
         if is_active:
@@ -123,6 +128,7 @@ def Tabs(
         return Div(nav)
 
 
+@register(category="navigation", requires_js=True)
 def TabPane(
     *children: Any,
     tab_id: str,

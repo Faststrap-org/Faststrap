@@ -6,7 +6,6 @@ Showcasing modern UI patterns: FeatureGrid, PricingGroup, and NavbarModern.
 from fasthtml.common import H2, Div, FastHTML, serve
 
 from faststrap import (
-    Button,
     Container,
     Feature,
     FeatureGrid,
@@ -46,7 +45,7 @@ def home():
                 icon="credit-card",
                 icon_cls="bg-warning-subtle text-warning",
             ),
-            cols=3,
+            columns=3,
         ),
         cls="py-5",
     )
@@ -57,27 +56,32 @@ def home():
         PricingGroup(
             PricingTier(
                 "Personal",
-                "$0",
-                ["5 Projects", "Basic Support", "Limited Storage"],
-                cta=Button("Choose Personal", cls="btn-outline-primary w-100"),
+                0,
+                features=["5 Projects", "Basic Support", "Limited Storage"],
+                button_text="Choose Personal",
             ),
             PricingTier(
                 "Team",
-                "$49",
-                ["Unlimited Projects", "Priority Support", "Team Collaboration", "Custom Branding"],
-                featured=True,
-                cta=Button("Get Started", cls="btn-primary w-100"),
+                49,
+                features=[
+                    "Unlimited Projects",
+                    "Priority Support",
+                    "Team Collaboration",
+                    "Custom Branding",
+                ],
+                highlighted=True,
+                button_text="Get Started",
             ),
             PricingTier(
                 "Organization",
-                "Custom",
-                [
+                199,
+                features=[
                     "Enterprise SLA",
                     "Dedicated Account Manager",
                     "SSO & Security",
                     "Custom Contracts",
                 ],
-                cta=Button("Contact Us", cls="btn-outline-primary w-100"),
+                button_text="Contact Us",
             ),
         ),
         cls="py-5",

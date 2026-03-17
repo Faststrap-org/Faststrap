@@ -20,7 +20,7 @@
 
 FastStrap aims to be the **standard component library for FastHTML**, providing 100+ production-ready Bootstrap 5 components. It combines the power of **Python**, the simplicity of **FastHTML**, and the maturity of **Bootstrap** into a single, cohesive experience.
 
-## Why FastStrap?
+## Why FastStrap
 
 FastHTML is amazing for building web apps in pure Python, but building UI from scratch can be time-consuming. FastStrap bridges the gap by providing a comprehensive set of **production-ready Bootstrap 5 components** that just work.
 
@@ -88,20 +88,20 @@ def home():
 ## Features
 
 - **67 Components**: From Buttons to Modals, Navbars to Tables, SearchableSelect to ErrorPage.
-- **HTMX Presets**: ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton — zero JS.
+- **HTMX Presets**: ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton, OptimisticAction, LocationAction  zero JS.
 - **SEO Module**: SEO meta tags, Open Graph, Twitter Cards, and JSON-LD structured data.
 - **PWA Module**: one-call installable app setup (manifest, service worker, install flow).
 - **Zero Build Step**: No webpack, no npm, no node_modules.
 - **Dark Mode**: Automatic or user-toggled dark mode support.
 - **HTMX Ready**: `hx_*` attributes are first-class citizens.
 - **Icons Included**: Built-in helper for Bootstrap Icons.
-- **Visual Effects**: Scroll-reveal animations, hover effects, and transitions — CSS only.
+- **Visual Effects**: Scroll-reveal animations, hover effects, and transitions  CSS only.
 
 ## Stats
 
-- **67 components** implemented.
+- **93 components** implemented.
 - **569+ tests** passing.
-- **5 interaction presets** + **6 response helpers** + **1 auth decorator**.
+- **7 interaction presets** + **6 response helpers** + **1 auth decorator**.
 - **100% Python**.
 
 ## License

@@ -133,7 +133,7 @@ def test_searchable_select_initial_options_wire_click_handler():
     )
     html = to_xml(select)
 
-    assert "hx-on-click" in html
+    assert "hx-on:click" in html
     assert "user-select" in html
 
 
@@ -162,6 +162,7 @@ def test_searchable_select_csp_safe_avoids_inline_handlers():
         initial_options=[("1", "Alice")],
     )
     html = to_xml(select)
-    assert "hx-on-click" not in html
+    assert "hx-on:click" not in html
     assert 'data-fs-searchable-select="true"' in html
     assert 'data-fs-searchable-option="true"' in html
+    assert 'data-fs-value="1"' in html

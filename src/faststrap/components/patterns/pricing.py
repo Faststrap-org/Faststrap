@@ -5,11 +5,13 @@ from typing import Any
 from fasthtml.common import H2, H3, Div, Li, P, Span, Ul
 
 from ...core._stability import beta
+from ...core.registry import register
 from ..display.card import Card
 from ..forms.button import Button
 from ..layout.grid import Col, Row
 
 
+@register(category="patterns")
 @beta
 def PricingTier(
     name: str,
@@ -79,6 +81,7 @@ def PricingTier(
     )
 
 
+@register(category="patterns")
 @beta
 def PricingGroup(
     *tiers: Any,

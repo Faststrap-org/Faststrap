@@ -9,10 +9,12 @@ from fasthtml.common import Blockquote, Div, Img, P, Span
 
 from ...core._stability import beta
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...utils.attrs import convert_attrs
 from ..display.card import Card
 
 
+@register(category="patterns")
 @beta
 def Testimonial(
     quote: str,
@@ -119,6 +121,7 @@ def Testimonial(
     )
 
 
+@register(category="patterns")
 @beta
 def TestimonialSection(
     *testimonials: Any,

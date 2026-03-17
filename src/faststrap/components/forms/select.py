@@ -8,11 +8,13 @@ from fasthtml.common import Div, Label, Option, Small
 from fasthtml.common import Select as FTSelect
 
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import SizeType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="forms")
 def Select(
     name: str,
     *options: tuple[str, str] | tuple[str, str, bool],

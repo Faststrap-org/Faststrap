@@ -6,10 +6,12 @@ from typing import Any
 
 from fasthtml.common import Span
 
+from ...core.registry import register
 from ...core.types import PlacementType, TriggerType
 from ...utils.attrs import convert_attrs
 
 
+@register(category="feedback", requires_js=True)
 def Tooltip(
     text: str,
     *children: Any,
@@ -59,6 +61,7 @@ def Tooltip(
     return Span(*children, **attrs)
 
 
+@register(category="feedback", requires_js=True)
 def Popover(
     title: str,
     content: str,

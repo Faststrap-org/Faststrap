@@ -175,6 +175,7 @@ def Dropdown(
     return Div(*buttons, menu, **attrs)
 
 
+@register(category="navigation", requires_js=True)
 def DropdownItem(
     *children: Any,
     active: bool = False,
@@ -207,6 +208,7 @@ def DropdownItem(
     return A(*children, **attrs)
 
 
+@register(category="navigation", requires_js=True)
 def DropdownDivider() -> Li:
     """Divider helper."""
     return Li(cls="dropdown-divider")

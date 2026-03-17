@@ -77,9 +77,7 @@ const marker = L.marker([{latitude}, {longitude}]).addTo(map);
         if popup_text:
             marker_block += f"marker.bindPopup({json.dumps(popup_text)});"
 
-    init_script = Script(
-        NotStr(
-            f"""
+    init_script = Script(NotStr(f"""
 if (window.L) {{
   const map = L.map({resolved_map_id!r}).setView([{latitude}, {longitude}], {zoom});
   L.tileLayer({tiles_url!r}, {{ attribution: {attribution!r} }}).addTo(map);
@@ -87,9 +85,7 @@ if (window.L) {{
 }} else {{
   console.warn("Faststrap MapView: Leaflet was not loaded.");
 }}
-"""
-        )
-    )
+"""))
 
     if include_assets:
         return (

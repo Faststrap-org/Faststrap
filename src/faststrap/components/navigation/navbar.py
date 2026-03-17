@@ -9,6 +9,7 @@ from fasthtml.common import A, Button, Div, Nav, Span
 
 from ...core._stability import stable
 from ...core.base import merge_classes
+from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import ExpandType
 from ...utils.attrs import convert_attrs
@@ -27,6 +28,7 @@ def _get_next_navbar_id() -> str:
 
 
 @stable
+@register(category="navigation", requires_js=True)
 def Navbar(
     *children: Any,
     items: list[Any] | None = None,
