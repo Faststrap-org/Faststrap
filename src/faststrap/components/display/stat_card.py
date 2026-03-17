@@ -1,6 +1,9 @@
 """Bootstrap StatCard component."""
 
-from typing import Any, Literal
+from __future__ import annotations
+
+from collections.abc import Sequence
+from typing import Any, Literal, cast
 
 from fasthtml.common import H3, Div, P, Span
 
@@ -83,5 +86,163 @@ def StatCard(
         )
     else:
         body_content = Div(title_el, value_el)
+
+    return Card(body_content, variant=variant, inverse=inverse, **kwargs)
+
+
+def _trend_badge(
+    delta: str | int | float | None,
+    *,
+    delta_type: Literal["up", "down", "neutral"],
+) -> Span | None:
+    if delta is None:
+        return None
+
+    delta_cls = "text-muted"
+    if delta_type == "up":
+        delta_cls = "text-success"
+    elif delta_type == "down":
+        delta_cls = "text-danger"
+
+    arrow = {"up": "^", "down": "v", "neutral": ""}.get(delta_type, "")
+    label = f"{arrow} {delta}" if arrow else str(delta)
+    return Span(label, cls=f"{delta_cls} small fw-semibold")
+
+
+@register(category="display")
+@beta
+def MetricCard(
+    title: str,
+    value: str | int | float,
+    delta: str | int | float | None = None,
+    delta_type: Literal["up", "down", "neutral"] = "neutral",
+    icon: Any | None = None,
+    variant: VariantType | None = None,
+    inverse: bool = False,
+    icon_bg: str | None = None,
+    **kwargs: Any,
+) -> Div:
+    """Metric card with value and delta indicator."""
+    delta_el = _trend_badge(delta, delta_type=delta_type)
+    value_el = H3(value, cls="mb-0 fw-bold")
+    title_cls = "text-muted small text-uppercase fw-semibold"
+    if inverse:
+        title_cls = "text-white-50 small text-uppercase fw-semibold"
+
+    title_el = P(title, cls=title_cls)
+
+    icon_el = None
+    if icon:
+        icon_wrapper_cls = "d-flex align-items-center justify-content-center rounded p-3"
+        if icon_bg:
+            icon_wrapper_cls = f"{icon_wrapper_cls} {icon_bg}"
+        else:
+            icon_wrapper_cls = f"{icon_wrapper_cls} bg-body-tertiary"
+        icon_el = Div(icon, cls=icon_wrapper_cls)
+
+    if icon_el:
+        body_content = Div(
+            Div(title_el, value_el, delta_el, cls="flex-grow-1"),
+            icon_el,
+            cls="d-flex align-items-center justify-content-between gap-3",
+        )
+    else:
+        body_content = Div(title_el, value_el, delta_el)
+
+    return Card(body_content, variant=variant, inverse=inverse, **kwargs)
+
+
+@register(category="display")
+@beta
+def TrendCard(
+    title: str,
+    value: str | int | float,
+    sparkline: Any | None = None,
+    sparkline_safe: bool = False,
+    delta: str | int | float | None = None,
+    delta_type: Literal["up", "down", "neutral"] = "neutral",
+    variant: VariantType | None = None,
+    inverse: bool = False,
+    **kwargs: Any,
+) -> Div:
+    """Metric card with a sparkline slot for trends."""
+    delta_el = _trend_badge(delta, delta_type=delta_type)
+    value_el = H3(value, cls="mb-0 fw-bold")
+    title_cls = "text-muted small text-uppercase fw-semibold"
+    if inverse:
+        title_cls = "text-white-50 small text-uppercase fw-semibold"
+
+    title_el = P(title, cls=title_cls)
+
+    sparkline_el = None
+    if sparkline is not None:
+        if isinstance(sparkline, str):
+            if not sparkline_safe:
+                msg = "sparkline_safe=True is required to embed raw HTML/SVG sparklines."
+                raise ValueError(msg)
+            from fasthtml.common import NotStr
+
+            sparkline_el = Div(NotStr(sparkline), cls="text-end")
+        else:
+            sparkline_el = Div(sparkline, cls="text-end")
+
+    body_content = Div(
+        Div(title_el, value_el, delta_el, cls="flex-grow-1"),
+        sparkline_el,
+        cls="d-flex align-items-center justify-content-between gap-3",
+    )
+
+    return Card(body_content, variant=variant, inverse=inverse, **kwargs)
+
+
+@register(category="display")
+@beta
+def KPICard(
+    title: str,
+    metrics: Sequence[Sequence[Any]],
+    columns: int = 2,
+    variant: VariantType | None = None,
+    inverse: bool = False,
+    **kwargs: Any,
+) -> Div:
+    """Card that displays multiple KPIs in a compact grid."""
+    if columns < 1:
+        msg = f"columns must be >= 1, got {columns}"
+        raise ValueError(msg)
+
+    title_cls = "text-muted small text-uppercase fw-semibold"
+    if inverse:
+        title_cls = "text-white-50 small text-uppercase fw-semibold"
+
+    title_el = P(title, cls=title_cls)
+
+    metric_cells: list[Any] = []
+    col_class = f"col-{12 // min(columns, 12)}"
+    for metric in metrics:
+        if len(metric) < 2:
+            msg = "Each metric must include at least (label, value)."
+            raise ValueError(msg)
+        label = metric[0]
+        value = metric[1]
+        delta = metric[2] if len(metric) > 2 else None
+        delta_type_raw = metric[3] if len(metric) > 3 else "neutral"
+        if delta_type_raw not in {"up", "down", "neutral"}:
+            delta_type_raw = "neutral"
+        delta_type = cast(Literal["up", "down", "neutral"], delta_type_raw)
+        delta_el = _trend_badge(delta, delta_type=delta_type)
+
+        metric_cells.append(
+            Div(
+                P(label, cls="mb-1 text-muted small"),
+                H3(value, cls="mb-0 fw-bold"),
+                delta_el,
+                cls=col_class,
+            )
+        )
+
+    body_content = Div(
+        title_el,
+        Div(*metric_cells, cls="row g-3"),
+    )
 
     return Card(body_content, variant=variant, inverse=inverse, **kwargs)

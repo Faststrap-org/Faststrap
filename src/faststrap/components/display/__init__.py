@@ -3,13 +3,15 @@
 from .badge import Badge
 from .card import Card
 from .carousel import Carousel, CarouselItem
+from .chart import Chart
+from .data_table import DataTable
 from .empty_state import EmptyState
 from .figure import Figure
 from .image import Image
 from .map_view import MapView
 from .markdown import Markdown, render_markdown
 from .sheet import Sheet
-from .stat_card import StatCard
+from .stat_card import KPICard, MetricCard, StatCard, TrendCard
 from .table import Table, TBody, TCell, THead, TRow
 from .text_clamp import TextClamp
 
@@ -18,6 +20,8 @@ __all__ = [
     "Card",
     "Carousel",
     "CarouselItem",
+    "Chart",
+    "DataTable",
     "EmptyState",
     "Figure",
     "Image",
@@ -25,6 +29,9 @@ __all__ = [
     "Markdown",
     "render_markdown",
     "Sheet",
+    "MetricCard",
+    "TrendCard",
+    "KPICard",
     "StatCard",
     "TextClamp",
     "Table",

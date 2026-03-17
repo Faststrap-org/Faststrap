@@ -317,19 +317,13 @@ def TCell(
     return Td(*children, **attrs)
 
 
-@beta
-def _table_from_df(
+def _normalize_table_data(
     data: Any,
     *,
-    columns: list[str] | None = None,
-    max_rows: int | None = None,
-    include_index: bool = False,
-    empty_text: str = "No data available",
-    none_as: str = "",
-    header_map: dict[str, str] | None = None,
-    **table_kwargs: Any,
-) -> FTTable | Div:
-    """Build a table from pandas/polars data or list-of-dict records."""
+    columns: list[str] | None,
+    max_rows: int | None,
+    include_index: bool,
+) -> tuple[list[str], list[dict[str, Any]], list[str] | None]:
     if max_rows is not None and max_rows < 0:
         msg = f"max_rows must be >= 0, got {max_rows}"
         raise ValueError(msg)
@@ -396,6 +390,29 @@ def _table_from_df(
 
     if include_index and index_values is None:
         index_values = [str(i) for i in range(len(records))]
+
+    return resolved_columns, records, index_values
+
+
+@beta
+def _table_from_df(
+    data: Any,
+    *,
+    columns: list[str] | None = None,
+    max_rows: int | None = None,
+    include_index: bool = False,
+    empty_text: str = "No data available",
+    none_as: str = "",
+    header_map: dict[str, str] | None = None,
+    **table_kwargs: Any,
+) -> FTTable | Div:
+    """Build a table from pandas/polars data or list-of-dict records."""
+    resolved_columns, records, index_values = _normalize_table_data(
+        data,
+        columns=columns,
+        max_rows=max_rows,
+        include_index=include_index,
+    )
 
     visible_columns = list(resolved_columns)
     if include_index:
