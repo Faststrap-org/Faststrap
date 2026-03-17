@@ -37,7 +37,7 @@ def MultiSelect(
     select_id = kwargs.pop("id", name)
     selected_set = {str(item) for item in selected} if selected else set()
 
-    classes = ["form-select"]
+    classes = ["form-select", "faststrap-multi-select"]
     if c_size:
         classes.append(f"form-select-{c_size}")
 

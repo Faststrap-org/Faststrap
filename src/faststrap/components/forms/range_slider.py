@@ -99,4 +99,4 @@ def RangeSlider(
         help_id = f"{slider_id}-help"
         nodes.append(Small(help_text, cls="form-text text-muted", id=help_id))
 
-    return Div(*nodes, cls="mb-3")
+    return Div(*nodes, cls="mb-3 faststrap-range-slider")

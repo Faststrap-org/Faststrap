@@ -8,6 +8,7 @@ from typing import Any, Literal, cast
 from fasthtml.common import H3, Div, P, Span
 
 from ...core._stability import beta
+from ...core.base import merge_classes
 from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...core.types import VariantType
@@ -124,6 +125,9 @@ def MetricCard(
     **kwargs: Any,
 ) -> Div:
     """Metric card with value and delta indicator."""
+    user_cls = kwargs.pop("cls", "")
+    kwargs["cls"] = merge_classes("faststrap-metric-card", user_cls)
+
     cfg = resolve_defaults(
         "MetricCard",
         delta_type=delta_type,
@@ -179,6 +183,9 @@ def TrendCard(
     **kwargs: Any,
 ) -> Div:
     """Metric card with a sparkline slot for trends."""
+    user_cls = kwargs.pop("cls", "")
+    kwargs["cls"] = merge_classes("faststrap-trend-card", user_cls)
+
     cfg = resolve_defaults(
         "TrendCard",
         delta_type=delta_type,
@@ -229,6 +236,9 @@ def KPICard(
     **kwargs: Any,
 ) -> Div:
     """Card that displays multiple KPIs in a compact grid."""
+    user_cls = kwargs.pop("cls", "")
+    kwargs["cls"] = merge_classes("faststrap-kpi-card", user_cls)
+
     cfg = resolve_defaults(
         "KPICard",
         columns=columns,
