@@ -27,6 +27,7 @@ from .responses import (
     hx_trigger,
     toast_response,
 )
+from .streams import SSEStream, sse_comment, sse_event
 
 __all__ = [
     # Interactions
@@ -44,6 +45,10 @@ __all__ = [
     "hx_retarget",
     "hx_trigger",
     "toast_response",
+    # Streams
+    "SSEStream",
+    "sse_event",
+    "sse_comment",
     # Auth
     "require_auth",
 ]

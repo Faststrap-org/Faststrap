@@ -11,6 +11,7 @@ from .image import Image
 from .map_view import MapView
 from .markdown import Markdown, render_markdown
 from .sheet import Sheet
+from .sse_target import SSETarget
 from .stat_card import KPICard, MetricCard, StatCard, TrendCard
 from .table import Table, TBody, TCell, THead, TRow
 from .text_clamp import TextClamp
@@ -29,6 +30,7 @@ __all__ = [
     "Markdown",
     "render_markdown",
     "Sheet",
+    "SSETarget",
     "MetricCard",
     "TrendCard",
     "KPICard",

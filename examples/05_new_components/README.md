@@ -32,6 +32,19 @@ Single app that demonstrates:
 python examples/05_new_components/v060_theme_adapted.py
 ```
 
+### `v060_sse_stream.py` - SSE Stream Demo
+
+Single app that demonstrates:
+
+- `SSEStream` server helper
+- `SSETarget` client-side updates
+
+**Run:**
+
+```bash
+python examples/05_new_components/v060_sse_stream.py
+```
+
 ## New in v0.5.9
 
 ### `v059_showcase.py` - Detailed v0.5.9 Feature Demo

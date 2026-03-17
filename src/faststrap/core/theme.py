@@ -539,6 +539,14 @@ _DEFAULT_COMPONENT_DEFAULTS: dict[str, dict[str, Any]] = {
         "hx_swap": "innerHTML",
         "push_url": False,
     },
+    "SSETarget": {
+        "event": "message",
+        "swap": "inner",
+        "with_credentials": False,
+        "reconnect": True,
+        "retry": None,
+        "aria_live": "polite",
+    },
 }
 
 # Mutable working copy of defaults (can be modified via set_component_defaults)

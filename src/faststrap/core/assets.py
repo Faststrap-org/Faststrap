@@ -311,11 +311,90 @@ INIT_SCRIPT_JS = """
             });
         };
 
+        const initSseTargets = (scope) => {
+            scope.querySelectorAll('[data-fs-sse="true"]').forEach(el => {
+                if (el.dataset.fsSseInit === 'true') return;
+                el.dataset.fsSseInit = 'true';
+
+                if (!window.EventSource) return;
+
+                const endpoint = el.dataset.fsSseEndpoint;
+                if (!endpoint) return;
+
+                const eventName = el.dataset.fsSseEvent || 'message';
+                const swap = el.dataset.fsSseSwap || 'inner';
+                const targetSelector = el.dataset.fsSseTarget;
+                const withCredentials = el.dataset.fsSseCredentials === 'true';
+                const reconnect = el.dataset.fsSseReconnect !== 'false';
+
+                let target = el;
+                if (targetSelector) {
+                    const candidate = document.querySelector(targetSelector);
+                    if (candidate) target = candidate;
+                }
+
+                const toFragment = (html) => {
+                    const template = document.createElement('template');
+                    template.innerHTML = html;
+                    return template.content;
+                };
+
+                const applySwap = (html) => {
+                    switch (swap) {
+                        case 'outer':
+                        case 'replace':
+                            target.replaceWith(toFragment(html));
+                            break;
+                        case 'before':
+                            target.insertAdjacentHTML('beforebegin', html);
+                            break;
+                        case 'after':
+                            target.insertAdjacentHTML('afterend', html);
+                            break;
+                        case 'append':
+                            target.insertAdjacentHTML('beforeend', html);
+                            break;
+                        case 'prepend':
+                            target.insertAdjacentHTML('afterbegin', html);
+                            break;
+                        default:
+                            target.innerHTML = html;
+                    }
+                };
+
+                const source = new EventSource(endpoint, { withCredentials });
+                const handler = (evt) => {
+                    const data = evt.data ?? '';
+                    if (swap === 'text') {
+                        target.textContent = data;
+                        return;
+                    }
+                    applySwap(data);
+                };
+
+                source.addEventListener(eventName, handler);
+                source.onerror = () => {
+                    if (!reconnect) {
+                        source.close();
+                    }
+                };
+
+                const observer = new MutationObserver(() => {
+                    if (!document.body.contains(el)) {
+                        source.close();
+                        observer.disconnect();
+                    }
+                });
+                observer.observe(document.body, { childList: true, subtree: true });
+            });
+        };
+
         initBS(document);
         initToggleGroups(document);
         initTextClamp(document);
         initFocusTraps(document);
         initSearchableSelect(document);
+        initSseTargets(document);
 
         // HTMX support: Re-initialize on content swap
         document.body.addEventListener('htmx:afterSwap', (evt) => {
@@ -324,6 +403,7 @@ INIT_SCRIPT_JS = """
             initTextClamp(evt.detail.elt);
             initFocusTraps(evt.detail.elt);
             initSearchableSelect(evt.detail.elt);
+            initSseTargets(evt.detail.elt);
         });
     });
 """
