@@ -34,3 +34,14 @@ Markdown(
     extensions=["extra", "tables", "fenced_code"],
 )
 ```
+
+## Security Notes
+
+If you disable sanitization, only render trusted content.
+
+## API Reference
+
+::: faststrap.components.display.markdown.Markdown
+    options:
+        show_source: true
+        heading_level: 4

@@ -1,18 +1,19 @@
-# FastStrap Roadmap  Updated January 2026
+# FastStrap Roadmap  Updated March 2026
 
 **Vision:** The most complete, Pythonic, zero-JS Bootstrap 5 component library for FastHTML  100+ production-ready components built by the community, for the community.
 
 ---
 
-## Current Status (v0.5.9 - March 2026)
+## Current Status (v0.6.0 - March 2026)
 
-**93 components live**  Phase 1 through pre-v0.6 extensions complete  
-**646+ tests** - 90%+ coverage  
+**109+ components live**  Phase 1 through v0.6.0 complete  
+**679+ tests** - 90%+ coverage  
 **Full HTMX + Bootstrap 5.3.3 support**  
 **100% Bootstrap parity achieved**   
 **Zero custom JavaScript required**  
-**NEW: HTMX Presets Module**  14 interaction/response/auth helpers  
-**NEW: SEO Module**  Comprehensive meta tags + structured data
+**NEW: HTMX Presets Module**  17 interaction/response/auth helpers  
+**NEW: SEO Module**  Comprehensive meta tags + structured data  
+**NEW: Data foundations**  DataTable, Chart, DashboardGrid, filters, SSE helpers
 
 ### Pre-v0.6 Delivered by v0.5.9
 
@@ -29,7 +30,6 @@
 ### Deferred Post-v0.6
 
 - Advanced DataTable query contract and optional ORM bridges
-- SSE helper/preset layer
 - Production map provider integrations and geospatial presets
 - Extended PWA reliability presets (queue persistence, richer retry/telemetry)
 
@@ -56,16 +56,15 @@ These items are intentionally tracked here so they are not lost between releases
   - Ship `Markdown` + `MapView` experimental display components.
   - Ship advanced PWA baseline controls.
 - `v0.6.1+`:
-  - SSE helper/preset layer.
   - Rich DataTable query contract and optional ORM bridges.
   - Advanced PWA opt-in implementations (Background Sync, Push, route-aware caching).
 
 ##  Overall Progress to v1.0
 
 ```text
-Components:    70/100 (70%)
-Tests:         627/800 (78%)
-Coverage:      90/95   (95%)
+Components:    109+ (target 100+)
+Tests:         679+ (target 800)
+Coverage:      90%+ (target 95%)
 Contributors:  15+/100 (15%)
 
 ```
@@ -81,8 +80,9 @@ Contributors:  15+/100 (15%)
 | 4C | Documentation (18 component docs, 95% coverage) |  Complete | Jan 2026 |
 | 5A | +6 (Image, Carousel, Placeholders, Scrollspy, SidebarNavbar, GlassNavbar) + Examples Reorganization |  Complete | Jan 2026 |
 | 5B | +16 (Presets Module [12 helpers], SEO Module [2 components], ErrorPage, ErrorDialog, FormGroup, ThemeToggle, SearchableSelect, FooterModern, Testimonial, TestimonialSection, AuthLayout) |  Complete | Feb 2026 |
+| 6 | +16 (DataTable, Chart, MetricCard, TrendCard, KPICard, DashboardGrid, FilterBar, DateRangePicker, MultiSelect, RangeSlider, ExportButton, SSEStream, SSETarget, NotificationCenter, Svg, Mermaid) |  Complete | Mar 2026 |
 
-**Total: 93 production-ready components** (100% Bootstrap parity + HTMX presets + SEO tools)
+**Total: 109+ production-ready components** (100% Bootstrap parity + HTMX presets + SEO tools)
 
 ---
 
@@ -258,12 +258,12 @@ Faststrap commits to the following architectural contracts:
 
 | Priority | Component | Description | Status |
 |----------|-----------|-------------|--------|
-| 1 | `DataTable` | Advanced table with sort/filter/pagination for DataFrames | Planned |
-| 2 | `Chart` | Wrapper for Matplotlib, Plotly, Altair with responsive sizing | Planned |
-| 3 | `Table.from_df()` | Convert pandas/polars DataFrame to Bootstrap table | Planned |
-| 4 | `MetricCard` | Enhanced StatCard with trends and deltas | Planned |
-| 5 | `TrendCard` | KPI card with sparkline visualization | Planned |
-| 6 | `KPICard` | Multi-metric dashboard card | Planned |
+| 1 | `DataTable` | Advanced table with sort/filter/pagination for DataFrames | Implemented | 
+| 2 | `Chart` | Wrapper for Matplotlib, Plotly, Altair with responsive sizing | Implemented | 
+| 3 | `Table.from_df()` | Convert pandas/polars DataFrame to Bootstrap table | Implemented | 
+| 4 | `MetricCard` | Enhanced StatCard with trends and deltas | Implemented | 
+| 5 | `TrendCard` | KPI card with sparkline visualization | Implemented | 
+| 6 | `KPICard` | Multi-metric dashboard card | Implemented | 
 
 **Features:**
 
@@ -280,12 +280,12 @@ Faststrap commits to the following architectural contracts:
 
 | Priority | Component | Description | Status |
 |----------|-----------|-------------|--------|
-| 1 | `DashboardGrid` | Responsive grid system for dashboards | Planned |
-| 2 | `FilterBar` | Composable filter components | Planned |
-| 3 | `DateRangePicker` | Date range selection with presets | Planned |
-| 4 | `MultiSelect` | Multi-select dropdown for filtering | Planned |
-| 5 | `RangeSlider` | Numeric range slider | Planned |
-| 6 | `ExportButton` | Export data to CSV/Excel/PDF | Planned |
+| 1 | `DashboardGrid` | Responsive grid system for dashboards | Implemented | 
+| 2 | `FilterBar` | Composable filter components | Implemented | 
+| 3 | `DateRangePicker` | Date range selection with presets | Implemented | 
+| 4 | `MultiSelect` | Multi-select dropdown for filtering | Implemented | 
+| 5 | `RangeSlider` | Numeric range slider | Implemented | 
+| 6 | `ExportButton` | Export data to CSV/Excel/PDF | Implemented | 
 | 7 | `DistributionPlot` | Histogram with KDE overlay | Planned |
 | 8 | `CorrelationMatrix` | Heatmap for correlation analysis | Planned |
 
@@ -325,7 +325,7 @@ Faststrap commits to the following architectural contracts:
 | 1 | `Form.from_pydantic()` | Auto-generate forms from Pydantic models | Planned |
 | 2 | `TimeSeriesPlot` | Time series with moving averages | Planned |
 | 3 | `GeoMap` | Geographic visualization (optional) | Planned |
-| 4 | `NotificationCenter` | Centralized notification management | Planned |
+| 4 | `NotificationCenter` | Centralized notification management | Implemented |
 
 **Features:**
 
@@ -522,4 +522,3 @@ Your votes directly influence what gets built next.
 **Current Version: 0.5.9 (map/markdown/data bridges, PWA foundations, and release hardening)**
 
 **Let's build the definitive UI library for FastHTML  together.**
-

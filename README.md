@@ -15,7 +15,7 @@
 FastHTML is amazing for building web apps in pure Python, but it lacks pre-built UI components. FastStrap fills that gap by providing:
 
 
- **93+ components and utilities** - Buttons, Cards, Modals, Forms, Navigation, presets, and more  
+ **110+ components and utilities** - Buttons, Cards, Modals, Forms, Navigation, presets, and more  
  **HTMX Presets Module** - 14 ready-to-use patterns for common interactions  
  **SEO Module** - Comprehensive meta tags, Open Graph, Twitter Cards, and structured data  
  **Zero JavaScript knowledge required** - Components just work  
@@ -246,11 +246,11 @@ modal = get_component("Modal")
 
 ---
 
-## Available Components (93 Total)
+## Available Components (110+ Total)
 
 Components are typed, HTMX-friendly, and follow Bootstrap conventions. Stability markers (`@stable`, `@beta`, `@experimental`) indicate API maturity.
 
-### Presets Module (14 Utilities)
+### Presets Module (17 Utilities)
 
 - `ActiveSearch`
 - `InfiniteScroll`
@@ -265,52 +265,69 @@ Components are typed, HTMX-friendly, and follow Bootstrap conventions. Stability
 - `hx_reswap`
 - `hx_retarget`
 - `toast_response`
+- `SSEStream`
+- `sse_event`
+- `sse_comment`
 - `@require_auth`
 
-### Forms (20 Components)
+### Forms (26 Components)
 
 - `Button`
 - `ButtonGroup`
 - `ButtonToolbar`
 - `Checkbox`
 - `CloseButton`
+- `DateRangePicker`
+- `ExportButton`
 - `FileInput`
+- `FilterBar`
 - `FloatingLabel`
 - `Form`
+- `FormErrorSummary`
 - `FormGroup`
 - `FormGroupFromErrors`
 - `Input`
 - `InputGroup`
 - `InputGroupText`
+- `MultiSelect`
 - `Radio`
 - `Range`
+- `RangeSlider`
 - `SearchableSelect`
 - `Select`
 - `Switch`
 - `ThemeToggle`
 - `ToggleGroup`
 
-### Display (17 Components)
+### Display (25 Components)
 
 - `Badge`
 - `Card`
 - `Carousel`
 - `CarouselItem`
+- `Chart`
+- `DataTable`
 - `EmptyState`
 - `Figure`
 - `Image`
+- `KPICard`
 - `MapView`
 - `Markdown`
+- `Mermaid`
+- `MetricCard`
 - `Sheet`
+- `SSETarget`
 - `StatCard`
+- `Svg`
 - `Table`
 - `THead`
 - `TBody`
 - `TRow`
 - `TCell`
 - `TextClamp`
+- `TrendCard`
 
-### Feedback (23 Components)
+### Feedback (24 Components)
 
 - `Alert`
 - `ConfirmDialog`
@@ -322,6 +339,7 @@ Components are typed, HTMX-friendly, and follow Bootstrap conventions. Stability
 - `Modal`
 - `NoticeAlert`
 - `NoticeToast`
+- `NotificationCenter`
 - `Placeholder`
 - `PlaceholderButton`
 - `PlaceholderCard`
@@ -360,12 +378,13 @@ Components are typed, HTMX-friendly, and follow Bootstrap conventions. Stability
 - `TabPane`
 - `Tabs`
 
-### Layout (4 Components)
+### Layout (5 Components)
 
 - `Container`
 - `Row`
 - `Col`
 - `Hero`
+- `DashboardGrid`
 
 ### Patterns (8 Composed Components)
 
@@ -476,13 +495,14 @@ Comprehensive examples organized by learning path:
 | **SidebarNavbar** | Premium vertical sidebar |  |
 | **GlassNavbar** | Glassmorphism navbar |  |
 
-###  Phase 5B+ (v0.5.6-v0.5.9) - pre-v0.6 additions
+###  Phase 5B+ (v0.5.6-v0.6.0) - stabilization and foundations
 
-**HTMX Presets Module (14 helpers):**
+**HTMX Presets Module (17 helpers):**
 
 - `ActiveSearch`, `InfiniteScroll`, `AutoRefresh`, `LazyLoad`, `LoadingButton`
 - `OptimisticAction`, `LocationAction`
 - `hx_redirect`, `hx_refresh`, `hx_trigger`, `hx_reswap`, `hx_retarget`, `toast_response`
+- `SSEStream`, `sse_event`, `sse_comment`
 - `@require_auth` decorator
 
 **SEO Module (3 helpers):**
@@ -496,21 +516,19 @@ Comprehensive examples organized by learning path:
 - `ErrorPage`, `ErrorDialog`, `FormGroup`, `ThemeToggle`, `SearchableSelect`
 - `FooterModern`, `Testimonial`, `TestimonialSection`, `AuthLayout`
 
-## Release Snapshot (v0.5.9)
+## Release Snapshot (v0.6.0 - current)
 
-### Implemented now (pre-v0.6)
+### Implemented in v0.6.0
 
-- Accessibility mini-module: `SkipLink`, `LiveRegion`, `VisuallyHidden`, `FocusTrap`
-- `PageMeta` for unified SEO + social + canonical + favicon composition
-- Form validation bridge: `map_formgroup_validation`, `FormGroupFromErrors`
-- `faststrap doctor` CLI diagnostics command
-- `ToggleGroup` for single-active button groups
-- `TextClamp` for long text truncation with optional "show more"
-- Notification preset improvements and refreshed examples/showcases
-- `OptimisticAction` and `LocationAction` preset foundations
-- `Markdown` and `MapView` display components (experimental)
-- `Form.from_pydantic()` and `Table.from_df()` beta bridges
-- PWA background sync/push/route-cache baseline controls
+- DataTable with search, sort, pagination, and export helper
+- Chart wrapper for Matplotlib, Plotly, Altair, and raw SVG/HTML
+- Metric cards: `MetricCard`, `TrendCard`, `KPICard`
+- Dashboard layout primitives: `DashboardGrid`
+- Filter inputs: `FilterBar`, `DateRangePicker`, `MultiSelect`, `RangeSlider`, `ExportButton`
+- Realtime helpers: `SSEStream`, `SSETarget`
+- NotificationCenter dropdown hub
+- Renderers: `Markdown`, `Svg`, `Mermaid`
+- Form error summary: `FormErrorSummary`
 
 ### Deferred to post-v0.6 (intentional)
 
@@ -524,9 +542,9 @@ Comprehensive examples organized by learning path:
 - `v0.5.7`: PageMeta + form error mapper
 - `v0.5.8`: doctor CLI + docs/version/changelog consistency cleanup
 - `v0.5.9`: markdown/map/data bridges + PWA foundations
-- `v0.6.0`: advanced data APIs + realtime/preset hardening
+- `v0.6.0`: data foundations + dashboard filters + realtime helpers
 
-###  Phase 6+ (post v0.6.0)
+### Phase 6+ (post v0.6.0)
 
 - **Layout primitives**: Stack, Cluster, Center, Switcher, Sidebar
 - **Data tooling**: DataFrameViewer (virtualized), DataProfiler, ModelReport layout
@@ -535,7 +553,7 @@ Comprehensive examples organized by learning path:
 - **UI extensions**: Timeline, ProfileDropdown, SearchBar
 - **Icon packs**: optional icon registries beyond Bootstrap Icons
 - **Notebook helpers**: render-to-HTML convenience for notebooks
-- **Carousel**, **MegaMenu**, **NotificationCenter**
+- **MegaMenu**
 - And 40+ more components...
 
 **Target: 100+ components by v1.0.0 (Aug 2026)**

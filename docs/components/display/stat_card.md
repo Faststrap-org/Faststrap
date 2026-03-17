@@ -53,6 +53,52 @@ KPICard(
 
 ---
 
+## MetricCard
+
+`MetricCard` extends `StatCard` with a compact delta indicator.
+
+```python
+MetricCard(
+    "Revenue",
+    "$128k",
+    delta="+12%",
+    delta_type="up",
+)
+```
+
+---
+
+## TrendCard
+
+`TrendCard` adds a sparkline slot. Use `sparkline_safe=True` only with trusted SVG or HTML.
+
+```python
+TrendCard(
+    "Active Users",
+    "9,842",
+    sparkline="<svg></svg>",
+    sparkline_safe=True,
+)
+```
+
+---
+
+## KPICard
+
+`KPICard` renders multiple metrics inside one card.
+
+```python
+KPICard(
+    "KPIs",
+    metrics=[
+        ("Retention", "84%", "+2%", "up"),
+        ("Churn", "3.1%", "-0.4%", "down"),
+    ],
+)
+```
+
+---
+
 ## Visual Examples & Use Cases
 
 ### 1. Negative Trends

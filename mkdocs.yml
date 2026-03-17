@@ -119,6 +119,8 @@ nav:
       - Icon: components/display/icon.md
       - MapView: components/display/map-view.md
       - Markdown: components/display/markdown.md
+      - SVG: components/display/svg.md
+      - Mermaid: components/display/mermaid.md
       - Image: components/display/image.md
       - Carousel: components/display/carousel.md
       - Sheet: components/display/sheet.md

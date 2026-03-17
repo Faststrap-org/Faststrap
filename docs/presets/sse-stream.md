@@ -1,6 +1,6 @@
 # SSEStream
 
-`SSEStream` builds a `text/event-stream` response for Server‑Sent Events.
+`SSEStream` builds a `text/event-stream` response for Server-Sent Events.
 
 ---
 
@@ -16,13 +16,31 @@ async def stream():
     return SSEStream(gen())
 ```
 
-You can also emit keep‑alive comments:
+---
+
+## Keep Alive Comments
 
 ```python
 from faststrap.presets import sse_comment
 
 yield sse_comment("keepalive")
 ```
+
+---
+
+## Pair With SSETarget
+
+```python
+from faststrap import SSETarget
+
+SSETarget("Waiting...", endpoint="/api/stream")
+```
+
+---
+
+## Security Notes
+
+Use authentication and avoid streaming sensitive data to unauthenticated users. For production, disable proxy buffering.
 
 ---
 

@@ -96,11 +96,13 @@ def home():
 - **HTMX Ready**: `hx_*` attributes are first-class citizens.
 - **Icons Included**: Built-in helper for Bootstrap Icons.
 - **Visual Effects**: Scroll-reveal animations, hover effects, and transitions  CSS only.
+- **Data UI**: DataTable, Chart, MetricCard, TrendCard, KPICard, DashboardGrid.
+- **Renderers**: Markdown, SVG, Mermaid.
 
 ## Stats
 
 - **110+ exports** implemented.
-- **670+ tests** passing.
+- **679+ tests** passing.
 - **7 interaction presets** + **6 response helpers** + **1 auth decorator** + **SSEStream**.
 - **100% Python**.
 

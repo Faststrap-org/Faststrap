@@ -389,12 +389,50 @@ INIT_SCRIPT_JS = """
             });
         };
 
+        const initMermaid = (scope) => {
+            if (!window.mermaid) return;
+
+            const nodes = Array.from(scope.querySelectorAll('[data-fs-mermaid="true"]'))
+                .filter(el => el.dataset.fsMermaidInit !== 'true');
+            if (nodes.length === 0) return;
+
+            if (!window.__fsMermaidInit) {
+                const first = nodes[0];
+                const config = { startOnLoad: false };
+                const theme = first.dataset.fsMermaidTheme;
+                const security = first.dataset.fsMermaidSecurity;
+                if (theme) config.theme = theme;
+                if (security) config.securityLevel = security;
+                try {
+                    window.mermaid.initialize(config);
+                } catch (e) {
+                    return;
+                }
+                window.__fsMermaidInit = true;
+            }
+
+            try {
+                if (window.mermaid.run) {
+                    window.mermaid.run({ nodes });
+                } else if (window.mermaid.init) {
+                    window.mermaid.init(undefined, nodes);
+                }
+            } catch (e) {
+                return;
+            }
+
+            nodes.forEach(el => {
+                el.dataset.fsMermaidInit = 'true';
+            });
+        };
+
         initBS(document);
         initToggleGroups(document);
         initTextClamp(document);
         initFocusTraps(document);
         initSearchableSelect(document);
         initSseTargets(document);
+        initMermaid(document);
 
         // HTMX support: Re-initialize on content swap
         document.body.addEventListener('htmx:afterSwap', (evt) => {
@@ -404,6 +442,7 @@ INIT_SCRIPT_JS = """
             initFocusTraps(evt.detail.elt);
             initSearchableSelect(evt.detail.elt);
             initSseTargets(evt.detail.elt);
+            initMermaid(evt.detail.elt);
         });
     });
 """
