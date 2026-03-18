@@ -47,6 +47,14 @@ Inspect the closest matching files before writing code.
 - Respect responsive layout, spacing rhythm, typography hierarchy, and section contrast.
 - Do not ship a plain hero-card-grid-footer layout unless the brief explicitly calls for it.
 
+## Implementation priority
+
+- Use Faststrap and Bootstrap capabilities first for layout, spacing, responsiveness, visibility control, and component behavior.
+- Use HTMX first for interaction and partial updates.
+- Use custom CSS mainly for brand feel, modern visuals, and refinements Bootstrap does not already solve well.
+- Use JavaScript only when HTMX/Bootstrap cannot do the job cleanly or when browser/PWA APIs are required.
+- Do not add external CSS CDNs for styling.
+
 ## Architecture rules
 
 - Keep theme tokens and component defaults centralized.

@@ -23,6 +23,14 @@ Faststrap is a Python component layer on top of FastHTML and Bootstrap 5.
 - HTMX is a first-class integration path and should be preserved when extending components.
 - Bootstrap is the visual/runtime foundation, so generated markup should remain idiomatic Bootstrap markup unless the component intentionally abstracts it.
 
+For real application work built with Faststrap + FastHTML:
+
+- Bootstrap and Faststrap should carry most structure, layout, spacing, and responsiveness.
+- HTMX should be the first interaction tool before custom JavaScript.
+- Custom CSS should primarily provide brand polish and modern visual treatment, not replace Bootstrap utilities without good reason.
+- JavaScript should be used deliberately for needs like PWA features, browser APIs, maps, media, or interactions HTMX/Bootstrap cannot handle cleanly.
+- Avoid external CSS CDNs for app styling.
+
 ## Preferred Build Workflow
 
 When asked to build a feature with Faststrap:
@@ -96,4 +104,3 @@ Use these local references before improvising:
 1. Run the narrowest relevant tests while iterating.
 2. Run `pytest -q` before finalizing substantive changes.
 3. Call out any remaining beta surfaces or known risks explicitly.
-

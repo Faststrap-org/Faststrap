@@ -21,6 +21,23 @@ Before writing code:
    - marketing/landing: see `references/reference-apps.md`
    - dashboard/admin: see `references/reference-apps.md`
    - auth/onboarding: see `references/nis-patterns.md`
+5. Follow the implementation order of precedence below before inventing custom structure.
+
+## Implementation order of precedence
+
+Use this order unless the task clearly requires otherwise:
+
+1. Faststrap components and Bootstrap-native layout/responsive utilities
+2. HTMX for dynamic behavior and partial updates
+3. Custom CSS for branding, atmosphere, and modern visual polish
+4. JavaScript only when HTMX/Bootstrap cannot solve the problem cleanly or when browser/PWA APIs are required
+
+This means:
+
+- prefer Bootstrap spacing, grid, display, flex, container, offcanvas, modal, collapse, and utility classes before writing custom layout CSS
+- prefer HTMX before custom JavaScript for interactivity, filtering, partial refresh, form flows, and inline actions
+- use custom CSS to elevate visuals, not to reimplement Bootstrap responsiveness or hide/show behavior unnecessarily
+- allow JavaScript for legitimate cases such as PWA flows, geolocation, service workers, media capture, complex charts/maps, or browser APIs HTMX cannot replace
 
 ## Non-negotiable standards
 
@@ -29,6 +46,8 @@ Before writing code:
 - Prefer composing existing Faststrap components and patterns first, then layer custom CSS for polish.
 - Build shared theme tokens and layout structure before polishing individual pages.
 - Keep the UI responsive, accessible, and visually intentional.
+- Do not rely on external CSS CDNs for project styling. Keep styling in local project assets and Faststrap/Bootstrap.
+- Treat JavaScript as the last interaction tool, not the first one.
 
 ## Working pattern
 
@@ -42,6 +61,7 @@ Before writing code:
 - Put brand colors and global component defaults in a single theme module.
 - Define layout wrappers before page-level sections.
 - Use custom CSS for depth: gradients, glass, section contrast, spacing rhythm, shadows, image treatment, and state styling.
+- Keep structural responsiveness primarily in Bootstrap/Faststrap usage, not hand-written media-query-heavy layout rewrites unless clearly necessary.
 
 3. Build pages from references, not from scratch
 - Pick the nearest reference app.
@@ -76,10 +96,12 @@ Good Faststrap app work should feel:
 - relying on raw inline styles everywhere instead of shared CSS
 - ignoring the user's reference projects
 - making every page look like the same SaaS starter
+- reaching for JavaScript before HTMX
+- replacing Bootstrap layout/responsive utilities with avoidable custom CSS
+- importing third-party styling CDNs for things Faststrap/Bootstrap and local CSS should handle
 
 ## Read these references as needed
 
-- `references/nis-patterns.md`: real production-style project wiring and theming patterns from the user's NIS app
+- `references/nis-patterns.md`: real production-style project wiring and theming patterns from the user's NIS, Final-Year, and SIWES apps
 - `references/reference-apps.md`: which local Faststrap showcase files to inspect by page type
 - `references/project-agents-template.md`: template instructions to place in fresh app repos so future sessions start with the right guardrails
-
