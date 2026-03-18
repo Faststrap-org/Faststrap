@@ -20,14 +20,25 @@ ExportFormat = Literal["csv", "xlsx", "json", "pdf"]
 ExportMethod = Literal["get", "post"]
 
 
+def _normalize_query_value(value: Any) -> str | list[str] | None:
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, (list, tuple, set)):
+        return [str(item) for item in value]
+    return str(value)
+
+
 def _build_url(base_url: str, params: dict[str, Any]) -> str:
     parts = urlsplit(base_url)
     existing = dict(parse_qsl(parts.query, keep_blank_values=True))
     merged: dict[str, Any] = {**existing}
     for key, value in params.items():
-        if value is None:
+        normalized = _normalize_query_value(value)
+        if normalized is None:
             continue
-        merged[str(key)] = str(value)
+        merged[str(key)] = normalized
     query = urlencode(merged, doseq=True)
     return urlunsplit((parts.scheme, parts.netloc, parts.path, query, parts.fragment))
 
@@ -144,9 +155,15 @@ def ExportButton(
         hidden_inputs.append(FTInput(type="hidden", name="filename", value=filename))
     if extra_params:
         for key, value in extra_params.items():
-            if value is None:
+            normalized = _normalize_query_value(value)
+            if normalized is None:
                 continue
-            hidden_inputs.append(FTInput(type="hidden", name=str(key), value=str(value)))
+            if isinstance(normalized, list):
+                hidden_inputs.extend(
+                    FTInput(type="hidden", name=str(key), value=item) for item in normalized
+                )
+            else:
+                hidden_inputs.append(FTInput(type="hidden", name=str(key), value=normalized))
 
     button = Button(
         label,

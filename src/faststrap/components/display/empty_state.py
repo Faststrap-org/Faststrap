@@ -4,14 +4,14 @@ from typing import Any
 
 from fasthtml.common import H4, Div, P
 
-from ...core._stability import beta
+from ...core._stability import stable
 from ...core.base import merge_classes
 from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 
 @register(category="display")
-@beta
+@stable
 def EmptyState(
     icon: Any | None = None,
     title: str = "No data available",

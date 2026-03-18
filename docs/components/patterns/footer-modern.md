@@ -199,7 +199,7 @@ def CustomFooter():
                     H6("Newsletter"),
                     Form(
                         InputGroup(
-                            Input(type="email", placeholder="Your email"),
+                            Input("email", input_type="email", placeholder="Your email"),
                             Button("Subscribe", variant="primary")
                         ),
                         hx_post="/newsletter/subscribe"

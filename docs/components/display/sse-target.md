@@ -70,6 +70,7 @@ SSETarget(
 ```
 
 Use `retry` to suggest a reconnection delay (milliseconds).
+For `swap="outer"` or `swap="replace"`, stream a single root element so the target can be rebound safely after replacement.
 
 ---
 
@@ -95,7 +96,7 @@ async def stream():
 
 ## Security Notes
 
-Protect your SSE endpoints with auth and rate limits. Do not stream sensitive data to unauthenticated clients.
+Protect your SSE endpoints with auth and rate limits. Do not stream sensitive data to unauthenticated clients. If you stream HTML fragments, treat them as trusted server-rendered content.
 
 ---
 

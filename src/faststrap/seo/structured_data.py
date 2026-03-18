@@ -10,6 +10,66 @@ from typing import Any
 
 from fasthtml.common import Script
 
+_SCHEMA_DAY_ORDER = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+]
+_SCHEMA_DAY_MAP = {day.casefold(): day for day in _SCHEMA_DAY_ORDER}
+_SCHEMA_DAY_MAP.update(
+    {
+        "mon": "Monday",
+        "tue": "Tuesday",
+        "tues": "Tuesday",
+        "wed": "Wednesday",
+        "thu": "Thursday",
+        "thur": "Thursday",
+        "thur.": "Thursday",
+        "thurs": "Thursday",
+        "fri": "Friday",
+        "sat": "Saturday",
+        "sun": "Sunday",
+    }
+)
+
+
+def _schema_day_uri(day: str) -> str:
+    return f"https://schema.org/{day}"
+
+
+def _normalize_day_token(token: str) -> str | None:
+    return _SCHEMA_DAY_MAP.get(token.strip().casefold())
+
+
+def _expand_day_spec(days: str) -> list[str]:
+    normalized = days.strip()
+    if not normalized:
+        return []
+
+    if "," in normalized:
+        expanded: list[str] = []
+        for part in normalized.split(","):
+            expanded.extend(_expand_day_spec(part))
+        return expanded
+
+    if "-" in normalized:
+        start_raw, end_raw = normalized.split("-", 1)
+        start = _normalize_day_token(start_raw)
+        end = _normalize_day_token(end_raw)
+        if start and end:
+            start_idx = _SCHEMA_DAY_ORDER.index(start)
+            end_idx = _SCHEMA_DAY_ORDER.index(end)
+            if start_idx <= end_idx:
+                return _SCHEMA_DAY_ORDER[start_idx : end_idx + 1]
+            return _SCHEMA_DAY_ORDER[start_idx:] + _SCHEMA_DAY_ORDER[: end_idx + 1]
+
+    single = _normalize_day_token(normalized)
+    return [single] if single else []
+
 
 class StructuredData:
     """Helper class for generating Schema.org structured data (JSON-LD).
@@ -304,10 +364,19 @@ class StructuredData:
             # Convert hours dict to OpeningHoursSpecification
             opening_hours = []
             for days, time_range in hours.items():
+                normalized_days = _expand_day_spec(days)
+                day_of_week: str | list[str]
+                if normalized_days:
+                    day_of_week = [_schema_day_uri(day) for day in normalized_days]
+                    if len(day_of_week) == 1:
+                        day_of_week = day_of_week[0]
+                else:
+                    day_of_week = days
+
                 opening_hours.append(
                     {
                         "@type": "OpeningHoursSpecification",
-                        "dayOfWeek": days,
+                        "dayOfWeek": day_of_week,
                         "opens": time_range.split("-")[0] if "-" in time_range else time_range,
                         "closes": time_range.split("-")[1] if "-" in time_range else time_range,
                     }

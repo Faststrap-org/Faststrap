@@ -105,3 +105,10 @@ def test_hero():
     assert "bg-dark" in html
     assert "text-center" in html
     assert "text-white" in html  # Automatic text color for dark bg
+
+
+def test_phase4b_components_are_marked_stable():
+    assert getattr(EmptyState, "__faststrap_stability__", None) == "stable"
+    assert getattr(Figure, "__faststrap_stability__", None) == "stable"
+    assert getattr(Hero, "__faststrap_stability__", None) == "stable"
+    assert getattr(StatCard, "__faststrap_stability__", None) == "stable"

@@ -105,16 +105,8 @@ def PageMeta(
             attr = key.replace("_", "-")
             elements.append(Meta(name=attr, content=str(value)))
 
-    elements.append(Link(rel="canonical", href=canonical or url or ""))
+    canonical_url = canonical or url
+    if canonical_url:
+        elements.append(Link(rel="canonical", href=canonical_url))
 
-    cleaned: list[Any] = []
-    for element in elements:
-        attrs = getattr(element, "attrs", {}) or {}
-        if (
-            getattr(element, "tag", "") == "link"
-            and str(attrs.get("rel", "")).lower() == "canonical"
-            and attrs.get("href", "") == ""
-        ):
-            continue
-        cleaned.append(element)
-    return _dedupe(cleaned)
+    return _dedupe(elements)

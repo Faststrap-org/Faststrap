@@ -4,7 +4,7 @@ from typing import Any
 
 from fasthtml.common import H1, Div, P
 
-from ...core._stability import beta
+from ...core._stability import stable
 from ...core.base import merge_classes
 from ...core.registry import register
 from ...core.types import VariantType
@@ -13,7 +13,7 @@ from .grid import Container
 
 
 @register(category="layout")
-@beta
+@stable
 def Hero(
     title: str,
     subtitle: str | None = None,

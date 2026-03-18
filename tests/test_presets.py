@@ -1,6 +1,8 @@
 """Tests for presets module (interactions, responses, auth)."""
 
 from fasthtml.common import Response, to_xml
+from starlette.requests import Request
+from starlette.responses import RedirectResponse
 
 from faststrap.presets import (
     ActiveSearch,
@@ -37,6 +39,20 @@ def test_infinite_scroll():
     assert "/feed?page=2" in html
     assert "#feed" in html
     assert "hx-get" in html
+
+
+def test_infinite_scroll_threshold_modes():
+    numeric_html = to_xml(
+        InfiniteScroll(endpoint="/feed?page=2", target="#feed", threshold="0.5")
+    )
+    margin_html = to_xml(
+        InfiniteScroll(endpoint="/feed?page=2", target="#feed", threshold="200px")
+    )
+
+    assert 'hx-trigger="intersect once threshold:0.5"' in numeric_html
+    assert 'hx-trigger="faststrap:infinite-scroll once"' in margin_html
+    assert 'data-fs-infinite-scroll="true"' in margin_html
+    assert 'data-fs-infinite-margin="200px"' in margin_html
 
 
 def test_auto_refresh():
@@ -156,6 +172,54 @@ def test_require_auth_decorator():
         return "Protected content"
 
     assert callable(protected_route)
+
+
+def test_require_auth_redirects_with_relative_next_url():
+    @require_auth(login_url="/login")
+    def protected_route(req):
+        return "Protected content"
+
+    request = Request(
+        {
+            "type": "http",
+            "method": "GET",
+            "path": "/dashboard",
+            "query_string": b"tab=activity",
+            "headers": [],
+            "scheme": "https",
+            "server": ("example.com", 443),
+            "client": ("127.0.0.1", 1234),
+            "session": {},
+        }
+    )
+    response = protected_route(request)
+
+    assert isinstance(response, RedirectResponse)
+    assert response.headers["location"] == "/login?next=%2Fdashboard%3Ftab%3Dactivity"
+
+
+def test_require_auth_preserves_existing_login_query_params():
+    @require_auth(login_url="/login?source=marketing", redirect_param="next")
+    def protected_route(req):
+        return "Protected content"
+
+    request = Request(
+        {
+            "type": "http",
+            "method": "GET",
+            "path": "/pricing",
+            "query_string": b"",
+            "headers": [],
+            "scheme": "https",
+            "server": ("example.com", 443),
+            "client": ("127.0.0.1", 1234),
+            "session": {},
+        }
+    )
+    response = protected_route(request)
+
+    assert isinstance(response, RedirectResponse)
+    assert response.headers["location"] == "/login?source=marketing&next=%2Fpricing"
 
 
 def test_require_auth_custom_session_key():

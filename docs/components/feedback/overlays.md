@@ -81,7 +81,7 @@ Tooltips usually trigger on `hover`, but you can change this to `focus` or `clic
 
 ```python
 # Only shows when the input field is focused (tabbed into)
-Tooltip(Input(placeholder="Type..."), title="Help text", trigger="focus")
+Tooltip(Input("field", placeholder="Type..."), title="Help text", trigger="focus")
 ```
 
 ---

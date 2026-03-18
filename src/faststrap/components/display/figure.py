@@ -7,14 +7,14 @@ from typing import Any
 from fasthtml.common import Figcaption, Img
 from fasthtml.common import Figure as FTFigure
 
-from ...core._stability import beta
+from ...core._stability import stable
 from ...core.base import merge_classes
 from ...core.registry import register
 from ...utils.attrs import convert_attrs
 
 
 @register(category="display")
-@beta
+@stable
 def Figure(
     src: str,
     caption: str | Any | None = None,

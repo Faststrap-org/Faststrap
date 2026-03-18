@@ -173,3 +173,11 @@ def test_input_validation():
     assert "is-invalid" in html_invalid
     assert "invalid-feedback" in html_invalid
     assert "Bad username!" in html_invalid
+
+
+def test_input_textarea_renders_without_value_attribute():
+    html = to_xml(Input("bio", input_type="textarea", value="Hello"))
+
+    assert "<textarea" in html
+    assert ">Hello</textarea>" in html
+    assert 'value="Hello"' not in html

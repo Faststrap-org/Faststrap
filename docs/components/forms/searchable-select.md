@@ -297,7 +297,7 @@ def select_item(item_id: int):
             hx_swap="outerHTML"
         ),
         # Add hidden input
-        Input(type="hidden", name="items[]", value=item_id),
+        Input("items[]", input_type="hidden", value=item_id),
         hx_swap_oob="beforeend:#selected-items"
     )
 ```

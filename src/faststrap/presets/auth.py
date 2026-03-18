@@ -7,9 +7,33 @@ import asyncio
 from collections.abc import Callable
 from functools import wraps
 from typing import Any
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
+
+
+def _relative_request_url(request: Request) -> str:
+    path = request.url.path or "/"
+    query = request.url.query
+    return f"{path}?{query}" if query else path
+
+
+def _build_login_redirect_url(
+    login_url: str,
+    *,
+    request: Request,
+    redirect_param: str | None,
+) -> str:
+    if not redirect_param:
+        return login_url
+
+    parts = urlsplit(login_url)
+    query_items = list(parse_qsl(parts.query, keep_blank_values=True))
+    query_items.append((redirect_param, _relative_request_url(request)))
+    return urlunsplit(
+        (parts.scheme, parts.netloc, parts.path, urlencode(query_items, doseq=True), parts.fragment)
+    )
 
 
 def require_auth(
@@ -76,12 +100,11 @@ def require_auth(
         async def async_wrapper(request: Request, *args: Any, **kwargs: Any) -> Any:
             # Check if user is authenticated
             if session_key not in request.session:
-                # Build redirect URL with optional next parameter
-                redirect_to = login_url
-                if redirect_param:
-                    original_url = str(request.url)
-                    redirect_to = f"{login_url}?{redirect_param}={original_url}"
-
+                redirect_to = _build_login_redirect_url(
+                    login_url,
+                    request=request,
+                    redirect_param=redirect_param,
+                )
                 return RedirectResponse(redirect_to, status_code=303)
 
             # User is authenticated, proceed
@@ -93,12 +116,11 @@ def require_auth(
         def sync_wrapper(request: Request, *args: Any, **kwargs: Any) -> Any:
             # Check if user is authenticated
             if session_key not in request.session:
-                # Build redirect URL with optional next parameter
-                redirect_to = login_url
-                if redirect_param:
-                    original_url = str(request.url)
-                    redirect_to = f"{login_url}?{redirect_param}={original_url}"
-
+                redirect_to = _build_login_redirect_url(
+                    login_url,
+                    request=request,
+                    redirect_param=redirect_param,
+                )
                 return RedirectResponse(redirect_to, status_code=303)
 
             # User is authenticated, proceed

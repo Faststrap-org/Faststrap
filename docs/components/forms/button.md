@@ -136,7 +136,7 @@ On mobile devices or in cards, you often want a button to stretch the full width
 ```python
 # A Login Card example
 Card(
-    Input(placeholder="Email"),
+    Input("email", placeholder="Email"),
     Button("Sign In", variant="primary", full_width=True), # Stretches 100%
     style={"max-width": "300px"}
 )

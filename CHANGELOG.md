@@ -5,6 +5,37 @@ All notable changes to Faststrap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- Hardened `require_auth()` redirects to preserve only relative return paths and avoid open redirect behavior.
+- Corrected `InfiniteScroll` threshold handling for valid HTMX behavior while preserving existing length-based threshold usage through Faststrap runtime support.
+- Fixed `DataTable` local search/sort state, pagination index slicing, and `aria-sort` output.
+- Fixed `ExportButton` handling of repeated query params and POST hidden inputs for multi-value filters.
+- Fixed `DateRangePicker` preset behavior so documented presets perform real state updates.
+- Fixed textarea rendering in `Input()` so generated HTML is valid.
+- Fixed SSE target replacement handling across repeated `outer` and `replace` swaps.
+- Fixed modal/drawer focus trapping so hidden overlays do not steal focus on initial page load.
+- `PageMeta()` now omits empty canonical tags.
+- `SEO()` now emits `og:type` only when Open Graph content is present.
+- `StructuredData.local_business()` now normalizes common weekday ranges into valid Schema.org values.
+
+### Changed
+
+- Corrected docs and examples for `Input`, `DataTable`, `DateRangePicker`, `SSETarget`, `InfiniteScroll`, `require_auth`, and SEO helpers so the published contract matches shipped behavior.
+- Promoted mature components to stable where the public API is now considered safe to depend on:
+  - `EmptyState`
+  - `Figure`
+  - `Hero`
+  - `StatCard`
+
+### Quality
+
+- Added regression coverage for auth redirects, infinite scroll thresholds, SEO metadata, structured data normalization, stable markers, and the v0.6.0 patch fixes.
+- Full gate pass:
+  - `pytest -q` (694 passed)
+
 ## [0.6.0] - 2026-03-17
 
 ### Added

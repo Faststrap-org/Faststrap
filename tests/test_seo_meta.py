@@ -45,6 +45,9 @@ class TestSEOBasicTags:
         assert len(robots) == 1
         assert robots[0].attrs.get("content") == "noindex, nofollow"
 
+        og_type = [e for e in elements if e.tag == "meta" and e.attrs.get("property") == "og:type"]
+        assert len(og_type) == 0
+
     def test_canonical_url(self):
         """Test canonical URL link tag."""
         result = SEO(canonical="https://example.com/page")

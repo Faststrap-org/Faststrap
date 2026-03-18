@@ -37,8 +37,12 @@ def login(request, email: str, password: str):
     # ... authenticate ...
     request.session["user"] = {"name": "Alice", "email": email}
     next_url = request.query_params.get("next", "/dashboard")
+    if not next_url.startswith("/"):
+        next_url = "/dashboard"
     return RedirectResponse(next_url, status_code=303)
 ```
+
+Faststrap stores `next` as a relative path plus query string, which keeps post-login redirects on your own site by default.
 
 ## Custom Session Key
 

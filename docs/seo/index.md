@@ -80,7 +80,7 @@ The main component for generating SEO meta tags.
 - `keywords` (list[str]): List of keywords
 - `image` (str): Image URL for social sharing
 - `url` (str): Canonical URL
-- `type` (str): Open Graph type ("website", "article", "product")
+- `og_type` (str): Open Graph type ("website", "article", "product")
 - `article` (bool): If True, adds article-specific meta tags
 - `published_time` (str): Article published time (ISO 8601)
 - `modified_time` (str): Article modified time (ISO 8601)
@@ -180,7 +180,8 @@ StructuredData.local_business(
     phone="+1-555-123-4567",
     hours={
         "Monday-Friday": "9:00-17:00",
-        "Saturday-Sunday": "10:00-14:00"
+        "Saturday": "10:00-14:00",
+        "Sunday": "10:00-14:00"
     }
 )
 ```
@@ -254,7 +255,7 @@ def product_page(id: str):
             description=product.description,
             image=product.images[0],
             url=f"https://mysite.com/product/{id}",
-            type="product",
+            og_type="product",
             twitter_site="@mystore"
         ),
         StructuredData.product(
@@ -298,7 +299,8 @@ def home():
             phone="+1-555-123-4567",
             hours={
                 "Monday-Friday": "7:00-19:00",
-                "Saturday-Sunday": "8:00-17:00"
+                "Saturday": "8:00-17:00",
+                "Sunday": "8:00-17:00"
             }
         ),
         Container(H1("Joe's Coffee"))

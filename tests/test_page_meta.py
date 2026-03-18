@@ -30,3 +30,9 @@ def test_page_meta_does_not_emit_deprecation_warning():
         warnings.simplefilter("always")
         PageMeta(title="My Page", type="article")
     assert not any(issubclass(w.category, DeprecationWarning) for w in caught)
+
+
+def test_page_meta_omits_empty_canonical():
+    tags = PageMeta(title="My Page")
+    html = "".join(str(t) for t in tags)
+    assert 'rel="canonical"' not in html

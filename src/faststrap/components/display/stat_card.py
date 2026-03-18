@@ -7,7 +7,7 @@ from typing import Any, Literal, cast
 
 from fasthtml.common import H3, Div, P, Span
 
-from ...core._stability import beta
+from ...core._stability import beta, stable
 from ...core.base import merge_classes
 from ...core.registry import register
 from ...core.theme import resolve_defaults
@@ -16,7 +16,7 @@ from .card import Card
 
 
 @register(category="display")
-@beta
+@stable
 def StatCard(
     title: str,
     value: str | int | float,

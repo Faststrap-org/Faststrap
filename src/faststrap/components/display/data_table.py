@@ -79,6 +79,30 @@ def _build_url(base_url: str, params: dict[str, Any]) -> str:
     return urlunsplit((parts.scheme, parts.netloc, parts.path, query, parts.fragment))
 
 
+def _matches_search(
+    row: dict[str, Any],
+    *,
+    columns: list[str],
+    query: str,
+    index_value: str | None = None,
+) -> bool:
+    needle = query.casefold()
+    values: list[Any] = [row.get(col) for col in columns]
+    if index_value is not None:
+        values.insert(0, index_value)
+    return any(needle in ("" if value is None else str(value)).casefold() for value in values)
+
+
+def _sort_key(value: Any) -> tuple[int, int, Any]:
+    if value is None:
+        return (1, 1, "")
+    if isinstance(value, bool):
+        return (0, 0, int(value))
+    if isinstance(value, (int, float)):
+        return (0, 0, value)
+    return (0, 1, str(value).casefold())
+
+
 def datatable_export_params(
     *,
     sort: str | None = None,
@@ -256,18 +280,6 @@ def DataTable(
         include_index=include_index,
     )
 
-    full_count = len(records)
-    total_count = total_rows if total_rows is not None else full_count
-
-    if c_pagination and endpoint is None and base_url is None:
-        total_pages = math.ceil(total_count / c_per_page) if total_count else 1
-        start = (page - 1) * c_per_page
-        records = records[start : start + c_per_page]
-    elif c_pagination:
-        total_pages = math.ceil(total_count / c_per_page) if total_count else 1
-    else:
-        total_pages = 1
-
     if isinstance(c_sortable, list):
         sortable_columns = [col for col in c_sortable if col in resolved_columns]
     elif c_sortable:
@@ -275,8 +287,49 @@ def DataTable(
     else:
         sortable_columns = []
 
+    if search:
+        filtered_records: list[dict[str, Any]] = []
+        filtered_index_values: list[str] | None = [] if index_values is not None else None
+        for idx, row in enumerate(records):
+            current_index = index_values[idx] if index_values is not None else None
+            if _matches_search(
+                row,
+                columns=resolved_columns,
+                query=search,
+                index_value=current_index if include_index else None,
+            ):
+                filtered_records.append(row)
+                if filtered_index_values is not None and current_index is not None:
+                    filtered_index_values.append(current_index)
+        records = filtered_records
+        if filtered_index_values is not None:
+            index_values = filtered_index_values
+
     if sort not in sortable_columns:
         sort = None
+    elif endpoint is None:
+        indexed_records = list(enumerate(records))
+        indexed_records.sort(
+            key=lambda item: _sort_key(item[1].get(sort)),
+            reverse=c_direction == "desc",
+        )
+        records = [record for _, record in indexed_records]
+        if index_values is not None:
+            index_values = [index_values[idx] for idx, _ in indexed_records]
+
+    full_count = len(records)
+    total_count = total_rows if total_rows is not None else full_count
+
+    if c_pagination and endpoint is None and base_url is None:
+        total_pages = math.ceil(total_count / c_per_page) if total_count else 1
+        start = (page - 1) * c_per_page
+        records = records[start : start + c_per_page]
+        if index_values is not None:
+            index_values = index_values[start : start + c_per_page]
+    elif c_pagination:
+        total_pages = math.ceil(total_count / c_per_page) if total_count else 1
+    else:
+        total_pages = 1
 
     visible_columns = list(resolved_columns)
     if include_index:
@@ -338,7 +391,9 @@ def DataTable(
                     push_url=push_url,
                 ),
             )
-            aria_sort = "ascending" if current and c_direction == "asc" else "descending"
+            aria_sort = (
+                "ascending" if current and c_direction == "asc" else "descending" if current else None
+            )
             head_cells.append(TCell(link, header=True, scope="col", aria_sort=aria_sort))
         else:
             head_cells.append(TCell(header_label, header=True, scope="col"))
@@ -406,10 +461,33 @@ def DataTable(
             )
             if push_url:
                 input_attrs["hx_push_url"] = "true"
+        hidden_inputs: list[Any] = []
+        preserved_params = filters.copy() if filters else {}
+        if sort:
+            preserved_params["sort"] = sort
+            preserved_params["direction"] = c_direction
+        if c_pagination:
+            preserved_params["per_page"] = c_per_page
+            preserved_params["page"] = 1
+
+        for key, value in preserved_params.items():
+            normalized = _normalize_query_value(value)
+            if normalized is None or str(key) == search_param:
+                continue
+            if isinstance(normalized, list):
+                hidden_inputs.extend(Input(type="hidden", name=str(key), value=item) for item in normalized)
+            else:
+                hidden_inputs.append(Input(type="hidden", name=str(key), value=normalized))
+
+        search_form_attrs: dict[str, Any] = {"cls": "mb-3"}
+        if link_base and not endpoint:
+            search_form_attrs["method"] = "get"
+            search_form_attrs["action"] = link_base
 
         search_form = Form(
+            *hidden_inputs,
             Input(**input_attrs),
-            cls="mb-3",
+            **search_form_attrs,
         )
         parts.append(search_form)
 

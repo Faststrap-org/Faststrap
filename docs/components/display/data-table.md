@@ -41,6 +41,7 @@ DataTable(
     searchable=True,
     pagination=True,
     per_page=25,
+    endpoint="/users",
 )
 ```
   </div>
@@ -69,7 +70,7 @@ DataTable(
 
 ## Sorting and Search
 
-Enable sorting and search with flags:
+Enable sorting and search with flags. For interactive controls, provide `endpoint` or `base_url` so header links and search submits have a stable request target:
 
 ```python
 DataTable(
@@ -79,6 +80,7 @@ DataTable(
     search_placeholder="Search users...",
     search_param="q",
     search_debounce=300,
+    endpoint="/users",
 )
 ```
 
@@ -94,7 +96,7 @@ If you want to control the current state (server-side mode), pass `sort`, `direc
 
 ## Pagination
 
-Client-side pagination works for small sets. For server-side pagination, pass `total_rows`.
+Client-side pagination works for small sets when you render the full dataset locally. For server-side pagination, pass `total_rows` with `endpoint` or `base_url`.
 
 ```python
 DataTable(
@@ -136,7 +138,7 @@ DataTable(
 
 ## Filters and Base URL
 
-Use `filters` to preserve extra query params in pagination and sort links. Use `base_url` if you are not using HTMX.
+Use `filters` to preserve extra query params in pagination and sort links. Use `base_url` if you are not using HTMX. When you pass `sort` or `search`, DataTable applies that state to the rendered rows so the UI stays consistent with the current request.
 
 ```python
 DataTable(

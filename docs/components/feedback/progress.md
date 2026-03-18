@@ -205,7 +205,7 @@ from fasthtml.common import Div, Form, Input
 def home():
     return Card(
         Form(
-            Input(type="file", name="file", cls="form-control mb-3"),
+            Input("file", input_type="file", cls="form-control mb-3"),
             Button("Upload", type="submit", variant="primary"),
             hx_post="/upload",
             hx_target="#upload-progress",

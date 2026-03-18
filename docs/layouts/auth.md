@@ -40,8 +40,8 @@ Here's the simplest way to create a login page.
   <div class="preview-code" markdown>
 ```python
 AuthLayout(
-    FormGroup(Input(type="email", name="email"), label="Email"),
-    FormGroup(Input(type="password", name="password"), label="Password"),
+    FormGroup(Input("email", input_type="email"), label="Email"),
+    FormGroup(Input("password", input_type="password"), label="Password"),
     Button("Sign In", type="submit", variant="primary", full_width=True),
     title="Welcome Back"
 )
@@ -62,12 +62,12 @@ Complete login form with branding.
 def login_page():
     return AuthLayout(
         FormGroup(
-            Input(type="email", name="email", placeholder="you@example.com"),
+            Input("email", input_type="email", placeholder="you@example.com"),
             label="Email Address",
             required=True
         ),
         FormGroup(
-            Input(type="password", name="password"),
+            Input("password", input_type="password"),
             label="Password",
             required=True
         ),
@@ -103,18 +103,18 @@ def register_page():
             required=True
         ),
         FormGroup(
-            Input(type="email", name="email", placeholder="you@example.com"),
+            Input("email", input_type="email", placeholder="you@example.com"),
             label="Email Address",
             required=True
         ),
         FormGroup(
-            Input(type="password", name="password"),
+            Input("password", input_type="password"),
             label="Password",
             help_text="At least 8 characters",
             required=True
         ),
         FormGroup(
-            Input(type="password", name="confirm_password"),
+            Input("confirm_password", input_type="password"),
             label="Confirm Password",
             required=True
         ),
@@ -147,7 +147,7 @@ def reset_password_page():
     return AuthLayout(
         P("Enter your email and we'll send you a reset link.", cls="text-muted mb-4"),
         FormGroup(
-            Input(type="email", name="email", placeholder="you@example.com"),
+            Input("email", input_type="email", placeholder="you@example.com"),
             label="Email Address",
             required=True
         ),
@@ -200,8 +200,8 @@ AuthLayout(
     ),
     
     # Email/password form
-    FormGroup(Input(type="email", name="email"), label="Email"),
-    FormGroup(Input(type="password", name="password"), label="Password"),
+    FormGroup(Input("email", input_type="email"), label="Email"),
+    FormGroup(Input("password", input_type="password"), label="Password"),
     Button("Sign In", type="submit", variant="primary", full_width=True),
     
     title="Welcome Back"
@@ -219,13 +219,13 @@ def login(email: str, password: str, req):
     if not email or "@" not in email:
         return AuthLayout(
             FormGroup(
-                Input(type="email", name="email", value=email),
+                Input("email", input_type="email", value=email),
                 label="Email",
                 error="Please enter a valid email",
                 is_invalid=True
             ),
             FormGroup(
-                Input(type="password", name="password"),
+                Input("password", input_type="password"),
                 label="Password"
             ),
             Button("Sign In", type="submit", variant="primary", full_width=True),
@@ -252,8 +252,8 @@ Show loading during authentication.
 
 ```python
 AuthLayout(
-    FormGroup(Input(type="email", name="email"), label="Email"),
-    FormGroup(Input(type="password", name="password"), label="Password"),
+    FormGroup(Input("email", input_type="email"), label="Email"),
+    FormGroup(Input("password", input_type="password"), label="Password"),
     LoadingButton(
         "Sign In",
         endpoint="/auth/login",
@@ -285,8 +285,8 @@ def login_page():
         Body(
             Div(
                 AuthLayout(
-                    FormGroup(Input(type="email", name="email"), label="Email"),
-                    FormGroup(Input(type="password", name="password"), label="Password"),
+                    FormGroup(Input("email", input_type="email"), label="Email"),
+                    FormGroup(Input("password", input_type="password"), label="Password"),
                     Button("Sign In", type="submit", variant="primary", full_width=True),
                     title="Welcome Back",
                     form_attrs={
@@ -329,7 +329,7 @@ Wizard-style registration.
 def register_step1():
     return AuthLayout(
         FormGroup(Input(name="email"), label="Email"),
-        FormGroup(Input(type="password", name="password"), label="Password"),
+        FormGroup(Input("password", input_type="password"), label="Password"),
         Button("Next", type="submit", variant="primary", full_width=True),
         title="Create Account",
         subtitle="Step 1 of 3",

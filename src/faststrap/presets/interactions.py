@@ -14,6 +14,14 @@ from ..core.base import merge_classes
 from ..utils.attrs import convert_attrs
 
 
+def _is_numeric_threshold(value: str) -> bool:
+    try:
+        parsed = float(value)
+    except (TypeError, ValueError):
+        return False
+    return 0.0 <= parsed <= 1.0
+
+
 def _build_optimistic_dispatch_script(event_name: str, detail: dict[str, Any]) -> str:
     """Build a small inline script that dispatches a bubbling CustomEvent."""
     event_json = json.dumps(event_name)
@@ -146,17 +154,28 @@ def InfiniteScroll(
         The endpoint should return HTML that will be appended to the target.
         Use `hx-swap="afterend"` to append after the trigger element itself.
     """
+    normalized_trigger = trigger.strip()
+    normalized_threshold = threshold.strip()
+
     # Build HTMX attributes
     hx_attrs = {
         "hx_get": endpoint,
         "hx_target": target,
-        "hx_trigger": trigger,
+        "hx_trigger": normalized_trigger,
         "hx_swap": kwargs.pop("hx_swap", "beforeend"),
     }
 
-    # Add intersection observer threshold if not default
-    if threshold != "0px":
-        hx_attrs["hx_trigger"] = f"{trigger} threshold:{threshold}"
+    # Add supported threshold handling without breaking existing callers.
+    if normalized_threshold != "0px" and normalized_trigger in {"revealed", "intersect"}:
+        if _is_numeric_threshold(normalized_threshold):
+            hx_attrs["hx_trigger"] = f"intersect once threshold:{normalized_threshold}"
+        else:
+            hx_attrs["hx_trigger"] = "faststrap:infinite-scroll once"
+            kwargs["data"] = {
+                **(kwargs.get("data") if isinstance(kwargs.get("data"), dict) else {}),
+                "fs_infinite_scroll": True,
+                "fs_infinite_margin": normalized_threshold,
+            }
 
     # Merge with user-provided HTMX attrs
     for key in ["hx_indicator", "hx_push_url"]:

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from typing import Any
-from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from fasthtml.common import Div
 from fasthtml.common import Form as FTForm
@@ -15,18 +14,6 @@ from ...core.theme import resolve_defaults
 from ...utils.attrs import convert_attrs
 from .button import Button
 from .input import Input
-
-
-def _build_url(base_url: str, params: dict[str, Any]) -> str:
-    parts = urlsplit(base_url)
-    existing = dict(parse_qsl(parts.query, keep_blank_values=True))
-    merged: dict[str, Any] = {**existing}
-    for key, value in params.items():
-        if value is None:
-            continue
-        merged[str(key)] = str(value)
-    query = urlencode(merged, doseq=True)
-    return urlunsplit((parts.scheme, parts.netloc, parts.path, query, parts.fragment))
 
 
 @register(category="forms")
@@ -99,6 +86,7 @@ def DateRangePicker(
     form_attrs: dict[str, Any] = {
         "method": c_method,
         "cls": merge_classes("faststrap-date-range", form_cls),
+        "data_fs_date_range": "true",
     }
     if endpoint:
         form_attrs["action"] = endpoint
@@ -125,27 +113,25 @@ def DateRangePicker(
     preset_buttons: list[Any] = []
     if presets:
         for label, preset_start, preset_end in presets:
-            if endpoint:
-                url = _build_url(
-                    endpoint,
-                    {start_name: preset_start, end_name: preset_end},
+            button_attrs: dict[str, Any] = {
+                "type": "button",
+                "data_fs_date_preset": "true",
+                "data_fs_date_start": preset_start,
+                "data_fs_date_end": preset_end,
+                "data_fs_date_start_name": start_name,
+                "data_fs_date_end_name": end_name,
+            }
+            if c_auto:
+                button_attrs["data_fs_date_preset_submit"] = "true"
+
+            preset_buttons.append(
+                Button(
+                    label,
+                    variant="secondary",
+                    outline=True,
+                    **button_attrs,
                 )
-                preset_buttons.append(
-                    Button(
-                        label,
-                        variant="secondary",
-                        outline=True,
-                        href=url,
-                        hx_get=url if endpoint else None,
-                        hx_target=hx_target,
-                        hx_swap=hx_swap,
-                        hx_push_url="true" if push_url else None,
-                    )
-                )
-            else:
-                preset_buttons.append(
-                    Button(label, variant="secondary", outline=True, type="button")
-                )
+            )
 
     presets_wrap = None
     if preset_buttons:

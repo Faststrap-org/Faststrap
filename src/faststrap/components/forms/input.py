@@ -105,8 +105,9 @@ def Input(
 
     # Create input element (special-case textarea)
     if c_type == "textarea":
+        textarea_value = attrs.pop("value", "")
         attrs.pop("type", None)
-        input_elem = FTTextarea(value or "", **attrs)
+        input_elem = FTTextarea(textarea_value, **attrs)
     else:
         input_elem = FTInput(**attrs)
 

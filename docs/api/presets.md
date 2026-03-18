@@ -173,6 +173,8 @@ LoadingButton(
 )
 ```
 
+For HTMX-native intersection ratios, pass values like `threshold="0.5"` instead of a CSS length.
+
 ### SSEStream
 
 Server‑Sent Events stream helper.
@@ -302,6 +304,8 @@ def admin_panel(req):
 def premium_feature(req):
     return PremiumContent()
 ```
+
+`@require_auth` preserves the return URL as a relative path plus query string so the default redirect flow stays on your own site.
 
 ---
 

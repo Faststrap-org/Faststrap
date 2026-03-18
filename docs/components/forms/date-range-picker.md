@@ -47,6 +47,8 @@ DateRangePicker(
 )
 ```
 
+Preset buttons populate the form inputs. If you also set `auto=True`, Faststrap submits the form after applying the preset.
+
 ---
 
 ## HTMX Integration
@@ -68,6 +70,8 @@ DateRangePicker(
 Use `min_date`, `max_date`, `start_value`, and `end_value` to control allowed ranges.
 
 For `method="post"`, ensure CSRF protection is enabled.
+
+Preset shortcuts rely on the Faststrap runtime from `add_bootstrap(app)`.
 
 ---
 

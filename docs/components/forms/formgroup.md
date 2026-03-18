@@ -23,7 +23,7 @@ Here's the simplest way to create a form field.
   <div class="preview-code" markdown>
 ```python
 FormGroup(
-    Input(type="email", placeholder="you@example.com"),
+    Input("email", input_type="email", placeholder="you@example.com"),
     label="Email Address",
     help_text="We'll never share your email"
 )
@@ -51,7 +51,7 @@ Show users when their input is valid or invalid.
   <div class="preview-code" markdown>
 ```python
 FormGroup(
-    Input(type="password", name="password"),
+    Input("password", input_type="password"),
     label="Password",
     error="Password must be at least 8 characters",
     is_invalid=True
@@ -159,7 +159,7 @@ def register(req):
                 is_invalid="email" in errors
             ),
             FormGroup(
-                Input(type="password", name="password"),
+                Input("password", input_type="password"),
                 label="Password",
                 error=errors.get("password"),
                 is_invalid="password" in errors
@@ -232,19 +232,19 @@ def RegistrationForm():
             required=True
         ),
         FormGroup(
-            Input(type="email", name="email"),
+            Input("email", input_type="email"),
             label="Email Address",
             help_text="We'll never share your email",
             required=True
         ),
         FormGroup(
-            Input(type="password", name="password"),
+            Input("password", input_type="password"),
             label="Password",
             help_text="At least 8 characters",
             required=True
         ),
         FormGroup(
-            Input(type="password", name="confirm_password"),
+            Input("confirm_password", input_type="password"),
             label="Confirm Password",
             required=True
         ),
@@ -328,7 +328,7 @@ FormGroup(
 ```python
 # Use semantic validation
 FormGroup(
-    Input(type="email", name="email"),
+    Input("email", input_type="email"),
     label="Email",
     error="Please enter a valid email address",
     is_invalid=True
@@ -336,7 +336,7 @@ FormGroup(
 
 # Provide helpful help text
 FormGroup(
-    Input(type="password", name="password"),
+    Input("password", input_type="password"),
     label="Password",
     help_text="At least 8 characters with 1 number",
     required=True

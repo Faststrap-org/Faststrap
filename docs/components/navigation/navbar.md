@@ -100,7 +100,7 @@ Navbars are common places for search inputs.
 Navbar(
     NavbarBrand("My App"),
     Form(
-        Input(placeholder="Search...", size="sm", cls="me-2"),
+        Input("search", placeholder="Search...", size="sm", cls="me-2"),
         Button("Search", variant="outline-success", size="sm"),
         cls="d-flex"
     ),

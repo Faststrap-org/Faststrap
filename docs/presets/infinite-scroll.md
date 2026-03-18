@@ -23,7 +23,7 @@ InfiniteScroll(
 | `endpoint` | `str` | **required** | Endpoint to fetch next page |
 | `target` | `str` | **required** | CSS selector for results container |
 | `trigger` | `str` | `"revealed"` | HTMX trigger event |
-| `threshold` | `str` | `"0px"` | Intersection observer threshold |
+| `threshold` | `str` | `"0px"` | Prefetch margin (`"200px"`) or intersection ratio (`"0.5"`) |
 | `content` | `Any` | Loading indicator | Custom loading content |
 | `**kwargs` | | | Additional HTML/HTMX attrs |
 
@@ -59,3 +59,15 @@ InfiniteScroll(
     threshold="200px",
 )
 ```
+
+Use a fractional ratio if you want HTMX-native `intersect` behavior:
+
+```python
+InfiniteScroll(
+    endpoint="/api/feed?page=2",
+    target="#feed",
+    threshold="0.5",
+)
+```
+
+Length-based thresholds such as `"200px"` use the Faststrap runtime from `add_bootstrap(app)` to dispatch the trigger safely before the sentinel enters view.

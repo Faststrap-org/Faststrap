@@ -280,9 +280,18 @@ class TestLocalBusinessStructuredData:
 
         spec1 = data["openingHoursSpecification"][0]
         assert spec1["@type"] == "OpeningHoursSpecification"
-        assert spec1["dayOfWeek"] == "Monday-Friday"
+        assert spec1["dayOfWeek"] == [
+            "https://schema.org/Monday",
+            "https://schema.org/Tuesday",
+            "https://schema.org/Wednesday",
+            "https://schema.org/Thursday",
+            "https://schema.org/Friday",
+        ]
         assert spec1["opens"] == "9:00"
         assert spec1["closes"] == "17:00"
+
+        spec2 = data["openingHoursSpecification"][1]
+        assert spec2["dayOfWeek"] == "https://schema.org/Saturday"
 
     def test_local_business_with_extra_properties(self):
         """Test local business with additional properties."""

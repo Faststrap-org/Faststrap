@@ -19,7 +19,7 @@ The `Input` component allows users to enter text, numbers, passwords, emails, an
   </div>
   <div class="preview-code" markdown>
 ```python
-Input(placeholder="Enter your name", label="Full Name")
+Input("full_name", placeholder="Enter your name", label="Full Name")
 ```
   </div>
 </div>
@@ -48,8 +48,8 @@ FastStrap supports all HTML5 input types. Adding a `label` argument automaticall
   </div>
   <div class="preview-code" markdown>
 ```python
-Input(type="email", label="Email Address", placeholder="name@example.com")
-Input(type="password", label="Password")
+Input("email", input_type="email", label="Email Address", placeholder="name@example.com")
+Input("password", input_type="password", label="Password")
 ```
   </div>
 </div>
@@ -68,9 +68,9 @@ Match inputs to buttons or other components using `size`.
   </div>
   <div class="preview-code" markdown>
 ```python
-Input(placeholder="Large Input", size="lg")
-Input(placeholder="Default Input")
-Input(placeholder="Small Input", size="sm")
+Input("large_input", placeholder="Large Input", size="lg")
+Input("default_input", placeholder="Default Input")
+Input("small_input", placeholder="Small Input", size="sm")
 ```
   </div>
 </div>
@@ -90,6 +90,7 @@ Add flexible helper text below the input using `help_text`. Use `disabled` or `r
   <div class="preview-code" markdown>
 ```python
 Input(
+    "username",
     label="Username", 
     help_text="Must be 8-20 characters long.",
     disabled=True,
@@ -120,10 +121,10 @@ Input(
   <div class="preview-code" markdown>
 ```python
 # Valid state (Green border)
-Input(class="is-valid", value="Correct!")
+Input("username", validation_state="valid", value="Correct!")
 
 # Invalid state (Red border)
-Input(class="is-invalid", value="Invalid data")
+Input("username", validation_state="invalid", value="Invalid data")
 ```
   </div>
 </div>
@@ -155,7 +156,8 @@ Trigger server requests on user input (e.g., live search).
 
 ```python
 Input(
-    type="search",
+    "search",
+    input_type="search",
     placeholder="Search users...",
     hx_get="/search_users",
     hx_trigger="keyup changed delay:500ms", # Wait 500ms after typing stops
@@ -193,7 +195,7 @@ Combine inputs with text or buttons using `InputGroup`.
 ```python
 InputGroup(
     InputGroupText("@"),
-    Input(placeholder="Username"),
+    Input("username", placeholder="Username"),
     InputGroupText(".com")
 )
 ```
@@ -206,7 +208,8 @@ InputGroup(
 
 | FastStrap Param | Type | Bootstrap / HTML Attribute | Description |
 | :--- | :--- | :--- | :--- |
-| `type` | `str` | `type="..."` | HTML5 Input type (`text`, `password`, `email`, `number`, `date`, etc.). Default `text`. |
+| `name` | `str` | `name="..."` | Form field name. Required for form submission and label/input association. |
+| `input_type` | `str` | `type="..."` | HTML5 input type (`text`, `password`, `email`, `number`, `date`, etc.). Default `text`. |
 | `label` | `str` | `<label>` | Text for the associated label element. |
 | `placeholder` | `str` | `placeholder="..."` | Ghost text shown when empty. |
 | `value` | `Any` | `value="..."` | Initial value of the input. |

@@ -57,7 +57,7 @@ You can nest components just like HTML:
 from faststrap import Card, Button, Input
 
 Card(
-    Input(label="Email", placeholder="you@example.com"),
+    Input("email", label="Email", placeholder="you@example.com"),
     Button("Join Waitlist", variant="primary", full_width=True),
     title="Get Notified"
 )

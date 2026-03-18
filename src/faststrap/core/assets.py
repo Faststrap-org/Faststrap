@@ -240,34 +240,110 @@ INIT_SCRIPT_JS = """
         const initFocusTraps = (scope) => {
             const FOCUSABLE =
                 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+            const focusTrapStates = window.__fsFocusTrapStates || new WeakMap();
+            window.__fsFocusTrapStates = focusTrapStates;
+
+            const isVisible = (node) => {
+                if (!(node instanceof HTMLElement)) return false;
+                const style = window.getComputedStyle(node);
+                return style.display !== 'none'
+                    && style.visibility !== 'hidden'
+                    && node.getClientRects().length > 0;
+            };
+
+            const getFocusable = (container) => {
+                return Array.from(container.querySelectorAll(FOCUSABLE))
+                    .filter(node => isVisible(node));
+            };
+
+            const activateFocusTrap = (container) => {
+                if (!isVisible(container)) return;
+
+                const focusables = getFocusable(container);
+                if (focusables.length === 0) return;
+
+                const existing = focusTrapStates.get(container);
+                if (existing && existing.active) return;
+
+                const previous = document.activeElement instanceof HTMLElement
+                    ? document.activeElement
+                    : null;
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+
+                const handler = (e) => {
+                    if (e.key !== 'Tab') return;
+
+                    const currentFocusables = getFocusable(container);
+                    if (currentFocusables.length === 0) return;
+
+                    const currentFirst = currentFocusables[0];
+                    const currentLast = currentFocusables[currentFocusables.length - 1];
+
+                    if (e.shiftKey && document.activeElement === currentFirst) {
+                        e.preventDefault();
+                        currentLast.focus();
+                    } else if (!e.shiftKey && document.activeElement === currentLast) {
+                        e.preventDefault();
+                        currentFirst.focus();
+                    }
+                };
+
+                container.addEventListener('keydown', handler);
+                focusTrapStates.set(container, { active: true, handler, previous });
+
+                const autofocusSelector = container.dataset.fsAutofocus;
+                if (autofocusSelector) {
+                    const target = container.querySelector(autofocusSelector);
+                    if (isVisible(target)) {
+                        target.focus();
+                        return;
+                    }
+                }
+
+                first.focus();
+            };
+
+            const deactivateFocusTrap = (container) => {
+                const state = focusTrapStates.get(container);
+                if (!state || !state.active) return;
+
+                container.removeEventListener('keydown', state.handler);
+                state.active = false;
+                focusTrapStates.set(container, state);
+
+                if (state.previous && document.body.contains(state.previous)) {
+                    state.previous.focus();
+                }
+            };
 
             scope.querySelectorAll('[data-fs-focus-trap="true"]').forEach(container => {
                 if (container.dataset.fsFocusTrapInit === 'true') return;
                 container.dataset.fsFocusTrapInit = 'true';
 
-                const focusables = Array.from(container.querySelectorAll(FOCUSABLE));
-                if (focusables.length === 0) return;
+                const owner = container.closest('.modal, .offcanvas') || container;
+                const ownerIsModal = owner.classList.contains('modal');
+                const ownerIsOffcanvas = owner.classList.contains('offcanvas');
 
-                const first = focusables[0];
-                const last = focusables[focusables.length - 1];
-                const autofocusSelector = container.dataset.fsAutofocus;
-                if (autofocusSelector) {
-                    const target = container.querySelector(autofocusSelector);
-                    if (target) target.focus();
-                } else {
-                    first.focus();
+                if (ownerIsModal) {
+                    owner.addEventListener('shown.bs.modal', () => activateFocusTrap(container));
+                    owner.addEventListener('hidden.bs.modal', () => deactivateFocusTrap(container));
+                    if (owner.classList.contains('show')) {
+                        activateFocusTrap(container);
+                    }
+                    return;
                 }
 
-                container.addEventListener('keydown', (e) => {
-                    if (e.key !== 'Tab') return;
-                    if (e.shiftKey && document.activeElement === first) {
-                        e.preventDefault();
-                        last.focus();
-                    } else if (!e.shiftKey && document.activeElement === last) {
-                        e.preventDefault();
-                        first.focus();
+                if (ownerIsOffcanvas) {
+                    owner.addEventListener('shown.bs.offcanvas', () => activateFocusTrap(container));
+                    owner.addEventListener('hidden.bs.offcanvas', () => deactivateFocusTrap(container));
+                    if (owner.classList.contains('show')) {
+                        activateFocusTrap(container);
                     }
-                });
+                    return;
+                }
+
+                activateFocusTrap(container);
             });
         };
 
@@ -311,6 +387,73 @@ INIT_SCRIPT_JS = """
             });
         };
 
+        const initDateRangePresets = (scope) => {
+            scope.querySelectorAll('[data-fs-date-range="true"]').forEach(form => {
+                if (form.dataset.fsDateRangeInit === 'true') return;
+                form.dataset.fsDateRangeInit = 'true';
+
+                form.addEventListener('click', (e) => {
+                    const button = e.target.closest('[data-fs-date-preset="true"]');
+                    if (!button || !form.contains(button)) return;
+
+                    e.preventDefault();
+
+                    const startName = button.dataset.fsDateStartName;
+                    const endName = button.dataset.fsDateEndName;
+                    const startValue = button.dataset.fsDateStart || '';
+                    const endValue = button.dataset.fsDateEnd || '';
+
+                    const startInput = startName ? form.elements.namedItem(startName) : null;
+                    const endInput = endName ? form.elements.namedItem(endName) : null;
+
+                    if (startInput) startInput.value = startValue;
+                    if (endInput) endInput.value = endValue;
+
+                    if (button.dataset.fsDatePresetSubmit === 'true') {
+                        if (typeof form.requestSubmit === 'function') {
+                            form.requestSubmit();
+                        } else {
+                            form.submit();
+                        }
+                    }
+                });
+            });
+        };
+
+        const initInfiniteScroll = (scope) => {
+            scope.querySelectorAll('[data-fs-infinite-scroll="true"]').forEach(el => {
+                if (el.dataset.fsInfiniteInit === 'true') return;
+                el.dataset.fsInfiniteInit = 'true';
+
+                const margin = el.dataset.fsInfiniteMargin || '0px';
+                if (!('IntersectionObserver' in window) || !window.htmx) {
+                    return;
+                }
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) return;
+                        window.htmx.trigger(el, 'faststrap:infinite-scroll');
+                        observer.disconnect();
+                    });
+                }, {
+                    root: null,
+                    rootMargin: `0px 0px ${margin} 0px`,
+                    threshold: 0,
+                });
+
+                observer.observe(el);
+
+                const cleanup = new MutationObserver(() => {
+                    if (!document.body.contains(el)) {
+                        observer.disconnect();
+                        cleanup.disconnect();
+                    }
+                });
+                cleanup.observe(document.body, { childList: true, subtree: true });
+            });
+        };
+
         const initSseTargets = (scope) => {
             scope.querySelectorAll('[data-fs-sse="true"]').forEach(el => {
                 if (el.dataset.fsSseInit === 'true') return;
@@ -326,7 +469,10 @@ INIT_SCRIPT_JS = """
                 const targetSelector = el.dataset.fsSseTarget;
                 const withCredentials = el.dataset.fsSseCredentials === 'true';
                 const reconnect = el.dataset.fsSseReconnect !== 'false';
+                const retryRaw = el.dataset.fsSseRetry;
+                const retry = retryRaw ? parseInt(retryRaw, 10) : null;
 
+                let connectionRoot = el;
                 let target = el;
                 if (targetSelector) {
                     const candidate = document.querySelector(targetSelector);
@@ -340,10 +486,39 @@ INIT_SCRIPT_JS = """
                 };
 
                 const applySwap = (html) => {
+                    if (targetSelector && !document.body.contains(target)) {
+                        const candidate = document.querySelector(targetSelector);
+                        if (candidate) target = candidate;
+                    }
+
                     switch (swap) {
                         case 'outer':
                         case 'replace':
-                            target.replaceWith(toFragment(html));
+                            {
+                                const parent = target.parentNode;
+                                if (!parent) return;
+
+                                const marker = document.createElement('span');
+                                marker.hidden = true;
+                                marker.setAttribute('data-fs-sse-marker', 'true');
+                                parent.insertBefore(marker, target);
+                                target.remove();
+                                marker.insertAdjacentHTML('afterend', html);
+                                const replacement = marker.nextElementSibling;
+                                marker.remove();
+
+                                if (!replacement) {
+                                    if (source) source.close();
+                                    if (observer) observer.disconnect();
+                                    return;
+                                }
+
+                                const replacedConnectionRoot = target === connectionRoot;
+                                target = replacement;
+                                if (replacedConnectionRoot) {
+                                    connectionRoot = replacement;
+                                }
+                            }
                             break;
                         case 'before':
                             target.insertAdjacentHTML('beforebegin', html);
@@ -361,8 +536,6 @@ INIT_SCRIPT_JS = """
                             target.innerHTML = html;
                     }
                 };
-
-                const source = new EventSource(endpoint, { withCredentials });
                 const handler = (evt) => {
                     const data = evt.data ?? '';
                     if (swap === 'text') {
@@ -372,16 +545,47 @@ INIT_SCRIPT_JS = """
                     applySwap(data);
                 };
 
-                source.addEventListener(eventName, handler);
-                source.onerror = () => {
-                    if (!reconnect) {
-                        source.close();
-                    }
+                let source = null;
+                let reconnectTimer = null;
+                let observer = null;
+
+                const connect = () => {
+                    if (!document.body.contains(connectionRoot)) return;
+                    source = new EventSource(endpoint, { withCredentials });
+                    source.addEventListener(eventName, handler);
+                    source.onerror = () => {
+                        if (!reconnect) {
+                            source.close();
+                            source = null;
+                            return;
+                        }
+
+                        if (retry !== null && Number.isFinite(retry)) {
+                            source.close();
+                            source = null;
+                            if (reconnectTimer) {
+                                window.clearTimeout(reconnectTimer);
+                            }
+                            reconnectTimer = window.setTimeout(() => {
+                                reconnectTimer = null;
+                                connect();
+                            }, retry);
+                        }
+                    };
                 };
 
-                const observer = new MutationObserver(() => {
-                    if (!document.body.contains(el)) {
-                        source.close();
+                connect();
+
+                observer = new MutationObserver(() => {
+                    if (!document.body.contains(connectionRoot)) {
+                        if (source) {
+                            source.close();
+                            source = null;
+                        }
+                        if (reconnectTimer) {
+                            window.clearTimeout(reconnectTimer);
+                            reconnectTimer = null;
+                        }
                         observer.disconnect();
                     }
                 });
@@ -431,6 +635,8 @@ INIT_SCRIPT_JS = """
         initTextClamp(document);
         initFocusTraps(document);
         initSearchableSelect(document);
+        initDateRangePresets(document);
+        initInfiniteScroll(document);
         initSseTargets(document);
         initMermaid(document);
 
@@ -441,6 +647,8 @@ INIT_SCRIPT_JS = """
             initTextClamp(evt.detail.elt);
             initFocusTraps(evt.detail.elt);
             initSearchableSelect(evt.detail.elt);
+            initDateRangePresets(evt.detail.elt);
+            initInfiniteScroll(evt.detail.elt);
             initSseTargets(evt.detail.elt);
             initMermaid(evt.detail.elt);
         });

@@ -75,8 +75,8 @@ FastHTML is amazing for building web apps in pure Python, but building UI from s
 @app.route("/")
 def home():
     return Card(
-        Input(label="Username", placeholder="Enter username"),
-        Input(label="Password", type="password"),
+        Input("username", label="Username", placeholder="Enter username"),
+        Input("password", label="Password", input_type="password"),
         Button("Login", variant="primary", cls="w-100 mt-3"),
         title="Welcome Back",
         style={"max-width": "400px", "margin": "2rem auto"}

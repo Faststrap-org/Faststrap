@@ -123,6 +123,23 @@ def SEO(
         elements.append(Link(rel="canonical", href=canonical_url))
 
     # Open Graph tags
+    has_og_content = any(
+        [
+            title,
+            description,
+            image,
+            url,
+            locale,
+            alternate_locales,
+            article,
+            published_time,
+            modified_time,
+            author,
+            section,
+            tags,
+        ]
+    )
+
     if title:
         elements.append(Meta(property="og:title", content=title))
 
@@ -137,7 +154,8 @@ def SEO(
 
     # Set type to article if article=True
     resolved_og_type = "article" if article else og_type
-    elements.append(Meta(property="og:type", content=resolved_og_type))
+    if has_og_content:
+        elements.append(Meta(property="og:type", content=resolved_og_type))
 
     if locale:
         elements.append(Meta(property="og:locale", content=locale))
