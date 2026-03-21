@@ -39,7 +39,7 @@ trigger = Button("Launch Modal", data_bs_toggle="modal", data_bs_target="#myModa
 modal = Modal(
     "Hello! This is a modal dialog.", 
     title="Example Modal", 
-    id="myModal",
+    modal_id="myModal",
     footer=Button("Save", variant="primary")
 )
 ```
@@ -115,7 +115,7 @@ Modal(
 Prevents closing the modal when clicking the shaded background. Useful for high-stakes forms or "must-read" alerts.
 
 ```python
-Modal(..., backdrop="static")
+Modal(..., static_backdrop=True)
 ```
 
 ---
@@ -131,13 +131,17 @@ from faststrap import ConfirmDialog
 ConfirmDialog(
     "Delete this post? This cannot be undone.",
     title="Confirm Deletion",
-    id="confirmDelete",
+    dialog_id="confirmDelete",
     confirm_text="Yes, Delete It",
-    confirm_variant="danger",
+    variant="danger",
     hx_delete="/post/1", # Action on confirm
     hx_target="#post-1"
 )
 ```
+::: faststrap.components.feedback.confirm.ConfirmDialog
+    options:
+        show_source: false
+        heading_level: 4
 
 ### 2. Real-time Loading
 You can put HTMX content inside a modal body to load data only when opened.
@@ -146,7 +150,7 @@ You can put HTMX content inside a modal body to load data only when opened.
 Modal(
     Div(hx_get="/api/user_details", hx_trigger="intersect once"), # Loads when modal opens
     title="User Profile",
-    id="profileModal"
+    modal_id="profileModal"
 )
 ```
 
@@ -174,7 +178,7 @@ Modal(
 | `size` | `str` | `.modal-{size}` | `sm`, `lg`, `xl`, `fullscreen`. |
 | `centered` | `bool` | `.modal-dialog-centered` | Vertically centers the dialog. |
 | `scrollable` | `bool` | `.modal-dialog-scrollable` | Makes body scrollable independently. |
-| `backdrop` | `str` | `data-bs-backdrop` | `static` prevents click-to-close. |
+| `static_backdrop` | `bool` | `data-bs-backdrop` | `static` prevents click-to-close. |
 | `keyboard` | `bool` | `data-bs-keyboard` | If `False`, Escape key won't close it. |
 
 ::: faststrap.components.feedback.modal.Modal
