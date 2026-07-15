@@ -4,7 +4,6 @@ from fasthtml.common import to_xml
 
 from faststrap.components.forms import OTPInput, OTPInputGroup
 
-
 # --- OTPInput (single-field, zero-JS) ---
 
 

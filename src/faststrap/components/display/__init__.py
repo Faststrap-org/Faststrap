@@ -2,7 +2,6 @@
 
 from .avatar import Avatar, AvatarGroup
 from .badge import Badge
-from .kbd import Kbd
 from .card import Card
 from .carousel import Carousel, CarouselItem
 from .chart import Chart
@@ -15,6 +14,7 @@ from .data_table import (
 from .empty_state import EmptyState
 from .figure import Figure
 from .image import Image
+from .kbd import Kbd
 from .map_view import MapView
 from .markdown import Markdown, render_markdown
 from .mermaid import Mermaid
