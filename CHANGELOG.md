@@ -5,12 +5,33 @@ All notable changes to Faststrap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.8.1] - Unreleased
+## [0.8.1] - 2026-07-15
 
 ### Fixed
 
 - Fixed the deprecated Faststrap `Form` compatibility alias so `from faststrap import *`
   no longer breaks ordinary FastHTML `Form(...)` usage in examples or user apps.
+- Fixed `SimpleToast` animation: added `pointer-events: none` and `visibility: hidden` at
+  animation end so toasts become non-interactive after auto-hide completes.
+- Removed non-functional close button from `SimpleToast` (no-JS component cannot handle
+  click events without JavaScript). The `Toast` component (requires JS) still has a
+  working close button.
+- Removed `alert-dismissible` class from `SimpleToast` since there is no dismiss handler.
+- Fixed `ModernToastStack` hardcoded `z-index: 1080` — now uses
+  `z-index: var(--fs-toast-z-index, 1080)` for theme customizability.
+
+### Added
+
+- `Separator` — semantic divider component with horizontal/vertical orientation,
+  optional label, and configurable thickness/spacing.
+- `Kbd` — styled keyboard key indicator for documenting shortcuts and hotkeys.
+- `OTPInput` — CSS-only single-field OTP input (zero-JS) using `maxlength`,
+  `inputmode="numeric"`, and CSS letter-spacing for visual digit separation.
+- `OTPInputGroup` — multi-field OTP input with auto-advance between digit boxes.
+  Uses 1 line of JavaScript via Faststrap INIT_SCRIPT for focus management.
+- `AspectRatio` — responsive aspect ratio container using CSS `aspect-ratio`.
+- `Tag` — interactive tag/chip component with optional remove button and icon support.
+  Distinct from `Badge` (which is purely informational).
 
 ## [0.8.0] - 2026-05-16
 

@@ -31,8 +31,8 @@ def SimpleToast(
     c_duration = cfg.get("duration", 5000)
     c_position = cfg.get("position", "top-right")
 
-    # Build base classes
-    classes = ["alert", "alert-dismissible", "fade", "show"]
+    # Build base classes (no alert-dismissible — close button removed for no-JS variant)
+    classes = ["alert", "fade", "show"]
     if c_variant:
         classes.append(f"alert-{c_variant}")
 
@@ -95,11 +95,6 @@ def SimpleToast(
     if title:
         header = Div(
             Strong(title, cls="me-auto"),
-            Button(
-                type="button",
-                cls="btn-close",
-                aria_label="Close",
-            ),
             cls="alert-heading",
         )
         parts.append(header)

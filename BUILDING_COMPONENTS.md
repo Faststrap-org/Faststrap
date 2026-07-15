@@ -286,41 +286,43 @@ When building a component, reference Bootstrap docs:
 
 ---
 
-## 🚀 Component Priority List
+## 🚀 Component Status (v0.8.0)
 
-### **✅ Phase 3 Complete (v0.3.1)**
-1. ✅ Tabs & TabPane
-2. ✅ Dropdown (with DropdownItem, DropdownDivider)
-3. ✅ Input (all HTML5 types)
-4. ✅ Select (single/multiple)
-5. ✅ Breadcrumb
-6. ✅ Pagination
-7. ✅ Spinner
-8. ✅ Progress & ProgressBar
+### **✅ Phases 1–8 Complete**
 
-### **🎯 Phase 4A Next (v0.4.0 - Jan 2026):**
-1. Table (+ THead, TBody, TRow, TCell) — responsive, striped, hover
-2. Accordion (+ AccordionItem) — collapsible panels
-3. Checkbox — standard, inline, validation
-4. Radio — standard, button style
-5. Switch — toggle variant
-6. Range — slider with labels
-7. ListGroup (+ ListGroupItem) — actionable, badges
-8. Collapse — show/hide content
-9. InputGroup — prepend/append addons
-10. FloatingLabel — animated label inputs
+All core Bootstrap components, HTMX presets, SEO, PWA, accessibility, patterns, layouts, optional integrations, and the v0.8.0 primitive wave are shipped. See [ROADMAP.md](ROADMAP.md) for the full inventory.
 
-### **🎯 Phase 4B (v0.4.5 - Feb 2026):**
-11. FileInput — single/multiple, drag-drop preview
-12. Tooltip — Bootstrap JS init pattern
-13. Popover — rich content overlays
-14. Figure — image + caption wrapper
-15. ConfirmDialog — modal preset for confirmations
-16. EmptyState — placeholder component
-17. StatCard — metric display card
-18. Hero — landing page hero section
+**Quick reference — shipped categories:**
+- **Forms (36):** Button, Input, Select, Checkbox, Radio, Switch, Range, FileInput, FormWizard, FormBuilder, CalendarDatePicker, DateRangePicker, MultiSelect, RangeSlider, FilterBar, ExportButton, InlineEditor, LiveValidationField, and more
+- **Display (42+5 aliases):** Card, DataTable, Chart, MetricCard, KPICard, TrendCard, Table, Avatar, Timeline, Stepper, CodeBlock, JsonViewer, KeyValueList, RecordDetail, FlipCard, TiltCard, GlowCard, and more
+- **Feedback (35):** Alert, Modal, Toast, Spinner, Progress, ProgressRing, 7 loaders, NotificationCenter, ModernToast, and more
+- **Navigation (23):** Navbar, GlassNavbar, SidebarNavbar, Tabs, Drawer, Dropdown, Accordion, CommandPalette, Pagination, and more
+- **Layout (10):** Container/Row/Col, Stack, Cluster, Center, Hero, DashboardGrid, PageHeader, ParallaxSection
+- **Patterns (8):** Feature, FeatureGrid, PricingGroup, Testimonial, NavbarModern, FooterModern
+- **Layouts (3):** DashboardLayout, LandingLayout, AuthLayout
 
-See [ROADMAP.md](ROADMAP.md) for complete timeline.
+### **🎯 Next: ML/DS Visualization Wave (Planned)**
+
+These belong in `src/faststrap/components/advance/` and should be marked `@experimental` on first ship:
+
+| Component | Description | Extra Required |
+|-----------|-------------|---------------|
+| `DistributionPlot` | Histogram + KDE overlay from pandas Series | `faststrap[chartjs]` |
+| `CorrelationMatrix` | Correlation heatmap from DataFrame | `faststrap[chartjs]` |
+| `LiveChart` | SSE-powered auto-updating Chart.js chart | `faststrap[chartjs]` |
+| `LiveMetric` | Real-time metric display via SSE | none |
+| `ConfusionMatrix` | sklearn-compatible confusion matrix | none |
+| `ROCCurve` | ROC curve with AUC annotation | none |
+| `FeatureImportance` | Feature importance bar chart (sklearn/SHAP) | none |
+| `ModelMetrics` | Full model evaluation dashboard card | none |
+| `TimeSeriesPlot` | Time series with moving average overlay | `faststrap[chartjs]` |
+
+**Best templates to copy for these:**
+- `Chart` (`display/chart.py`) — for chart-wrapper components
+- `MetricCard` (`display/stat_card.py`) — for data display cards
+- `SSETarget` (`display/sse_target.py`) — for live/streaming components
+
+See [ROADMAP.md](ROADMAP.md) for the full milestone delivery sequence.
 
 ---
 
@@ -380,16 +382,18 @@ All checks pass? Submit PR! 🎉
 
 ---
 
-## 📊 Current Stats (v0.3.1)
+## 📊 Current Stats (v0.8.0)
 
-- ✅ **38 components** (20 from Phase 1-3, 18 from Phase 4)
-- ✅ **230+ tests** passing (80%+ coverage)
-- ✅ **Centralized convert_attrs()** for consistency
+- ✅ **152 registered UI components** (170+ total with presets, integrations, and helpers)
+- ✅ **790+ tests** passing (90%+ coverage)
+- ✅ **Centralized `convert_attrs()`** for HTMX/data/aria attribute handling
 - ✅ **Full HTMX integration** across all components
 - ✅ **Bootstrap 5.3.3** compliant
-- 🎯 **Target: 50 components** in v0.5.0
-- 🎯 **Target: 100+ components** by v1.0.0
+- ✅ **Optional integrations** for ChartJS, GSAP, and Markdown
+- ✅ **`faststrap doctor` CLI** for project health diagnostics
+- 🎯 **Next target:** ML/DS visualization wave (`advance/` directory)
+- 🎯 **v1.0 gate:** 200+ components, 95%+ coverage, playground, CLI scaffolding
 
 ---
 
-**Ready to build? Pick a component from Phase 4A and start coding!**
+**Ready to build? Pick a component from the ML/DS Visualization Wave and start coding!**

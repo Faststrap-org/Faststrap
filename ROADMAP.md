@@ -66,8 +66,8 @@ These items are intentionally tracked here so they are not lost between releases
 ##  Overall Progress to v1.0
 
 ```text
-Components:    109+ (target 100+)
-Tests:         679+ (target 800)
+Components:    152+ registered UI (170+ total with presets, integrations, helpers)
+Tests:         790+ (target 800)
 Coverage:      90%+ (target 95%)
 Contributors:  15+/100 (15%)
 
@@ -77,16 +77,18 @@ Contributors:  15+/100 (15%)
 
 | Phase | Components | Status | Released |
 |-------|------------|--------|----------|
-| 12 | 12 |  Complete | Dec 2025 |
-| 3 | +8 (Tabs, Dropdown, Input, Select, Breadcrumb, Pagination, Spinner, Progress) |  Complete | Dec 2025 |
-| 4A | +10 (Table, Accordion, Checkbox, Radio, Switch, Range, ListGroup, Collapse, InputGroup, FloatingLabel) |  Complete | Dec 2025 |
-| 4B | +8 (FileInput, Tooltip, Popover, Figure, ConfirmDialog, EmptyState, StatCard, Hero) |  Complete | Jan 2026 |
-| 4C | Documentation (18 component docs, 95% coverage) |  Complete | Jan 2026 |
-| 5A | +6 (Image, Carousel, Placeholders, Scrollspy, SidebarNavbar, GlassNavbar) + Examples Reorganization |  Complete | Jan 2026 |
-| 5B | +16 (Presets Module [12 helpers], SEO Module [2 components], ErrorPage, ErrorDialog, FormGroup, ThemeToggle, SearchableSelect, FooterModern, Testimonial, TestimonialSection, AuthLayout) |  Complete | Feb 2026 |
-| 6 | +16 (DataTable, Chart, MetricCard, TrendCard, KPICard, DashboardGrid, FilterBar, DateRangePicker, MultiSelect, RangeSlider, ExportButton, SSEStream, SSETarget, NotificationCenter, Svg, Mermaid) |  Complete | Mar 2026 |
+| 1–2 | 12 (Button, Card, Alert, Modal, Navbar, Badge, Toast, Drawer, Container/Row/Col, Icon) | ✅ Complete | Dec 2025 |
+| 3 | +8 (Tabs, Dropdown, Input, Select, Breadcrumb, Pagination, Spinner, Progress) | ✅ Complete | Dec 2025 |
+| 4A | +10 (Table, Accordion, Checkbox, Radio, Switch, Range, ListGroup, Collapse, InputGroup, FloatingLabel) | ✅ Complete | Dec 2025 |
+| 4B | +8 (FileInput, Tooltip, Popover, Figure, ConfirmDialog, EmptyState, StatCard, Hero) | ✅ Complete | Jan 2026 |
+| 4C | Documentation (18 component docs, 95% coverage) | ✅ Complete | Jan 2026 |
+| 5A | +6 (Image, Carousel, Placeholders, Scrollspy, SidebarNavbar, GlassNavbar) + Examples Reorganization | ✅ Complete | Jan 2026 |
+| 5B | +16 (Presets Module [12 helpers], SEO Module [2 components], ErrorPage, ErrorDialog, FormGroup, ThemeToggle, SearchableSelect, FooterModern, Testimonial, TestimonialSection, AuthLayout) | ✅ Complete | Feb 2026 |
+| 6 | +16 (DataTable, Chart, MetricCard, TrendCard, KPICard, DashboardGrid, FilterBar, DateRangePicker, MultiSelect, RangeSlider, ExportButton, SSEStream, SSETarget, NotificationCenter, Svg, Mermaid) | ✅ Complete | Mar 2026 |
+| 7 | +14 (ResultCard, Avatar, AvatarGroup, StatusBadge, BadgeGroup, InlineEditor, Timeline, Stepper, CalendarDatePicker, FormWizard, CommandPalette) + optional integrations (ModernToast, ChartJS, GSAP) | ✅ Complete | May 2026 |
+| 8 | +13 core primitives (Stack, Cluster, Center, PageHeader, KeyValueList, RecordDetail, CodeBlock, JsonViewer, FormSection, PollUntil) + visual primitives (FlipCard, TiltCard, RevealCard, GlowCard, 7 loaders, ProgressRing, GradientButton, FloatingActionButton, ParallaxSection) | ✅ Complete | May 2026 |
 
-**Total: 109+ production-ready components** (100% Bootstrap parity + HTMX presets + SEO tools)
+**Total: 152 registered UI components + 18 HTMX presets + SEO/PWA/accessibility helpers = 170+ total**
 
 ---
 
@@ -811,18 +813,19 @@ What Faststrap intentionally *won't* do:
 
 ---
 
-## v1.0.0  Production Release (Target Aug 2026)
+## v1.0.0  Production Release (Milestone-Driven)
 
-**Goal:** Full Bootstrap parity + SaaS patterns + Documentation
-**Target:** 100+ components
+**Goal:** Complete ML/DS visualization layer + interactive docs + CLI scaffolding + community scale
+**Release:** When quality gates pass — no fixed calendar date
 
-### Milestones
+### Quality Gates (v1.0 definition of done)
 
-* [ ] 100+ components
-* [ ] 95%+ test coverage
-* [ ] Full documentation website (MkDocs Material)
-* [ ] Component playground / live demos
-* [ ] 3-5 starter templates (Dashboard, Admin, E-commerce)
+* [ ] ML/DS visualization wave shipped (DistributionPlot, CorrelationMatrix, LiveChart, LiveMetric, ConfusionMatrix, ROCCurve, FeatureImportance, ModelMetrics, TimeSeriesPlot)
+* [ ] 95%+ test coverage (currently 90%+)
+* [ ] Interactive component playground / live docs
+* [ ] `faststrap init --template=` CLI scaffolding (5 templates)
+* [ ] DataTable ↔ SQLAlchemy query bridge (server-side sort/filter/page)
+* [ ] Full documentation website complete (MkDocs Material)
 * [ ] Video tutorials
 * [ ] Community contributions from 50+ developers
 
@@ -830,12 +833,12 @@ What Faststrap intentionally *won't* do:
 
 ## Success Metrics
 
-| Metric | v0.3.1 | v0.4.5 | v0.5.9 (Now) | v1.0.0 |
-|--------|--------------|--------------|--------------|--------|
-| Components | 20 | 38 | 70 | 100+ |
-| Tests | 219 | 230+ | 646+ | 800+ |
-| Coverage | 80% | 85%+ | 90%+ | 95%+ |
-| Contributors | 5+ | 15+ | 20+ | 50+ |
+| Metric | v0.4.5 | v0.6.0 | v0.8.0 (Now) | v1.0.0 |
+|--------|--------|--------|--------------|--------|
+| Components | 38 | 109+ | 152 registered (170+ total) | 200+ |
+| Tests | 230+ | 683 | 790+ | 800+ |
+| Coverage | 85%+ | 90%+ | 90%+ | 95%+ |
+| Contributors | 15+ | 15+ | 15+ | 50+ |
 
 ---
 
@@ -876,7 +879,7 @@ Your votes directly influence what gets built next.
 
 ---
 
-**Last Updated: March 2026**
-**Current Version: 0.5.9 (map/markdown/data bridges, PWA foundations, and release hardening)**
+**Last Updated: July 2026**
+**Current Version: v0.8.0 (core primitive wave + visual primitives absorbed into core)**
 
 **Let's build the definitive UI library for FastHTML  together.**

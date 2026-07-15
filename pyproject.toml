@@ -58,7 +58,7 @@ chartjs = []
 Homepage = "https://github.com/Faststrap-org/Faststrap"
 Repository = "https://github.com/Faststrap-org/Faststrap"
 Issues = "https://github.com/Faststrap-org/Faststrap/issues"
-Documentation = "https://github.com/Faststrap-org/Faststrap#readme"
+Documentation = "https://faststrap-org.github.io/Faststrap/"
 Changelog = "https://github.com/Faststrap-org/Faststrap/blob/main/CHANGELOG.md"
 
 [project.scripts]

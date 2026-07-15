@@ -123,7 +123,7 @@ Categories:
 ```python
 """Module docstring describing the component."""
 
-from typing import Any, Literal, Optional, Union
+from typing import Any, Literal
 from fasthtml.common import Div, Button, Span  # Import needed FT objects
 from faststrap.core.base import merge_classes
 
@@ -199,110 +199,71 @@ def ComponentName(
 
 ## Complex Component (Fluent API)
 
+> **Note:** Most Faststrap components are simple functions — the fluent builder pattern below is illustrative only. In practice, use the `BaseComponent` ABC from `faststrap.core.base` only when you need a stateful class-based component (e.g. for framework extensions). For standard components, follow the function pattern shown in the Basic Component Structure above.
+
 For components with many optional parts (like Card with header/body/footer):
 
 ```python
-from faststrap.core.base import ComponentBuilder
+from typing import Any
+from fasthtml.common import Div
+from faststrap.core.base import BaseComponent, merge_classes
 
-class ComponentNameBuilder(ComponentBuilder):
-    """Fluent builder for ComponentName with optional parts."""
+
+class ComponentNameBuilder(BaseComponent):
+    """Fluent builder for ComponentName with optional parts.
     
-    def __init__(self, *children: Any, **kwargs: Any):
+    Uses the BaseComponent base class which provides merge_attrs()
+    for proper HTMX / data_* / aria_* / style dict handling.
+    """
+
+    def __init__(self, *children: Any, variant: str = "primary", **kwargs: Any):
         super().__init__(*children, **kwargs)
-        self.header: Any | None = None,
-        self.footer: Any | None = None,
-        self.variant: str = kwargs.get("variant", "primary")
-    
+        self.header: Any | None = None
+        self.footer: Any | None = None
+        self.variant: str = variant
+
     def with_header(self, header: Any) -> "ComponentNameBuilder":
-        """Add header to component.
-        
-        Args:
-            header: Header content
-        
-        Returns:
-            Self for chaining
-        """
         self.header = header
         return self
-    
+
     def with_footer(self, footer: Any) -> "ComponentNameBuilder":
-        """Add footer to component.
-        
-        Args:
-            footer: Footer content
-        
-        Returns:
-            Self for chaining
-        """
         self.footer = footer
         return self
-    
-    def build(self) -> Div:
-        """Build the final component.
-        
-        Returns:
-            Div with all parts assembled
-        """
-        parts = []
-        
+
+    def render(self) -> Div:
+        parts: list[Any] = []
         if self.header:
             parts.append(Div(self.header, cls="component-header"))
-        
         parts.append(Div(*self.children, cls="component-body"))
-        
         if self.footer:
             parts.append(Div(self.footer, cls="component-footer"))
-        
-        classes = merge_classes(
-            f"component component-{self.variant}",
-            self.attrs.get("cls", "")
+        merged = self.merge_attrs(
+            cls=merge_classes(f"component component-{self.variant}", self.attrs.get("cls", ""))
         )
-        
-        return Div(*parts, cls=classes, **self.attrs)
+        return Div(*parts, **merged)
+
 
 def ComponentName(
     *children: Any,
     header: Any | None = None,
     footer: Any | None = None,
     variant: str = "primary",
-    **kwargs: Any
-) -> Union[Div, ComponentNameBuilder]:
+    **kwargs: Any,
+) -> Div:
     """Component with optional header/footer.
-    
-    Supports both kwargs and fluent API:
-    
+
     Kwargs style:
         ComponentName("Body", header="Title", footer="Footer")
-    
-    Fluent style:
-        ComponentName("Body").with_header("Title").with_footer("Footer").build()
-    
-    Args:
-        *children: Main content
-        header: Optional header content
-        footer: Optional footer content
-        variant: Color variant
-        **kwargs: Additional attributes
-    
+
     Returns:
-        Built Div or builder for chaining
+        Built Div
     """
     builder = ComponentNameBuilder(*children, variant=variant, **kwargs)
-    
-    # If using kwargs, build immediately
-    if header or footer:
-        if header:
-            builder.with_header(header)
-        if footer:
-            builder.with_footer(footer)
-        return builder.build()
-    
-    # If only children provided, also build immediately
-    if not kwargs.get("_fluent_mode"):
-        return builder.build()
-    
-    # Otherwise return builder for chaining
-    return builder
+    if header:
+        builder.with_header(header)
+    if footer:
+        builder.with_footer(footer)
+    return builder.render()
 ```
 
 ---

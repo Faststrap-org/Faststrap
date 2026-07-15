@@ -2,6 +2,7 @@
 
 from .avatar import Avatar, AvatarGroup
 from .badge import Badge
+from .kbd import Kbd
 from .card import Card
 from .carousel import Carousel, CarouselItem
 from .chart import Chart
@@ -26,6 +27,7 @@ from .stepper import Stepper, StepperStep
 from .structured import CodeBlock, JsonViewer, KeyValueList, RecordDetail
 from .svg import Svg, render_svg
 from .table import BsTable, BsTBody, BsTCell, BsTHead, BsTRow, Table, TBody, TCell, THead, TRow
+from .tag import Tag
 from .text_clamp import TextClamp
 from .timeline import Timeline, TimelineItem
 from .visual_cards import FlipCard, GlowCard, RevealCard, TiltCard
@@ -50,6 +52,7 @@ __all__ = [
     "GlowCard",
     "Image",
     "JsonViewer",
+    "Kbd",
     "KeyValueList",
     "MapView",
     "Markdown",
@@ -79,6 +82,7 @@ __all__ = [
     "BsTRow",
     "BsTCell",
     "Table",
+    "Tag",
     "THead",
     "TBody",
     "TRow",

@@ -565,7 +565,7 @@ Faststrap's current main branch reflects the v0.8.0 core primitive and visual co
 
 - **152 registered UI components** across forms, display, feedback, navigation, layout, and patterns.
 - **170+ total components, helpers, presets, and integrations** including HTMX presets, SEO helpers, PWA helpers, and optional integrations.
-- **Optional integrations** for Chart.js, GSAP, and `faststrap[markdown]`.
+- **Optional integrations** for Chart.js, GSAP, and Markdown (`pip install faststrap[markdown]` required for the `Markdown` display component).
 - **Discovery APIs** including `list_components()`, `find_components()`, `get_components_by_pattern()`, and `list_component_metadata()`.
 - **Documentation structure** with component index, architecture guide, upgrade guide, performance guide, and custom component guide.
 

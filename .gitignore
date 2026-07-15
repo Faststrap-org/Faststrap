@@ -74,3 +74,5 @@ dmypy.json
 *.tar.gz
 *.whl
 site/
+
+skills/

@@ -182,8 +182,9 @@ CUSTOM_STYLES_CSS = """
 
 /* Simple Toast animations (no JavaScript required) */
 @keyframes toastFadeOut {
-  0% { opacity: 1; transform: translateX(0); }
-  100% { opacity: 0; transform: translateX(100%); }
+  0% { opacity: 1; transform: translateX(0); pointer-events: auto; }
+  99% { opacity: 0; transform: translateX(100%); pointer-events: none; }
+  100% { opacity: 0; transform: translateX(100%); pointer-events: none; visibility: hidden; }
 }
 
 .toast-fade-out {
@@ -650,6 +651,38 @@ INIT_SCRIPT_JS = """
             });
         };
 
+        // OTP Group auto-advance (1 line of JS for multi-field OTP inputs)
+        const initOtpGroups = (scope) => {
+            scope.querySelectorAll('[data-fs-otp-group="true"]').forEach(group => {
+                if (group.dataset.fsOtpInit === 'true') return;
+                group.dataset.fsOtpInit = 'true';
+                const inputs = group.querySelectorAll('.otp-digit-input');
+                inputs.forEach((input, idx) => {
+                    input.addEventListener('input', (e) => {
+                        const val = e.target.value.replace(/\\D/g, '');
+                        e.target.value = val.slice(-1);
+                        if (val && idx < inputs.length - 1) {
+                            inputs[idx + 1].focus();
+                        }
+                    });
+                    input.addEventListener('keydown', (e) => {
+                        if (e.key === 'Backspace' && !e.target.value && idx > 0) {
+                            inputs[idx - 1].focus();
+                        }
+                    });
+                    input.addEventListener('paste', (e) => {
+                        e.preventDefault();
+                        const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\\D/g, '');
+                        for (let i = 0; i < Math.min(pasted.length, inputs.length); i++) {
+                            inputs[i].value = pasted[i];
+                        }
+                        const focusIdx = Math.min(pasted.length, inputs.length - 1);
+                        inputs[focusIdx].focus();
+                    });
+                });
+            });
+        };
+
         initBS(document);
         initToggleGroups(document);
         initTextClamp(document);
@@ -659,6 +692,7 @@ INIT_SCRIPT_JS = """
         initInfiniteScroll(document);
         initSseTargets(document);
         initMermaid(document);
+        initOtpGroups(document);
 
         // HTMX support: Re-initialize on content swap
         document.body.addEventListener('htmx:afterSwap', (evt) => {
@@ -671,6 +705,7 @@ INIT_SCRIPT_JS = """
             initInfiniteScroll(evt.detail.elt);
             initSseTargets(evt.detail.elt);
             initMermaid(evt.detail.elt);
+            initOtpGroups(evt.detail.elt);
         });
     });
 """

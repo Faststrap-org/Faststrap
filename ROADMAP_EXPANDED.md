@@ -1,47 +1,55 @@
-# FastStrap Roadmap  Comprehensive Edition (January 2026)
+# FastStrap Roadmap  Comprehensive Edition (Updated July 2026)
 
-**Vision:** The most complete, Pythonic, zero-JS Bootstrap 5 component library for FastHTML  100+ production-ready components built by the community, for the community.
+**Vision:** The most complete, Pythonic, zero-JS Bootstrap 5 component library for FastHTML — a production-grade UI layer for web apps, data apps, ML tools, and AI-native interfaces.
 
 ---
 
-##  Current Status (v0.5.6.post3  February 2026)
+##  Current Status (v0.8.0  May 2026)
 
-**93 components live**  Phase 1 through 4B complete  
-**230+ tests**  85%+ coverage  
+**152 registered UI components** across forms, display, feedback, navigation, layout, and patterns  
+**170+ total** including HTMX presets, SEO helpers, PWA helpers, and optional integrations  
+**790+ tests**  90%+ coverage  
 **Full HTMX + Bootstrap 5.3.3 support**  
-**Zero custom JavaScript required**
+**Zero custom JavaScript required for core workflows**  
+**Optional integrations** for ChartJS, GSAP, and Markdown
 
 ### Overall Progress to v1.0
 
 ```text
-Components:    38/100 (38%)
-Tests:         230/800 (29%)
-Coverage:      85/95   (89%)
+Components:    152 registered UI / 170+ total (target 200+)
+Tests:         790+ (target 800+)
+Coverage:      90%+ (target 95%)
 Contributors:  15+/100 (15%)
 ```
 
-###  Recent Achievements
+> **v1.0 is milestone-driven, not calendar-driven.** It ships when the ML/DS visualization wave, interactive playground, CLI scaffolding, and ORM bridges all pass quality gates.
 
--  **Jan 2026**: Phase 4B shipped - 8 new components (FileInput, Tooltip, Popover, Figure, ConfirmDialog, EmptyState, StatCard, Hero)
--  **Jan 2026**: Documentation overhaul with live component previews and interactive examples
--  **Dec 2025**: 15+ contributors milestone reached - growing community!
--  **Dec 2025**: Phase 4A completed - Table, Accordion, comprehensive form controls
--  **Feb 2026**: Phase 5 kickoff - Visual effects & professional layout system
+###  Shipped Milestones (Chronological)
+
+-  **Dec 2025**: Phases 1–4A — 30 core components (Button, Card, Input, Select, Table, Accordion, etc.)
+-  **Jan 2026**: Phase 4B — Rich interactions (FileInput, Tooltip, Popover, ConfirmDialog, StatCard, Hero)
+-  **Jan 2026**: Phase 4C — Documentation overhaul with live component previews
+-  **Jan 2026**: Phase 5A — Image, Carousel, Placeholders, Scrollspy, SidebarNavbar, GlassNavbar
+-  **Feb 2026**: Phase 5B — Presets module (12 helpers), SEO module, Error components, AuthLayout, patterns
+-  **Mar 2026**: Phase 6 — DataTable, Chart, KPI/Metric/TrendCard, DashboardGrid, FilterBar, SSE, Mermaid, Svg
+-  **May 2026**: Phase 7 — ResultCard, Avatar, Timeline, Stepper, CalendarDatePicker, FormWizard, CommandPalette + optional integrations (ModernToast, ChartJS, GSAP)
+-  **May 2026**: Phase 8 — Core primitives (Stack, Cluster, Center, PageHeader, KeyValueList, RecordDetail, CodeBlock, JsonViewer, FormSection, PollUntil) + visual primitives (FlipCard, TiltCard, GlowCard, 7 loaders, GradientButton, FAB, ParallaxSection)
 
 ---
 
-##  Release Timeline
+##  Delivery Milestones (Sequential, No Fixed Dates)
 
 ```
-2025 Dec   Phase 4B Complete (38 components)
-2026 Jan   Documentation Overhaul
-2026 Feb   Phase 5 - Visual Polish (50 components)
-2026 Mar   v0.5.5 - Quick Wins
-2026 Apr   Phase 6.0 - Data Layer
-2026 May   Phase 6.1 - Productivity
-2026 Jun   Phase 6.2 - Auth & DX  
-2026 Jul   Phase 6.3 - Realtime
-2026 Aug   v1.0.0 Production Release 
+M1  v0.8.1 Ship    Backward compat fixes (Form alias) — in local commits
+M2  Docs Overhaul  All stale docs corrected, component specs written for all planned items
+M3  ML/DS Wave 1   LiveChart, LiveMetric, DistributionPlot, CorrelationMatrix
+M4  ML/DS Wave 2   ConfusionMatrix, ROCCurve, FeatureImportance, ModelMetrics
+M5  Real-time      TimeSeriesPlot, GeoMap, SSE cookbook / end-to-end tutorial
+M6  Layout Exp.    SplitPane, MegaMenu, Switcher
+M7  ORM Bridge     DataTable.from_query() with SQLAlchemy server-side sort/filter/page
+M8  CLI Scaffold   faststrap init --template= (5 templates)
+M9  Accessibility  ARIA validation helpers, contrast checker, WCAG report in doctor CLI
+M10 v1.0           All gates pass: 200+ components, 95%+ coverage, playground, templates
 ```
 
 ---
@@ -112,27 +120,54 @@ assert "btn btn-primary" in str(button)  # Always true
 
 **Focus:** Complete form control set, data display, collapsible content
 
-### Phase 4B: Enhanced UI (v0.4.5)  Jan 2026
+### Phase 4B: Enhanced UI (v0.4.5) ✅ Jan 2026
 **+8 components:** FileInput, Tooltip, Popover, Figure, ConfirmDialog, EmptyState, StatCard, Hero
 
 **Focus:** Rich interactions, feedback patterns, landing page elements
 
-**Total: 93 production-ready components**
+### Phase 5A: Visual Polish (v0.5.x) ✅ Jan 2026
+**+6 components:** Image, Carousel, Placeholders, Scrollspy, SidebarNavbar, GlassNavbar  
+**+New module:** `faststrap.effects` (Fx — zero-JS animation classes)  
+**+Layouts:** DashboardLayout, LandingLayout, AuthLayout  
+**+Patterns:** NavbarModern (as GlassNavbar), FeatureGrid, PricingGroup, TestimonialSection, FooterModern
+
+### Phase 5B: HTMX Presets, SEO & Error Handling (v0.5.4–0.5.9) ✅ Feb–Mar 2026
+**+16 components and helpers:** ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton, hx_redirect, hx_refresh, hx_trigger, hx_reswap, hx_retarget, toast_response, @require_auth, SEO, StructuredData, ErrorPage, ErrorDialog  
+**+Accessibility module:** SkipLink, LiveRegion, VisuallyHidden, FocusTrap  
+**+Form enhancements:** FormGroup, ThemeToggle, SearchableSelect, ToggleGroup, TextClamp  
+**+PWA module:** add_pwa(), PwaMeta  
+**+CLI:** `faststrap doctor`  
+**+Data bridges (beta):** Form.from_pydantic(), Table.from_df(), MapView, Markdown
+
+### Phase 6: Data Science & Visualization (v0.6.x) ✅ Mar 2026
+**+16 components:** DataTable, Chart, MetricCard, TrendCard, KPICard, DashboardGrid, FilterBar, DateRangePicker, MultiSelect, RangeSlider, ExportButton, SSEStream, SSETarget, NotificationCenter, Svg, Mermaid  
+**+Helpers:** FormErrorSummary, datatable_query_params(), datatable_page_url()
+
+### Phase 7: Component Wave (v0.7.0) ✅ May 2026
+**+11 components:** ResultCard, Avatar, AvatarGroup, StatusBadge, BadgeGroup, InlineEditor, Timeline, TimelineItem, Stepper, StepperStep, CalendarDatePicker, FormWizard, WizardStep, CommandPalette, CommandItem  
+**+Optional integrations:** ModernToast, ModernToastStack, ChartJS (add_chartjs), GSAP (add_gsap, GsapReveal, Motion)  
+**+Framework ergonomics:** ConfirmAction, LiveValidationField, ValidationMessage, Pagination improvements, theme_variant_css(), registry discovery helpers
+
+### Phase 8: Core Primitives (v0.8.0) ✅ May 2026
+**+Core primitives:** Stack, Cluster, Center, PageHeader, KeyValueList, RecordDetail, CodeBlock, JsonViewer, FormSection, PollUntil  
+**+Visual primitives:** FlipCard, TiltCard, RevealCard, GlowCard, DotsLoader, RingLoader, WaveLoader, PulseLoader, PolygonLoader, TypewriterLoader, ShadowLoader, ProgressRing, GradientButton, FloatingActionButton, ParallaxSection  
+**+Static asset:** `faststrap-visual.css`
+
+**Total (v0.8.0): 152 registered UI components + 18 HTMX presets + SEO/PWA/accessibility = 170+ total**
 
 ---
 
-##  Quick Wins (v0.4.7  February 2026)
+##  Quick Wins Reference (v0.4.7 Era — Now Resolved)
 
-**Goal:** Maintain momentum with high-value, low-effort additions while Phase 5 is in development.
+The following items from the early quick-wins list have shipped in their final form:
 
-| Feature | Effort | Impact | Status | Notes |
-|---------|--------|--------|--------|-------|
-| `Table.from_dict()` | 2 days |  High | Planned | Render dicts/lists as tables instantly |
-| `Table.from_pydantic()` | 1 day |  High | Planned | Render Pydantic model lists as tables |
-| Example Gallery | 3 days |  High | Planned | 10+ real-world apps (e-commerce, blog, dashboard) |
-| `Badge` enhancements | 4 hours | Medium | Planned | `.pill()` helper, positioning utilities |
-| `Alert.flash()` preset | 1 day | Medium | Planned | Auto-dismiss with timer, session flash messages |
-| Component search | 2 days |  High | Planned | Search bar on docs site for quick component discovery |
+| Feature | Original Status | Final Status |
+|---------|----------------|--------------|
+| `Table.from_df()` | Planned | ✅ Shipped in v0.5.9 (beta), hardened in v0.6.0 |
+| `Form.from_pydantic()` (was Table.from_pydantic) | Planned | ✅ Shipped in v0.5.9 as FormBuilder.from_pydantic() |
+| Example Gallery | Planned | ✅ Showcase directory — 18 polished production apps |
+| Component search / discovery | Planned | ✅ Shipped — list_components(), find_components(), get_components_by_pattern() |
+| `Alert.flash()` preset | Planned | Deferred — covered by toast_response() preset instead |
 
 **Why Quick Wins**
 - Keeps contributors engaged between major phases
@@ -627,17 +662,13 @@ def init(project_name, template, auth, db):
 
 ---
 
-##  Phase 6  Data & Ecosystem (v0.6.x  April-July 2026)
+##  Phase 6  Data & Ecosystem — Shipped & Planned
 
-**Goal:** Deep Python integration leveraging Pandas, Pydantic, and data science tools. Make Faststrap the **obvious choice for data-centric applications**.
+**Goal:** Deep Python integration leveraging Pandas, Pydantic, and data science tools. Make Faststrap the **obvious choice for data-centric and ML applications**.
 
-**Why Phase 6 Matters:**
-- Python dominates data science/ML (Pandas, Polars, Jupyter)
-- Most business apps are data-heavy (dashboards, analytics, reports)
-- Faststrap + Python data tools = unbeatable developer experience
-- No other HTML framework has this tight integration
+> **Phase 6.0 and 6.1 are complete (v0.6.x, Mar 2026). Phases 6.2–6.3 (ML visualization) remain planned and are the next strategic priority.**
 
-### v0.6.0  Data Layer (April 2026)
+### v0.6.0  Data Layer ✅ Shipped (Mar 2026)
 
 **Focus:** Seamless integration with Pandas/Polars for data-driven UIs.
 
@@ -2465,9 +2496,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
 
 ---
 
-**Last Updated:** January 2026  
-**Current Version:** v0.5.6.post3 (PWA route fix + resilient caching baseline)  
-**Next Release:** v0.5.7 (PageMeta + form error mapper focus)
+**Last Updated:** July 2026  
+**Current Version:** v0.8.0 (core primitive wave + visual primitives absorbed into core)  
+**Next Release:** v0.8.1 (backward compat fix for Form alias — in local commits, not yet published)
 
 **Let's build the definitive UI library for FastHTML  together.** 
 

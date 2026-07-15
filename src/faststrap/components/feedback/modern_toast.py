@@ -126,7 +126,7 @@ def ModernToastStack(
         ),
         "data_fs_modern_toast_stack": "true",
         "data_position": position,
-        "style": "z-index: 1080;",
+        "style": "z-index: var(--fs-toast-z-index, 1080);",
     }
     attrs.update(convert_attrs(kwargs))
     return Div(*toasts, **attrs)

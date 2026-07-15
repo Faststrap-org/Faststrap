@@ -25,6 +25,7 @@ from .inline_editor import InlineEditor
 from .input import Input
 from .inputgroup import FloatingLabel, InputGroup, InputGroupText
 from .multi_select import MultiSelect
+from .otp_input import OTPInput, OTPInputGroup
 from .range_slider import RangeSlider
 from .searchable_select import SearchableSelect
 from .select import Select
@@ -65,6 +66,8 @@ __all__ = [
     "InlineEditor",
     "FloatingLabel",
     "MultiSelect",
+    "OTPInput",
+    "OTPInputGroup",
     "RangeSlider",
     "SearchableSelect",
     "Select",
