@@ -1,0 +1,115 @@
+# FastStrap - AI & Search Engine Crawler Policy
+# Allow all AI assistants and search engines to index this repository and docs site
+
+# ===========================
+# Default: Allow everything
+# ===========================
+User-agent: *
+Allow: /
+
+# ===========================
+# AI Search & Chat Crawlers
+# ===========================
+
+# OpenAI (ChatGPT, GPTBot, OAI-SearchBot)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: anthropic-ai-crawler
+Allow: /
+
+# Google (Gemini)
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Meta AI
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: meta-externalfetcher
+Allow: /
+
+# Amazon (Alexa AI)
+User-agent: Amazonbot
+Allow: /
+
+# ByteDance (TikTok/Douyin AI)
+User-agent: Bytespider
+Allow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# DuckDuckGo AI
+User-agent: DuckAssistBot
+Allow: /
+
+# You.com AI
+User-agent: youbot
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot-Extended
+Allow: /
+
+# Yandex AI
+User-agent: Yandex
+Allow: /
+
+# Mistral AI
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: MistralAI-Verify
+Allow: /
+
+# ===========================
+# Traditional Search Engines
+# ===========================
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp (Yahoo)
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# ===========================
+# Sitemaps
+# ===========================
+Sitemap: https://faststrap-org.github.io/Faststrap/sitemap.xml

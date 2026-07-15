@@ -1,111 +1,211 @@
-# Faststrap Repo Guide
+# Faststrap — Agent Guide
 
-These instructions apply to the `Faststrap/` repository and are intended to make future Faststrap + FastHTML work consistent, fast, and production-safe.
+This file provides context for AI agents building applications with Faststrap + FastHTML.
 
-## First Read
+## What is Faststrap?
 
-When working in this repo, build context in this order:
+Faststrap is a Python component library for [FastHTML](https://github.com/AnswerDotAI/fasthtml) that provides **152+ UI components** built on Bootstrap 5. It enables building web apps, dashboards, portals, and data applications entirely in Python with zero JavaScript.
 
-1. `README.md`
-2. `BUILDING_COMPONENTS.md`
-3. The relevant component modules under `src/faststrap/components/`
-4. The relevant docs page under `docs/`
-5. The closest test file under `tests/`
-6. The closest example under `examples/` or `showcase/`
+- **Install:** `pip install faststrap`
+- **Docs:** https://faststrap-org.github.io/Faststrap/
+- **GitHub:** https://github.com/Faststrap-org/Faststrap
+- **PyPI:** https://pypi.org/project/faststrap/
 
-Do not invent Faststrap APIs from memory when local source, examples, and tests already define the contract.
+## When to Use Faststrap
 
-## Mental Model
+Use Faststrap when building:
+- Web applications (SaaS, portals, admin panels)
+- Data dashboards and analytics tools
+- Landing pages and marketing sites
+- Auth flows (login, register, forgot password)
+- CRUD interfaces and form-heavy apps
+- Real-time dashboards with SSE streaming
+- Mobile-responsive web apps
 
-Faststrap is a Python component layer on top of FastHTML and Bootstrap 5.
+## App Setup Pattern
 
-- FastHTML provides the element primitives and app/runtime integration.
-- Faststrap provides higher-level components, presets, theme helpers, and asset wiring.
-- HTMX is a first-class integration path and should be preserved when extending components.
-- Bootstrap is the visual/runtime foundation, so generated markup should remain idiomatic Bootstrap markup unless the component intentionally abstracts it.
+```python
+from fasthtml.common import FastHTML
+from faststrap import add_bootstrap
 
-For real application work built with Faststrap + FastHTML:
+app = FastHTML()
+add_bootstrap(app)  # Required — adds Bootstrap 5.3 CSS/JS
+```
 
-- Bootstrap and Faststrap should carry most structure, layout, spacing, and responsiveness.
-- Faststrap has a broad component surface, so check existing components/patterns before inventing new UI primitives.
-- HTMX should be the first interaction tool before custom JavaScript.
-- Custom CSS should primarily provide brand polish and modern visual treatment, not replace Bootstrap utilities without good reason.
-- JavaScript should be used deliberately for needs like PWA features, browser APIs, maps, media, or interactions HTMX/Bootstrap cannot handle cleanly.
-- Avoid external CSS CDNs for app styling.
-- When placing two cards or content-heavy columns side by side, default to mobile-safe stacking first with Bootstrap/Faststrap row controls such as `cols=1`, `cols_md=2`, or `cols_lg=2`.
-- If a secondary card is valuable on desktop but too dense for mobile/tablet, hide it with Bootstrap display utilities like `d-none d-lg-block` instead of forcing cramped small-screen layouts.
+## Component Import
 
-## Preferred Build Workflow
+```python
+from faststrap import (
+    # Layout
+    Container, Row, Col, Stack, Cluster, Center,
+    Hero, PageHeader, DashboardGrid, AspectRatio, Separator,
+    # Forms
+    Button, Input, Select, Form, FormGroup, Switch, Checkbox, Radio,
+    SearchableSelect, MultiSelect, DateRangePicker, OTPInput, OTPInputGroup,
+    # Display
+    Card, Badge, Tag, Kbd, Avatar, AvatarGroup, Table, DataTable,
+    StatCard, MetricCard, TrendCard, KPICard, Image, Carousel,
+    CodeBlock, JsonViewer, Timeline, Stepper, EmptyState,
+    # Feedback
+    Alert, Toast, SimpleToast, Modal, Spinner, Progress, ProgressRing,
+    Placeholder, Tooltip, Popover, ErrorPage, NotificationCenter,
+    # Navigation
+    Navbar, GlassNavbar, SidebarNavbar, Tabs, Accordion, Dropdown,
+    Breadcrumb, Pagination, Drawer, BottomNav, Scrollspy, CommandPalette,
+    # Patterns
+    FeatureGrid, PricingGroup, PricingTier, TestimonialSection,
+    FooterModern, Testimonial,
+    # Layouts
+    AuthLayout, DashboardLayout, LandingLayout,
+    # Accessibility
+    SkipLink, LiveRegion, VisuallyHidden, FocusTrap,
+    # SEO
+    SEO, PageMeta, StructuredData,
+    # HTMX Presets
+    ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton,
+    # PWA
+    add_pwa, PwaMeta,
+)
+```
 
-When asked to build a feature with Faststrap:
+## Build Principles
 
-1. Find the nearest existing component, preset, or example and copy its pattern.
-2. Prefer composing existing Faststrap components before creating new primitives.
-3. Keep public APIs explicit, typed, and Pythonic.
-4. Preserve backward compatibility unless the user explicitly approves a breaking change.
-5. Add or update tests in the same pass as the code change.
-6. Align docs/examples when public behavior changes.
+1. **Faststrap components first** — check the import list above before writing raw HTML
+2. **HTMX for interactions** — use hx_get, hx_post, hx_target, hx_swap for all dynamic behavior
+3. **Bootstrap for layout** — Row/Col grid, flex utilities, spacing (mb-3, p-2, etc.)
+4. **Custom CSS for polish only** — brand colors, gradients, custom visual treatments
+5. **JavaScript only when needed** — PWA features, browser APIs, maps, media players
+6. **Mobile-first** — start with single column (cols=1), expand with cols_md=2, cols_lg=3, etc.
+7. **Dark mode** — use add_bootstrap(app, mode="dark") or ThemeToggle() component
 
-## Faststrap Conventions
+## Component Patterns
 
-### App setup
+### Cards
+```python
+Card(
+    Card.Header("Title"),
+    Card.Body("Content"),
+    Card.Footer("Footer actions"),
+    variant="primary",
+)
+```
 
-- Use `add_bootstrap(app, ...)` for runtime assets and theme wiring.
-- If a feature depends on Faststrap runtime helpers, assume `add_bootstrap()` is part of the app contract and document that clearly.
+### Forms
+```python
+Form(
+    FormGroup("Email", Input(name="email", type="email", required=True)),
+    FormGroup("Password", Input(name="password", type="password")),
+    FormGroup("Remember me", Switch(name="remember")),
+    Button("Sign In", type="submit", variant="primary"),
+    method="post",
+    action="/login",
+)
+```
 
-### Component implementation
+### Tables
+```python
+# Static table
+Table(
+    THead(TRow(THead("Name"), THead("Email"))),
+    TBody(
+        TRow(TCell("Alice"), TCell("alice@example.com")),
+    ),
+    striped=True, hover=True,
+)
 
-- Prefer FastHTML primitives from `fasthtml.common`.
-- Merge user classes with `merge_classes(...)`.
-- Normalize attrs with `convert_attrs(...)`.
-- Use descriptive IDs like `modal_id`, `drawer_id`, `tab_id` instead of plain `id` parameters when the ID is a required API input.
-- Favor safe defaults and explicit escaping/sanitization boundaries.
+# Data-driven table with sort/filter/pagination
+DataTable(df=my_dataframe, page_size=20, sortable=True, filterable=True)
+```
 
-### Stability markers
+### HTMX Interactions
+```python
+# Live search
+FilterBar(
+    Input(placeholder="Search...", name="q"),
+    hx_get="/api/search",
+    hx_trigger="input changed delay:300ms",
+    hx_target="#results",
+)
 
-- `@stable` means the public API is considered safe to build on.
-- `@beta` means the surface is usable but may still evolve.
-- Do not promote a component to `@stable` unless its API shape, docs, and tests are mature enough for downstream reliance.
+# Infinite scroll
+InfiniteScroll(url="/api/items", target="#list")
 
-### Tests
+# Loading button
+LoadingButton("Save", hx_post="/api/save", loading_text="Saving...")
+```
 
-- Use `to_xml()` for render assertions.
-- Add focused regression tests for public contracts, accessibility attrs, and edge cases.
-- If behavior depends on JS/runtime wiring, validate the rendered hooks and keep docs honest about what is client-driven.
+### Dashboard Layout
+```python
+DashboardLayout(
+    sidebar=SidebarNavbar(
+        SidebarNavItem("Dashboard", icon="speedometer2", href="/"),
+        SidebarNavItem("Users", icon="people", href="/users"),
+        SidebarNavItem("Settings", icon="gear", href="/settings"),
+    ),
+    content=DashboardGrid(
+        StatCard("Revenue", "$12K", "+5%", delta_color="success"),
+        StatCard("Users", "1.2K", "+12%"),
+        StatCard("Orders", "456", "+3%"),
+        cols=3,
+    ),
+)
+```
 
-## Where To Look First
+### Landing Page
+```python
+LandingLayout(
+    Hero(
+        title="Build Faster with Python",
+        subtitle="152+ UI components for FastHTML",
+        cta_text="Get Started",
+        cta_href="/docs",
+    ),
+    FeatureGrid(
+        Feature(icon="lightning", title="Fast", description="Pure Python"),
+        Feature(icon="shield", title="Secure", description="Server-rendered"),
+        Feature(icon="code", title="Simple", description="Clean API"),
+    ),
+    TestimonialSection(
+        Testimonial("Amazing library!", author="Dev"),
+    ),
+    FooterModern(brand="MyApp"),
+)
+```
 
-Use these local references before improvising:
+### Auth Pages
+```python
+AuthLayout(
+    Card(
+        Form(
+            FormGroup("Email", Input(name="email", type="email")),
+            FormGroup("Password", Input(name="password", type="password")),
+            Button("Sign In", type="submit", variant="primary", w="100%"),
+            method="post",
+        ),
+        title="Sign In",
+    ),
+    brand="MyApp",
+)
+```
 
-- Getting started:
-  - `examples/01_getting_started/hello_world.py`
-  - `examples/01_getting_started/simple_form.py`
-- Broad component usage:
-  - `examples/demo_all.py`
-  - `examples/phase5_demo.py`
-  - `examples/05_new_components/README.md`
-- Data/realtime features:
-  - `examples/05_new_components/v060_data_foundations.py`
-  - `examples/05_new_components/v060_sse_stream.py`
-- Themes:
-  - `examples/06_examples/01_builtin_themes.py`
-  - `examples/06_examples/02_custom_themes.py`
-- Real app/page composition:
-  - `examples/showcase/admin_dashboard.py`
-  - `examples/showcase/saas_landing.py`
-  - `showcase/admin_dashboard.py`
-  - `showcase/hotel_booking_showcase.py`
+## Data Science / Dashboard Components
 
-## FastHTML + Faststrap Rules Of Thumb
+```python
+from faststrap import Chart, DataTable, FilterBar, DashboardGrid, MetricCard
 
-- Prefer server-rendered HTML and HTMX over custom JavaScript when either can solve the problem cleanly.
-- If JavaScript is required, integrate it through Faststrap's asset pipeline rather than ad hoc page snippets when the behavior is reusable.
-- Keep Bootstrap semantics intact so classes, ARIA, and built-in JS plugins continue to work as expected.
-- Treat docs and examples as part of the product surface. Broken examples are release bugs.
-- Mobile layout is not an afterthought: start from the small-screen stack, then expand upward with Bootstrap breakpoints.
+# Chart (wraps matplotlib/plotly/altair)
+Chart(fig=my_plotly_figure, responsive=True)
 
-## Before Finishing Work
+# DataFrame table
+DataTable(df=pandas_df, sortable=True, exportable=True)
 
-1. Run the narrowest relevant tests while iterating.
-2. Run `pytest -q` before finalizing substantive changes.
-3. Call out any remaining beta surfaces or known risks explicitly.
+# Real-time metrics
+MetricCard("CPU Usage", "45%", "+2%")
+```
+
+## Testing
+
+```bash
+cd Faststrap
+python -m pytest -q   # 857+ tests passing
+```

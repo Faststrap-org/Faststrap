@@ -1,0 +1,1071 @@
+# FastStrap — Full Documentation Corpus
+
+> The most complete, Pythonic, zero-JS Bootstrap 5 component library for FastHTML — 152+ registered UI components for web apps, data dashboards, ML tools, and AI-native interfaces.
+
+## Overview
+
+FastStrap is a Python component library for FastHTML that provides 152+ registered UI components (170+ total with presets, integrations, helpers) built on Bootstrap 5.3.3. It follows a zero-JS core philosophy: all components work without JavaScript, with progressive enhancement via HTMX and optional JS integrations.
+
+- **Version:** VCS-derived at runtime (see `faststrap.__version__`)
+- **License:** MIT
+- **Python:** 3.10+
+- **Dependency:** python-fasthtml>=0.6.0
+- **Tests:** 857+ passing, 91%+ coverage
+- **Repository:** https://github.com/Faststrap-org/Faststrap
+- **Documentation:** https://faststrap-org.github.io/Faststrap/
+- **PyPI:** https://pypi.org/project/faststrap/
+
+## Installation
+
+```bash
+pip install faststrap
+
+# Optional extras
+pip install faststrap[markdown]  # Markdown rendering
+pip install faststrap[dev]       # Development tools
+```
+
+## Quick Start
+
+```python
+from fasthtml.common import FastHTML
+from faststrap import add_bootstrap, Button, Card, Alert
+
+app = FastHTML()
+add_bootstrap(app)  # Adds Bootstrap 5.3 CSS/JS + Bootstrap Icons
+
+@app.get("/")
+def home():
+    return Card(
+        Button("Click Me", variant="primary"),
+        Alert("Welcome to FastStrap!", color="success"),
+    )
+```
+
+## Architecture
+
+### Core Concepts
+
+1. **Zero-JS Core**: All components function without JavaScript. Enhancements are progressive.
+2. **Server-rendered HTML**: State lives on the server. HTMX handles client interactions.
+3. **Deterministic output**: Use `to_xml()` for test assertions. HTML is predictable.
+4. **Bootstrap-native**: Generated markup is idiomatic Bootstrap 5.
+5. **Pythonic API**: Components are Python functions/classes with typed parameters.
+
+### Project Structure
+
+```
+Faststrap/
+  src/faststrap/
+    __init__.py           # Public API exports
+    core/
+      assets.py           # Bootstrap wiring, CDN/local, INIT_SCRIPT
+      base.py             # BaseComponent, merge_classes
+      registry.py         # @register decorator, component discovery
+      theme.py            # Theme system, CSS variables, dark mode
+      effects.py          # Fx animation utilities
+      _stability.py       # @stable, @beta, @experimental markers
+    components/
+      display/            # Card, Table, Badge, Avatar, Chart, etc.
+      forms/              # Button, Input, Select, Form, OTPInput, etc.
+      feedback/           # Alert, Toast, Modal, Spinner, etc.
+      navigation/         # Navbar, Tabs, Drawer, CommandPalette, etc.
+      layout/             # Grid, Hero, Stack, Separator, etc.
+      patterns/           # FeatureGrid, Pricing, Testimonial, etc.
+    integrations/         # Optional: ChartJS, GSAP
+    presets/              # HTMX interaction/response presets
+    seo/                  # SEO and structured data helpers
+    pwa/                  # Progressive Web App support
+    layouts/              # Composed page layouts (Auth, Dashboard, Landing)
+    utils/                # Shared utilities (attrs, icons, static)
+  tests/                  # pytest test suite (857+ tests)
+  docs/                   # MkDocs Material documentation
+  examples/               # Usage examples and showcases
+```
+
+### Asset Pipeline
+
+```python
+from fasthtml.common import FastHTML
+from faststrap import add_bootstrap
+
+app = FastHTML()
+
+# CDN mode (default) — Bootstrap 5.3.3 + Bootstrap Icons via jsDelivr
+add_bootstrap(app)
+
+# Local mode — for offline/self-hosted
+add_bootstrap(app, use_cdn=False)
+
+# Theme mode
+add_bootstrap(app, theme="blue-ocean", mode="dark")
+
+# With optional integrations
+add_bootstrap(app, chartjs=True, gsap=True)
+```
+
+### Component Registry
+
+Components are registered via the `@register` decorator for automatic discovery:
+
+```python
+from faststrap.core.registry import register
+from faststrap.core.base import BaseComponent
+
+@register
+class MyComponent(BaseComponent):
+    """My custom component."""
+    def __init__(self, children, *, variant="primary", **kwargs):
+        ...
+```
+
+### Theme System
+
+10 built-in themes with light/dark/auto modes:
+
+```python
+from faststrap import add_bootstrap, create_theme, Theme
+
+# Built-in themes: green-nature, blue-ocean, purple-magic, red-alert,
+# orange-sunset, teal-oasis, indigo-night, pink-love, cyan-sky, gray-mist
+
+# Custom theme
+my_theme = create_theme(
+    primary="#6366f1",
+    secondary="#8b5cf6",
+    accent="#06b6d4",
+    bg="#0f172a",
+    text="#f8fafc",
+)
+add_bootstrap(app, theme=my_theme, mode="dark")
+```
+
+### Stability Markers
+
+```python
+from faststrap import stable, beta, experimental
+
+@stable       # API won't break in minor versions
+class Button: ...
+
+@beta         # API may change in minor versions
+class DataTable: ...
+
+@api.experimental  # API will likely change
+class NewComponent: ...
+```
+
+---
+
+## Component Catalog (152+ registered)
+
+### Forms (30+)
+
+#### Button, ButtonGroup, ButtonToolbar
+```python
+from faststrap import Button, ButtonGroup, ButtonToolbar
+
+Button("Click Me", variant="primary", size="lg")
+Button("Link", href="/page")  # Renders as <a>
+ButtonGroup(Button("Left"), Button("Right"))
+ButtonToolbar(ButtonGroup(Button("1")), ButtonGroup(Button("2")))
+```
+
+#### Input, Select, Checkbox, Radio, Switch, Range
+```python
+from faststrap import Input, Select, Checkbox, Radio, Switch, Range
+
+Input(placeholder="Enter text", name="email", type="email")
+Select(["Option 1", "Option 2"], name="choice")
+Checkbox("Accept terms", name="terms")
+Radio("Option A", name="group", value="a")
+Switch("Dark mode", name="dark_mode")
+Range(min=0, max=100, value=50, name="slider")
+```
+
+#### FloatingLabel
+```python
+from faststrap import FloatingLabel
+
+FloatingLabel("Email", name="email", type="email")
+```
+
+#### InputGroup
+```python
+from faststrap import InputGroup, InputGroupText
+
+InputGroup(InputGroupText("@"), Input(placeholder="username"))
+```
+
+#### Form, FormSection, FormGroup, FormWizard
+```python
+from faststrap import Form, FormSection, FormGroup, FormWizard
+
+Form(
+    FormSection("Personal Info",
+        FormGroup("Name", Input(name="name")),
+        FormGroup("Email", Input(name="email", type="email")),
+    ),
+    FormSection("Preferences",
+        FormGroup("Theme", Select(["Light", "Dark"], name="theme")),
+    ),
+    method="post",
+    action="/submit",
+)
+
+# Multi-step wizard
+FormWizard(
+    WizardStep("Step 1", FormGroup("Name", Input(name="name"))),
+    WizardStep("Step 2", FormGroup("Email", Input(name="email"))),
+)
+```
+
+#### SearchableSelect, MultiSelect
+```python
+from faststrap import SearchableSelect, MultiSelect
+
+SearchableSelect(
+    options=[("us", "United States"), ("uk", "United Kingdom")],
+    name="country",
+    placeholder="Search countries...",
+)
+
+MultiSelect(
+    options=[("py", "Python"), ("js", "JavaScript")],
+    name="languages",
+)
+```
+
+#### DateRangePicker, CalendarDatePicker
+```python
+from faststrap import DateRangePicker, CalendarDatePicker
+
+DateRangePicker(name="date_range", presets=["Today", "Last 7 days"])
+CalendarDatePicker(name="birthday")
+```
+
+#### FilterBar
+```python
+from faststrap import FilterBar
+
+FilterBar(
+    Select(["All", "Active", "Inactive"], name="status"),
+    Input(placeholder="Search...", name="q"),
+    hx_get="/api/data",
+    hx_target="#results",
+)
+```
+
+#### OTPInput, OTPInputGroup (v0.8.1)
+```python
+from faststrap import OTPInput, OTPInputGroup
+
+# Zero-JS single-field OTP input
+OTPInput(length=6, name="otp", variant="primary")
+
+# JS-enhanced multi-field with auto-advance
+OTPInputGroup(length=6, name="otp", variant="primary", gap=2, autofocus=True)
+```
+
+#### InlineEditor
+```python
+from faststrap import InlineEditor
+
+InlineEditor(value="Click to edit", name="title", hx_put="/update/title")
+```
+
+#### ExportButton
+```python
+from faststrap import ExportButton
+
+ExportButton("/api/export", format="csv", filename="data.csv")
+```
+
+#### ToggleGroup
+```python
+from faststrap import ToggleGroup
+
+ToggleGroup(
+    ("bold", "B"),
+    ("italic", "I"),
+    ("underline", "U"),
+    name="formatting",
+)
+```
+
+#### ThemeToggle
+```python
+from faststrap import ThemeToggle
+
+ThemeToggle()  # Dark/light mode switch
+```
+
+#### LiveValidationField, ValidationMessage
+```python
+from faststrap import LiveValidationField, ValidationMessage
+
+LiveValidationField(
+    Input(name="email", type="email"),
+    hx_post="/validate/email",
+    hx_target="next .validation-msg",
+)
+ValidationMessage("Invalid email", cls="text-danger")
+```
+
+#### FormBuilder, FormGroupFromErrors
+```python
+from faststrap import FormBuilder, FormGroupFromErrors
+
+# Auto-generate forms from Pydantic models (beta)
+FormBuilder(MyPydanticModel)
+
+# Map server errors to form groups
+FormGroupFromErrors(errors={"name": "Required", "email": "Invalid"})
+```
+
+#### GradientButton, FloatingActionButton
+```python
+from faststrap import GradientButton, FloatingActionButton
+
+GradientButton("Gradient", gradient="primary-to-secondary")
+FloatingActionButton(icon="plus", href="/new", position="bottom-end")
+```
+
+---
+
+### Display (40+)
+
+#### Card
+```python
+from faststrap import Card
+
+Card(
+    Card.Header("Title"),
+    Card.Body("Content here"),
+    Card.Footer("Footer"),
+    variant="primary",
+)
+```
+
+#### Badge, Tag, Kbd (Tag and Kbd are v0.8.1)
+```python
+from faststrap import Badge, Tag, Kbd
+
+Badge("New", color="success")
+Badge("99+", color="danger", pill=True)
+
+Tag("React", variant="info", removable=True)
+Tag("Python", variant="primary", icon="python")
+
+Kbd("Ctrl+C")  # Styled keyboard shortcut
+Kbd("Enter", size="lg", variant="dark")
+```
+
+#### Avatar, AvatarGroup
+```python
+from faststrap import Avatar, AvatarGroup
+
+Avatar(src="https://i.pravatar.cc/150?u=alice", alt="Alice", size="md")
+AvatarGroup(
+    Avatar(src="...", alt="User 1"),
+    Avatar(src="...", alt="User 2"),
+    Avatar(src="...", alt="User 3"),
+    max=3,
+)
+```
+
+#### StatusBadge, BadgeGroup
+```python
+from faststrap import StatusBadge, BadgeGroup
+
+StatusBadge("Active", status="success")
+StatusBadge("Error", status="danger")
+BadgeGroup(
+    StatusBadge("Draft", status="secondary"),
+    StatusBadge("Published", status="success"),
+)
+```
+
+#### Table, BsTable, DataTable
+```python
+from faststrap import Table, BsTable, DataTable
+
+# Simple table
+Table(
+    THead(TRow(THead("Name"), THead("Email"))),
+    TBody(
+        TRow(TCell("Alice"), TCell("alice@example.com")),
+        TRow(TCell("Bob"), TCell("bob@example.com")),
+    ),
+    striped=True, hover=True,
+)
+
+# DataTable with sort/filter/pagination (DataFrames)
+DataTable(df=my_dataframe, page_size=20, sortable=True, filterable=True)
+```
+
+#### Chart
+```python
+from faststrap import Chart
+
+Chart(
+    data={"labels": ["Jan", "Feb", "Mar"], "values": [10, 20, 15]},
+    chart_type="bar",
+    responsive=True,
+)
+```
+
+#### StatCard, MetricCard, TrendCard, KPICard
+```python
+from faststrap import StatCard, MetricCard, TrendCard, KPICard
+
+StatCard(label="Revenue", value="$12,345", delta="+12%", delta_color="success")
+MetricCard(title="Users", value="1,234", icon="people")
+TrendCard(title="Sales", value="$45K", trend=[10, 15, 12, 20, 18])
+KPICard(
+    metrics=[
+        ("Revenue", "$12K", "+5%"),
+        ("Users", "1.2K", "+12%"),
+        ("Orders", "456", "+3%"),
+    ]
+)
+```
+
+#### EmptyState, ResultCard, TextClamp
+```python
+from faststrap import EmptyState, ResultCard, TextClamp
+
+EmptyState(icon="inbox", title="No items", description="Create your first item")
+ResultCard(status="success", title="Saved!", description="Your changes were saved")
+TextClamp("Long text that will be clamped...", lines=2)
+```
+
+#### Timeline, Stepper
+```python
+from faststrap import Timeline, TimelineItem, Stepper, StepperStep
+
+Timeline(
+    TimelineItem("Created", time="2 hours ago"),
+    TimelineItem("Updated", time="1 hour ago"),
+    TimelineItem("Published", time="30 min ago"),
+)
+
+Stepper(
+    StepperStep("Account", completed=True),
+    StepperStep("Profile", active=True),
+    StepperStep("Confirm"),
+)
+```
+
+#### Image, Carousel, Figure
+```python
+from faststrap import Image, Carousel, CarouselItem, Figure
+
+Image(src="/photo.jpg", alt="Photo", fluid=True, rounded=True)
+Carousel(
+    CarouselItem(Image(src="/slide1.jpg"), caption="Slide 1"),
+    CarouselItem(Image(src="/slide2.jpg"), caption="Slide 2"),
+    auto_play=True,
+)
+Figure(Image(src="/chart.png"), caption="Revenue chart")
+```
+
+#### CodeBlock, JsonViewer, KeyValueList, RecordDetail
+```python
+from faststrap import CodeBlock, JsonViewer, KeyValueList, RecordDetail
+
+CodeBlock('print("Hello")', language="python")
+JsonViewer({"name": "Alice", "age": 30})
+KeyValueList([("Name", "Alice"), ("Email", "alice@example.com")])
+RecordDetail(record=my_dict, title="User Details")
+```
+
+#### FlipCard, TiltCard, RevealCard, GlowCard
+```python
+from faststrap import FlipCard, TiltCard, RevealCard, GlowCard
+
+FlipCard(front="Front content", back="Back content")
+TiltCard("Hover me for tilt effect")
+RevealCard("Hover to reveal hidden content")
+GlowCard("Glowing border on hover")
+```
+
+#### Svg, Mermaid, Markdown
+```python
+from faststrap import Svg, Mermaid, Markdown
+
+Svg("<circle cx='50' cy='50' r='40' fill='blue'/>", width=100, height=100)
+Mermaid("graph TD; A-->B; B-->C;")
+Markdown("# Hello\n\n**Bold** and *italic*")
+```
+
+#### Sheet, SSETarget
+```python
+from faststrap import Sheet, SSETarget
+
+Sheet("Sheet content", placement="end")
+SSETarget(id="events", hx_ext="sse", sse_connect="/stream")
+```
+
+---
+
+### Feedback (30+)
+
+#### Alert
+```python
+from faststrap import Alert
+
+Alert("Success!", color="success", dismissible=True)
+Alert("Warning!", color="warning")
+Alert("Danger!", color="danger")
+```
+
+#### Toast, SimpleToast, ModernToast
+```python
+from faststrap import Toast, SimpleToast, ModernToast, ModernToastStack
+
+# Bootstrap JS toast
+Toast("Saved successfully!", color="success", autohide=True)
+
+# Zero-JS toast (CSS animation)
+SimpleToast("Processing...", color="info")
+
+# Premium modern toast stack
+ModernToastStack(position="top-right")
+ModernToast("New notification!", variant="success")
+```
+
+#### Modal, ConfirmDialog, ErrorDialog
+```python
+from faststrap import Modal, ConfirmDialog, ErrorDialog
+
+Modal(
+    Modal.Header("Confirm Action"),
+    Modal.Body("Are you sure?"),
+    Modal.Footer(Button("Yes", variant="danger"), Button("Cancel")),
+    id="confirmModal",
+)
+
+ConfirmDialog(title="Delete item?", on_confirm="/delete/123")
+ErrorDialog(title="Error", message="Something went wrong")
+```
+
+#### Spinner, Progress, ProgressRing
+```python
+from faststrap import Spinner, Progress, ProgressRing
+
+Spinner(variant="primary", size="lg")
+Progress(value=75, variant="success", label="75%")
+ProgressRing(value=60, size=80, stroke=6)
+```
+
+#### Placeholder (Skeleton Loading)
+```python
+from faststrap import Placeholder, PlaceholderCard, PlaceholderButton
+
+Placeholder(lines=3, animated=True)
+PlaceholderCard()
+PlaceholderButton()
+```
+
+#### CSS Loaders (7 variants)
+```python
+from faststrap import (
+    DotsLoader, PolygonLoader, PulseLoader,
+    RingLoader, ShadowLoader, TypewriterLoader, WaveLoader
+)
+
+DotsLoader(color="primary")
+PulseLoader()
+RingLoader()
+```
+
+#### ErrorPage
+```python
+from faststrap import ErrorPage
+
+ErrorPage(status=404, title="Page Not Found", message="The page doesn't exist")
+ErrorPage(status=500, title="Server Error")
+```
+
+#### NotificationCenter, SSEStream
+```python
+from faststrap import NotificationCenter, SSEStream
+
+NotificationCenter(position="top-right", max_items=10)
+SSEStream(url="/events", target="#notifications")
+```
+
+#### Tooltip, Popover
+```python
+from faststrap import Tooltip, Popover
+
+Tooltip("Hover me", title="Tooltip text")
+Popover("Click me", title="Popover", content="Rich content here", trigger="click")
+```
+
+#### InstallPrompt (PWA)
+```python
+from faststrap import InstallPrompt
+
+InstallPrompt()  # PWA install prompt
+```
+
+---
+
+### Navigation (25+)
+
+#### Navbar, GlassNavbar, SidebarNavbar
+```python
+from faststrap import Navbar, GlassNavbar, SidebarNavbar
+
+Navbar(
+    Navbar.Brand("FastStrap"),
+    Navbar.Toggle(),
+    Navbar.Collapse(
+        Navbar.Item("Home", href="/"),
+        Navbar.Item("About", href="/about"),
+    ),
+)
+
+GlassNavbar(transparent=True, blur="sm")
+SidebarNavbar(
+    SidebarNavItem("Dashboard", icon="speedometer2", href="/"),
+    SidebarNavItem("Settings", icon="gear", href="/settings"),
+)
+```
+
+#### Tabs, TabPane
+```python
+from faststrap import Tabs, TabPane
+
+Tabs(
+    TabPane("Profile", id="profile", children="Profile content"),
+    TabPane("Settings", id="settings", children="Settings content"),
+    TabPane("Activity", id="activity", children="Activity content"),
+)
+```
+
+#### Accordion, AccordionItem
+```python
+from faststrap import Accordion, AccordionItem
+
+Accordion(
+    AccordionItem("Section 1", children="Content 1", id="sec1"),
+    AccordionItem("Section 2", children="Content 2", id="sec2"),
+    always_open=True,
+)
+```
+
+#### Drawer
+```python
+from faststrap import Drawer
+
+Drawer(
+    Drawer.Header("Menu"),
+    Drawer.Body(Navbar.Item("Home"), Navbar.Item("About")),
+    placement="start",
+    id="mainDrawer",
+)
+```
+
+#### Dropdown, DropdownItem, DropdownDivider
+```python
+from faststrap import Dropdown, DropdownItem, DropdownDivider
+
+Dropdown(
+    DropdownItem("Profile"),
+    DropdownItem("Settings"),
+    DropdownDivider(),
+    DropdownItem("Logout", variant="danger"),
+    label="Menu",
+)
+```
+
+#### Breadcrumb, Pagination, ListGroup
+```python
+from faststrap import Breadcrumb, Pagination, ListGroup, ListGroupItem
+
+Breadcrumb(("Home", "/"), ("Products", "/products"), "Current Page")
+Pagination(total_pages=10, current_page=3)
+ListGroup(
+    ListGroupItem("Item 1", active=True),
+    ListGroupItem("Item 2"),
+    ListGroupItem("Item 3", badge="New"),
+)
+```
+
+#### BottomNav
+```python
+from faststrap import BottomNav, BottomNavItem
+
+BottomNav(
+    BottomNavItem("Home", icon="house", href="/"),
+    BottomNavItem("Search", icon="search", href="/search"),
+    BottomNavItem("Profile", icon="person", href="/profile"),
+)
+```
+
+#### Scrollspy, Collapse
+```python
+from faststrap import Scrollspy, Collapse
+
+Scrollspy(target="navbar", items=["section1", "section2"])
+Collapse("Toggle content", target="collapseContent")
+```
+
+#### CommandPalette (v0.8.0)
+```python
+from faststrap import CommandPalette
+
+CommandPalette(
+    CommandItem("Go to Dashboard", href="/dashboard"),
+    CommandItem("Open Settings", href="/settings"),
+    CommandItem("Search...", action="search"),
+    placeholder="Type a command...",
+)
+```
+
+---
+
+### Layout (12+)
+
+#### Container, Row, Col
+```python
+from faststrap import Container, Row, Col
+
+Container(
+    Row(
+        Col("Left", cols=12, cols_md=6),
+        Col("Right", cols=12, cols_md=6),
+    ),
+    fluid=False,
+)
+```
+
+#### Stack, Cluster, Center (v0.8.0)
+```python
+from faststrap import Stack, Cluster, Center
+
+Stack("Item 1", "Item 2", "Item 3", gap=3, direction="vertical")
+Cluster(Button("Save"), Button("Cancel"), gap=2)
+Center("Centered content", max_width="600px")
+```
+
+#### AspectRatio, Separator (v0.8.1)
+```python
+from faststrap import AspectRatio, Separator
+
+AspectRatio("16/9", children=Image(src="/video.jpg"))
+Separator(orientation="horizontal", thickness=2, spacing=4)
+Separator(orientation="vertical", label="OR")
+```
+
+#### Hero, PageHeader, DashboardGrid
+```python
+from faststrap import Hero, PageHeader, DashboardGrid
+
+Hero(
+    title="Welcome to FastStrap",
+    subtitle="Build beautiful UIs in Python",
+    cta_text="Get Started",
+    cta_href="/docs",
+    centered=True,
+)
+
+PageHeader(title="Dashboard", description="Overview of your account")
+
+DashboardGrid(
+    Card("Widget 1"),
+    Card("Widget 2"),
+    Card("Widget 3"),
+    cols=3,
+)
+```
+
+#### ParallaxSection
+```python
+from faststrap import ParallaxSection
+
+ParallaxSection(Image(src="/bg.jpg"), speed=0.5)
+```
+
+---
+
+### Patterns (8)
+
+```python
+from faststrap import (
+    Feature, FeatureGrid, PricingGroup, PricingTier,
+    Testimonial, TestimonialSection, FooterModern, NavbarModern
+)
+
+FeatureGrid(
+    Feature(icon="speedometer2", title="Fast", description="Lightning fast"),
+    Feature(icon="shield-check", title="Secure", description="Enterprise security"),
+    Feature(icon="code-slash", title="Simple", description="Clean Python API"),
+)
+
+PricingGroup(
+    PricingTier("Starter", price="0", features=["10 components", "Community support"]),
+    PricingTier("Pro", price="29", features=["All components", "Priority support"], featured=True),
+)
+
+TestimonialSection(
+    Testimonial("Best UI library!", author="Developer", role="Senior Engineer"),
+)
+
+FooterModern(brand="FastStrap", links={"Product": ["/docs", "/pricing"]})
+```
+
+---
+
+### Layouts (3)
+
+```python
+from faststrap import AuthLayout, DashboardLayout, LandingLayout
+
+AuthLayout(
+    Card("Login", FormGroup("Email", Input(name="email"))),
+    brand="FastStrap",
+)
+
+DashboardLayout(
+    sidebar=SidebarNavbar(...),
+    content=main_content,
+    navbar=Navbar(...),
+)
+
+LandingLayout(
+    Hero(...),
+    FeatureGrid(...),
+    TestimonialSection(...),
+)
+```
+
+---
+
+### Accessibility Helpers (4)
+
+```python
+from faststrap import SkipLink, LiveRegion, VisuallyHidden, FocusTrap
+
+SkipLink(href="#main", text="Skip to content")
+LiveRegion(message="Item added to cart", polite=True)
+VisuallyHidden("Screen reader only text")
+FocusTrap(children=Modal(...), active=True)
+```
+
+---
+
+### HTMX Presets (18)
+
+#### Interaction Presets
+```python
+from faststrap.presets import (
+    ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad,
+    LoadingButton, OptimisticAction, LocationAction, PollUntil
+)
+
+ActiveSearch(input_name="q", target="#results", url="/api/search")
+InfiniteScroll(url="/api/items", target="#list", trigger="load")
+AutoRefresh(url="/api/status", target="#status", interval=5000)
+LazyLoad(url="/api/content", target="#content")
+LoadingButton("Save", hx_post="/save", loading_text="Saving...")
+
+# HTMX response helpers
+from faststrap.presets import hx_redirect, hx_refresh, toast_response
+
+hx_redirect("/success")       # Server-side redirect
+hx_refresh()                  # Full page refresh
+toast_response("Saved!", variant="success")
+```
+
+#### SSE Stream
+```python
+from faststrap.presets import SSEStream
+
+SSEStream(url="/events", target="#notifications")
+```
+
+---
+
+### SEO Helpers (3)
+
+```python
+from faststrap import SEO, PageMeta, StructuredData
+
+SEO(
+    title="My Page",
+    description="Page description",
+    image="/og-image.png",
+    url="https://example.com/page",
+)
+
+PageMeta(
+    title="My Page",
+    canonical="https://example.com/page",
+    favicon="/favicon.ico",
+)
+
+StructuredData(
+    schema_type="Product",
+    name="FastStrap",
+    description="Bootstrap components for FastHTML",
+)
+```
+
+---
+
+### PWA Support (2)
+
+```python
+from faststrap import add_pwa, PwaMeta
+
+add_pwa(app, name="My App", theme_color="#3b82f6")
+PwaMeta(manifest="/manifest.json", theme_color="#3b82f6")
+```
+
+---
+
+### Utilities (5+)
+
+```python
+from faststrap import Icon, Fx, merge_classes, convert_attrs
+
+Icon("house", size="24px", color="primary")
+Fx.fade_in(duration=300)
+merge_classes("btn", "btn-primary", "btn-lg", user_classes)
+```
+
+---
+
+## Data Science & ML Components (v0.6+)
+
+FastStrap includes specialized components for data science dashboards:
+
+### DataTable
+```python
+from faststrap import DataTable
+
+DataTable(
+    df=my_pandas_dataframe,
+    page_size=20,
+    sortable=True,
+    filterable=True,
+    exportable=True,  # CSV/Excel export buttons
+)
+```
+
+### Chart (Matplotlib/Plotly/Altair)
+```python
+from faststrap import Chart
+
+# Wraps any matplotlib/plotly/altair figure
+Chart(fig=my_plotly_fig, responsive=True, height=400)
+```
+
+### Dashboard Grid
+```python
+from faststrap import DashboardGrid, MetricCard, TrendCard, FilterBar
+
+DashboardGrid(
+    MetricCard("Revenue", "$12K", "+5%"),
+    MetricCard("Users", "1.2K", "+12%"),
+    TrendCard("Sales Trend", "$45K", trend=[10, 15, 12, 20]),
+    cols=4,
+)
+```
+
+### SSE for Real-time Data
+```python
+from faststrap import SSEStream, SSETarget, LiveChart
+
+SSEStream(url="/ws/metrics", target="#dashboard")
+LiveChart(metric="cpu_usage", url="/stream/cpu")
+```
+
+---
+
+## Optional Integrations
+
+### ChartJS
+```python
+from faststrap import add_chartjs, ChartJS
+
+add_chartjs(app)  # Adds Chart.js CDN
+
+ChartJS(
+    chart_type="line",
+    data={"labels": ["Jan", "Feb", "Mar"], "datasets": [{"data": [10, 20, 15]}]},
+    responsive=True,
+)
+```
+
+### GSAP Motion
+```python
+from faststrap import add_gsap, Gsap, GsapReveal
+
+add_gsap(app)  # Adds GSAP CDN
+
+Gsap(target="#element", animation="fadeIn", duration=0.5)
+GsapReveal(target=".reveal-item", stagger=0.1)
+```
+
+---
+
+## Testing
+
+### Test Pattern
+```python
+from fasthtml.common import to_xml
+from faststrap import Button, Card, Alert
+
+def test_button():
+    btn = Button("Click", variant="primary")
+    html = to_xml(btn)
+    assert "btn-primary" in html
+    assert "Click" in html
+
+def test_card():
+    card = Card("Content", variant="dark")
+    html = to_xml(card)
+    assert "card" in html
+    assert "Content" in html
+```
+
+### Running Tests
+```bash
+cd Faststrap
+python -m pytest -q                          # All tests (857+)
+python -m pytest tests/test_button.py -v     # Specific file
+python -m ruff check src/faststrap tests     # Linting
+python -m black --check src/faststrap tests  # Format check
+```
+
+---
+
+## Contributing
+
+1. Read `BUILDING_COMPONENTS.md` for the full guide
+2. Components go in `src/faststrap/components/<category>/<name>.py`
+3. Register with `@register` decorator
+4. Tests go in `tests/test_components/test_<name>.py`
+5. Use `to_xml()` for HTML assertions
+6. Run `pytest -q` and `ruff check` before submitting
+
+---
+
+## Key Design Principles
+
+- **Zero-JS Core**: Components MUST work without JavaScript
+- **Deterministic HTML**: Server-rendered output is predictable and testable
+- **No Client State**: State lives on the server; HTMX handles interactions
+- **Accessibility First**: WCAG-aligned defaults for all components
+- **Bootstrap Native**: Generated markup is idiomatic Bootstrap 5
+- **Progressive Enhancement**: Optional JS for richer UX, never required
+- **Pythonic API**: Typed parameters, keyword arguments, no template strings
+
+## License
+
+MIT License - Copyright (c) 2025-2026 FastStrap Contributors

@@ -1,0 +1,122 @@
+---
+description: Rules for building web apps, dashboards, and portals with Faststrap + FastHTML
+globs: **/*.py, **/*.html
+---
+
+# Faststrap App Building Rules
+
+## What is Faststrap?
+
+Faststrap is a Python component library for FastHTML with 152+ UI components on Bootstrap 5. Build web apps, dashboards, and portals in pure Python — no JavaScript required.
+
+- **Install:** `pip install faststrap`
+- **Docs:** https://faststrap-org.github.io/Faststrap/
+- **GitHub:** https://github.com/Faststrap-org/Faststrap
+
+## App Setup
+
+```python
+from fasthtml.common import FastHTML
+from faststrap import add_bootstrap
+
+app = FastHTML()
+add_bootstrap(app)
+```
+
+## Build Workflow
+
+When building features with Faststrap:
+
+1. Check existing Faststrap components before writing raw HTML
+2. Use HTMX for all dynamic behavior (hx_get, hx_post, hx_target)
+3. Use Bootstrap grid (Row/Col) for layout — mobile-first
+4. Custom CSS only for brand polish, not structural layout
+5. JavaScript only when HTMX/Bootstrap can't handle the need
+
+## Component Import
+
+```python
+from faststrap import (
+    # Layout
+    Container, Row, Col, Stack, Cluster, Center,
+    Hero, PageHeader, DashboardGrid, AspectRatio, Separator,
+    # Forms
+    Button, Input, Select, Form, FormGroup, Switch, Checkbox, Radio,
+    SearchableSelect, MultiSelect, DateRangePicker, OTPInput,
+    # Display
+    Card, Badge, Tag, Kbd, Avatar, Table, DataTable,
+    StatCard, MetricCard, TrendCard, Image, CodeBlock,
+    # Feedback
+    Alert, Toast, Modal, Spinner, Progress, Placeholder, Tooltip,
+    # Navigation
+    Navbar, Tabs, Accordion, Dropdown, Breadcrumb, Pagination,
+    SidebarNavbar, Drawer, BottomNav, CommandPalette,
+    # Patterns
+    FeatureGrid, PricingGroup, TestimonialSection, FooterModern,
+    # Layouts
+    AuthLayout, DashboardLayout, LandingLayout,
+    # Accessibility
+    SkipLink, LiveRegion, VisuallyHidden,
+    # SEO
+    SEO, PageMeta, StructuredData,
+)
+```
+
+## Common Patterns
+
+### Dashboard
+```python
+DashboardLayout(
+    sidebar=SidebarNavbar(items=[...]),
+    content=DashboardGrid(StatCard(...), cols=3),
+)
+```
+
+### Auth Page
+```python
+AuthLayout(
+    Card(Form(FormGroup("Email", Input(name="email")), Button("Sign In"))),
+    brand="MyApp",
+)
+```
+
+### Landing Page
+```python
+LandingLayout(
+    Hero(title="...", cta_text="Get Started"),
+    FeatureGrid(Feature(icon="...", title="...")),
+    FooterModern(brand="MyApp"),
+)
+```
+
+### Forms + HTMX
+```python
+Form(
+    FormGroup("Email", Input(name="email")),
+    FormGroup("Password", Input(name="password")),
+    Button("Submit", type="submit"),
+    hx_post="/api/submit",
+    hx_target="#result",
+)
+```
+
+### Data Tables
+```python
+DataTable(df=my_dataframe, page_size=20, sortable=True, exportable=True)
+FilterBar(Select([...]), Input(placeholder="Search..."), hx_get="/api/data", hx_target="#table")
+```
+
+## Key Rules
+
+- Always use `add_bootstrap(app)` — components won't render without it
+- Use HTMX for interactions, not custom JavaScript
+- Use Bootstrap classes directly: mb-3, text-center, d-flex, etc.
+- Mobile-first: cols=1 → cols_md=2 → cols_lg=3
+- Icons via Bootstrap Icons: Icon("house"), or class "bi bi-house"
+- Dark mode: add_bootstrap(app, mode="dark") or ThemeToggle()
+
+## Testing
+
+```bash
+cd Faststrap && python -m pytest -q
+```
