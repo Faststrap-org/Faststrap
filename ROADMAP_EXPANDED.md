@@ -4,7 +4,7 @@
 
 ---
 
-##  Current Status (v0.8.0  May 2026)
+##  Current Status (v0.8.1  July 2026)
 
 **152 registered UI components** across forms, display, feedback, navigation, layout, and patterns  
 **170+ total** including HTMX presets, SEO helpers, PWA helpers, and optional integrations  
@@ -40,8 +40,9 @@ Contributors:  15+/100 (15%)
 ##  Delivery Milestones (Sequential, No Fixed Dates)
 
 ```
-M1  v0.8.1 Ship    Backward compat fixes (Form alias) — in local commits
-M2  Docs Overhaul  All stale docs corrected, component specs written for all planned items
+M0  Cleanup        Technical debt cleanup, docs reality pass, migration guide
+M1  Mobile Wave    MobileAppShell, Chip/ChipGroup, SegmentedControl, Snackbar, SafeArea
+M2  Offline PWA    OfflineBanner, SyncQueueBadge, SyncStatusIndicator, PendingChangesList
 M3  ML/DS Wave 1   LiveChart, LiveMetric, DistributionPlot, CorrelationMatrix
 M4  ML/DS Wave 2   ConfusionMatrix, ROCCurve, FeatureImportance, ModelMetrics
 M5  Real-time      TimeSeriesPlot, GeoMap, SSE cookbook / end-to-end tutorial
@@ -154,6 +155,19 @@ assert "btn btn-primary" in str(button)  # Always true
 **+Static asset:** `faststrap-visual.css`
 
 **Total (v0.8.0): 152 registered UI components + 18 HTMX presets + SEO/PWA/accessibility = 170+ total**
+
+### Phase 8.1: Stability + AI Discoverability (v0.8.1) âœ… July 2026
+
+**Focus:** Patch-release hardening after the v0.8.0 primitive wave.
+
+- Fixed the deprecated `Form` compatibility alias so `from faststrap import *` no longer shadows ordinary FastHTML `Form(...)` usage.
+- Added `Separator`, `Kbd`, `OTPInput`, `OTPInputGroup`, `AspectRatio`, and `Tag`.
+- Fixed `SimpleToast` animation behavior and removed the non-functional duplicate close surface.
+- Updated ModernToast z-index behavior to use `--fs-toast-z-index`.
+- Added AI-discoverability files (`llms.txt`, `llms-full.txt`, `robots.txt`, `CLAUDE.md`, `.cursor/rules`).
+- Clarified documentation positioning around dashboards, data tools, and AI-ready interfaces.
+
+**Current total (v0.8.1): 152+ registered UI components + HTMX presets + SEO/PWA/accessibility = 170+ total.**
 
 ---
 
@@ -2497,8 +2511,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
 ---
 
 **Last Updated:** July 2026  
-**Current Version:** v0.8.0 (core primitive wave + visual primitives absorbed into core)  
-**Next Release:** v0.8.1 (backward compat fix for Form alias — in local commits, not yet published)
+**Current Version:** v0.8.1 (stability release + AI discoverability + v0.8.0 primitives)  
+**Next Release:** Milestone M1 mobile component wave
 
 **Let's build the definitive UI library for FastHTML  together.** 
 

@@ -76,3 +76,8 @@ dmypy.json
 site/
 
 skills/
+
+# Local planning and audit artifacts
+AI_AUDIT_IMPLEMENTATION_PLAN.md
+FASTSTRAP_CONSOLIDATED_STRATEGY.md
+SHOWCASE_PROGRAM_PLAN.md

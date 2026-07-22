@@ -19,32 +19,27 @@ The goal is to choose the closest existing Faststrap surface first, then add CSS
 
 Use:
 
-- `Card()`
-  - general-purpose content card
-- `StatCard()`
-  - one metric with optional trend
-- `MetricCard()`
-  - metric + compact delta indicator
-- `TrendCard()`
-  - metric + sparkline slot
-- `KPICard()`
-  - grouped KPI surface
-- `EmptyState()`
-  - empty or no-data screen/region
-- `Table()` / `BsTable()`
-  - simple table markup without advanced table behavior
-- `DataTable()`
-  - sorting, search, and pagination
-- `Chart()`
-  - chart display wrapper
-- `Markdown()`
-  - rendered docs/content blocks
-- `Figure()`
-  - image + caption composition
-- `Image()`
-  - product, editorial, or media image rendering
-- `Sheet()`
-  - mobile-first bottom sheet UI built on a drawer
+- `Card(*children, title=None, header=None, footer=None, **kwargs)` — general-purpose content card
+- `StatCard(title, value, icon=None, trend=None, trend_type="neutral", **kwargs)` — one metric with optional trend
+- `MetricCard(title, value, delta=None, delta_type="neutral", **kwargs)` — metric + compact delta
+- `TrendCard(title, value, sparkline=None, delta=None, delta_type="neutral", **kwargs)` — metric + sparkline
+- `KPICard(title, metrics, columns=2, **kwargs)` — grouped KPI surface
+- `EmptyState(icon=None, title="No data available", description=None, action=None, **kwargs)` — empty/no-data screen
+- `Table(*children, striped=False, hover=False, responsive=False, **kwargs)` — simple table markup
+- `DataTable(data, sortable=False, searchable=False, pagination=False, **kwargs)` — sorting, search, pagination
+- `Chart(figure, responsive=True, **kwargs)` — chart display wrapper (matplotlib/plotly/altair)
+- `Markdown(text, sanitize=True, **kwargs)` — rendered markdown blocks
+- `Figure(src, caption=None, fluid=True, **kwargs)` — image + caption
+- `Image(src, alt=None, fluid=None, rounded=None, **kwargs)` — product/media image
+- `Sheet(*children, sheet_id=None, title=None, **kwargs)` — mobile-first bottom sheet
+- `Kbd(*children, size="md", variant="light", **kwargs)` — keyboard key display
+- `Tag(children, variant="secondary", size="md", removable=False, **kwargs)` — chip/tag component
+- `AspectRatio(children, ratio="16/9", **kwargs)` — ratio-constrained container
+- `Separator(orientation="horizontal", thickness=None, spacing=None, **kwargs)` — semantic divider
+- `CodeBlock(code, language=None, filename=None, copy=False, **kwargs)` — code display with copy
+- `JsonViewer(data, title=None, expanded=True, **kwargs)` — collapsible JSON viewer
+- `KeyValueList(items, striped=False, compact=False, **kwargs)` — key-value pair list
+- `RecordDetail(items, title=None, actions=None, **kwargs)` — record detail view
 
 Choose raw `Card()` when:
 

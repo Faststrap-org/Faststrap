@@ -5,6 +5,18 @@ All notable changes to Faststrap will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Extracted Faststrap's browser initialization script from inline Python source into
+  `src/faststrap/static/js/faststrap-init.js`, allowing the initializer to be served
+  as a cacheable static asset in both local and CDN modes.
+- Updated roadmap and contributor documentation to reflect the v0.8.1 baseline,
+  Milestone M0 cleanup completion, and the next mobile/offline/ML roadmap sequence.
+- Expanded the upgrade guide with a v0.5.x to v0.8.x migration path and clarified
+  optional `faststrap[markdown]` installation guidance.
+
 ## [0.8.1] - 2026-07-15
 
 ### Fixed

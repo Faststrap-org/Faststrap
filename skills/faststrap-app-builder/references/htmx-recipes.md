@@ -307,7 +307,7 @@ def save_customer_name(customer_id: int, name: str):
     return customer_name_cell(customer)
 ```
 
-This is the recommended approach until a dedicated `InlineEditor` exists.
+Alternatively, use the `InlineEditor` component from `faststrap` for a built-in editable field pattern.
 
 ---
 

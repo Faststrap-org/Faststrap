@@ -116,7 +116,7 @@ Categories:
 - `feedback/` - Alerts, toasts, modals
 - `navigation/` - Navbars, tabs, drawers
 - `forms/` - Buttons, inputs, selects
-- `advanced/` - DataTables, charts, steppers
+- `advance/` - Reserved for upcoming ML/data science visualization components
 
 ### Basic Component Structure
 

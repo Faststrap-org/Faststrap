@@ -2,6 +2,89 @@
 
 This guide highlights the main changes to watch when upgrading Faststrap applications.
 
+## From v0.5.x To v0.8.x
+
+Faststrap v0.8.x is a larger jump from the early v0.5 line. The core install path remains lightweight, but the component surface, defaults system, docs structure, and optional integrations have grown significantly.
+
+### Application Setup
+
+Most apps can keep the same `add_bootstrap(app)` call:
+
+```python
+from fasthtml.common import FastHTML
+from faststrap import add_bootstrap
+
+app = FastHTML()
+add_bootstrap(app)
+```
+
+For serverless deployments, prefer CDN mode explicitly:
+
+```python
+add_bootstrap(app, use_cdn=True)
+```
+
+Faststrap now also supports `FASTSTRAP_USE_CDN=true`, `force_static_url`, custom favicon URLs, Google Fonts, and component-aware Bootstrap JS loading. See [Core API](../api/core.md) for the full reference.
+
+### Components Added Since v0.5
+
+The v0.6 to v0.8 line added the bulk of Faststrap's data, workflow, and application primitives:
+
+- Data and dashboard: `DataTable`, `Chart`, `MetricCard`, `TrendCard`, `KPICard`, `DashboardGrid`, `FilterBar`, `DateRangePicker`, `MultiSelect`, `RangeSlider`, `ExportButton`
+- Rich display: `Avatar`, `AvatarGroup`, `Timeline`, `Stepper`, `ResultCard`, `StatusBadge`, `BadgeGroup`, `Markdown`, `Mermaid`, `Svg`, `MapView`
+- Workflow and forms: `InlineEditor`, `FormWizard`, `WizardStep`, `CalendarDatePicker`, `LiveValidationField`, `ValidationMessage`, `FormErrorSummary`
+- Core primitives: `Stack`, `Cluster`, `Center`, `PageHeader`, `KeyValueList`, `RecordDetail`, `CodeBlock`, `JsonViewer`, `FormSection`
+- Visual primitives: `FlipCard`, `TiltCard`, `RevealCard`, `GlowCard`, loaders, `ProgressRing`, `GradientButton`, `FloatingActionButton`, `ParallaxSection`
+- Small v0.8.1 additions: `Separator`, `Kbd`, `OTPInput`, `OTPInputGroup`, `AspectRatio`, `Tag`
+
+### Renames And Compatibility Aliases
+
+Use `FormBuilder.from_pydantic()` for new Pydantic form generation:
+
+```python
+from faststrap import FormBuilder
+```
+
+`Form.from_pydantic()` remains as a deprecated compatibility path, but ordinary `Form(...)` rendering now delegates to FastHTML's native form element so wildcard imports do not break existing apps.
+
+Bootstrap table aliases are available when your app also imports FastHTML table primitives:
+
+```python
+from faststrap import BsTable, BsTHead, BsTBody, BsTRow, BsTCell
+```
+
+### Optional Dependencies
+
+Install core first:
+
+```bash
+pip install --upgrade faststrap
+```
+
+Install Markdown support only when using the `Markdown` display component:
+
+```bash
+pip install "faststrap[markdown]"
+```
+
+Chart.js and GSAP integrations use browser assets by default. The `chartjs` and `gsap` extras are compatibility markers and do not install additional Python packages.
+
+### Behavior Changes To Review
+
+- Component defaults use the `UNSET` sentinel internally, so passing `None` can intentionally clear a configured default.
+- `Button(...)` defaults to `type="button"` to avoid accidental form submissions. Use `type="submit"` for submit buttons.
+- Large `DataTable` pagination now renders a bounded page window with ellipses instead of every page number.
+- `add_bootstrap()` duplicate calls warn and return instead of raising.
+- `SimpleToast` no longer renders a duplicate close button; dismissal is handled by its fade-out timing.
+
+### Recommended Migration Flow
+
+1. Upgrade Faststrap and run your app locally.
+2. Run `faststrap doctor` from the project root.
+3. Search for `Form.from_pydantic`, `Button(` inside forms, and any custom component wrappers using `None` as a default passthrough.
+4. Install `faststrap[markdown]` only if your app renders `Markdown(...)`.
+5. Run your test suite and check browser console output for pages that use Bootstrap JS, HTMX swaps, OTP inputs, Mermaid, SSE, or searchable selects.
+
 ## From v0.6.x To v0.7.x
 
 Faststrap v0.7.x adds a major component wave, optional integrations, and a safer defaults model.

@@ -46,6 +46,14 @@ It also ships higher-level modules for HTMX presets, SEO metadata composition, a
 pip install faststrap
 ```
 
+Optional renderers can be installed only when you need them:
+
+```bash
+pip install "faststrap[markdown]"
+```
+
+`faststrap[markdown]` installs the Python packages used by the `Markdown` display component. Chart.js and GSAP integrations load browser assets through `add_chartjs(app)` and `add_gsap(app)` and do not add Python dependencies.
+
 ### Hello World
 
 ```python
@@ -561,7 +569,7 @@ Comprehensive examples organized by learning path:
 
 ## Current Release Snapshot
 
-Faststrap's current main branch reflects the v0.8.0 core primitive and visual component wave:
+Faststrap's current main branch reflects the v0.8.1 stability release on top of the v0.8.0 core primitive and visual component wave:
 
 - **152 registered UI components** across forms, display, feedback, navigation, layout, and patterns.
 - **170+ total components, helpers, presets, and integrations** including HTMX presets, SEO helpers, PWA helpers, and optional integrations.

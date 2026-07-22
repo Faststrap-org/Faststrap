@@ -119,7 +119,7 @@ def Component(
 from typing import Optional, Union
 
 def Component(
-    size: Optional[Union[str, None]] = None
+    size: Optional[str] = None
 ) -> Div:
     ...
 ```
@@ -286,11 +286,11 @@ When building a component, reference Bootstrap docs:
 
 ---
 
-## 🚀 Component Status (v0.8.0)
+## 🚀 Component Status (v0.8.1)
 
 ### **✅ Phases 1–8 Complete**
 
-All core Bootstrap components, HTMX presets, SEO, PWA, accessibility, patterns, layouts, optional integrations, and the v0.8.0 primitive wave are shipped. See [ROADMAP.md](ROADMAP.md) for the full inventory.
+All core Bootstrap components, HTMX presets, SEO, PWA, accessibility, patterns, layouts, optional integrations, and the v0.8.0 primitive wave are shipped. v0.8.1 adds stability fixes, AI discoverability files, and documentation positioning. See [ROADMAP.md](ROADMAP.md) for the full inventory.
 
 **Quick reference — shipped categories:**
 - **Forms (36):** Button, Input, Select, Checkbox, Radio, Switch, Range, FileInput, FormWizard, FormBuilder, CalendarDatePicker, DateRangePicker, MultiSelect, RangeSlider, FilterBar, ExportButton, InlineEditor, LiveValidationField, and more
@@ -382,7 +382,7 @@ All checks pass? Submit PR! 🎉
 
 ---
 
-## 📊 Current Stats (v0.8.0)
+## 📊 Current Stats (v0.8.1)
 
 - ✅ **152 registered UI components** (170+ total with presets, integrations, and helpers)
 - ✅ **790+ tests** passing (90%+ coverage)

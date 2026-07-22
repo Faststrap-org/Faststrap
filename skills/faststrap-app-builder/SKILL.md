@@ -11,21 +11,24 @@ Use this skill when the task is to build or significantly improve a real applica
 
 Before writing code:
 
-1. Inspect the current app's entrypoint, theme/defaults module, route layout, asset mount, and custom CSS.
-2. If the user provides a Faststrap repo path, inspect:
+1. **Look up the component API** in `references/component-api.md` to find exact signatures and defaults. This prevents hallucinating parameter names.
+2. Inspect the current app's entrypoint, theme/defaults module, route layout, asset mount, and custom CSS.
+3. If the user provides a Faststrap repo path, inspect:
    - `AGENTS.md`
    - `README.md`
    - the relevant component modules under `src/faststrap/components/`
    - the relevant docs pages under `docs/components/`
    - the most relevant files in `examples/` and `showcase/`
-3. If the user provides a reference app, inspect it before designing.
-4. Match the page type to the closest reference:
+   - real-world apps: `neoportfolio/`, `neo-admin/`, `datascience_admin/`, `data_science/` for production patterns
+4. If the user provides a reference app, inspect it before designing.
+5. Match the page type to the closest reference:
    - start with `references/reference-index.md`
    - marketing/landing: use the reference index, then open `references/reference-apps.md` only if needed
    - dashboard/admin: use the reference index, then open `references/reference-apps.md` only if needed
    - auth/onboarding: see `references/nis-patterns.md`
-5. Inventory the existing Faststrap component surface before inventing new UI structure. Faststrap has a large component library, so check what already exists for navigation, forms, data display, feedback, patterns, and layout before building custom HTML.
-6. Follow the implementation order of precedence below before inventing custom structure.
+6. If building a fresh app from scratch, start from `references/faststrap-quickstart.md` and adapt the template.
+7. Inventory the existing Faststrap component surface before inventing new UI structure. Faststrap has 152+ components, so check `references/component-api.md` before building custom HTML.
+8. Follow the implementation order of precedence below before inventing custom structure.
 
 ## Implementation order of precedence
 
@@ -236,8 +239,43 @@ Good Faststrap app work should feel:
 - importing third-party styling CDNs for things Faststrap/Bootstrap and local CSS should handle
 - forcing dense secondary cards, stat panels, or highlight boxes to remain visible on mobile when Bootstrap display utilities can preserve a cleaner small-screen hierarchy
 
+## Dark Mode
+
+Faststrap supports dark mode via `add_bootstrap(app, mode="dark")` or `ThemeToggle()`.
+
+- Every component supports `[data-bs-theme="dark"]` and `[data-bs-theme="light"]` variants
+- For custom CSS, always provide both light and dark counterparts (see `references/css-architecture.md`)
+- Use `ThemeToggle(current_theme="auto")` to let users switch themes
+- Dark mode shell: `#0b1120` or `#0f172a` backgrounds with `#e2e8f0` text
+- Light mode shell: `#f8fafc` or `#ffffff` backgrounds with `#0f172a` text
+- Glassmorphism surfaces work best in dark mode: `background: rgba(255,255,255,0.04); backdrop-filter: blur(14px)`
+
+## Fx Animations
+
+Zero-JS CSS animations via the `Fx` helper class. Always include `Fx.base` when using any animation.
+
+```python
+from faststrap import Fx
+
+# Entrance + hover + delay
+Card("Hello", cls=[Fx.base, Fx.fade_in, Fx.hover_lift, Fx.delay_sm])
+```
+
+Quick reference:
+- **Entrance:** `Fx.fade_in`, `Fx.slide_up`, `Fx.slide_down`, `Fx.zoom_in`, `Fx.bounce_in`
+- **Hover:** `Fx.hover_lift`, `Fx.hover_scale`, `Fx.hover_glow`, `Fx.hover_tilt`
+- **Loading:** `Fx.spin`, `Fx.pulse`, `Fx.shimmer`
+- **Visual:** `Fx.glass`, `Fx.shadow_soft`, `Fx.shadow_sharp`, `Fx.gradient_shift`
+- **Speed:** `Fx.fast` (150ms), `Fx.slow` (500ms), `Fx.slower` (1000ms)
+- **Delay:** `Fx.delay_xs` (100ms) through `Fx.delay_xl` (1000ms)
+
+See `references/fx-animations.md` for the complete reference.
+
 ## Read these references as needed
 
+- `references/component-api.md`: **complete API signatures** for all 152+ components — look up exact params before calling any component
+- `references/faststrap-quickstart.md`: copy-paste app templates for fresh projects
+- `references/fx-animations.md`: Fx class reference for all animations and effects
 - `references/reference-index.md`: canonical first-stop guide for picking the right showcase or production reference by page type and quality bar
 - `references/htmx-recipes.md`: concrete HTMX-first interaction patterns for search, refresh, validation, confirm, lazy loading, and inline editing
 - `references/component-selection.md`: practical guide for choosing existing Faststrap components before inventing new ones
@@ -245,7 +283,7 @@ Good Faststrap app work should feel:
 - `references/form-workflow.md`: complete form, validation, submit, and success/error flow patterns
 - `references/visual-design-rules.md`: baseline design quality bar for typography, surfaces, spacing, and responsiveness
 - `references/troubleshooting.md`: common failure modes and how to correct them quickly
-- `references/nis-patterns.md`: real production-style project wiring and theming patterns from the user's NIS, Final-Year, and SIWES apps
-- `references/mmercyj-patterns.md`: polished company-site composition and mobile-first responsive simplification patterns from `mmercyj_beddings`
+- `references/nis-patterns.md`: real production-style project wiring and theming patterns
+- `references/mmercyj-patterns.md`: polished company-site composition and mobile-first responsive simplification patterns
 - `references/reference-apps.md`: which local Faststrap showcase files to inspect by page type
 - `references/project-agents-template.md`: template instructions to place in fresh app repos so future sessions start with the right guardrails

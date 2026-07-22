@@ -57,6 +57,26 @@ def test_get_assets_cdn_includes_faststrap_css():
     assert "/css/faststrap-visual.css" in rendered
 
 
+def test_get_assets_includes_static_faststrap_init_script():
+    assets = get_assets(use_cdn=False, static_url="/faststrap-static")
+    rendered = "\n".join(str(a) for a in assets)
+    assert "/faststrap-static/js/faststrap-init.js" in rendered
+    assert "<script" in rendered
+
+
+def test_get_assets_cdn_includes_version_pinned_faststrap_init_script():
+    assets = get_assets(use_cdn=True)
+    rendered = "\n".join(str(a) for a in assets)
+    assert "cdn.jsdelivr.net/gh/Faststrap-org/Faststrap@" in rendered
+    assert "/src/faststrap/static/js/faststrap-init.js" in rendered
+
+
+def test_get_assets_include_custom_false_omits_faststrap_init_script():
+    assets = get_assets(use_cdn=False, include_custom=False)
+    rendered = "\n".join(str(a) for a in assets)
+    assert "faststrap-init.js" not in rendered
+
+
 def test_add_bootstrap_use_cdn_does_not_mount_static_routes():
     app = FastHTML()
     add_bootstrap(app, use_cdn=True)

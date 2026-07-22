@@ -47,8 +47,6 @@ Primary choices:
 
 Pattern add-ons:
 
-- `C:\Users\Meshell\Desktop\FastHTML\mmercyj_beddings\components.py`
-- `C:\Users\Meshell\Desktop\FastHTML\mmercyj_beddings\routes.py`
 - `Faststrap/skills/faststrap-app-builder/references/mmercyj-patterns.md`
 
 Use the MMERCYJ references when you need:
@@ -61,8 +59,19 @@ Use the MMERCYJ references when you need:
 
 Primary choices:
 
+- `neo-admin/`
+  - flagship real-world admin reference
+  - shows clean `domain/infrastructure/presentation` layer separation
+  - uses `AutoRefresh` + `LazyLoad` presets, `MetricCard`, `add_pwa()`
+  - centralized `create_theme()` + `set_component_defaults()` in `theme.py`
+  - use when the brief needs a production admin with HTMX presets and PWA
+- `datascience_admin/`
+  - auto-generating CRUD admin reference
+  - tables in `schema.py` are automatically converted to admin UI via `TableConfig`
+  - Supabase auth + image upload + PWA configuration
+  - use when the brief needs schema-driven admin over a database backend
 - `Faststrap/showcase/northstar_ops_dashboard.py`
-  - flagship dashboard/admin reference
+  - showcase-level dashboard/admin reference
   - strongest choice for KPI cards, filters, panels, and premium operational UI
 - `Faststrap/showcase/analytics_dashboard.py`
   - compact analytics/dashboard reference with strong visual polish
@@ -72,9 +81,7 @@ Primary choices:
 
 Pattern add-ons:
 
-- `C:\Users\Meshell\Desktop\FastHTML\NIS\app\presentation\components\ui\layout.py`
-- `C:\Users\Meshell\Desktop\FastHTML\NIS\app\presentation\routes\hq\dashboard.py`
-- `C:\Users\Meshell\Desktop\FastHTML\Final-Year\main.py`
+- `Faststrap/skills/faststrap-app-builder/references/nis-patterns.md`
 
 Use these when you need:
 
@@ -86,8 +93,7 @@ Use these when you need:
 
 Primary choices:
 
-- `C:\Users\Meshell\Desktop\FastHTML\NIS\app\presentation\routes\auth.py`
-- `C:\Users\Meshell\Desktop\FastHTML\NIS\app\presentation\routes\register.py`
+- `Faststrap/skills/faststrap-app-builder/references/nis-patterns.md` (auth flow patterns)
 
 Use these when the app needs:
 
@@ -124,8 +130,21 @@ Primary choices:
 
 Primary choices:
 
+- `neoportfolio/`
+  - flagship real-world portfolio reference
+  - strongest choice for `create_theme()` + `set_component_defaults()` in a production app
+  - shows content separation via `content.py`, stateless Vercel-ready deployment, print CV generation, rate limiting
+  - use when the brief needs a polished portfolio with custom theming
+- `data_science/`
+  - data science portfolio reference
+  - good modular routing pattern (`setup_*_routes(app)`)
+  - shows `LazyLoad` for async content and `mount_assets` for static file management
+  - use when the brief needs a content-heavy portfolio with async sections
 - `Faststrap/showcase/agency_portfolio.py`
+  - showcase-level portfolio reference
+  - good for simpler portfolio layouts
 - `Faststrap/showcase/lexbridge_corporate.py`
+  - corporate/professional reference
 
 Use when the brief is:
 
@@ -149,9 +168,7 @@ Use when the brief needs:
 
 Primary choices:
 
-- `C:\Users\Meshell\Desktop\FastHTML\siwes-logbook-automation\main.py`
-- `C:\Users\Meshell\Desktop\FastHTML\siwes-logbook-automation\app\presentation\components\shared\theme.py`
-- `C:\Users\Meshell\Desktop\FastHTML\siwes-logbook-automation\app\presentation\assets\custom.css`
+- `Faststrap/skills/faststrap-app-builder/references/nis-patterns.md` (PWA patterns)
 
 Use these when the app needs:
 
@@ -170,6 +187,10 @@ Use this when several files look relevant and you need to choose fast.
 
 | Reference | Best For | Quality Bar | Notes |
 |---|---|---|---|
+| `neoportfolio/` | Real-world portfolio | Excellent | `create_theme()`, content separation, stateless deploy, print CV |
+| `neo-admin/` | Real-world admin/PWA | Excellent | 3-layer arch, `AutoRefresh`+`LazyLoad`, PWA, `MetricCard` |
+| `datascience_admin/` | Schema-driven CRUD admin | Excellent | auto-generating CRUD, Supabase auth, image upload, PWA |
+| `data_science/` | Data science portfolio | Good | modular routes, `LazyLoad`, `mount_assets` |
 | `Faststrap/showcase/novaflow_ai_saas.py` | Premium SaaS landing | Flagship | strongest SaaS visual benchmark |
 | `Faststrap/showcase/northstar_ops_dashboard.py` | Premium dashboard/admin | Flagship | strongest internal-tools benchmark |
 | `Faststrap/showcase/hotel_booking_showcase.py` | Luxury/editorial landing | Premium | use for richer visual direction |
@@ -207,5 +228,25 @@ These are not the first visual pick, but they are often the right second referen
   - detailed file list and supporting notes
 - `Faststrap/skills/faststrap-app-builder/references/project-agents-template.md`
   - template instructions for fresh app repos
+
+---
+
+## Real-World App References
+
+These are production apps built with Faststrap, not showcase demos. Inspect their full source for real-world patterns.
+
+| App | Location | Type | Key Patterns |
+|-----|----------|------|-------------|
+| neoportfolio | `neoportfolio/` | Portfolio | `create_theme()`, `set_component_defaults()`, `content.py` separation, stateless deploy, print CV |
+| neo-admin | `neo-admin/` | Admin PWA | `domain/infrastructure/presentation` layers, `AutoRefresh`+`LazyLoad`, `MetricCard`, `add_pwa()` |
+| datascience_admin | `datascience_admin/` | CRUD Admin | Schema-driven `TableConfig`, Supabase auth, image upload, PWA |
+| data_science | `data_science/` | Portfolio | `setup_*_routes(app)` pattern, `LazyLoad`, `mount_assets` |
+
+### How to use these
+
+- For **portfolio** builds: inspect `neoportfolio/app.py`, `theme.py`, `content.py`, `route_fragments.py`
+- For **admin** builds: inspect `neo-admin/app/main.py`, `theme.py`, `app/routes/`
+- For **CRUD** builds: inspect `datascience_admin/schema.py`, `ui.py`, `config.py`
+- For **modular routing**: inspect `data_science/main.py`, `routes/`
 
 Start here, then open the specific follow-up reference only when needed.

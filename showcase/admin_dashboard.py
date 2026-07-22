@@ -803,10 +803,18 @@ def home() -> Any:
                     ),
                     # Stat cards — pre-populated on page load, refreshed every 10 s
                     Row(
-                        nx_stat_col("/api/stats/users",   "stat-users",   "primary", initial=stats_users()),
-                        nx_stat_col("/api/stats/revenue", "stat-revenue", "success", initial=stats_revenue()),
-                        nx_stat_col("/api/stats/orders",  "stat-orders",  "warning", initial=stats_orders()),
-                        nx_stat_col("/api/stats/uptime",  "stat-uptime",  "info",    initial=stats_uptime()),
+                        nx_stat_col(
+                            "/api/stats/users", "stat-users", "primary", initial=stats_users()
+                        ),
+                        nx_stat_col(
+                            "/api/stats/revenue", "stat-revenue", "success", initial=stats_revenue()
+                        ),
+                        nx_stat_col(
+                            "/api/stats/orders", "stat-orders", "warning", initial=stats_orders()
+                        ),
+                        nx_stat_col(
+                            "/api/stats/uptime", "stat-uptime", "info", initial=stats_uptime()
+                        ),
                         cls="mb-2",
                     ),
                     # ── Tabs ────────────────────────────────────
