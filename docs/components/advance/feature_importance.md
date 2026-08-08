@@ -1,6 +1,11 @@
 # FeatureImportance
 
 **Planned** · `@experimental`
+!!! warning "Planned Component"
+    This component is part of the `faststrap[plots]` / `faststrap[ml]` optional
+    extra and has not been implemented yet. The documentation is a preview of
+    the planned API.
+
 
 Renders a horizontal bar chart showing feature importance scores. Compatible with sklearn tree-based models, SHAP values, and custom importance arrays.
 

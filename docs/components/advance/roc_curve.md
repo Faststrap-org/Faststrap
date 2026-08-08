@@ -1,6 +1,11 @@
 # ROCCurve
 
 **Planned** · `@experimental`
+!!! warning "Planned Component"
+    This component is part of the `faststrap[plots]` / `faststrap[ml]` optional
+    extra and has not been implemented yet. The documentation is a preview of
+    the planned API.
+
 
 Renders a Receiver Operating Characteristic (ROC) curve with AUC annotation. Supports binary and multi-class classification with overlaid curves.
 

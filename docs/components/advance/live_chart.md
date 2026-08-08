@@ -1,6 +1,11 @@
 # LiveChart
 
 **Planned** · `@experimental` · Requires `faststrap[chartjs]`
+!!! warning "Planned Component"
+    This component is part of the `faststrap[plots]` / `faststrap[ml]` optional
+    extra and has not been implemented yet. The documentation is a preview of
+    the planned API.
+
 
 SSE-powered auto-updating Chart.js chart. Pushes new data points from the server and the chart updates in real time without page reloads.
 

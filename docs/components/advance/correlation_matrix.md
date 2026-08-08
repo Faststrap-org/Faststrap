@@ -1,6 +1,11 @@
 # CorrelationMatrix
 
 **Planned** · `@experimental` · Requires `faststrap[chartjs]`
+!!! warning "Planned Component"
+    This component is part of the `faststrap[plots]` / `faststrap[ml]` optional
+    extra and has not been implemented yet. The documentation is a preview of
+    the planned API.
+
 
 Renders a correlation heatmap from a pandas DataFrame. Useful for EDA dashboards, feature selection interfaces, and data profiling tools.
 

@@ -311,6 +311,36 @@ Alternatively, use the `InlineEditor` component from `faststrap` for a built-in 
 
 ---
 
+## Recipe 7: Button Loading State with `LoadingButton`
+
+Use for:
+
+- form submissions
+- delete/archive actions
+- any action that hits the server and should not be repeated
+
+```python
+from faststrap import LoadingButton
+
+LoadingButton(
+    "Save",
+    endpoint="/api/save",
+    method="post",
+    target="#form",
+    variant="primary",
+)
+```
+
+`LoadingButton` automatically:
+
+- disables the button during the request via `hx-disabled-elt="this"`
+- shows a spinner via `hx-indicator="this"`
+- sets `aria-busy="true"`
+
+For non-HTMX forms, use `Button(loading=True)` and toggle it with JavaScript, or show a `Spinner` next to the button during submission.
+
+---
+
 ## Loading and Empty-State Guidance
 
 When a route fetches or swaps content, always account for these states:

@@ -1,6 +1,11 @@
 # DistributionPlot
 
 **Planned** · `@experimental` · Requires `faststrap[chartjs]`
+!!! warning "Planned Component"
+    This component is part of the `faststrap[plots]` / `faststrap[ml]` optional
+    extra and has not been implemented yet. The documentation is a preview of
+    the planned API.
+
 
 Renders a histogram with optional KDE (kernel density estimation) overlay from a pandas Series or numpy array. Designed for exploratory data analysis dashboards.
 

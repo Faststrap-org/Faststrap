@@ -27,7 +27,7 @@ Build forms in four layers:
 
 ```python
 from fasthtml.common import Div, Form
-from faststrap import Button, FormErrorSummary, FormGroup, Input
+from faststrap import Button, FormErrorSummary, FormGroup, Input, LoadingButton
 
 
 def newsletter_signup_form(errors: dict[str, str] | None = None, values: dict[str, str] | None = None):
@@ -66,9 +66,13 @@ def newsletter_signup_form(errors: dict[str, str] | None = None, values: dict[st
                 required=True,
             ),
             Div(id="newsletter-email-feedback"),
-            Button("Join Newsletter", type="submit", variant="primary"),
-            hx_post="/forms/newsletter",
-            hx_target="#newsletter-shell",
+            LoadingButton(
+                "Join Newsletter",
+                type="submit",
+                variant="primary",
+                endpoint="/forms/newsletter",
+                target="#newsletter-shell",
+            ),
             cls="app-stack-md",
         ),
         id="newsletter-shell",
@@ -162,6 +166,42 @@ This gives you:
 - top-level summary on submit
 - full server validation
 - HTMX-friendly success feedback
+
+---
+
+## Loading State on Submit
+
+Never submit a form without a loading indicator. Use `LoadingButton` so the user knows the request is in flight and cannot double-submit.
+
+```python
+from faststrap import LoadingButton
+
+LoadingButton(
+    "Send Message",
+    endpoint="/contact",
+    method="post",
+    target="#form-feedback",
+    variant="primary",
+)
+```
+
+`LoadingButton` automatically:
+- disables the button during the request
+- shows a spinner
+- sets `aria-busy="true"`
+
+If you are not using HTMX, use `Button(loading=True)` and toggle it with JavaScript, or show a `Spinner` next to the button.
+
+---
+
+## UX Feedback Checklist for Forms
+
+- [ ] Submit button is a `LoadingButton` (HTMX) or shows loading state
+- [ ] Error summary appears at the top of the form when validation fails
+- [ ] Individual fields show inline errors via `FormGroupFromErrors`
+- [ ] Success shows a `Toast` or inline `Alert` with `variant="success"`
+- [ ] Error shows a `Toast` with `variant="danger"` or re-renders the form with errors
+- [ ] Loading state is visible (button spinner, page spinner, or placeholder)
 
 ---
 

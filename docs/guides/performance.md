@@ -1,74 +1,171 @@
-# Performance Considerations
+# Performance Guide
 
-Faststrap is intentionally lightweight, but performance still depends on how much HTML you render, which assets you load, and whether interactive features are server-side or client-side.
+This guide covers performance optimization strategies for FastHTML apps built with Faststrap.
 
-## DataTable Size
+---
 
-Client-side `DataTable` is best for small and medium datasets. For large datasets, use server-side pagination and filtering.
+## Static Assets
 
-Recommended rule of thumb:
+### CDN Mode (Default)
 
-| Rows | Recommendation |
-| --- | --- |
-| `0-500` | Client-side rendering is usually fine. |
-| `500-1,000` | Client-side is acceptable if columns are few and pages are simple. |
-| `1,000+` | Prefer server-side pagination/search/sort. |
+```python
+from faststrap import add_bootstrap
 
-The paginator renders a bounded window, but the table body itself still costs HTML size, serialization time, and browser layout work.
+add_bootstrap(app)
+# Uses jsDelivr CDN for Bootstrap, Bootstrap Icons, and HTMX
+```
 
-## Reuse External Assets
+CDN mode benefits:
+- No build step required
+- Assets cached across sites
+- Smaller app bundle
 
-Some optional components can inject third-party assets:
+### Local Mode
 
-| Component | Asset note |
-| --- | --- |
-| `MapView` | Leaflet CSS/JS can be injected once, then reuse with `include_assets=False`. |
-| `Chart` | Plotly can include JS with `include_js=True`; avoid repeating this when already loaded. |
-| `Markdown` / `Svg` | Sanitization imports optional Python dependencies. |
-| `Mermaid` | Requires Mermaid.js on the page. |
-| `GSAP` | Optional integration; not needed for core animations. |
+```python
+from faststrap import add_bootstrap
 
-## CDN vs Local Assets
+add_bootstrap(app, mode="local")
+```
 
-Use CDN assets for serverless deployments where local static mounting may be awkward.
+Local mode benefits:
+- Works offline
+- No external dependencies
+- Full control over asset versions
 
-Use local assets when:
+### Hybrid Mode
 
-- You want offline-friendly behavior.
-- You need tighter control of asset versions.
-- You are deploying a long-running ASGI app with static file support.
+```python
+from faststrap import add_bootstrap
 
-## Bootstrap Icons
+add_bootstrap(
+    app,
+    mode="cdn",
+    include_js=True,  # Include HTMX locally
+)
+```
 
-Bootstrap Icons CSS and fonts add extra network weight. Keep it enabled for icon-heavy apps, but consider disabling or replacing it if your app uses very few icons.
+---
 
-## HTMX Patterns
+## Component Rendering
 
-HTMX can reduce initial page weight by loading expensive content on demand:
+### Use `include_js` Wisely
 
-- Use `LazyLoad` for below-the-fold widgets.
-- Use `ActiveSearch` for server-side search instead of shipping large option lists.
-- Use server-side `DataTable` mode for large tabular data.
-- Use `SSETarget` only where live updates are genuinely needed.
+```python
+from faststrap import add_bootstrap
 
-## PWA Precaching
+# Only include JS when needed
+add_bootstrap(app, include_js=False)  # No JS
+add_bootstrap(app, include_js=True)   # Full JS bundle
+```
 
-PWA setup can precache core assets. This improves repeat visits but increases first service-worker install work. Keep optional assets out of the precache list unless they are needed on most visits.
+### Lazy Load Components
 
-## Custom CSS
+```python
+from faststrap import LazyLoad
 
-Premium pages often need custom CSS, but keep the architecture deliberate:
+LazyLoad(
+    "/api/heavy-component",
+    target="#heavy-area",
+    placeholder=Spinner(size="sm"),
+)
+```
 
-- Prefer reusable class hooks over large inline style blocks.
-- Use `theme_variant_css()` for paired light/dark variants.
-- Avoid repeating large `Style()` blocks across every route.
+---
 
-## Measuring
+## Caching
 
-When a page feels slow, inspect:
+### Static File Caching
 
-- HTML response size.
-- Number and size of CSS/JS assets.
-- Server render time for large tables or charts.
-- Browser layout cost for huge DOM trees.
-- Repeated third-party scripts included by optional components.
+```python
+from faststrap import get_assets
+
+assets = get_assets(app)
+# Assets are cached with cache-control headers
+```
+
+### Response Caching
+
+```python
+from fasthtml.common import CacheControl
+
+@app.get("/api/data")
+def get_data():
+    return JsonResponse(data, headers={"Cache-Control": "max-age=300"})
+```
+
+---
+
+## Database Queries
+
+### N+1 Prevention
+
+```python
+# Bad: N+1 queries
+items = db.query(Item).all()
+for item in items:
+    print(item.user.name)  # Extra query per item
+
+# Good: Eager loading
+items = db.query(Item).options(selectinload(Item.user)).all()
+```
+
+---
+
+## Service Worker (PWA)
+
+```python
+from faststrap import PwaMeta
+
+PwaMeta(
+    name="My App",
+    short_name="App",
+    theme_color="#5B6CFF",
+    background_color="#FFFFFF",
+    start_url="/",
+    display="standalone",
+)
+```
+
+Service workers cache static assets for offline use and faster loads.
+
+---
+
+## Monitoring
+
+### Response Times
+
+```python
+import time
+
+@app.before
+def log_request_time(req, resp):
+    start = time.time()
+    yield
+    elapsed = time.time() - start
+    if elapsed > 0.5:
+        print(f"Slow request: {req.url.path} took {elapsed:.2f}s")
+```
+
+### Memory Usage
+
+```python
+import tracemalloc
+
+tracemalloc.start()
+
+# ... app code ...
+
+snapshot = tracemalloc.take_snapshot()
+top_stats = snapshot.statistics("lineno")
+for stat in top_stats[:10]:
+    print(stat)
+```
+
+---
+
+## See Also
+
+- [Static Files Guide](../STATIC_FILES.md)
+- [PWA Guide](../PWA_GUIDE.md)
+- [First App Tutorial](../getting-started/first-app.md)

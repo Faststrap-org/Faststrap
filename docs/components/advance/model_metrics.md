@@ -1,6 +1,11 @@
 # ModelMetrics
 
 **Planned** · `@experimental`
+!!! warning "Planned Component"
+    This component is part of the `faststrap[plots]` / `faststrap[ml]` optional
+    extra and has not been implemented yet. The documentation is a preview of
+    the planned API.
+
 
 Composed dashboard card showing comprehensive ML model evaluation metrics: accuracy, precision, recall, F1-score, and optional confusion matrix preview.
 

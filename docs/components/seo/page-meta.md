@@ -4,21 +4,13 @@
 
 It is designed for teams that want a single, predictable entry point for page head metadata without repeating multiple helpers.
 
-## Import
+---
+
+## Quick Start
 
 ```python
 from faststrap import PageMeta
-```
 
-## What problem it solves
-
-- Prevents accidental duplicate/conflicting tags in route-level code.
-- Reduces repetitive `SEO(...) + PwaMeta(...) + favicon links` assembly.
-- Makes head management easier for new contributors.
-
-## Basic usage (SEO + canonical)
-
-```python
 PageMeta(
     title="Faststrap Docs",
     description="Build modern UI in Python",
@@ -27,7 +19,26 @@ PageMeta(
 )
 ```
 
-## Include PWA tags
+---
+
+## Visual Examples & Use Cases
+
+### 1. Basic SEO Page
+
+```python
+PageMeta(
+    title="Home",
+    description="Welcome to my app",
+)
+```
+
+Renders:
+```html
+<title>Home - Welcome to my app</title>
+<meta name="description" content="Welcome to my app">
+```
+
+### 2. Full PageMeta with PWA
 
 ```python
 PageMeta(
@@ -40,7 +51,7 @@ PageMeta(
 )
 ```
 
-## Include favicon links
+### 3. With Favicon
 
 ```python
 PageMeta(
@@ -49,7 +60,11 @@ PageMeta(
 )
 ```
 
-## Real route example
+---
+
+## Practical Functionality
+
+### 1. Route-Level Usage
 
 ```python
 @app.get("/")
@@ -60,43 +75,60 @@ def home():
     )
 ```
 
-## SEO vs PageMeta (important)
+### 2. SEO vs PageMeta Decision Guide
 
-### Use `SEO(...)` when:
+| Scenario | Recommended |
+|----------|-------------|
+| Simple content page | `SEO(...)` |
+| Marketing/app shell with PWA | `PageMeta(...)` |
+| Large codebase with many routes | `PageMeta(...)` for consistency |
 
-- You only need SEO/social tags.
-- You want complete manual control.
-- You are building your own composition layer.
+### 3. With Structured Data
 
-### Use `PageMeta(...)` when:
+```python
+@app.get("/product")
+def product():
+    return (
+        PageMeta(
+            title="Product",
+            description="Buy our product",
+            image="https://example.com/og.png",
+        ),
+        StructuredData.Product(
+            name="Product",
+            description="Buy our product",
+            brand="Brand",
+        ),
+        Container(H1("Product")),
+    )
+```
 
-- You want one helper for SEO + canonical + optional PWA/favicon.
-- You want dedupe behavior to reduce head conflicts.
-- You want a cleaner onboarding experience for app teams.
+---
 
-## Decision guide
+## Parameter Reference
 
-- Simple content page: `SEO(...)` is enough.
-- Marketing/app shell pages with installability/favicons: prefer `PageMeta(...)`.
-- Large codebase with many routes/layouts: prefer `PageMeta(...)` for consistency.
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `title` | `str` | `None` | Page title. |
+| `description` | `str` | `None` | Meta description. |
+| `keywords` | `str \| None` | `None` | Meta keywords. |
+| `image` | `str \| None` | `None` | Open Graph image URL. |
+| `url` | `str \| None` | `None` | Canonical URL. |
+| `canonical` | `str \| None` | `None` | Canonical URL (alias for `url`). |
+| `robots` | `str \| None` | `None` | Robots meta content. |
+| `twitter_site` | `str \| None` | `None` | Twitter site handle. |
+| `twitter_creator` | `str \| None` | `None` | Twitter creator handle. |
+| `locale` | `str \| None` | `None` | Locale for Open Graph. |
+| `include_pwa` | `bool` | `False` | Include PWA meta tags. |
+| `pwa_name` | `str \| None` | `None` | PWA application name. |
+| `pwa_short_name` | `str \| None` | `None` | PWA short name. |
+| `pwa_theme_color` | `str \| None` | `None` | PWA theme color. |
+| `pwa_background_color` | `str \| None` | `None` | PWA background color. |
+| `favicon_url` | `str \| None` | `None` | Custom favicon URL. |
+| `extra_meta` | `dict \| None` | `None` | Additional meta tags. |
+| `**kwargs` | `Any` | `{}` | Additional attributes. |
 
-## Common use cases
-
-1. Blog/article routes that need social previews and canonical.
-2. Product/detail routes that need share-ready metadata with minimal boilerplate.
-3. PWA-ready pages that need head tags in one place.
-
-## API reference summary
-
-- SEO-related: `title`, `description`, `keywords`, `image`, `url`, `canonical`, `robots`, `twitter_site`, `twitter_creator`, `locale`.
-- PWA-related: `include_pwa`, `pwa_name`, `pwa_short_name`, `pwa_theme_color`, `pwa_background_color`.
-- Assets/meta extras: `favicon_url`, `extra_meta`.
-
-## Notes
-
-- `PageMeta(...)` is additive convenience, not a replacement for advanced `StructuredData` usage.
-- For JSON-LD schema, keep using `StructuredData.*(...)` alongside `PageMeta(...)`.
-- Canonical links are emitted only when `canonical` or `url` is provided.
+---
 
 ## API Reference
 

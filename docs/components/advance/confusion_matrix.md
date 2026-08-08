@@ -1,6 +1,11 @@
 # ConfusionMatrix
 
 **Planned** · `@experimental`
+!!! warning "Planned Component"
+    This component is part of the `faststrap[plots]` / `faststrap[ml]` optional
+    extra and has not been implemented yet. The documentation is a preview of
+    the planned API.
+
 
 Renders a confusion matrix from sklearn-compatible true/predicted label arrays. Displays a color-coded grid with per-class counts and optional normalization.
 

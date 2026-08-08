@@ -1,6 +1,11 @@
 # TimeSeriesPlot
 
 **Planned** · `@experimental` · Requires `faststrap[chartjs]`
+!!! warning "Planned Component"
+    This component is part of the `faststrap[plots]` / `faststrap[ml]` optional
+    extra and has not been implemented yet. The documentation is a preview of
+    the planned API.
+
 
 Renders a time series line chart with optional moving average overlay. Designed for financial dashboards, monitoring tools, and trend analysis.
 

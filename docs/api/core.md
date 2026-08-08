@@ -4,21 +4,22 @@ This section provides automatically generated documentation from the FastStrap s
 
 ## Core Utilities
 
-::: faststrap.core.theme.resolve_defaults
-    options:
-        show_root_heading: true
-        show_source: true
+### `merge_classes`
 
-::: faststrap.core.base.merge_classes
-    options:
-        show_root_heading: true
-        show_source: true
+`merge_classes(base, user)` combines a base class string with user-provided classes, deduplicating while preserving order.
 
-## Attributes Helper
+```python
+from faststrap import merge_classes
 
-Use `convert_attrs()` when authoring custom FastStrap components or wrappers.
-It converts Python-friendly kwargs such as `hx_get`, `data_bs_toggle`,
-`aria_label`, `style={...}`, and `css_vars={...}` into valid HTML attributes.
+merged = merge_classes("btn btn-primary", "btn-lg custom")
+# Result: "btn btn-primary btn-lg custom"
+```
+
+This is the standard way FastStrap components merge default Bootstrap classes with user overrides. Use it when authoring custom components.
+
+### `convert_attrs`
+
+`convert_attrs()` converts Python-friendly kwargs such as `hx_get`, `data_bs_toggle`, `aria_label`, `style={...}`, and `css_vars={...}` into valid HTML attributes.
 
 ```python
 from faststrap import convert_attrs
@@ -36,8 +37,33 @@ attrs.update(
 )
 ```
 
-For component authors, routing `**kwargs` through `convert_attrs(kwargs)` is the
-standard way to preserve HTMX support and attribute conversion consistently.
+For component authors, routing `**kwargs` through `convert_attrs(kwargs)` is the standard way to preserve HTMX support and attribute conversion consistently.
+
+### `UNSET` Sentinel
+
+`UNSET` is a sentinel value used to distinguish "not provided" from `None`. Component defaults are stored as `UNSET` and resolved at render time, allowing you to pass `None` explicitly to clear a default.
+
+```python
+from faststrap import UNSET, set_component_defaults, get_component_defaults
+
+set_component_defaults("Button", {"variant": "primary"})
+defaults = get_component_defaults("Button")
+# Clear a default by passing None: Button("Click", variant=None)
+```
+
+See [Component Defaults](../api/defaults.md) for the full API reference on `UNSET`.
+
+::: faststrap.core.base.merge_classes
+    options:
+        show_root_heading: true
+        show_source: true
+
+::: faststrap.utils.attrs.convert_attrs
+    options:
+        show_root_heading: true
+        show_source: true
+
+## Attributes Helper
 
 ::: faststrap.utils.attrs.convert_attrs
     options:
@@ -194,3 +220,4 @@ Style(
     options:
         show_root_heading: true
         show_source: true
+

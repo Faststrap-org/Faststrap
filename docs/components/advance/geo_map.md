@@ -1,6 +1,11 @@
 # GeoMap
 
 **Planned** · `@experimental`
+!!! warning "Planned Component"
+    This component is part of the `faststrap[plots]` / `faststrap[ml]` optional
+    extra and has not been implemented yet. The documentation is a preview of
+    the planned API.
+
 
 Embeds a lightweight geographic map view. Builds on the existing `MapView` component with additional data-point overlay support.
 

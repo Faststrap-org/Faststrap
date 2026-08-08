@@ -88,8 +88,17 @@ nav:
     - Documentation Standards: guides/documentation-standards.md
     - Performance: guides/performance.md
     - Upgrading: guides/upgrading.md
+    - First App Tutorial: getting-started/first-app.md
+    - HTMX Integration: guides/htmx-integration.md
+    - Theming: guides/theming.md
+    - Validation: guides/validation.md
+    - Testing: guides/testing.md
+    - Accessibility: guides/accessibility.md
+    - Error Handling: guides/error-handling.md
+    - Composition: guides/composition.md
   - Deployment:
     - Overview: deployment/overview.md
+    - Static Export: deployment/static-export.md
     - Vercel: deployment/vercel.md
     - Railway: deployment/railway.md
     - Render: deployment/render.md
@@ -123,6 +132,9 @@ nav:
       - ToggleGroup: components/forms/toggle-group.md
       - InlineEditor: components/forms/inline-editor.md
       - Live Validation: components/forms/live-validation.md
+      - Form: components/forms/form.md
+      - OTPInput: components/forms/otp-input.md
+      - Form Errors: components/forms/form-errors.md
     - Display:
       - Card: components/display/card.md
       - Structured Display: components/display/structured-display.md
@@ -152,6 +164,8 @@ nav:
       - Result Card: components/display/result-card.md
       - TextClamp: components/display/text-clamp.md
       - SSETarget: components/display/sse-target.md
+      - Tag: components/display/tag.md
+      - Kbd: components/display/kbd.md
     - Feedback:
       - Alert: components/feedback/alert.md
       - Modal: components/feedback/modal.md
@@ -192,6 +206,9 @@ nav:
       - Grid: components/layout/grid.md
       - Layout Primitives: components/layout/primitives.md
       - PageHeader: components/layout/page-header.md
+      - SectionHeader: components/layout/section-header.md
+      - Separator: components/layout/separator.md
+      - AspectRatio: components/layout/aspect-ratio.md
       - Hero: components/layout/hero.md
       - DashboardGrid: components/layout/dashboard-grid.md
       - ParallaxSection: components/layout/parallax-section.md
@@ -205,6 +222,9 @@ nav:
     - OptimisticAction: presets/optimistic-action.md
     - LocationAction: presets/location-action.md
     - PollUntil: presets/poll-until.md
+    - ConfirmPrompt: presets/confirm-prompt.md
+    - SwapOnEvent: presets/swap-on-event.md
+    - Debounce: presets/debounce.md
     - SSEStream: presets/sse-stream.md
     - Response Helpers: presets/responses.md
     - Route Protection: presets/require-auth.md

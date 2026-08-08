@@ -61,6 +61,8 @@ This means:
 - Do not rely on external CSS CDNs for project styling. Keep styling in local project assets and Faststrap/Bootstrap.
 - Treat JavaScript as the last interaction tool, not the first one.
 - Before finishing, run a dedicated Bootstrap-smell pass and remove untouched default pills, soft default shadows, over-rounded surfaces, and generic section treatment.
+- **UX feedback is non-negotiable:** every user action that mutates state must show loading, success, or error feedback. Use `LoadingButton`, `hx-indicator`, `Toast`, `Alert`, and `FormErrorSummary`. A page where the user clicks and nothing visibly happens is incomplete.
+- **Use `set_component_defaults()` in every app:** set global defaults for `Button`, `Card`, `Input`, and `Alert` at app startup so the whole app feels consistent without repeating kwargs on every call. Do not leave every component at its bare Bootstrap default.
 
 ## Reference discipline
 
@@ -85,6 +87,140 @@ Run this pass before finishing any polished page:
 - empty, loading, success, and error states exist for key flows
 - HTMX is used where interaction is needed instead of defaulting to custom JavaScript
 - no generic hero-card-grid-footer boilerplate survived untouched
+
+## Responsive layout rules
+
+Faststrap uses Bootstrap's grid and utility classes. Do not write custom media queries for layout when Bootstrap already solves it.
+
+### Row / Col responsive breakpoints
+
+Use `Row` + `Col` with responsive `cols_*` parameters:
+
+```python
+Row(
+    Col(Card("A"), cols=12, cols_md=6, cols_lg=4),
+    Col(Card("B"), cols=12, cols_md=6, cols_lg=4),
+    Col(Card("C"), cols=12, cols_md=6, cols_lg=4),
+    Col(Card("D"), cols=12, cols_md=6, cols_lg=4),
+    g=3,
+)
+```
+
+This produces:
+- mobile (`<768px`): 1 column (full width)
+- tablet (`≥768px`): 2 columns
+- desktop (`≥992px`): 4 columns
+
+### Card grid templates
+
+**4 cards:**
+```python
+Row(
+    Col(Card("A"), cols=12, cols_md=6, cols_lg=3),
+    Col(Card("B"), cols=12, cols_md=6, cols_lg=3),
+    Col(Card("C"), cols=12, cols_md=6, cols_lg=3),
+    Col(Card("D"), cols=12, cols_md=6, cols_lg=3),
+    g=3,
+)
+```
+
+**3 cards:**
+```python
+Row(
+    Col(Card("A"), cols=12, cols_md=4, cols_lg=4),
+    Col(Card("B"), cols=12, cols_md=4, cols_lg=4),
+    Col(Card("C"), cols=12, cols_md=4, cols_lg=4),
+    g=3,
+)
+```
+
+**2 cards side by side on tablet, stacked on mobile:**
+```python
+Row(
+    Col(Card("A"), cols=12, cols_md=6),
+    Col(Card("B"), cols=12, cols_md=6),
+    g=3,
+)
+```
+
+**Dashboard stats (4-up on desktop, 2-up on tablet, 1-up on mobile):**
+```python
+Row(
+    Col(StatCard("Revenue", "$12K", "+5%"), cols=12, cols_md=6, cols_lg=3),
+    Col(StatCard("Users", "1.2K", "+12%"), cols=12, cols_md=6, cols_lg=3),
+    Col(StatCard("Orders", "456", "+3%"), cols=12, cols_md=6, cols_lg=3),
+    Col(StatCard("Growth", "8%", "+2%"), cols=12, cols_md=6, cols_lg=3),
+    g=3,
+)
+```
+
+### Responsive display utilities
+
+Use Bootstrap display utilities to show/hide content at breakpoints. Never write custom `@media` rules for show/hide:
+
+```python
+# Hide on mobile, show on desktop
+Div("Desktop only", cls="d-none d-lg-block")
+
+# Show on mobile, hide on desktop
+Div("Mobile only", cls="d-block d-lg-none")
+
+# Show on tablet and up
+Div("Tablet+", cls="d-none d-md-block")
+```
+
+### Responsive spacing
+
+Use responsive spacing utilities instead of custom CSS:
+
+```python
+# p-2 on mobile, p-4 on desktop
+Card("Content", cls="p-2 p-lg-4")
+
+# mb-3 on mobile, mb-4 on tablet+
+Stack("A", "B", "C", gap=2, cls="mb-3 mb-md-4")
+```
+
+### Responsive text alignment
+
+```python
+# Center on mobile, left on desktop
+Div("Text", cls="text-center text-lg-start")
+```
+
+### Sidebar layout pattern
+
+```python
+Row(
+    Col(
+        SidebarNavbar(...),
+        cols=12, cols_md=3,
+        cls="d-none d-md-block",
+    ),
+    Col(
+        # Main content
+        ...
+    ),
+)
+```
+
+For mobile, use a `Drawer` or `BottomNav` instead of the sidebar.
+
+### Never do this
+
+```python
+# BAD: custom CSS for responsiveness
+Div("Content", style="@media (min-width: 768px) { width: 50%; }")
+
+# GOOD: Bootstrap utility
+Div("Content", cls="col-12 col-md-6")
+```
+
+### Mobile-first rule
+
+Always design mobile first. Start with the single-column layout (`cols=12` or `cols=1`), then add `cols_md`, `cols_lg`, `cols_xl` as the content gains space. Never design desktop-first and hope it collapses.
+
+See `references/responsive-layout.md` for complete card grid patterns and responsive templates.
 
 ## Visual system rules
 
@@ -178,6 +314,7 @@ Use it to answer:
 
 2. Establish shared design language
 - Put brand colors and global component defaults in a single theme module.
+- Use `set_component_defaults()` to configure global defaults for `Button`, `Card`, `Input`, and `Alert` at app startup. This ensures consistency without repeating kwargs on every call.
 - Define layout wrappers before page-level sections.
 - Use custom CSS for depth: gradients, glass, section contrast, spacing rhythm, shadows, image treatment, and state styling.
 - Keep structural responsiveness primarily in Bootstrap/Faststrap usage, not hand-written media-query-heavy layout rewrites unless clearly necessary.
@@ -207,9 +344,12 @@ Before you consider the UI done, verify:
 - typography hierarchy is deliberate
 - spacing rhythm is consistent
 - mobile layout is intentional, not just collapsed desktop
+- responsive breakpoints use `cols_md`, `cols_lg`, etc., not custom CSS media queries
+- Bootstrap display utilities (`d-none`, `d-md-block`, etc.) are used for show/hide instead of custom CSS
 - empty/loading/error states exist for key flows
 - accessibility labels and focus states remain intact
 - at least one final pass was made specifically to remove Bootstrap-default visual leakage
+- `set_component_defaults()` is configured for `Button`, `Card`, `Input`, and `Alert` so the app feels cohesive
 
 See also:
 
@@ -271,12 +411,98 @@ Quick reference:
 
 See `references/fx-animations.md` for the complete reference.
 
+## Testing
+
+Faststrap apps should be tested at two levels:
+
+### Component Tests
+
+Use `to_xml()` to verify component rendering:
+
+```python
+from fasthtml.common import to_xml
+from faststrap import Button, Card
+
+def test_button_renders():
+    html = to_xml(Button("Click", variant="primary"))
+    assert 'class="btn btn-primary"' in html
+    assert "Click" in html
+```
+
+### App-Level Tests
+
+Use FastHTML's test client for route-level testing:
+
+```python
+from fasthtml.test import TestClient
+
+def test_home_page(client):
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "Welcome" in response.text
+
+def test_form_submission(client):
+    response = client.post("/login", data={
+        "email": "test@example.com",
+        "password": "password123",
+    })
+    assert response.status_code == 200
+```
+
+### HTMX Tests
+
+```python
+def test_htmx_search(client):
+    response = client.get(
+        "/search",
+        headers={"HX-Request": "true"},
+        params={"q": "test"},
+    )
+    assert response.status_code == 200
+```
+
+Run tests:
+```bash
+pytest tests/ -q
+```
+
+## Deployment
+
+### Static Export
+
+For marketing sites, docs, and blogs, use Faststrap's static export:
+
+```bash
+python -m faststrap export main:app ./dist
+```
+
+See `docs/deployment/static-export.md` for full documentation.
+
+### Dynamic Deployment
+
+For apps with HTMX, sessions, or server-side logic:
+
+- **Vercel:** Use `add_bootstrap(app, use_cdn=True)` and expose the ASGI app
+- **Railway:** Standard FastHTML deployment with `python main.py`
+- **Render:** Use `web: python main.py` in `Procfile`
+- **Fly.io:** Use the Dockerfile or `fly launch`
+- **VPS:** Use `gunicorn` or `uvicorn` with `main:app`
+
+Always run `faststrap doctor` before deploying:
+
+```bash
+python -m faststrap doctor
+```
+
 ## Read these references as needed
 
+- `references/ux-feedback.md`: **required reading for every interactive page** — loading states, success/error feedback, button states, form feedback, and UX checklist
+- `references/responsive-layout.md`: **required reading for every page with cards, grids, or sidebars** — Row/Col responsive patterns, Bootstrap utilities, mobile-first card grids
 - `references/component-api.md`: **complete API signatures** for all 152+ components — look up exact params before calling any component
 - `references/faststrap-quickstart.md`: copy-paste app templates for fresh projects
-- `references/fx-animations.md`: Fx class reference for all animations and effects
+- `references/visual-patterns.md`: **22 concrete visual design patterns** extracted from production Faststrap apps — read this before designing any page
 - `references/reference-index.md`: canonical first-stop guide for picking the right showcase or production reference by page type and quality bar
+- `references/reference-apps.md`: which local Faststrap showcase files to inspect by page type
 - `references/htmx-recipes.md`: concrete HTMX-first interaction patterns for search, refresh, validation, confirm, lazy loading, and inline editing
 - `references/component-selection.md`: practical guide for choosing existing Faststrap components before inventing new ones
 - `references/css-architecture.md`: production CSS file organization and token structure
@@ -285,5 +511,5 @@ See `references/fx-animations.md` for the complete reference.
 - `references/troubleshooting.md`: common failure modes and how to correct them quickly
 - `references/nis-patterns.md`: real production-style project wiring and theming patterns
 - `references/mmercyj-patterns.md`: polished company-site composition and mobile-first responsive simplification patterns
-- `references/reference-apps.md`: which local Faststrap showcase files to inspect by page type
+- `references/fx-animations.md`: Fx class reference for all animations and effects
 - `references/project-agents-template.md`: template instructions to place in fresh app repos so future sessions start with the right guardrails

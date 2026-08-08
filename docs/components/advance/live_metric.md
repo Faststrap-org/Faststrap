@@ -1,6 +1,11 @@
 # LiveMetric
 
 **Planned** · `@experimental`
+!!! warning "Planned Component"
+    This component is part of the `faststrap[plots]` / `faststrap[ml]` optional
+    extra and has not been implemented yet. The documentation is a preview of
+    the planned API.
+
 
 SSE-powered real-time metric card. Displays a numeric value that updates as the server pushes new data. Extends the `MetricCard` pattern with live streaming.
 

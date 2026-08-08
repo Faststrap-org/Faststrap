@@ -7,6 +7,7 @@ import importlib
 import importlib.metadata
 import os
 import re
+import sys
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
@@ -17,6 +18,13 @@ class DoctorIssue:
     level: str
     code: str
     message: str
+
+
+@dataclass
+class ExportResult:
+    output_dir: Path
+    pages: int
+    assets: int
 
 
 def _iter_python_files(root: Path) -> Iterable[Path]:
@@ -231,6 +239,64 @@ def run_doctor(path: str = ".") -> int:
     return 1
 
 
+def _load_app(app_arg: str) -> Any:
+    """Load a FastHTML app from a module string like 'main:app'."""
+    if ":" not in app_arg:
+        raise ValueError(
+            "App must be specified as 'module:app_variable'. "
+            "Example: 'main:app' or 'myproject.app:app'."
+        )
+    module_path, attr = app_arg.split(":", 1)
+    try:
+        module = importlib.import_module(module_path)
+    except ImportError as exc:
+        raise ImportError(f"Cannot import module '{module_path}': {exc}") from exc
+    app = getattr(module, attr, None)
+    if app is None:
+        raise AttributeError(f"Module '{module_path}' has no attribute '{attr}'.")
+    return app
+
+
+def run_export(
+    app_arg: str,
+    output_dir: str,
+    *,
+    static_url: str = "/static",
+    exclude_paths: list[str] | None = None,
+    no_js: bool = False,
+) -> int:
+    """Export a FastHTML app as static files."""
+    try:
+        app = _load_app(app_arg)
+    except (ImportError, AttributeError, ValueError) as exc:
+        print(f"Error loading app: {exc}", file=sys.stderr)
+        return 1
+
+    try:
+        from .static_export import export_static
+    except ImportError:
+        print(
+            "Static export is not available in this Faststrap installation.",
+            file=sys.stderr,
+        )
+        return 1
+
+    try:
+        output_dir, pages, assets_count = export_static(
+            app,
+            output_dir,
+            static_url=static_url,
+            exclude_paths=exclude_paths,
+            include_js=not no_js,
+        )
+    except Exception as exc:
+        print(f"Export failed: {exc}", file=sys.stderr)
+        return 1
+
+    print(f"Exported {pages} pages and {assets_count} assets to {output_dir}")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(prog="faststrap", description="Faststrap CLI")
     subparsers = parser.add_subparsers(dest="command")
@@ -238,9 +304,39 @@ def main() -> int:
     doctor = subparsers.add_parser("doctor", help="Run Faststrap diagnostics")
     doctor.add_argument("--path", default=os.getcwd(), help="Project path to scan")
 
+    export = subparsers.add_parser("export", help="Export app as static files")
+    export.add_argument("app", help="App to export (format: module:app_variable)")
+    export.add_argument("output", help="Output directory")
+    export.add_argument(
+        "--static-url",
+        default="/static",
+        help="Static URL path (default: /static)",
+    )
+    export.add_argument(
+        "--exclude",
+        action="append",
+        default=[],
+        help="Path prefix to exclude (can be repeated)",
+    )
+    export.add_argument(
+        "--no-js",
+        action="store_true",
+        help="Exclude JavaScript assets",
+    )
+
     args = parser.parse_args()
+
     if args.command == "doctor":
         return run_doctor(path=args.path)
+
+    if args.command == "export":
+        return run_export(
+            args.app,
+            args.output,
+            static_url=args.static_url,
+            exclude_paths=args.exclude or None,
+            no_js=args.no_js,
+        )
 
     parser.print_help()
     return 0

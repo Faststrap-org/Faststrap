@@ -38,10 +38,11 @@ add_bootstrap(app)  # Required — adds Bootstrap 5.3 CSS/JS
 from faststrap import (
     # Layout
     Container, Row, Col, Stack, Cluster, Center,
-    Hero, PageHeader, DashboardGrid, AspectRatio, Separator,
+    Hero, PageHeader, DashboardGrid, SectionHeader, AspectRatio, Separator,
     # Forms
     Button, Input, Select, Form, FormGroup, Switch, Checkbox, Radio,
     SearchableSelect, MultiSelect, DateRangePicker, OTPInput, OTPInputGroup,
+    LiveValidationField,
     # Display
     Card, Badge, Tag, Kbd, Avatar, AvatarGroup, Table, DataTable,
     StatCard, MetricCard, TrendCard, KPICard, Image, Carousel,
@@ -50,7 +51,7 @@ from faststrap import (
     Alert, Toast, SimpleToast, Modal, Spinner, Progress, ProgressRing,
     Placeholder, Tooltip, Popover, ErrorPage, NotificationCenter,
     # Navigation
-    Navbar, GlassNavbar, SidebarNavbar, Tabs, Accordion, Dropdown,
+    Navbar, GlassNavbar, GlassNavItem, SidebarNavbar, Tabs, Accordion, Dropdown,
     Breadcrumb, Pagination, Drawer, BottomNav, Scrollspy, CommandPalette,
     # Patterns
     FeatureGrid, PricingGroup, PricingTier, TestimonialSection,
@@ -63,6 +64,8 @@ from faststrap import (
     SEO, PageMeta, StructuredData,
     # HTMX Presets
     ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton,
+    # Theme
+    ThemeToggle,
     # PWA
     add_pwa, PwaMeta,
 )
@@ -77,6 +80,80 @@ from faststrap import (
 5. **JavaScript only when needed** — PWA features, browser APIs, maps, media players
 6. **Mobile-first** — start with single column (cols=1), expand with cols_md=2, cols_lg=3, etc.
 7. **Dark mode** — use add_bootstrap(app, mode="dark") or ThemeToggle() component
+8. **set_component_defaults()** — configure global defaults for Button, Card, Input, Alert at app startup for consistency
+9. **Bootstrap utilities over custom CSS** — use d-none, d-md-block, p-2 p-lg-4, text-center text-lg-start instead of custom media queries
+
+## Responsive Layout Rules
+
+### Card Grids
+
+Use `Row` + `Col` with responsive `cols_*` parameters:
+
+```python
+Row(
+    Col(Card("A"), cols=12, cols_md=6, cols_lg=3),
+    Col(Card("B"), cols=12, cols_md=6, cols_lg=3),
+    Col(Card("C"), cols=12, cols_md=6, cols_lg=3),
+    Col(Card("D"), cols=12, cols_md=6, cols_lg=3),
+    g=3,
+)
+```
+
+Breakpoints:
+- `cols=12` — mobile (<768px): 1 per row
+- `cols_md=6` — tablet (≥768px): 2 per row
+- `cols_lg=3` — desktop (≥992px): 4 per row
+
+### Common Patterns
+
+**4 cards:** `cols=12, cols_md=6, cols_lg=3`
+**3 cards:** `cols=12, cols_md=4, cols_lg=4`
+**2 cards:** `cols=12, cols_md=6`
+**1 featured + 2 side:** `Col(..., cols=12, cols_lg=8)` + `Col(..., cols=12, cols_lg=4)`
+
+### Sidebar Layout
+
+```python
+Row(
+    Col(
+        SidebarNavbar(...),
+        cols=12, cols_md=3,
+        cls="d-none d-md-block",  # Hide on mobile
+    ),
+    Col(
+        # Main content
+        ...
+        cols=12, cols_md=9,
+    ),
+)
+```
+
+Use `Drawer` or `BottomNav` for mobile navigation.
+
+### Responsive Utilities
+
+```python
+# Show/hide at breakpoints
+Div("Desktop only", cls="d-none d-lg-block")
+Div("Mobile only", cls="d-block d-lg-none")
+
+# Responsive spacing
+Card("Content", cls="p-2 p-lg-4")
+Div("Content", cls="mb-3 mb-md-4")
+
+# Responsive text alignment
+H1("Title", cls="text-center text-lg-start")
+```
+
+### Never do this
+
+```python
+# BAD: custom CSS media query
+Div("Content", style="@media (min-width: 768px) { width: 50%; }")
+
+# GOOD: Bootstrap utility
+Div("Content", cls="col-12 col-md-6")
+```
 
 ## Component Patterns
 
@@ -203,9 +280,101 @@ DataTable(df=pandas_df, sortable=True, exportable=True)
 MetricCard("CPU Usage", "45%", "+2%")
 ```
 
+## UX Feedback Rules
+
+User feedback is non-negotiable. Every action that mutates state must show loading, success, or error feedback.
+
+### Button Loading State
+
+Use `LoadingButton` for HTMX form submissions:
+
+```python
+from faststrap import LoadingButton
+
+LoadingButton(
+    "Save",
+    endpoint="/api/save",
+    method="post",
+    target="#form",
+    variant="primary",
+)
+```
+
+For non-HTMX forms, use `Button(loading=True)` with a `Spinner` indicator:
+
+```python
+Button(
+    "Save",
+    variant="primary",
+    loading=True,
+    spinner=True,
+    loading_text="Saving...",
+)
+```
+
+### Success / Error Feedback
+
+```python
+from faststrap import Toast, Alert, FormErrorSummary
+
+# Success
+Toast("Changes saved!", variant="success", duration=3000)
+
+# Error
+Toast("Something went wrong.", variant="danger", duration=5000)
+
+# Inline error in forms
+FormErrorSummary({"email": "Invalid email"}, title="Please fix:")
+```
+
+### Form Validation Feedback
+
+```python
+from faststrap import FormErrorSummary, FormGroupFromErrors
+
+@app.post("/login")
+def login(email: str, password: str):
+    errors = validate(email, password)
+    if errors:
+        return (
+            FormErrorSummary(errors),
+            FormGroupFromErrors(Input(name="email", value=email), "email", errors=errors),
+            FormGroupFromErrors(Input(name="password"), "password", errors=errors),
+        )
+    return Toast("Welcome!", variant="success"), Redirect("/dashboard")
+```
+
 ## Testing
 
 ```bash
 cd Faststrap
-python -m pytest -q   # 857+ tests passing
+python -m pytest -q   # 890+ tests passing
+```
+
+## Deployment
+
+### Static Export
+
+For marketing sites, docs, and blogs:
+
+```bash
+python -m faststrap export main:app ./dist
+```
+
+See `docs/deployment/static-export.md` for full documentation.
+
+### Dynamic Deployment
+
+For apps with HTMX, sessions, or server-side logic:
+
+- **Vercel:** Use `add_bootstrap(app, use_cdn=True)` and expose the ASGI app
+- **Railway:** Standard FastHTML deployment with `python main.py`
+- **Render:** Use `web: python main.py` in `Procfile`
+- **Fly.io:** Use the Dockerfile or `fly launch`
+- **VPS:** Use `gunicorn` or `uvicorn` with `main:app`
+
+Always run `faststrap doctor` before deploying:
+
+```bash
+python -m faststrap doctor
 ```
