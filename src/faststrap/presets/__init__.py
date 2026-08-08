@@ -13,12 +13,15 @@ from .auth import require_auth
 from .interactions import (
     ActiveSearch,
     AutoRefresh,
+    ConfirmPrompt,
+    Debounce,
     InfiniteScroll,
     LazyLoad,
     LoadingButton,
     LocationAction,
     OptimisticAction,
     PollUntil,
+    SwapOnEvent,
 )
 from .responses import (
     hx_redirect,
@@ -34,12 +37,15 @@ __all__ = [
     # Interactions
     "ActiveSearch",
     "AutoRefresh",
+    "ConfirmPrompt",
+    "Debounce",
     "InfiniteScroll",
     "LazyLoad",
-    "LocationAction",
     "LoadingButton",
+    "LocationAction",
     "OptimisticAction",
     "PollUntil",
+    "SwapOnEvent",
     # Responses
     "hx_redirect",
     "hx_refresh",

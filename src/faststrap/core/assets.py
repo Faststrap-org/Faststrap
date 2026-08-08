@@ -49,8 +49,10 @@ FASTSTRAP_CDN_CSS_FILES = [
     "css/faststrap-fx.css",
     "css/faststrap-layouts.css",
     "css/faststrap-visual.css",
+    "css/faststrap-toast.css",
 ]
 FASTSTRAP_INIT_JS_FILE = "js/faststrap-init.js"
+FASTSTRAP_MODERN_TOAST_JS_FILE = "js/modern-toast.js"
 
 # CDN assets with SRI hashes
 CDN_ASSETS = (
@@ -82,6 +84,7 @@ def local_assets(static_url: str, *, include_js: bool = True) -> tuple[Any, ...]
         Link(rel="stylesheet", href=f"{base}/css/faststrap-fx.css"),
         Link(rel="stylesheet", href=f"{base}/css/faststrap-layouts.css"),
         Link(rel="stylesheet", href=f"{base}/css/faststrap-visual.css"),
+        Link(rel="stylesheet", href=f"{base}/css/faststrap-toast.css"),
     ]
     if include_js:
         assets.append(Script(src=f"{base}/js/bootstrap.bundle.min.js"))
@@ -214,6 +217,12 @@ def _faststrap_init_script(static_base: str) -> Any:
     return Script(src=f"{base}/{FASTSTRAP_INIT_JS_FILE}", defer=True)
 
 
+def _faststrap_modern_toast_script(static_base: str) -> Any:
+    """Return the ModernToast runtime script for the given static base URL."""
+    base = static_base.rstrip("/")
+    return Script(src=f"{base}/{FASTSTRAP_MODERN_TOAST_JS_FILE}", defer=True)
+
+
 def get_assets(
     use_cdn: bool | None = None,
     include_custom: bool = True,
@@ -224,6 +233,7 @@ def get_assets(
     font_weights: list[int] | None = None,
     include_js: bool = True,
     include_favicon: bool = False,
+    include_modern_toast: bool = False,
 ) -> tuple[Any, ...]:
     """
     Get Bootstrap assets for injection.
@@ -238,6 +248,7 @@ def get_assets(
         font_weights: Font weights to load (default: [400, 500, 700])
         include_js: Include Bootstrap JavaScript bundle
         include_favicon: Include default Faststrap favicon (CDN mode only)
+        include_modern_toast: Include ModernToast runtime script
 
     Returns:
         Tuple of FastHTML elements for app.hdrs
@@ -279,8 +290,16 @@ def get_assets(
             elements.append(
                 _faststrap_init_script(_faststrap_static_cdn_base(_get_faststrap_cdn_version()))
             )
+            if include_modern_toast:
+                elements.append(
+                    _faststrap_modern_toast_script(
+                        _faststrap_static_cdn_base(_get_faststrap_cdn_version())
+                    )
+                )
         else:
             elements.append(_faststrap_init_script(actual_static_url))
+            if include_modern_toast:
+                elements.append(_faststrap_modern_toast_script(actual_static_url))
 
     # Add theme styles
     if theme is not None:
@@ -312,6 +331,18 @@ def _any_requires_js(components: list[Any]) -> bool:
     return False
 
 
+def _any_uses_modern_toast(components: list[Any]) -> bool:
+    """Check whether any provided component is ModernToast or ModernToastStack."""
+    for comp in components:
+        name = getattr(comp, "__name__", None)
+        if name in {"ModernToast", "ModernToastStack"}:
+            return True
+        meta = getattr(comp, "__faststrap_metadata__", None)
+        if meta and meta.get("name") in {"ModernToast", "ModernToastStack"}:
+            return True
+    return False
+
+
 def add_bootstrap(
     app: Any,
     theme: str | Theme | None = None,
@@ -325,6 +356,7 @@ def add_bootstrap(
     font_family: str | None = None,
     font_weights: list[int] | None = None,
     components: list[Any] | None = None,
+    include_modern_toast: bool | None = None,
 ) -> Any:
     """Enhance FastHTML app with Bootstrap and FastStrap assets.
 
@@ -352,6 +384,9 @@ def add_bootstrap(
             component has requires_js=True in its registry metadata.
             Components without @register() metadata are treated as
             requires_js=False. When None (default), JS is always injected.
+        include_modern_toast: Explicitly include the ModernToast runtime script.
+            When None (default), the script is included only if `components`
+            contains ModernToast or ModernToastStack.
 
     Returns:
         Modified app instance
@@ -394,6 +429,8 @@ def add_bootstrap(
     if use_cdn is None:
         use_cdn = environ.get("FASTSTRAP_USE_CDN", "false").lower() == "true"
     include_js = True if components is None else _any_requires_js(components)
+    if include_modern_toast is None:
+        include_modern_toast = False if components is None else _any_uses_modern_toast(components)
 
     # 1. Determine where to mount static files
     actual_static_url = static_url
@@ -427,6 +464,7 @@ def add_bootstrap(
         font_weights=font_weights,
         include_js=include_js,
         include_favicon=use_cdn and include_favicon and favicon_url is None,
+        include_modern_toast=include_modern_toast,
     )
 
     # 4. Idempotent Header Management
@@ -494,6 +532,7 @@ def add_bootstrap(
                     font_weights=font_weights,
                     include_js=include_js,
                     include_favicon=include_favicon and favicon_url is None,
+                    include_modern_toast=include_modern_toast,
                 )
                 fallback_fs_hdrs = list(fallback_favicon_links) + list(fallback_bootstrap_assets)
                 app.hdrs = fallback_fs_hdrs + filtered_hdrs

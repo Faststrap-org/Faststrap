@@ -173,7 +173,7 @@ def test_simple_toast_custom_duration():
     toast = SimpleToast("Body", duration=3000)
     html = to_xml(toast)
 
-    assert "toastFadeOut 3.0s" in html
+    assert "toastFadeOut 0.5s ease-in-out 3.0s forwards" in html
 
 
 def test_simple_toast_bootstrap_position_alias():

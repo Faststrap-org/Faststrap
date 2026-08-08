@@ -76,10 +76,7 @@ def SimpleToast(
             )
             duration_ms *= 1000
         duration_seconds = duration_ms / 1000
-        style = (
-            f"animation: toastFadeOut {duration_seconds}s ease-in-out "
-            f"{duration_seconds}s forwards;"
-        )
+        style = f"animation: toastFadeOut 0.5s ease-in-out " f"{duration_seconds}s forwards;"
         existing_style = attrs.get("style", "")
         if existing_style:
             attrs["style"] = f"{existing_style}; {style}"

@@ -7,7 +7,7 @@ from typing import Any, Literal
 from fasthtml.common import Div
 from fasthtml.common import Form as FTForm
 
-from ...core._stability import beta
+from ...core._stability import stable
 from ...core.base import merge_classes
 from ...core.registry import register
 from ...utils.attrs import convert_attrs
@@ -18,7 +18,7 @@ CalendarMethod = Literal["get", "post"]
 
 
 @register(category="forms")
-@beta
+@stable
 def CalendarDatePicker(
     name: str = "date",
     *,

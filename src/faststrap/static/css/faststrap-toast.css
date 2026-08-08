@@ -1,0 +1,66 @@
+/* FastStrap ModernToast styles */
+
+/* ── Animations ───────────────────────────────────────────────────────── */
+
+.faststrap-modern-toast {
+  animation: faststrap-modern-toast-enter 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.faststrap-modern-toast-exit {
+  animation: faststrap-modern-toast-exit 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes faststrap-modern-toast-enter {
+  from {
+    opacity: 0;
+    transform: translateX(100%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes faststrap-modern-toast-exit {
+  from {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%) scale(0.96);
+  }
+}
+
+/* ── Style variants ────────────────────────────────────────────────────── */
+
+.faststrap-modern-toast-solid {
+  background: var(--bs-body-bg);
+  border-color: var(--fs-surface-border);
+}
+
+.faststrap-modern-toast-soft {
+  background: var(--fs-surface-muted-bg);
+  border-color: transparent;
+}
+
+.faststrap-modern-toast-glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+[data-bs-theme="dark"] .faststrap-modern-toast-glass {
+  background: rgba(15, 23, 42, 0.72);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Motion safety ─────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .faststrap-modern-toast,
+  .faststrap-modern-toast-exit {
+    animation: none !important;
+  }
+}

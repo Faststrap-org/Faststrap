@@ -613,3 +613,131 @@ def LocationAction(
         onclick=onclick_script,
         **kwargs,
     )
+
+
+def ConfirmPrompt(
+    message: str = "Are you sure?",
+    *,
+    confirm_button_text: str | None = None,
+    cancel_button_text: str | None = None,
+    confirm_button_variant: str = "danger",
+    **kwargs: Any,
+) -> Div:
+    """HTMX-friendly confirmation prompt.
+
+    Returns a hidden confirmation panel that shows when triggered.
+    This is a lightweight alternative to wrapping every button with
+    `hx-confirm` individually.
+
+    Args:
+        message: Confirmation message to display.
+        confirm_button_text: Text for the confirm button. Defaults to the
+            capitalized first word of the message, or "Confirm".
+        cancel_button_text: Text for the cancel button. Defaults to "Cancel".
+        confirm_button_variant: Bootstrap variant for the confirm button.
+        **kwargs: Additional HTML attributes for the container.
+
+    Returns:
+        FastHTML Div element containing the confirmation prompt.
+    """
+    resolved_confirm_text = confirm_button_text or message.split()[0].capitalize() or "Confirm"
+    resolved_cancel_text = cancel_button_text or "Cancel"
+
+    confirm_btn = Button(
+        resolved_confirm_text,
+        variant=confirm_button_variant,  # type: ignore[arg-type]
+        data_bs_dismiss="modal",
+    )
+    cancel_btn = Button(
+        resolved_cancel_text,
+        variant="secondary",  # type: ignore[arg-type]
+        data_bs_dismiss="modal",
+    )
+
+    prompt_id = kwargs.pop("id", "faststrap-confirm-prompt")
+    kwargs["id"] = prompt_id
+
+    return Div(
+        Div(
+            Div(
+                Div(message, cls="modal-body"),
+                Div(
+                    cancel_btn,
+                    confirm_btn,
+                    cls="modal-footer",
+                ),
+                cls="modal-content",
+            ),
+            cls="modal-dialog",
+            role="document",
+        ),
+        cls="modal fade",
+        tabindex="-1",
+        data_bs_backdrop="static",
+        **kwargs,
+    )
+
+
+def SwapOnEvent(
+    *children: Any,
+    event_name: str = "faststrap:swap",
+    target: str = "this",
+    swap: str = "innerHTML",
+    **kwargs: Any,
+) -> Div:
+    """Trigger an HTMX swap from a custom client event.
+
+    Useful for coordinating UI updates from non-HTMX JavaScript code
+    without coupling directly to HTMX internals.
+
+    Args:
+        *children: Initial content to show before the swap.
+        event_name: Custom event name to listen for.
+        target: HTMX swap target selector.
+        swap: HTMX swap strategy (innerHTML, outerHTML, etc.).
+        **kwargs: Additional HTML attributes for the container.
+
+    Returns:
+        FastHTML Div element that swaps on the custom event.
+    """
+    user_cls = kwargs.pop("cls", "")
+    all_classes = merge_classes("faststrap-swap-on-event", user_cls)
+
+    attrs: dict[str, Any] = {
+        "cls": all_classes,
+        "data_fs_swap_event": event_name,
+        "data_fs_swap_target": target,
+        "data_fs_swap": swap,
+    }
+    attrs.update(convert_attrs(kwargs))
+    return Div(*children, **attrs)
+
+
+def Debounce(
+    delay: int = 300,
+    *,
+    trigger: str = "changed",
+    event: str = "input",
+    **kwargs: Any,
+) -> str:
+    """Build a debounced HTMX trigger string.
+
+    Returns a formatted trigger string suitable for use with `hx-trigger`.
+
+    Args:
+        delay: Milliseconds to debounce.
+        trigger: Base HTMX trigger event (e.g. "changed", "keyup").
+        event: Event to listen for (e.g. "input", "keyup").
+        **kwargs: Reserved for future extension.
+
+    Returns:
+        Formatted trigger string like "input changed delay:300ms".
+
+    Examples:
+        >>> Debounce(300)
+        'input changed delay:300ms'
+
+        >>> Debounce(500, trigger="keyup", event="keyup")
+        'keyup changed delay:500ms'
+    """
+    return f"{event} {trigger} delay:{delay}ms"

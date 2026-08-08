@@ -8,7 +8,7 @@ from fasthtml.common import Div, Span
 from fasthtml.common import Form as FTForm
 from fasthtml.common import Input as FTInput
 
-from ...core._stability import beta
+from ...core._stability import stable
 from ...core.base import merge_classes
 from ...core.registry import register
 from ...utils.attrs import convert_attrs
@@ -18,7 +18,7 @@ InlineEditorMethod = Literal["get", "post", "put", "patch"]
 
 
 @register(category="forms")
-@beta
+@stable
 def InlineEditor(
     name: str,
     value: str = "",

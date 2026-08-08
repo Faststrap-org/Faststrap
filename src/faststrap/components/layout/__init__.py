@@ -7,6 +7,7 @@ from .hero import Hero
 from .page_header import PageHeader
 from .parallax import ParallaxSection
 from .primitives import Center, Cluster, Stack
+from .section_header import SectionHeader
 from .separator import Separator
 
 __all__ = [
@@ -20,6 +21,7 @@ __all__ = [
     "PageHeader",
     "ParallaxSection",
     "Row",
+    "SectionHeader",
     "Separator",
     "Stack",
 ]

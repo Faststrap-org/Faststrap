@@ -112,6 +112,73 @@ def add_item():
 | `duration` (`SimpleToast`) | `int` | CSS animation delay | Duration in milliseconds before fade out. |
 | `position` | `str` | - | Location: `top-end`, `bottom-start`, etc. |
 
+!!! note "JavaScript Requirement"
+    The `Toast` component requires Bootstrap's JavaScript plugin. FastStrap automatically initializes Bootstrap Toasts via `faststrap-init.js` when `add_bootstrap(app, components=[Toast, ...])` is called, or when JS is always included.
+
+::: faststrap.components.feedback.toast.SimpleToast
+    options:
+        show_source: true
+        heading_level: 4
+
+::: faststrap.components.feedback.toast.Toast
+    options:
+        show_source: true
+        heading_level: 4
+
+::: faststrap.components.feedback.toast.ToastContainer
+    options:
+        show_source: true
+        heading_level: 4>
+```python
+Toast(
+    "Your message has been sent.",
+    title="Messenger",
+    cls="shadow-sm",
+    delay=5000
+)
+```
+  </div>
+</div>
+
+### 3. Toast Container
+Toasts are often grouped. FastStrap handles the `ToastContainer` logic to ensure they stack correctly in the corner of the screen.
+
+```python
+from faststrap import ToastContainer, add_bootstrap
+
+# 1. Add container to your main layout
+app_layout = [
+    MainView(),
+    ToastContainer(position="bottom-end") # Global container
+]
+```
+
+---
+
+## Practical Functionality
+
+### 1. Triggering Toasts via HTMX
+The most common implementation is to return a Toast as part of an HTMX response (using `hx-swap="beforeend"` targetting the Toast Container).
+
+```python
+@app.route("/add_item")
+def add_item():
+    # ... logic ...
+    return SimpleToast("Item Added", variant="success") # Appends to existing list
+```
+
+---
+
+## Parameter Reference
+
+| FastStrap Param | Type | Bootstrap Attribute | Description |
+| :--- | :--- | :--- | :--- |
+| `title` | `Any` | `.toast-header` | Optional header element/text. |
+| `autohide` | `bool` | `data-bs-autohide` | If `True`, closes automatically. |
+| `delay` | `int` | `data-bs-delay` | Duration in milliseconds before closing. |
+| `duration` (`SimpleToast`) | `int` | CSS animation delay | Duration in milliseconds before fade out. |
+| `position` | `str` | - | Location: `top-end`, `bottom-start`, etc. |
+
 ::: faststrap.components.feedback.toast.SimpleToast
     options:
         show_source: true

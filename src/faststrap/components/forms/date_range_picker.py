@@ -7,7 +7,7 @@ from typing import Any
 from fasthtml.common import Div
 from fasthtml.common import Form as FTForm
 
-from ...core._stability import beta
+from ...core._stability import stable
 from ...core.base import merge_classes
 from ...core.registry import register
 from ...core.theme import resolve_defaults
@@ -17,7 +17,7 @@ from .input import Input
 
 
 @register(category="forms")
-@beta
+@stable
 def DateRangePicker(
     *,
     start_name: str = "start_date",

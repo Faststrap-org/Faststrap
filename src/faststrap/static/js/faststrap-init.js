@@ -17,6 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Popovers
         scope.querySelectorAll('[data-bs-toggle="popover"]')
              .forEach(el => new bootstrap.Popover(el));
+        // Toasts
+        scope.querySelectorAll('.toast').forEach(el => {
+            if (el.dataset.fsToastInit === 'true') return;
+            el.dataset.fsToastInit = 'true';
+            const delay = parseInt(el.dataset.bsDelay || '5000', 10);
+            new bootstrap.Toast(el, { delay }).show();
+        });
     };
 
     const initToggleGroups = (scope) => {
@@ -495,6 +502,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Tag remove animation
+    const initTags = (scope) => {
+        scope.querySelectorAll('[data-fs-tag="true"]').forEach(tag => {
+            if (tag.dataset.fsTagInit === 'true') return;
+            tag.dataset.fsTagInit = 'true';
+
+            const removeBtn = tag.querySelector('.btn-close');
+            if (!removeBtn) return;
+
+            removeBtn.addEventListener('click', () => {
+                if (tag.dataset.fsTagRemoving === 'true') return;
+                tag.dataset.fsTagRemoving = 'true';
+                tag.classList.add('faststrap-tag-exit');
+                tag.addEventListener('animationend', () => {
+                    if (document.body.contains(tag)) tag.remove();
+                }, { once: true });
+            });
+        });
+    };
+
+    // SwapOnEvent: trigger HTMX swap from custom client events
+    const initSwapOnEvent = (scope) => {
+        scope.querySelectorAll('[data-fs-swap-event]').forEach(el => {
+            if (el.dataset.fsSwapInit === 'true') return;
+            el.dataset.fsSwapInit = 'true';
+
+            const eventName = el.dataset.fsSwapEvent;
+            const target = el.dataset.fsSwapTarget || 'this';
+            const swap = el.dataset.fsSwap || 'innerHTML';
+
+            el.addEventListener(eventName, () => {
+                if (!window.htmx) return;
+                htmx.ajax('GET', el.dataset.fsSwapEndpoint || window.location.href, {
+                    target,
+                    swap,
+                });
+            });
+        });
+    };
+
     // Initialize all modules on DOMContentLoaded
     initBS(document);
     initToggleGroups(document);
@@ -506,6 +553,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initSseTargets(document);
     initMermaid(document);
     initOtpGroups(document);
+    initTags(document);
+    initSwapOnEvent(document);
 
     // HTMX support: Re-initialize on content swap
     document.body.addEventListener('htmx:afterSwap', (evt) => {
@@ -519,5 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initSseTargets(evt.detail.elt);
         initMermaid(evt.detail.elt);
         initOtpGroups(evt.detail.elt);
+        initTags(evt.detail.elt);
+        initSwapOnEvent(evt.detail.elt);
     });
 });

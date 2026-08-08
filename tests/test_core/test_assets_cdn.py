@@ -26,8 +26,9 @@ def test_build_cdn_assets_includes_expected_files_in_order():
     assert "/css/faststrap-fx.css" in rendered[2]
     assert "/css/faststrap-layouts.css" in rendered[3]
     assert "/css/faststrap-visual.css" in rendered[4]
-    assert BOOTSTRAP_JS_URL in rendered[5]
-    assert "/favicon.svg" in rendered[6]
+    assert "/css/faststrap-toast.css" in rendered[5]
+    assert BOOTSTRAP_JS_URL in rendered[6]
+    assert "/favicon.svg" in rendered[7]
 
 
 def test_build_cdn_assets_excludes_js_when_disabled():
@@ -55,6 +56,7 @@ def test_get_assets_cdn_includes_faststrap_css():
     assert "/css/faststrap-fx.css" in rendered
     assert "/css/faststrap-layouts.css" in rendered
     assert "/css/faststrap-visual.css" in rendered
+    assert "/css/faststrap-toast.css" in rendered
 
 
 def test_get_assets_includes_static_faststrap_init_script():

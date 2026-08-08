@@ -335,3 +335,14 @@
         transform: none !important;
     }
 }
+
+/* Tag remove animation */
+@keyframes faststrap-tag-exit {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.8); }
+}
+
+.faststrap-tag-exit {
+  animation: faststrap-tag-exit 0.2s ease-in forwards;
+  pointer-events: none;
+}

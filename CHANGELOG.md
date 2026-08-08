@@ -17,6 +17,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Expanded the upgrade guide with a v0.5.x to v0.8.x migration path and clarified
   optional `faststrap[markdown]` installation guidance.
 
+### Fixed
+
+- Fixed `SimpleToast` animation timing so the visible duration matches the `duration`
+  parameter instead of lasting twice as long.
+- Fixed native `Toast` component by adding Bootstrap Toast initialization to
+  `faststrap-init.js`, so `data-bs-autohide`, `data-bs-delay`, and dismiss controls
+  now work as expected.
+- Fixed `ModernToast` to use `data-fs-dismiss` instead of inline `onclick`, and
+  centralized dismiss behavior in a new `modern-toast.js` runtime.
+
+### Added
+
+- `Separator` — semantic divider component with horizontal/vertical orientation,
+  optional label, and configurable thickness/spacing.
+- `Kbd` — styled keyboard key indicator for documenting shortcuts and hotkeys.
+- `OTPInput` — CSS-only single-field OTP input (zero-JS) using `maxlength`,
+  `inputmode="numeric"`, and CSS letter-spacing for visual digit separation.
+- `OTPInputGroup` — multi-field OTP input with auto-advance between digit boxes.
+  Uses 1 line of JavaScript via Faststrap INIT_SCRIPT for focus management.
+- `AspectRatio` — responsive aspect ratio container using CSS `aspect-ratio`.
+- `Tag` — interactive tag/chip component with optional remove button and icon support.
+  Distinct from `Badge` (which is purely informational).
+- `ModernToast` JS runtime with auto-dismiss, keyboard dismiss, pause-on-hover,
+  swipe-to-dismiss, and centralized dismiss handling.
+- Modernized `ModernToast` types with `ToastIntent`, `ToastPlacement`, `ToastAction`,
+  `ToastAnimation`, and `ToastCloseReason`, while preserving backward compatibility
+  for `variant`, `position`, and `style` via deprecation warnings.
+
 ## [0.8.1] - 2026-07-15
 
 ### Fixed

@@ -62,6 +62,7 @@ def Tag(
 
     attrs: dict[str, Any] = {
         "cls": merge_classes(" ".join(classes), user_cls),
+        "data_fs_tag": "true",
     }
     attrs.update(convert_attrs(kwargs))
 

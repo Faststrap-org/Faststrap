@@ -169,6 +169,7 @@ from .components.layout import (
     PageHeader,
     ParallaxSection,
     Row,
+    SectionHeader,
     Separator,
     Stack,
 )
@@ -446,6 +447,7 @@ __all__ = [
     "Hero",
     "PageHeader",
     "ParallaxSection",
+    "SectionHeader",
     "Stack",
     # Navigation
     "Accordion",
