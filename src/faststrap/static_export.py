@@ -6,7 +6,7 @@ import re
 import shutil
 from pathlib import Path
 from typing import Any
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urlparse
 
 from starlette.testclient import TestClient
 
@@ -18,7 +18,6 @@ def _collect_static_files(app: Any, static_url: str = "/static") -> dict[str, Pa
     # Faststrap package static files
     try:
         from importlib.resources import as_file, files
-        from faststrap import static as faststrap_static_pkg
 
         static_traversable = files("faststrap").joinpath("static")
         with as_file(static_traversable) as static_path:
@@ -146,7 +145,7 @@ def export_static(
     for url, source in static_files.items():
         if not include_js and url.endswith(".js"):
             continue
-        rel = url[len(static_url):]
+        rel = url[len(static_url) :]
         dest = assets_dir / rel.lstrip("/")
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, dest)
@@ -156,7 +155,7 @@ def export_static(
     client = TestClient(app)
 
     pages = 0
-    for path, route in routes_to_export:
+    for path, _route in routes_to_export:
         response = client.get(path, follow_redirects=True)
         if response.status_code >= 400:
             continue
