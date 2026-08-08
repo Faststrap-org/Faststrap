@@ -69,12 +69,12 @@ def _rewrite_urls(html: str, base_path: str, static_url: str = "/static") -> str
             new_url = f"{rel_depth}{url.lstrip('/')}"
             return f'{attr}="{new_url}"'
         if url.startswith("http://") or url.startswith("https://"):
-            return match.group(0)
+            return str(match.group(0))
         if url.startswith("/") and not url.startswith("//"):
             rel_depth = "../" * depth if depth > 0 else "./"
             new_url = f"{rel_depth}{url.lstrip('/')}"
             return f'{attr}="{new_url}"'
-        return match.group(0)
+        return str(match.group(0))
 
     html = re.sub(r'(href|src)="(/[^"]+)"', _rewrite_attr, html)
     return html
@@ -87,6 +87,7 @@ def _get_route_path(route: Any) -> tuple[str, str]:
         Tuple of (path, methods_string)
     """
     path = getattr(route, "path", None) or getattr(route, "path_format", "")
+    path = str(path)
     methods = getattr(route, "methods", None)
     if methods:
         return path, ",".join(sorted(methods))
@@ -101,7 +102,7 @@ def export_static(
     base_url: str = "",
     exclude_paths: list[str] | None = None,
     include_js: bool = True,
-) -> Path:
+) -> tuple[Path, int, int]:
     """Export a FastHTML + Faststrap app as static HTML/CSS/JS files.
 
     Args:
@@ -113,7 +114,7 @@ def export_static(
         include_js: Whether to include JavaScript assets
 
     Returns:
-        Path to the output directory
+        Tuple of (output_dir, pages_exported, assets_copied)
 
     Raises:
         RuntimeError: If no GET routes are found

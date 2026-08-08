@@ -11,6 +11,7 @@ import sys
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 
 @dataclass
@@ -282,7 +283,7 @@ def run_export(
         return 1
 
     try:
-        output_dir, pages, assets_count = export_static(
+        export_dir, pages, assets_count = export_static(
             app,
             output_dir,
             static_url=static_url,
@@ -293,7 +294,7 @@ def run_export(
         print(f"Export failed: {exc}", file=sys.stderr)
         return 1
 
-    print(f"Exported {pages} pages and {assets_count} assets to {output_dir}")
+    print(f"Exported {pages} pages and {assets_count} assets to {export_dir}")
     return 0
 
 
