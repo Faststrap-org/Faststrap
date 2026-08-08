@@ -99,8 +99,3 @@ ModernToast(
     options:
         show_source: true
         heading_level: 3
-
-::: faststrap.components.feedback.modern_toast.ModernToastStack
-    options:
-        show_source: true
-        heading_level: 3
