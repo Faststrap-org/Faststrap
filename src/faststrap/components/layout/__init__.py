@@ -9,6 +9,8 @@ from .parallax import ParallaxSection
 from .primitives import Center, Cluster, Stack
 from .section_header import SectionHeader
 from .separator import Separator
+from .split_pane import SplitPane
+from .switcher import Switcher
 
 __all__ = [
     "AspectRatio",
@@ -24,4 +26,6 @@ __all__ = [
     "SectionHeader",
     "Separator",
     "Stack",
+    "Switcher",
+    "SplitPane",
 ]

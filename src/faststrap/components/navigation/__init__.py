@@ -10,7 +10,9 @@ from .glass_navbar import GlassNavbar, GlassNavItem
 from .listgroup import Collapse, ListGroup, ListGroupItem
 from .navbar import Navbar
 from .pagination import Pagination
+from .profile_dropdown import ProfileDropdown
 from .scrollspy import Scrollspy
+from .search_bar import SearchBar
 from .sidebar_navbar import SidebarNavbar, SidebarNavItem
 from .tabs import TabPane, Tabs
 
@@ -34,6 +36,8 @@ __all__ = [
     "Navbar",
     "Pagination",
     "Scrollspy",
+    "SearchBar",
+    "ProfileDropdown",
     "SidebarNavbar",
     "SidebarNavItem",
     "TabPane",

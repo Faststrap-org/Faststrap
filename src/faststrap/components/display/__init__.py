@@ -5,6 +5,7 @@ from .badge import Badge
 from .card import Card
 from .carousel import Carousel, CarouselItem
 from .chart import Chart
+from .data_card import DataCard
 from .data_table import (
     DataTable,
     datatable_export_params,
@@ -13,10 +14,12 @@ from .data_table import (
 )
 from .empty_state import EmptyState
 from .figure import Figure
+from .file_preview import FilePreview
 from .image import Image
 from .kbd import Kbd
 from .map_view import MapView
 from .markdown import Markdown, render_markdown
+from .math import Math
 from .mermaid import Mermaid
 from .result_card import ResultCard
 from .sheet import Sheet
@@ -46,8 +49,10 @@ __all__ = [
     "datatable_export_params",
     "datatable_page_url",
     "datatable_query_params",
+    "DataCard",
     "EmptyState",
     "Figure",
+    "FilePreview",
     "FlipCard",
     "GlowCard",
     "Image",
@@ -57,6 +62,7 @@ __all__ = [
     "MapView",
     "Markdown",
     "render_markdown",
+    "Math",
     "Mermaid",
     "ResultCard",
     "RecordDetail",

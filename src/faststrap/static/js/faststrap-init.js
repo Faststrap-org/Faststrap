@@ -3,10 +3,11 @@
  *
  * Initializes Bootstrap Tooltips/Popovers, ToggleGroups, TextClamp,
  * FocusTraps, SearchableSelect, DateRangePresets, InfiniteScroll,
- * SSETargets, Mermaid diagrams, and OTP groups.
+ * SSETargets, Mermaid diagrams, OTP groups, Tags, SwapOnEvent,
+ * and KaTeX math rendering.
  *
  * Re-runs on htmx:afterSwap for dynamic content.
- * Minified version available in faststrap-init.min.js
+ * Minified version available in faststrap-init.min.js.
  */
 document.addEventListener('DOMContentLoaded', () => {
     const initBS = (scope) => {
@@ -542,6 +543,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // KaTeX math auto-rendering for .faststrap-math elements
+    const initMath = (scope) => {
+        if (typeof renderMathInElement !== 'function') return;
+
+        scope.querySelectorAll('.faststrap-math').forEach(el => {
+            if (el.dataset.fsMathInit === 'true') return;
+            el.dataset.fsMathInit = 'true';
+
+            const throwOnError = el.dataset.fsMathThrowOnError === 'true';
+
+            try {
+                renderMathInElement(el, {
+                    throwOnError,
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '\\(', right: '\\)', display: false},
+                    ],
+                });
+            } catch (e) {
+                // KaTeX will render the source as fallback text on error
+            }
+        });
+    };
+
     // Initialize all modules on DOMContentLoaded
     initBS(document);
     initToggleGroups(document);
@@ -555,6 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initOtpGroups(document);
     initTags(document);
     initSwapOnEvent(document);
+    initMath(document);
 
     // HTMX support: Re-initialize on content swap
     document.body.addEventListener('htmx:afterSwap', (evt) => {
@@ -570,5 +596,6 @@ document.addEventListener('DOMContentLoaded', () => {
         initOtpGroups(evt.detail.elt);
         initTags(evt.detail.elt);
         initSwapOnEvent(evt.detail.elt);
+        initMath(evt.detail.elt);
     });
 });
