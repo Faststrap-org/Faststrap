@@ -1014,14 +1014,15 @@ def new_tx_sheet() -> Any:
                 InputGroup(
                     InputGroupText("$"),
                     Input(
-                        type="number",
+                        "amount",
+                        input_type="number",
                         placeholder="0.00",
                         cls="form-control form-control-lg fw-bold",
                         step="0.01",
                     ),
                     cls="mb-3",
                 ),
-                Input(type="text", placeholder="Merchant or description", cls="form-control mb-3"),
+                Input("description", input_type="text", placeholder="Merchant or description", cls="form-control mb-3"),
                 Select(
                     Option("Groceries"),
                     Option("Dining"),
@@ -1033,7 +1034,7 @@ def new_tx_sheet() -> Any:
                     Option("Shopping"),
                     cls="form-select mb-3",
                 ),
-                Input(type="date", cls="form-control mb-4"),
+                Input("tx_date", input_type="date", cls="form-control mb-4"),
                 Row(
                     Col(
                         Button(
@@ -1192,7 +1193,8 @@ def send_page(req) -> Any:
                 InputGroup(
                     InputGroupText("$"),
                     Input(
-                        type="number",
+                        "send_amount",
+                        input_type="number",
                         placeholder="0.00",
                         cls="form-control form-control-lg fw-bold fs-2",
                         style="border-radius:0 14px 14px 0;",

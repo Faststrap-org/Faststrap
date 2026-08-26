@@ -1,73 +1,92 @@
 # Live Validation
 
-`LiveValidationField` and `ValidationMessage` help you build HTMX-powered form validation without writing custom JavaScript.
+The `LiveValidationField` and `ValidationMessage` components wire inputs for HTMX live validation and render validation feedback.
 
 ## Quick Start
 
 ```python
-from faststrap import Input, LiveValidationField
-
 LiveValidationField(
-    Input(name="email", placeholder="you@example.com"),
+    Input("email", input_type="email"),
     validate_url="/validate/email",
-    label="Email",
-    help_text="We will validate this when the field changes.",
+    label="Email Address",
 )
 ```
 
-The input receives HTMX attributes and the server endpoint should return a replacement fragment compatible with the configured target and swap behavior.
+## Usage Scenarios
 
-## Returning A Validation Message
+### With Validation Endpoint
 
 ```python
-from faststrap import ValidationMessage
-
-
-@app.post("/validate/email")
-def validate_email(email: str):
-    if "@" not in email:
-        return ValidationMessage("Enter a valid email address.", state="invalid")
-    return ValidationMessage("Looks good.", state="valid")
+LiveValidationField(
+    Input("username", value=""),
+    validate_url="/validate/username",
+    label="Username",
+    help_text="Must be unique",
+)
 ```
 
-## Parameters
+### Validation Message Fragment
 
-### `LiveValidationField`
+```python
+ValidationMessage("Username is available", state="valid")
+ValidationMessage("Username is taken", state="invalid")
+```
 
-| Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `input_element` | `Any` | required | Input component or FastHTML element to augment with HTMX attributes. |
-| `validate_url` | `str` | required | Endpoint called for validation. |
-| `label` | `str \| None` | `None` | Optional form label. |
-| `help_text` | `str \| None` | `None` | Helper text shown under the input. |
-| `error` | `str \| None` | `None` | Error text for invalid state. |
-| `success` | `str \| None` | `None` | Success text for valid state. |
-| `is_invalid` | `bool` | `False` | Marks the field invalid. |
-| `is_valid` | `bool` | `False` | Marks the field valid. |
-| `required` | `bool` | `False` | Marks the label/input as required. |
-| `method` | `"get" \| "post"` | `"post"` | HTTP method for validation request. |
-| `trigger` | `str` | `"blur changed delay:300ms"` | HTMX trigger string. |
-| `target` | `str` | `"closest .mb-3"` | HTMX target for the response. |
-| `swap` | `str` | `"outerHTML"` | HTMX swap strategy. |
-| `indicator` | `str \| None` | `None` | Optional HTMX loading indicator selector. |
-| `**kwargs` | `Any` | | Extra `FormGroup` attributes. |
+### With Indicator
 
-### `ValidationMessage`
+```python
+LiveValidationField(
+    Input("promo_code"),
+    validate_url="/validate/promo",
+    label="Promo Code",
+    indicator="#spinner",
+)
+```
+
+## Parameter Reference
+
+### LiveValidationField
 
 | Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
-| `message` | `str \| None` | required | Message to render. Returns `None` when empty. |
-| `state` | `"invalid" \| "valid" \| "neutral"` | `"invalid"` | Bootstrap feedback style. |
-| `**kwargs` | `Any` | | Extra HTML attributes. |
+| :--- | :--- | :--- | :--- |
+| `input_element` | `Any` | Required | Input, Select, or Textarea component |
+| `validate_url` | `str` | Required | Validation endpoint URL |
+| `label` | `str \| None` | `None` | Label text |
+| `help_text` | `str \| None` | `None` | Help text below input |
+| `error` | `str \| None` | `None` | Error message |
+| `success` | `str \| None` | `None` | Success message |
+| `is_invalid` | `bool` | `False` | Whether to show invalid state |
+| `is_valid` | `bool` | `False` | Whether to show valid state |
+| `required` | `bool` | `False` | Mark as required |
+| `method` | `"get" \| "post"` | `"post"` | Validation request method |
+| `trigger` | `str` | `"blur changed delay:300ms"` | HTMX trigger |
+| `target` | `str` | `"closest .mb-3"` | HTMX target |
+| `swap` | `str` | `"outerHTML"` | HTMX swap style |
+| `indicator` | `str \| None` | `None` | HTMX indicator selector |
+| `**kwargs` | `Any` | - | Additional HTML attributes |
 
-## Notes
+### ValidationMessage
 
-- `LiveValidationField` mutates the provided input element when it exposes an `attrs` mapping.
-- The default target replaces the nearest `.mb-3`, which matches Faststrap's `FormGroup` wrapper.
-- Return a full field wrapper when using `swap="outerHTML"`, or return only a message when you target a feedback container.
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `message` | `str \| None` | Required | Message to display |
+| `state` | `"invalid" \| "valid" \| "neutral"` | `"invalid"` | Validation state |
+| `**kwargs` | `Any` | - | Additional HTML attributes |
+
+## Accessibility
+
+- Validation messages use semantic `invalid-feedback` and `valid-feedback` classes.
+- Inputs retain their native `aria` attributes.
+- Help text is preserved via `aria-describedby`.
 
 ## API Reference
 
 ::: faststrap.components.forms.errors.LiveValidationField
+    options:
+        show_source: true
+        heading_level: 4
 
 ::: faststrap.components.forms.errors.ValidationMessage
+    options:
+        show_source: true
+        heading_level: 4

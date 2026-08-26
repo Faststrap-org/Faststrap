@@ -922,8 +922,8 @@ def home() -> Any:
                                         ),
                                         FormGroup(
                                             Input(
-                                                name="support_email",
-                                                type="email",
+                                                "support_email",
+                                                input_type="email",
                                                 value="support@nexus.io",
                                             ),
                                             label="Support Email",

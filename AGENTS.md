@@ -62,12 +62,16 @@ from faststrap import (
     SkipLink, LiveRegion, VisuallyHidden, FocusTrap,
     # SEO
     SEO, PageMeta, StructuredData,
-    # HTMX Presets
-    ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton,
     # Theme
     ThemeToggle,
     # PWA
     add_pwa, PwaMeta,
+)
+from faststrap.presets import (
+    # HTMX Presets & Responses
+    ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton,
+    OptimisticAction, ConfirmPrompt, require_auth, toast_response,
+    hx_redirect, hx_refresh, SSEStream,
 )
 ```
 
@@ -289,7 +293,7 @@ User feedback is non-negotiable. Every action that mutates state must show loadi
 Use `LoadingButton` for HTMX form submissions:
 
 ```python
-from faststrap import LoadingButton
+from faststrap.presets import LoadingButton
 
 LoadingButton(
     "Save",

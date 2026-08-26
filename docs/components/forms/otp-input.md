@@ -1,166 +1,64 @@
-# OTPInput
+# OTP Input
 
-`OTPInput` and `OTPInputGroup` render one-time password (OTP) / PIN input fields for verification flows like two-factor authentication and password resets.
-
-- `OTPInput` is a **CSS-only** single-field input with visual digit separation. It requires zero JavaScript.
-- `OTPInputGroup` is a multi-field group with **auto-advance** between digit boxes, powered by a small JavaScript initializer.
-
-!!! tip "Bootstrap Reference"
-    [Bootstrap 5 Forms](https://getbootstrap.com/docs/5.3/forms/overview/)
-
----
+The `OTPInput` components provide one-time password / PIN input fields with CSS-only and multi-field variants.
 
 ## Quick Start
 
-### CSS-Only Single Field
-
-```python
-from faststrap import OTPInput
-
-OTPInput(length=6, name="otp")
-```
-
-### Multi-Field with Auto-Advance
-
-```python
-from faststrap import OTPInputGroup
-
-OTPInputGroup(length=6, name="otp")
-```
-
----
-
-## Visual Examples & Use Cases
-
-### 1. CSS-Only OTPInput
-
-<div class="component-preview">
-  <div class="preview-header">Live Preview</div>
-  <div class="preview-render">
-    <div class="form-control text-center letter-spaced-otp" style="letter-spacing: 0.5em; font-family: monospace; max-width: 13.2em; text-align: center;">
-      • • • • • •
-    </div>
-  </div>
-  <div class="preview-code" markdown>
 ```python
 OTPInput(length=6, name="otp")
 ```
-  </div>
-</div>
 
-### 2. OTPInputGroup (Auto-Advance)
+## Usage Scenarios
 
-<div class="component-preview">
-  <div class="preview-header">Live Preview</div>
-  <div class="preview-render">
-    <div class="d-flex gap-2" data-fs-otp-group="true">
-      <input type="text" inputmode="numeric" maxlength="1" class="form-control text-center otp-digit-input" style="width: 3rem;">
-      <input type="text" inputmode="numeric" maxlength="1" class="form-control text-center otp-digit-input" style="width: 3rem;">
-      <input type="text" inputmode="numeric" maxlength="1" class="form-control text-center otp-digit-input" style="width: 3rem;">
-      <input type="text" inputmode="numeric" maxlength="1" class="form-control text-center otp-digit-input" style="width: 3rem;">
-      <input type="text" inputmode="numeric" maxlength="1" class="form-control text-center otp-digit-input" style="width: 3rem;">
-      <input type="text" inputmode="numeric" maxlength="1" class="form-control text-center otp-digit-input" style="width: 3rem;">
-    </div>
-  </div>
-  <div class="preview-code" markdown>
-```python
-OTPInputGroup(length=6, name="otp")
-```
-  </div>
-</div>
-
-### 3. Size Variants
-
-<div class="component-preview">
-  <div class="preview-header">Live Preview</div>
-  <div class="preview-render">
-    <div class="d-flex gap-2" data-fs-otp-group="true">
-      <input type="text" inputmode="numeric" maxlength="1" class="form-control form-control-sm text-center otp-digit-input" style="width: 2.5rem;">
-      <input type="text" inputmode="numeric" maxlength="1" class="form-control form-control-sm text-center otp-digit-input" style="width: 2.5rem;">
-      <input type="text" inputmode="numeric" maxlength="1" class="form-control form-control-sm text-center otp-digit-input" style="width: 2.5rem;">
-    </div>
-  </div>
-  <div class="preview-code" markdown>
-```python
-OTPInputGroup(length=3, size="sm", name="otp")
-```
-  </div>
-</div>
-
----
-
-## Practical Functionality
-
-### 1. Inside a Form
+### Single-Field CSS-Only OTP
 
 ```python
-from faststrap import Form, FormGroup, OTPInput, Button
-
-Form(
-    FormGroup("Verification Code", OTPInput(length=6, name="otp")),
-    Button("Verify", type="submit", variant="primary"),
-    method="post",
-    action="/verify",
-)
+OTPInput(length=6, name="otp", variant="primary", size="md", placeholder="•")
 ```
 
-### 2. With HTMX Verification
+### Multi-Field Auto-Advance OTP
 
 ```python
-from faststrap import Form, FormGroup, OTPInputGroup, Button
-
-Form(
-    FormGroup("Code", OTPInputGroup(length=6, name="otp")),
-    Button("Verify", type="submit", variant="primary",
-           hx_post="/verify-otp",
-           hx_target="#result",
-           hx_swap="innerHTML"),
-    method="post",
-    action="/verify-otp",
-)
+OTPInputGroup(length=6, name="otp", variant="primary", size="md", gap=2, autofocus=True)
 ```
 
-### 3. Custom Placeholder Character
+### Custom Variant and Size
 
 ```python
-OTPInput(length=4, name="pin", placeholder="-")
-# Shows: - - - -
+OTPInput(length=4, name="pin", variant="success", size="lg")
+OTPInputGroup(length=8, name="pin", variant="danger", size="sm", gap=1)
 ```
-
----
 
 ## Parameter Reference
 
-### `OTPInput`
+### OTPInput
 
 | Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `length` | `int` | `6` | Number of digits expected. |
-| `name` | `str` | `"otp"` | Form field name for the concatenated value. |
-| `variant` | `VariantType` | `"primary"` | Bootstrap color variant for focus styling. |
-| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Input size. |
-| `placeholder` | `str` | `"•"` | Character shown in each position. |
-| `**kwargs` | `Any` | `{}` | Additional HTML attributes. |
+| :--- | :--- | :--- | :--- |
+| `length` | `int` | `6` | Number of digits expected |
+| `name` | `str` | `"otp"` | Form field name for the concatenated value |
+| `variant` | `str` | `"primary"` | Bootstrap color variant for focus styling |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Input size |
+| `placeholder` | `str` | `"•"` | Character to show in each position |
+| `**kwargs` | `Any` | - | Additional HTML attributes |
 
-### `OTPInputGroup`
+### OTPInputGroup
 
 | Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `length` | `int` | `6` | Number of digit boxes. |
-| `name` | `str` | `"otp"` | Form field name prefix. |
-| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Input size. |
-| `variant` | `VariantType` | `"primary"` | Bootstrap color variant. |
-| `**kwargs` | `Any` | `{}` | Additional HTML attributes. |
-
----
+| :--- | :--- | :--- | :--- |
+| `length` | `int` | `6` | Number of digit boxes |
+| `name` | `str` | `"otp"` | Form field name for the concatenated value |
+| `variant` | `str` | `"primary"` | Bootstrap color variant for focus styling |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Input size |
+| `gap` | `int` | `2` | Gap between boxes in Bootstrap spacing units |
+| `autofocus` | `bool` | `True` | Auto-focus the first input on render |
+| `**kwargs` | `Any` | - | Additional HTML attributes |
 
 ## Accessibility
 
-- Uses `inputmode="numeric"` for mobile numeric keyboards.
-- Uses `autocomplete="one-time-code"` for SMS autofill on iOS/Android.
-- `OTPInputGroup` requires JavaScript for auto-advance; the `OTPInput` variant works without JS.
-
----
+- Single-field OTP uses `aria-label` with the expected digit count.
+- Multi-field OTP uses `aria-label` per digit (e.g., "Digit 1 of 6").
+- `autocomplete="one-time-code"` is set for browser OTP autofill support.
 
 ## API Reference
 

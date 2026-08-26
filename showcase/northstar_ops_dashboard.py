@@ -23,11 +23,13 @@ from fasthtml.common import (
     Div,
     FastHTML,
     Input,
+    Li,
     P,
     Small,
     Span,
     Strong,
     Style,
+    Ul,
     serve,
 )
 from starlette.responses import Response
@@ -50,6 +52,7 @@ from faststrap import (
     NotificationCenter,
     RangeSlider,
     Row,
+    SearchBar,
     Select,
     ThemeToggle,
     TrendCard,
@@ -947,11 +950,11 @@ def hidden_state_inputs(state: dict[str, Any], *, exclude: set[str] | None = Non
     for key, value in mapping.items():
         if key in exclude or value in ("", None):
             continue
-        inputs.append(Input(type="hidden", name=key, value=str(value)))
+        inputs.append(Input(name=key, input_type="hidden", value=str(value)))
 
     if "health" not in exclude:
         for value in state["health"]:
-            inputs.append(Input(type="hidden", name="health", value=value))
+            inputs.append(Input(name="health", input_type="hidden", value=value))
 
     return inputs
 
@@ -1292,6 +1295,18 @@ def home(req) -> Any:
         ),
         Row(
             Col(
+                SearchBar(
+                    placeholder="Search accounts, metrics, or commands...",
+                    endpoint="/api/search",
+                    target="#search-results",
+                    cls="mb-4",
+                ),
+                cols=12,
+            ),
+        ),
+        Div(id="search-results", cls="mb-4"),
+        Row(
+            Col(
                 Card(
                     Div(
                         H3("Filters", cls="h5 mb-1"),
@@ -1330,6 +1345,27 @@ def home(req) -> Any:
         ),
         cls="northstar-app",
         data_bs_theme=theme,
+    )
+
+
+@app.get("/api/search")
+def search(q: str = ""):
+    suggestions = [
+        "Accounts overview",
+        "Revenue metrics",
+        "Risk analysis",
+        "Team performance",
+        "Export CSV",
+        "Date range filter",
+    ]
+    if not q:
+        return P("Type to search...", cls="text-muted mb-0")
+    filtered = [s for s in suggestions if q.lower() in s.lower()]
+    if not filtered:
+        return P(f"No results for '{q}'", cls="text-muted mb-0")
+    return Ul(
+        *[Li(A(s, href="#", cls="text-decoration-none")) for s in filtered],
+        cls="list-unstyled mb-0",
     )
 
 

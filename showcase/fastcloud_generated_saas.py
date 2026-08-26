@@ -683,4 +683,4 @@ def home(req):
 
 
 if __name__ == "__main__":
-    serve()
+    serve(port=5006)

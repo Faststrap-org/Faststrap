@@ -1,216 +1,120 @@
-# Grid System
+# Grid
 
-Bootstrap's grid system uses a series of containers, rows, and columns to layout and align content. It's built with flexbox and is fully responsive. FastStrap mirrors this with `Container`, `Row`, and `Col`.
-
-!!! tip "Bootstrap Reference"
-    [Bootstrap 5 Grid System Documentation](https://getbootstrap.com/docs/5.3/layout/grid/)
-
----
+The `Container`, `Row`, and `Col` components implement the Bootstrap 5 responsive grid system.
 
 ## Quick Start
 
-The grid follows a 12-column system.
-
-<div class="component-preview">
-  <div class="preview-header">Live Preview</div>
-  <div class="preview-render">
-    <div class="container text-center border p-3">
-      <div class="row g-2">
-        <div class="col-4 border bg-light py-3">Left (4/12)</div>
-        <div class="col-4 border bg-light py-3">Center (4/12)</div>
-        <div class="col-4 border bg-light py-3">Right (4/12)</div>
-      </div>
-    </div>
-  </div>
-  <div class="preview-code" markdown>
 ```python
 Container(
     Row(
-        Col("Left Column", width=4),
-        Col("Center Column", width=4),
-        Col("Right Column", width=4)
+        Col("Column 1", span=6),
+        Col("Column 2", span=6),
     )
 )
 ```
-  </div>
-</div>
 
-<div class="result" markdown>
-![Screenshot: A three-column layout with equal widths](../../assets/images/grid-basic.png)
-</div>
+## Usage Scenarios
 
----
+### Fixed-Width Container
 
-## Recommended Pattern
+```python
+Container(H1("Welcome"), P("Content"))
+```
 
-Prefer `Row(..., cols=...)` when you want evenly sized cards or repeated items,
-and define the mobile layout first.
+### Fluid Container
+
+```python
+Container(Row(...), fluid=True)
+```
+
+### Fluid Until Breakpoint
+
+```python
+Container(content, fluid="lg")
+```
+
+### Responsive Row
 
 ```python
 Row(
-    Card("Revenue"),
-    Card("Retention"),
-    Card("Pipeline"),
-    cols=1,
-    cols_md=2,
-    cols_lg=3,
-    gutter=3,
+    Col("A", span=12, cols_md=6, cols_lg=4),
+    Col("B", span=12, cols_md=6, cols_lg=4),
+    Col("C", span=12, cols_md=6, cols_lg=4),
 )
 ```
 
-This makes the intended stack explicit:
-
-- mobile: 1 item per row
-- tablet: 2 items per row
-- desktop: 3 items per row
-
-Use custom `cls="row ..."` only when you specifically need raw Bootstrap row
-behavior that is not already covered by `Row()` arguments.
-
----
-
-## Visual Examples & Use Cases
-
-### 1. Responsive Breakpoints
-You can specify different widths for different screen sizes (`sm`, `md`, `lg`, `xl`, `xxl`).
-
-!!! note "Code & Output"
-<div class="component-preview">
-  <div class="preview-header">Live Preview (Responsive)</div>
-  <div class="preview-render">
-    <div class="row w-100 g-2 text-center">
-      <div class="col-12 col-md-6 col-lg-4 border bg-light py-3">Item 1</div>
-      <div class="col-12 col-md-6 col-lg-4 border bg-light py-3">Item 2</div>
-      <div class="col-12 col-md-12 col-lg-4 border bg-light py-3">Item 3</div>
-    </div>
-  </div>
-  <div class="preview-code" markdown>
-```python
-# 1 column on mobile, 2 on tablet, 3 on desktop
-Row(
-    Col("Item 1", width=12, md=6, lg=4),
-    Col("Item 2", width=12, md=6, lg=4),
-    Col("Item 3", width=12, md=12, lg=4)
-)
-```
-  </div>
-</div>
-
-You can also control equal-width card grids at the row level:
+### Column with Offset
 
 ```python
-Row(
-    Card("Item 1"),
-    Card("Item 2"),
-    Card("Item 3"),
-    cols=1,
-    cols_md=2,
-    cols_lg=3,
-)
+Col("Offset by 3", span=6, offset=3)
 ```
 
-### 2. Alignment & Spacing (Gutter)
-Bootstrap's Flexbox utilities are available through the `Row` and `Col` arguments.
-
-!!! note "Code & Output"
-<div class="component-preview">
-  <div class="preview-header">Live Preview (Centered)</div>
-  <div class="preview-render">
-    <div class="row justify-content-center w-100 g-4 text-center">
-      <div class="col-6 border bg-info-subtle py-3">I am centered</div>
-    </div>
-  </div>
-  <div class="preview-code" markdown>
-```python
-# Centered Row with gap (gutter) level 4
-Row(
-    Col("I am centered", width=6),
-    justify="center",
-    gutter=4
-)
-```
-  </div>
-</div>
-
-### 3. Container Fluid
-By default, `Container` has a fixed width that changes at each breakpoint. Use `fluid=True` for a container that is always 100% wide.
+### Responsive Column Sizing
 
 ```python
-Container("Full width content", fluid=True)
+Col("Content", span=12, md=6, lg=4, xl=3)
 ```
-
----
-
-## Practical Functionality
-
-### 1. Auto-width Columns
-If you don't specify a width, `Col` will automatically share the space with other sibling columns.
-
-```python
-Row(
-    Col("Variable width"),
-    Col("Variable width"),
-    Col("Variable width")
-)
-```
-
-### 2. Offsetting Columns
-Move columns to the right using `offset`.
-
-```python
-Row(
-    Col("Centered offset", width=6, offset=3)
-)
-```
-
----
 
 ## Parameter Reference
 
 ### Container
-| Param | Type | Bootstrap Class | Description |
+
+| Parameter | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `fluid` | `bool` | `.container-fluid` | Spans the full width of the viewport. |
+| `*children` | `Any` | Required | Container content |
+| `fluid` | `bool \| str` | `False` | Fluid container type (`True`/`"fluid"` for full-width, `"sm"`/`"md"`/`"lg"`/`"xl"`/`"xxl"` for fluid until breakpoint) |
+| `**kwargs` | `Any` | - | Additional HTML attributes |
 
 ### Row
-| Param | Type | Bootstrap Class | Description |
+
+| Parameter | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `cols` | `int` | `.row-cols-{val}` | Equal columns for the default/mobile layout. |
-| `cols_sm` | `int` | `.row-cols-sm-{val}` | Equal columns from the `sm` breakpoint upward. |
-| `cols_md` | `int` | `.row-cols-md-{val}` | Equal columns from the `md` breakpoint upward. |
-| `cols_lg` | `int` | `.row-cols-lg-{val}` | Equal columns from the `lg` breakpoint upward. |
-| `cols_xl` | `int` | `.row-cols-xl-{val}` | Equal columns from the `xl` breakpoint upward. |
-| `cols_xxl` | `int` | `.row-cols-xxl-{val}` | Equal columns from the `xxl` breakpoint upward. |
-| `gutter` | `int` | `.g-{val}` | Spacing between columns (0-5). |
-| `gx` | `int` | `.gx-{val}` | Horizontal gutter only. |
-| `gy` | `int` | `.gy-{val}` | Vertical gutter only. |
-| `justify` | `str` | `.justify-content-{val}` | Alignment: `start`, `center`, `end`, `around`, `between`. |
-| `align` | `str` | `.align-items-{val}` | Vertical alignment: `start`, `center`, `end`. |
+| `*children` | `Any` | Required | Row content (typically Col components) |
+| `cols` | `int \| None` | `None` | Number of columns for all breakpoints (1-12) |
+| `cols_sm` | `int \| None` | `None` | Columns for small devices (≥576px) |
+| `cols_md` | `int \| None` | `None` | Columns for medium devices (≥768px) |
+| `cols_lg` | `int \| None` | `None` | Columns for large devices (≥992px) |
+| `cols_xl` | `int \| None` | `None` | Columns for extra large devices (≥1200px) |
+| `cols_xxl` | `int \| None` | `None` | Columns for extra extra large devices (≥1400px) |
+| `**kwargs` | `Any` | - | Additional HTML attributes |
 
 ### Col
-| Param | Type | Bootstrap Class | Description |
+
+| Parameter | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `span` | `int \| bool` | `.col` / `.col-{val}` | Auto width when `True`, or a specific mobile/default span (1-12). |
-| `sm` | `int` | `.col-sm-{val}` | Width from the `sm` breakpoint upward. |
-| `md` | `int` | `.col-md-{val}` | Width from the `md` breakpoint upward. |
-| `lg` | `int` | `.col-lg-{val}` | Width from the `lg` breakpoint upward. |
-| `xl` | `int` | `.col-xl-{val}` | Width from the `xl` breakpoint upward. |
-| `xxl` | `int` | `.col-xxl-{val}` | Width from the `xxl` breakpoint upward. |
-| `offset` | `int` | `.offset-{val}` | Prepend empty columns. |
-| `offset_sm` | `int` | `.offset-sm-{val}` | Offset from the `sm` breakpoint upward. |
-| `offset_md` | `int` | `.offset-md-{val}` | Offset from the `md` breakpoint upward. |
-| `offset_lg` | `int` | `.offset-lg-{val}` | Offset from the `lg` breakpoint upward. |
-| `offset_xl` | `int` | `.offset-xl-{val}` | Offset from the `xl` breakpoint upward. |
-| `offset_xxl` | `int` | `.offset-xxl-{val}` | Offset from the `xxl` breakpoint upward. |
+| `*children` | `Any` | Required | Column content |
+| `span` | `int \| bool` | `True` | Column span (1-12) or `True` for auto-width |
+| `sm` | `int \| None` | `None` | Span for small devices (≥576px) |
+| `md` | `int \| None` | `None` | Span for medium devices (≥768px) |
+| `lg` | `int \| None` | `None` | Span for large devices (≥992px) |
+| `xl` | `int \| None` | `None` | Span for extra large devices (≥1200px) |
+| `xxl` | `int \| None` | `None` | Span for extra extra large devices (≥1400px) |
+| `offset` | `int \| None` | `None` | Offset columns (0-11) |
+| `offset_sm` | `int \| None` | `None` | Offset for small devices |
+| `offset_md` | `int \| None` | `None` | Offset for medium devices |
+| `offset_lg` | `int \| None` | `None` | Offset for large devices |
+| `offset_xl` | `int \| None` | `None` | Offset for extra large devices |
+| `offset_xxl` | `int \| None` | `None` | Offset for extra extra large devices |
+| `**kwargs` | `Any` | - | Additional HTML attributes |
+
+## Accessibility
+
+- Grid is purely structural and does not add accessibility barriers.
+- Content within columns maintains proper heading hierarchy.
+
+## API Reference
 
 ::: faststrap.components.layout.grid.Container
     options:
+        show_source: true
         heading_level: 4
 
 ::: faststrap.components.layout.grid.Row
     options:
+        show_source: true
         heading_level: 4
 
 ::: faststrap.components.layout.grid.Col
     options:
+        show_source: true
         heading_level: 4

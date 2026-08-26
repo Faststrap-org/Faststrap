@@ -9,17 +9,24 @@ Alerts provide contextual feedback messages for typical user actions with a hand
 
 ## Quick Start
 
-<div class="component-preview">
-  <div class="preview-header">Live Preview</div>
-  <div class="preview-render">
-    <div class="alert alert-success w-100" role="alert">Your profile has been updated!</div>
-  </div>
-  <div class="preview-code" markdown>
+<iframe
+  src="https://preview.faststrap.dev/embed/Alert?variant=success&text=Your+profile+has+been+updated!"
+  width="100%"
+  height="140"
+  frameborder="0"
+  data-faststrap-preview
+></iframe>
+
+<div class="mb-3 text-end">
+  <a href="https://preview.faststrap.dev/studio/Alert" target="_blank" class="btn btn-sm btn-outline-primary">
+    ⚡ Open in FastStrap Studio →
+  </a>
+</div>
+
 ```python
 Alert("Your profile has been updated!", variant="success")
 ```
-  </div>
-</div>
+
 
 ---
 

@@ -1,6 +1,6 @@
 # Component Index
 
-Faststrap currently registers **152 UI components** across forms, display, feedback, navigation, layout, and patterns. Use this page as a scan-friendly map before reaching for custom HTML.
+Faststrap currently registers **159 UI components** across forms, display, feedback, navigation, layout, and patterns. Use this page as a scan-friendly map before reaching for custom HTML.
 
 !!! tip "Discovery API"
     You can also inspect components programmatically with `list_components()`, `find_components()`, and `list_component_metadata()`. See the [Component Registry](../api/registry.md).
@@ -45,14 +45,18 @@ Faststrap currently registers **152 UI components** across forms, display, feedb
 | `Carousel`, `CarouselItem` | [Carousel](display/carousel.md) | Bootstrap slideshow. |
 | `Chart` | [Chart](display/chart.md) | Matplotlib, Plotly, Altair, SVG/HTML wrapper. |
 | `CodeBlock`, `JsonViewer`, `KeyValueList`, `RecordDetail` | [Structured Display](display/structured-display.md) | Data/dev-app primitives for code, JSON, and records. |
+| `DataCard` | [DataCard](display/data-card.md) | Structured metadata card for models, datasets, and entities. |
 | `DataTable` | [DataTable](display/data-table.md) | Search, sort, pagination, server-side table flows. |
 | `EmptyState` | [Empty State](display/empty_state.md) | Empty data placeholders. |
 | `Figure` | [Figure](display/figure.md) | Images with captions. |
+| `FilePreview` | [FilePreview](display/file-preview.md) | Generic file preview shell with safe fallback. |
 | `FlipCard`, `GlowCard`, `RevealCard`, `TiltCard` | [Visual Cards](display/visual-cards.md) | CSS-only premium visual cards. |
+| `Icon` | [Icon](display/icon.md) | Bootstrap Icons helper. |
 | `Image` | [Image](display/image.md) | Responsive image utilities. |
 | `KPICard` | [KPI Card](display/kpi-card.md) | Multiple metrics in one card. |
 | `MapView` | [MapView](display/map-view.md) | Optional Leaflet map. |
 | `Markdown` | [Markdown](display/markdown.md) | Optional sanitized Markdown rendering. |
+| `Math` | [Math](display/math.md) | KaTeX-based LaTeX math/chemistry rendering. |
 | `Mermaid` | [Mermaid](display/mermaid.md) | Mermaid diagram container. |
 | `MetricCard` | [Metric Card](display/metric-card.md) | Single metric with delta. |
 | `ResultCard` | [Result Card](display/result-card.md) | Success/error/result feedback surface. |
@@ -100,9 +104,12 @@ Faststrap currently registers **152 UI components** across forms, display, feedb
 | `Dropdown`, `DropdownItem`, `DropdownDivider` | [Dropdown](navigation/dropdown.md) | Menus and split buttons. |
 | `GlassNavbar`, `GlassNavItem` | [GlassNavbar](navigation/glass-navbar.md) | Glassmorphism navbar. |
 | `ListGroup`, `ListGroupItem` | [ListGroup](navigation/listgroup.md) | List navigation/content. |
+| `MegaMenu` | [MegaMenu](navigation/mega_menu.md) | Large dropdown navigation panel. |
 | `Navbar` | [Navbar](navigation/navbar.md) | Standard Bootstrap navbar. |
 | `Pagination` | [Pagination](navigation/pagination.md) | Page navigation. |
+| `ProfileDropdown` | [ProfileDropdown](navigation/profile-dropdown.md) | Authenticated user menu. |
 | `Scrollspy` | [Scrollspy](navigation/scrollspy.md) | Scroll-linked nav. |
+| `SearchBar` | [SearchBar](navigation/search-bar.md) | Global search input with HTMX support. |
 | `SidebarNavbar`, `SidebarNavItem` | [SidebarNavbar](navigation/sidebar-navbar.md) | Dashboard sidebar navigation. |
 | `Tabs`, `TabPane` | [Tabs](navigation/tabs.md) | Tabbed interfaces. |
 
@@ -110,12 +117,17 @@ Faststrap currently registers **152 UI components** across forms, display, feedb
 
 | Component | Docs | Notes |
 | --- | --- | --- |
+| `AspectRatio` | [AspectRatio](layout/aspect-ratio.md) | Ratio-constrained container. |
 | `Col`, `Container`, `Row` | [Grid](layout/grid.md) | Bootstrap layout primitives. |
-| `Stack`, `Cluster`, `Center` | [Layout Primitives](layout/primitives.md) | Common flexbox compositions without custom utility strings. |
 | `DashboardGrid` | [DashboardGrid](layout/dashboard-grid.md) | Responsive dashboard grids. |
 | `Hero` | [Hero](layout/hero.md) | Landing hero sections. |
 | `PageHeader` | [PageHeader](layout/page-header.md) | Page title, subtitle, status, and action row. |
 | `ParallaxSection` | [ParallaxSection](layout/parallax-section.md) | CSS-only background image section. |
+| `SectionHeader` | [SectionHeader](layout/section-header.md) | Section title and subtitle. |
+| `Separator` | [Separator](layout/separator.md) | Semantic divider. |
+| `SplitPane` | [SplitPane](layout/split_pane.md) | Resizable two-pane layout. |
+| `Stack`, `Cluster`, `Center` | [Layout Primitives](layout/primitives.md) | Common flexbox compositions without custom utility strings. |
+| `Switcher` | [Switcher](layout/switcher.md) | Responsive side-by-side to stacked layout. |
 | `Feature`, `FeatureGrid` | [Feature Grid](patterns/feature-grid.md) | Feature sections. |
 | `FooterModern` | [Footer Modern](patterns/footer-modern.md) | Marketing footer. |
 | `NavbarModern` | [Navbar Modern](patterns/navbar-modern.md) | Premium navbar pattern. |

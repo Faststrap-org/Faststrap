@@ -760,8 +760,8 @@ def home() -> Any:
                             ),
                             FormGroup(
                                 Input(
-                                    name="email",
-                                    type="email",
+                                    "email",
+                                    input_type="email",
                                     placeholder="your@email.com",
                                     cls="border-0",
                                     style="background:rgba(255,255,255,0.05);color:#fff;",
@@ -900,4 +900,4 @@ def contact() -> Any:
 
 
 if __name__ == "__main__":
-    serve(port=5021)
+    serve(port=5005)

@@ -18,13 +18,16 @@ from typing import Any
 from fasthtml.common import (
     H1,
     H2,
+    H5,
     A,
     Br,
     Button,
     Div,
     FastHTML,
+    Link,
     Nav,
     P,
+    Script,
     Span,
     Strong,
     Style,
@@ -32,11 +35,13 @@ from fasthtml.common import (
 )
 
 from faststrap import (
+    Card,
     Col,
     Container,
     FooterModern,
     Fx,
     Icon,
+    Math,
     ProgressBar,
     Row,
     TabPane,
@@ -499,6 +504,14 @@ def stat_card(val: str, label: str, idx: int = 0) -> Any:
 @app.get("/")
 def home() -> Any:
     return Div(
+        Link(
+            rel="stylesheet",
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",
+        ),
+        Script(
+            defer=True,
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js",
+        ),
         LL_CSS,
         # ── Navbar ─────────────────────────────────────────────────────────
         Nav(
@@ -800,6 +813,43 @@ def home() -> Any:
                     ),
                     cls=f"ll-cta mb-5 {Fx.fade_in}",
                 ),
+                # ── Math Preview ──────────────────────────────────────────────
+                Div(
+                    Span("STEM courses", cls="ll-overline"),
+                    H2("Math & Science, Rendered Live", cls="ll-section-heading mb-1"),
+                    P(
+                        "LaTeX equations render directly in lesson content.",
+                        cls="mb-4",
+                        style="color:rgba(148,163,184,0.72);",
+                    ),
+                    Row(
+                        Col(
+                            Card(
+                                H5("Physics 101", cls="card-title"),
+                                P("Newton's law of universal gravitation:"),
+                                Math(
+                                    r"F = G \frac{m_1 m_2}{r^2}",
+                                    display_mode=True,
+                                ),
+                            ),
+                            cols=12, cols_md=6,
+                        ),
+                        Col(
+                            Card(
+                                H5("Chemistry", cls="card-title"),
+                                P("Water formation reaction:"),
+                                Math(
+                                    r"\ce{2H2 + O2 -> 2H2O}",
+                                    display_mode=True,
+                                ),
+                            ),
+                            cols=12, cols_md=6,
+                        ),
+                        g=3,
+                        cls="mb-5",
+                    ),
+                    id="math-preview",
+                ),
                 # ── Footer ────────────────────────────────────────────────────
                 FooterModern(
                     brand="learnloop.",
@@ -860,4 +910,5 @@ def enrollment_count() -> Any:
     return Span(f"{count:,} learners enrolled this week")
 
 
-serve(port=5018)
+if __name__ == "__main__":
+    serve(port=5018)

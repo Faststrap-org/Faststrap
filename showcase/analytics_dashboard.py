@@ -742,8 +742,9 @@ def api_events() -> Any:
 def error_page():
     """Error page example."""
     return ErrorPage(
-        "Page Not Found",
-        "The page you requested could not be found.",
+        404,
+        title="Page Not Found",
+        message="The page you requested could not be found.",
         cls="cm-shell",
     )
 

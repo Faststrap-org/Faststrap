@@ -29,6 +29,51 @@ Each metric must include at least `(label, value)`.
 
 The optional fourth value must be one of `up`, `down`, or `neutral`. Unknown values are treated as `neutral`.
 
+## Usage Scenarios
+
+### Dashboard Grid
+
+```python
+DashboardGrid(
+    KPICard(
+        "Revenue",
+        [
+            ("Today", "$4,200", "+3.2%", "up"),
+            ("MTD", "$82k", "+12%", "up"),
+            ("Customers", "1,247", "+8%", "up"),
+        ],
+        columns=3,
+        variant="primary",
+        inverse=True,
+    ),
+    cols=12,
+)
+```
+
+### Dark Mode
+
+```python
+KPICard(
+    "Server Health",
+    [
+        ("CPU", "42%", "-5%", "up"),
+        ("Memory", "6.2 GB", "+0.3 GB", "down"),
+        ("Uptime", "99.98%", "+0.01%", "up"),
+    ],
+    columns=3,
+    inverse=True,
+)
+```
+
+## Theming
+
+`KPICard` adds the `faststrap-kpi-card` class, so you can style it with normal CSS or `theme_variant_css()`.
+
+## Accessibility
+
+- `KPICard` uses semantic heading markup for the title.
+- Ensure sufficient color contrast for delta values, especially when using `inverse=True`.
+
 ## Parameters
 
 | Parameter | Type | Default | Description |
@@ -43,3 +88,4 @@ The optional fourth value must be one of `up`, `down`, or `neutral`. Unknown val
 ## API Reference
 
 ::: faststrap.components.display.stat_card.KPICard
+

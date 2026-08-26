@@ -41,6 +41,38 @@ ResultCard(
 )
 ```
 
+## Usage Scenarios
+
+### After Form Submission
+
+```python
+@app.post("/settings")
+def save_settings(...):
+    if success:
+        return ResultCard(
+            title="Settings saved",
+            message="Your preferences have been updated.",
+            status="success",
+            action=Button("Back to dashboard", href="/dashboard"),
+        )
+    return ResultCard(
+        title="Could not save",
+        message="Please review the highlighted fields and try again.",
+        status="error",
+    )
+```
+
+### Empty State
+
+```python
+ResultCard(
+    title="No matching records",
+    message="Try adjusting your search or filter criteria.",
+    status="info",
+    action=Button("Clear filters", variant="secondary"),
+)
+```
+
 ## Parameters
 
 | Param | Type | Description |
@@ -51,6 +83,12 @@ ResultCard(
 | `icon` | `str | None` | Bootstrap icon name override. |
 | `action` | `Any | None` | Optional action component. |
 | `compact` | `bool` | Use tighter spacing. |
+
+## Accessibility
+
+- `ResultCard` uses `role="status"` for success/info and `role="alert"` for warning/error.
+- Ensure `action` buttons have accessible names.
+- Use `compact` sparingly when space is constrained and content is minimal.
 
 ::: faststrap.components.display.result_card.ResultCard
     options:

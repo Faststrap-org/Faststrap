@@ -1,56 +1,69 @@
-# DashboardGrid
+# Dashboard Grid
 
-Responsive grid layout for dashboards with consistent spacing and card sizing.
-
----
+The `DashboardGrid` component creates a responsive CSS grid layout ideal for dashboards and card-based interfaces.
 
 ## Quick Start
 
-<div class="component-preview">
-  <div class="preview-header">Live Preview</div>
-  <div class="preview-render">
-    <div style="display: grid; gap: 1rem; grid-template-columns: repeat(3, minmax(0, 1fr));">
-      <div class="card"><div class="card-body">Revenue: $12k</div></div>
-      <div class="card"><div class="card-body">Users: 2,410</div></div>
-      <div class="card"><div class="card-body">Trials: 312</div></div>
-    </div>
-  </div>
-  <div class="preview-code" markdown>
 ```python
-from faststrap import DashboardGrid, StatCard
-
 DashboardGrid(
-    StatCard("Revenue", "$12k"),
-    StatCard("Users", "2,410"),
+    StatCard("Revenue", "$12K", "+5%", delta_color="success"),
+    StatCard("Users", "1.2K", "+12%"),
+    StatCard("Orders", "456", "+3%"),
     cols=3,
-    gap=1.5,
 )
 ```
-  </div>
-</div>
 
----
+## Usage Scenarios
 
-## Auto Fit
-
-When `cols` is not provided, the grid uses auto-fit sizing based on `min_card_width`.
+### Auto-Fit Cards
 
 ```python
 DashboardGrid(
-    *cards,
-    min_card_width=280,
+    Card("A"),
+    Card("B"),
+    Card("C"),
+    min_card_width=240,
 )
 ```
 
----
-
-## Dense Packing
+### Dense Grid
 
 ```python
-DashboardGrid(*cards, dense=True)
+DashboardGrid(
+    Card("A"),
+    Card("B"),
+    Card("C"),
+    Card("D"),
+    cols=2,
+    dense=True,
+)
 ```
 
----
+### Custom Gap
+
+```python
+DashboardGrid(
+    StatCard("CPU", "45%", "+2%"),
+    StatCard("RAM", "62%", "-1%"),
+    gap=2,
+)
+```
+
+## Parameter Reference
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `*children` | `Any` | Required | Grid items (typically Card components) |
+| `cols` | `int \| None` | UNSET | Fixed number of columns. When `None`, uses `auto-fit` with `min_card_width`. |
+| `gap` | `str \| int \| float` | `1.5` | Gap between items (`"1.5rem"`, `16`, etc.) |
+| `min_card_width` | `str \| int \| float` | `240` | Minimum card width for auto-fit mode |
+| `dense` | `bool` | `False` | Enable dense packing (`grid-auto-flow: dense`) |
+| `**kwargs` | `Any` | - | Additional HTML attributes |
+
+## Accessibility
+
+- Grid is purely structural.
+- Content within cards maintains proper heading hierarchy.
 
 ## API Reference
 

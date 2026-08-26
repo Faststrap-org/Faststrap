@@ -30,6 +30,7 @@ from faststrap import (
     LiveValidationField,
     ModernToast,
     ModernToastStack,
+    ProfileDropdown,
     ResultCard,
     Row,
     StatusBadge,
@@ -223,6 +224,16 @@ def page() -> Div:
                             endpoint="/workspace/name",
                             edit_endpoint="/workspace/name/edit",
                             id="workspace-name",
+                        ),
+                        Div(cls="my-4"),
+                        ProfileDropdown(
+                            "Alex Operator",
+                            subtitle="Workspace Admin",
+                            items=[
+                                ("Profile", "/profile"),
+                                ("Settings", "/settings"),
+                                ("Sign out", "/logout"),
+                            ],
                         ),
                         Div(cls="my-4"),
                         ConfirmAction(

@@ -31,6 +31,52 @@ TrendCard(
 )
 ```
 
+## Usage Scenarios
+
+### Dashboard Grid
+
+```python
+DashboardGrid(
+    TrendCard(
+        "MRR",
+        "$48.2k",
+        delta="+3.1%",
+        delta_type="up",
+        sparkline=mini_sparkline([32, 35, 33, 38, 42, 44, 48]),
+    ),
+    TrendCard(
+        "Churn",
+        "1.8%",
+        delta="-0.2%",
+        delta_type="up",
+        sparkline=mini_sparkline([2.5, 2.3, 2.1, 2.0, 1.9, 1.8]),
+    ),
+    cols=2,
+)
+```
+
+### Compact Mode
+
+```python
+TrendCard(
+    "CPU",
+    "42%",
+    delta="-5%",
+    delta_type="up",
+    variant="success",
+    inverse=True,
+)
+```
+
+## Theming
+
+`TrendCard` adds the `faststrap-trend-card` class, so you can style it with normal CSS or `theme_variant_css()`.
+
+## Accessibility
+
+- Ensure sparkline colors maintain sufficient contrast.
+- The delta text provides the primary trend signal; sparkline is a secondary visual aid.
+
 ## Parameters
 
 | Parameter | Type | Default | Description |

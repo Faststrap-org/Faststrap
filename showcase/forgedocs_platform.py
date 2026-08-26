@@ -35,6 +35,7 @@ from fasthtml.common import (
     Hr,
     Input,
     Li,
+    Link,
     Nav,
     P,
     Pre,
@@ -57,6 +58,7 @@ from faststrap import (
     InputGroup,
     InputGroupText,
     Markdown,
+    Math,
     Mermaid,
     PageMeta,
     Row,
@@ -841,6 +843,14 @@ document.addEventListener("DOMContentLoaded", function() {
             url="https://docs.forgedocs.io",
             type="website",
         ),
+        Link(
+            rel="stylesheet",
+            href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",
+        ),
+        Script(
+            defer=True,
+            src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js",
+        ),
     ]
 )
 add_bootstrap(app, theme=FORGEDOCS_THEME, font_family="Inter")
@@ -895,7 +905,8 @@ def fd_header(theme: str, active_page: str = "/") -> Div:
                     Div(
                         Icon("search", cls="fd-search-icon"),
                         Input(
-                            type="text",
+                            "search_docs",
+                            input_type="text",
                             placeholder="Search docs… ⌘K",
                             cls="form-control form-control-sm fd-search-input",
                         ),
@@ -1110,6 +1121,11 @@ def index(req) -> Any:
                 Mermaid(MERMAID_AUTH),
                 cls="fd-diagram-frame",
             ),
+            P("Rate limit formula:", cls="fw-600 mt-4 mb-2"),
+            Math(
+                r"R = \frac{T}{W} \times C",
+                display_mode=True,
+            ),
             cls="fd-prose mt-5",
         ),
         fd_rate_limits_section(),
@@ -1214,7 +1230,8 @@ def api_explorer(req) -> Any:
                             InputGroup(
                                 InputGroupText("Authorization"),
                                 Input(
-                                    type="text",
+                                    "auth_header",
+                                    input_type="text",
                                     value="Bearer fd_live_sk_••••••••4821",
                                     cls="form-control fd-mono",
                                     readonly=True,
@@ -1224,7 +1241,8 @@ def api_explorer(req) -> Any:
                             InputGroup(
                                 InputGroupText("Content-Type"),
                                 Input(
-                                    type="text",
+                                    "content_type_header",
+                                    input_type="text",
                                     value="application/json",
                                     cls="form-control fd-mono",
                                     readonly=True,
@@ -1369,7 +1387,10 @@ def changelog(req) -> Any:
                             ),
                             InputGroup(
                                 Input(
-                                    type="email", placeholder="your@email.com", cls="form-control"
+                                    "email",
+                                    input_type="email",
+                                    placeholder="your@email.com",
+                                    cls="form-control",
                                 ),
                                 Button("Subscribe", cls="btn btn-primary"),
                             ),
@@ -1461,7 +1482,8 @@ def api_keys_page(req) -> Any:
                                         InputGroup(
                                             InputGroupText(key["prefix"]),
                                             Input(
-                                                type="password",
+                                                f"key_{i}",
+                                                input_type="password",
                                                 value="secret_value_here",
                                                 cls="form-control fd-mono",
                                                 style="max-width:180px;font-size:0.82rem;",

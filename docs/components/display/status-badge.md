@@ -33,6 +33,47 @@ BadgeGroup(
 )
 ```
 
+## Usage Scenarios
+
+### Data Table Row
+
+```python
+DataTable(
+    data=[
+        {"name": "Alice", "status": "active"},
+        {"name": "Bob", "status": "pending"},
+    ],
+    columns=["name", "status"],
+    render_status=lambda row: StatusBadge(
+        row["status"].title(),
+        status=row["status"],
+    ),
+)
+```
+
+### Card Footer
+
+```python
+Card(
+    Card.Body("Project deployment completed."),
+    Card.Footer(
+        StatusBadge("Deployed", status="success"),
+        StatusBadge("Reviewed", status="info"),
+    ),
+)
+```
+
+## Custom Icons
+
+```python
+StatusBadge(
+    "Custom",
+    status="warning",
+    icon="lightning-fill",
+    show_dot=True,
+)
+```
+
 ## Status Mapping
 
 | Status | Default Variant | Default Icon |
@@ -43,6 +84,11 @@ BadgeGroup(
 | `info` | `info` | `info-circle-fill` |
 | `pending` | `warning` | `clock-fill` |
 | `neutral` | `secondary` | none |
+
+## Accessibility
+
+- `StatusBadge` uses semantic color/status mapping; ensure sufficient contrast for dot indicators.
+- The `pill` option increases the touch target size for mobile UIs.
 
 ## Parameters
 

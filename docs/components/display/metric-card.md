@@ -16,6 +16,57 @@ MetricCard(
 )
 ```
 
+## Usage Scenarios
+
+### Inline in a Row
+
+```python
+Row(
+    Col(
+        MetricCard(
+            "Users",
+            "2,847",
+            delta="+18.2%",
+            delta_type="up",
+            variant="success",
+            inverse=True,
+        ),
+        cols=12, cols_md=6, cols_lg=3,
+    ),
+    Col(
+        MetricCard(
+            "Bounce Rate",
+            "24.3%",
+            delta="-2.1%",
+            delta_type="down",
+            variant="danger",
+        ),
+        cols=12, cols_md=6, cols_lg=3,
+    ),
+    g=3,
+)
+```
+
+### Without Icon
+
+```python
+MetricCard(
+    "Orders",
+    "384",
+    delta="+5.1%",
+    delta_type="up",
+)
+```
+
+## Theming
+
+`MetricCard` adds the `faststrap-metric-card` class, so you can style it with normal CSS or `theme_variant_css()`.
+
+## Accessibility
+
+- Ensure delta color differences are also visible via text or icon for color-blind users.
+- Use `variant` and `inverse` consistently with your theme palette to maintain contrast ratios.
+
 ## Parameters
 
 | Parameter | Type | Default | Description |
@@ -29,10 +80,6 @@ MetricCard(
 | `inverse` | `bool` | `False` | Use inverted text colors. |
 | `icon_bg` | `str \| None` | `UNSET` | Icon wrapper background class. |
 | `**kwargs` | `Any` | | Extra HTML attributes. |
-
-## Theming
-
-`MetricCard` adds the `faststrap-metric-card` class, so you can style it with normal CSS or `theme_variant_css()`.
 
 ## API Reference
 

@@ -45,6 +45,7 @@ from faststrap import (
     AuthLayout,
     Checkbox,
     Col,
+    FilePreview,
     FloatingLabel,
     FormErrorSummary,
     Icon,
@@ -810,9 +811,9 @@ def cn_hero() -> Div:
                 Div(
                     Div("Preferred Date", cls="form-label fw-600 small mb-1"),
                     Input(
-                        type="date",
+                        "pref_date",
+                        input_type="date",
                         cls="form-control",
-                        name="pref_date",
                         value=str(today + timedelta(days=1)),
                         min=str(today),
                         id="booking-date",
@@ -1165,10 +1166,10 @@ def cn_book_form() -> Div:
                                     Div(
                                         InputGroupText(Icon("telephone"), cls=""),
                                         Input(
-                                            type="tel",
+                                            "phone",
+                                            input_type="tel",
                                             cls="form-control",
                                             placeholder="08012345678",
-                                            name="phone",
                                             id="phone-input",
                                         ),
                                         cls="input-group",
@@ -1292,28 +1293,37 @@ def cn_book_form() -> Div:
                     ),
                     lg=8,
                 ),
-                Col(
-                    # Info sidebar
-                    Div(
-                        Div(Icon("info-circle"), " What to expect", cls="fw-700 mb-3"),
+                    Col(
+                        # Info sidebar
                         Div(
-                            *[
-                                Div(
-                                    Div(Icon("check-lg", cls="text-primary me-2")),
-                                    Div(txt, cls="small text-muted lh-base"),
-                                    cls="d-flex gap-2 mb-3",
-                                )
-                                for txt in [
-                                    "Confirmation email sent within 30 minutes of booking.",
-                                    "SMS reminder 24 hours and 1 hour before your appointment.",
-                                    "Digital intake form sent 12 hours in advance.",
-                                    "Free cancellation up to 2 hours before your visit.",
-                                    "In-clinic or video option changeable up to 4 hours prior.",
+                            Div(Icon("info-circle"), " What to expect", cls="fw-700 mb-3"),
+                            Div(
+                                *[
+                                    Div(
+                                        Div(Icon("check-lg", cls="text-primary me-2")),
+                                        Div(txt, cls="small text-muted lh-base"),
+                                        cls="d-flex gap-2 mb-3",
+                                    )
+                                    for txt in [
+                                        "Confirmation email sent within 30 minutes of booking.",
+                                        "SMS reminder 24 hours and 1 hour before your appointment.",
+                                        "Digital intake form sent 12 hours in advance.",
+                                        "Free cancellation up to 2 hours before your visit.",
+                                        "In-clinic or video option changeable up to 4 hours prior.",
+                                    ]
                                 ]
-                            ]
+                            ),
+                            cls="cn-form-card p-4 mb-4",
                         ),
-                        cls="cn-form-card p-4 mb-4",
-                    ),
+                        Div(
+                            Div(Icon("file-earmark-medical"), " Sample Records", cls="fw-700 mb-3"),
+                            FilePreview(
+                                src="https://via.placeholder.com/400x300?text=Lab+Results",
+                                title="Lab Results (PDF)",
+                                height="120px",
+                            ),
+                            cls="cn-form-card p-4",
+                        ),
                     Div(
                         Div(Icon("telephone"), " Need help booking?", cls="fw-700 mb-2"),
                         P(
@@ -1756,4 +1766,4 @@ def create_app() -> FastHTML:
 create_app()
 
 if __name__ == "__main__":
-    serve()
+    serve(port=5012)

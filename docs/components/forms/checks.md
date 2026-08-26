@@ -1,64 +1,19 @@
 # Checkbox, Radio & Switch
 
-These components allow users to select one or more options from a list. FastStrap provides `Checkbox` for multiple select, `Radio` for single select, and `Switch` for toggles.
-
-!!! tip "Bootstrap Reference"
-    [Bootstrap 5 Checks & Radios](https://getbootstrap.com/docs/5.3/forms/checks-radios/)
-
----
+These components allow users to select one or more options from a list. Faststrap provides `Checkbox` for multiple select, `Radio` for single select, `Switch` for toggles, and `Range` for slider inputs.
 
 ## Quick Start
 
-<div class="component-preview">
-  <div class="preview-header">Live Preview</div>
-  <div class="preview-render flex-column align-items-start">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="check1">
-      <label class="form-check-label" for="check1">Subscribe to newsletter</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="plan" id="radio1" value="monthly">
-      <label class="form-check-label" for="radio1">Monthly Plan</label>
-    </div>
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" id="switch1">
-      <label class="form-check-label" for="switch1">Enable Notifications</label>
-    </div>
-  </div>
-  <div class="preview-code" markdown>
 ```python
 Checkbox("subscribe", label="Subscribe to newsletter")
 Radio("plan", value="monthly", label="Monthly Plan")
 Switch("notifications", label="Enable Notifications")
 ```
-  </div>
-</div>
 
----
+## Usage Scenarios
 
-## Visual Examples & Use Cases
+### Grouping Radios
 
-### 1. Grouping Radios
-Radios share a `name` attribute to ensure only one can be selected at a time.
-
-!!! note "Code & Output"
-<div class="component-preview">
-  <div class="preview-header">Live Preview (Radio Group)</div>
-  <div class="preview-render flex-column align-items-start">
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="shipping" id="ship1" value="standard" checked>
-      <label class="form-check-label" for="ship1">Standard Shipping (Free)</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="shipping" id="ship2" value="express">
-      <label class="form-check-label" for="ship2">Express Shipping ($10)</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="shipping" id="ship3" value="overnight">
-      <label class="form-check-label" for="ship3">Overnight ($25)</label>
-    </div>
-  </div>
-  <div class="preview-code" markdown>
 ```python
 Div(
     Radio("shipping", value="standard", label="Standard Shipping (Free)", checked=True),
@@ -66,30 +21,9 @@ Div(
     Radio("shipping", value="overnight", label="Overnight ($25)")
 )
 ```
-  </div>
-</div>
 
-### 2. Inline Layout
-By default, checks stack vertically. Use `inline=True` to place them side-by-side.
+### Inline Layout
 
-!!! note "Code & Output"
-<div class="component-preview">
-  <div class="preview-header">Live Preview (Inline)</div>
-  <div class="preview-render">
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id="inline1" value="python">
-      <label class="form-check-label" for="inline1">Python</label>
-    </div>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id="inline2" value="javascript">
-      <label class="form-check-label" for="inline2">JavaScript</label>
-    </div>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id="inline3" value="rust">
-      <label class="form-check-label" for="inline3">Rust</label>
-    </div>
-  </div>
-  <div class="preview-code" markdown>
 ```python
 Div(
     Checkbox("tag", value="python", label="Python", inline=True),
@@ -97,53 +31,17 @@ Div(
     Checkbox("tag", value="rust", label="Rust", inline=True)
 )
 ```
-  </div>
-</div>
 
-### 3. Switches 
-A `Switch` is simply a checkbox with a toggle slider appearance. It has the same API as `Checkbox`.
+### Switches
 
-!!! note "Code & Output"
-<div class="component-preview">
-  <div class="preview-header">Live Preview (Switches)</div>
-  <div class="preview-render flex-column align-items-start">
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" id="sw1" checked>
-      <label class="form-check-label" for="sw1">Wi-Fi</label>
-    </div>
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" id="sw2">
-      <label class="form-check-label" for="sw2">Bluetooth</label>
-    </div>
-    <div class="form-check form-switch">
-      <input class="form-check-input" type="checkbox" id="sw3" disabled>
-      <label class="form-check-label" for="sw3">Airplane Mode</label>
-    </div>
-  </div>
-  <div class="preview-code" markdown>
 ```python
 Switch("wifi", label="Wi-Fi", checked=True)
 Switch("bluetooth", label="Bluetooth")
 Switch("airplane", label="Airplane Mode", disabled=True)
 ```
-  </div>
-</div>
 
-### 4. Button Style (Toggle Buttons) 
-You can make checkboxes and radios look like push buttons using `btn_style=True`.
+### Button Style (Toggle Buttons)
 
-!!! note "Code & Output"
-<div class="component-preview">
-  <div class="preview-header">Live Preview (Toggle Buttons)</div>
-  <div class="preview-render">
-    <div class="btn-group" role="group">
-      <input type="radio" class="btn-check" name="view" id="v1" value="list" checked>
-      <label class="btn btn-outline-primary" for="v1">List View</label>
-      <input type="radio" class="btn-check" name="view" id="v2" value="grid">
-      <label class="btn btn-outline-primary" for="v2">Grid View</label>
-    </div>
-  </div>
-  <div class="preview-code" markdown>
 ```python
 Div(
     Radio("view", value="list", label="List View", btn_style=True, variant="outline-primary", checked=True),
@@ -151,45 +49,104 @@ Div(
     cls="btn-group"
 )
 ```
-  </div>
-</div>
 
----
+### Range Slider
 
-## Parameter Reference (Common)
+```python
+Range("volume", label="Volume", value=50)
+Range("price", label="Price", min_val=10, max_val=500, step=10)
+```
 
-| FastStrap Param | Type | Bootstrap Class | Description |
+## Parameter Reference
+
+### Checkbox
+
+| Parameter | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `name` | `str` | `name="..."` | Name for form submission. Radios with same name act as a group. |
-| `value` | `str` | `value="..."` | Value submitted when checked. |
-| `label` | `str` | `<label>` | Text displayed next to the control. |
-| `checked` | `bool` | `checked` | Detailed initial state. |
-| `inline` | `bool` | `.form-check-inline` | Displays control inline. |
-| `reverse` | `bool` | `.form-check-reverse` | Puts label on left, input on right. |
-| `switch` | `bool` | `.form-switch` | (Checkbox only) Renders as toggle switch. |
-| `btn_style` | `bool` | `.btn-check` | Renders as a button instead of a native input. |
+| `name` | `str` | Required | Input name attribute |
+| `label` | `str \| None` | `None` | Label text |
+| `value` | `str` | `"1"` | Value when checked |
+| `checked` | `bool` | `False` | Whether initially checked |
+| `disabled` | `bool` | `False` | Disable the checkbox |
+| `required` | `bool` | `False` | Mark as required |
+| `inline` | `bool` | `False` | Display inline |
+| `reverse` | `bool` | `False` | Put checkbox on right side of label |
+| `checkbox_id` | `str \| None` | `None` | ID for the input |
+| `size` | `str \| None` | `None` | Control size (`sm`, `lg`) |
+| `input_cls` | `str` | `""` | Additional classes for input |
+| `label_cls` | `str` | `""` | Additional classes for label |
+| `help_text` | `str \| None` | `None` | Help text below input |
+
+### Radio
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `name` | `str` | Required | Input name attribute (same name groups radios) |
+| `label` | `str \| None` | `None` | Label text |
+| `value` | `str` | `""` | Value when selected |
+| `checked` | `bool` | `False` | Whether initially selected |
+| `disabled` | `bool` | `False` | Disable the radio |
+| `required` | `bool` | `False` | Mark as required |
+| `inline` | `bool` | `False` | Display inline |
+| `reverse` | `bool` | `False` | Put radio on right side of label |
+| `radio_id` | `str \| None` | `None` | ID for the input |
+| `input_cls` | `str` | `""` | Additional classes for input |
+| `label_cls` | `str` | `""` | Additional classes for label |
+
+### Switch
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `name` | `str` | Required | Input name attribute |
+| `label` | `str \| None` | `None` | Label text |
+| `value` | `str` | `"1"` | Value when checked |
+| `checked` | `bool` | `False` | Whether initially on |
+| `disabled` | `bool` | `False` | Disable the switch |
+| `required` | `bool` | `False` | Mark as required |
+| `reverse` | `bool` | `False` | Put switch on right side of label |
+| `switch_id` | `str \| None` | `None` | ID for the input |
+| `input_cls` | `str` | `""` | Additional classes for input |
+| `label_cls` | `str` | `""` | Additional classes for label |
+
+### Range
+
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `name` | `str` | Required | Input name attribute |
+| `label` | `str \| None` | `None` | Label text |
+| `value` | `int \| float \| None` | `None` | Initial value |
+| `min_val` | `int \| float` | `0` | Minimum value |
+| `max_val` | `int \| float` | `100` | Maximum value |
+| `step` | `int \| float \| None` | `None` | Step increment |
+| `disabled` | `bool` | `False` | Disable the range |
+| `range_id` | `str \| None` | `None` | ID for the input |
+| `input_cls` | `str` | `""` | Additional classes for input |
+| `label_cls` | `str` | `""` | Additional classes for label |
+
+## Accessibility
+
+- Labels are associated with inputs via `for` and `id` attributes.
+- Required fields use the `required` attribute.
+- Switch inputs include `role="switch"` for proper screen reader semantics.
+
+## API Reference
 
 ::: faststrap.components.forms.checks.Checkbox
     options:
-        show_source: false
+        show_source: true
         heading_level: 4
 
 ::: faststrap.components.forms.checks.Radio
     options:
-        show_source: false
+        show_source: true
         heading_level: 4
 
 ::: faststrap.components.forms.checks.Switch
     options:
-        show_source: false
+        show_source: true
         heading_level: 4
 
 ::: faststrap.components.forms.checks.Range
     options:
-        show_source: false
-        heading_level: 4
-
-::: faststrap.components.forms.button.CloseButton
-    options:
-        show_source: false
+        show_source: true
         heading_level: 4

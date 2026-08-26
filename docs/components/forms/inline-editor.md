@@ -1,115 +1,70 @@
 # Inline Editor
 
-`InlineEditor` renders a read state and an edit state for small pieces of content. It is designed for HTMX partial replacement workflows without custom JavaScript.
+The `InlineEditor` component renders a compact inline display/edit surface for server-driven edit flows.
 
-## Import
-
-```python
-from faststrap import InlineEditor
-```
-
-## Read Mode
+## Quick Start
 
 ```python
-InlineEditor(
-    name="title",
-    value="Quarterly planning",
-    endpoint="/tasks/1/title",
-    edit_endpoint="/tasks/1/title/edit",
-    id="task-title",
-)
+InlineEditor("username", value="jdoe", editing=False)
 ```
 
-In read mode, the edit button can request `edit_endpoint` and replace the editor target with the edit form.
+## Usage Scenarios
 
-## Edit Mode
+### Read Mode
 
 ```python
-InlineEditor(
-    name="title",
-    value="Quarterly planning",
-    endpoint="/tasks/1/title",
-    editing=True,
-    id="task-title",
-)
+InlineEditor("title", value="My Document", display="My Document", editing=False)
 ```
 
-In edit mode, the form posts to `endpoint` using HTMX and swaps the response back into the same editor container.
+### Edit Mode
 
-## Patch Endpoint
+```python
+InlineEditor("title", value="My Document", editing=True, endpoint="/update/title")
+```
+
+### With Custom Endpoints
 
 ```python
 InlineEditor(
-    name="headline",
-    value="Launch brief",
-    endpoint="/briefs/42/headline",
-    method="patch",
-    editing=True,
-    id="brief-headline",
+    "email",
+    value="user@example.com",
+    editing=False,
+    edit_endpoint="/edit/email",
+    endpoint="/save/email",
+    method="post",
 )
 ```
 
-## Complete HTMX Flow
+## Parameter Reference
 
-This is the simplest read/edit loop:
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `name` | `str` | Required | Input name attribute |
+| `value` | `str` | `""` | Current value |
+| `display` | `Any \| None` | `None` | Custom display content (falls back to `value`) |
+| `editing` | `bool` | `False` | Whether to show the edit form |
+| `endpoint` | `str \| None` | `None` | Save endpoint |
+| `edit_endpoint` | `str \| None` | `None` | Endpoint to request edit mode |
+| `method` | `"get" \| "post" \| "put" \| "patch"` | `"post"` | Save method |
+| `input_type` | `str` | `"text"` | HTML input type |
+| `save_label` | `str` | `"Save"` | Save button label |
+| `cancel_label` | `str` | `"Cancel"` | Cancel button label |
+| `edit_label` | `str` | `"Edit"` | Edit button label |
+| `hx_target` | `str \| None` | `None` | HTMX target selector |
+| `hx_swap` | `str` | `"outerHTML"` | HTMX swap style |
+| `input_cls` | `str \| None` | `None` | Additional classes for input |
+| `actions_cls` | `str \| None` | `None` | Additional classes for action buttons |
+| `**kwargs` | `Any` | - | Additional HTML attributes |
 
-```python
-from fasthtml.common import fast_app
-from faststrap import InlineEditor
+## Accessibility
 
-app, rt = fast_app()
+- Edit button uses `variant="link"` and `size="sm"` for unobtrusive styling.
+- Input gets `aria-label` derived from the field name.
+- Proper focus management is handled by HTMX swaps.
 
-title = "Quarterly planning"
-
-
-def title_editor(editing: bool = False):
-    return InlineEditor(
-        "title",
-        title,
-        editing=editing,
-        endpoint="/title",
-        edit_endpoint="/title/edit",
-        id="title-editor",
-        method="patch",
-    )
-
-
-@rt("/")
-def home():
-    return title_editor()
-
-
-@rt("/title/edit")
-def edit_title():
-    return title_editor(editing=True)
-
-
-@rt("/title", methods=["PATCH"])
-async def save_title(request):
-    global title
-    form = await request.form()
-    title = form.get("title", "")
-    return title_editor()
-```
-
-The important idea: the edit endpoint returns `editing=True`, and the save endpoint returns the read view again.
-
-## Parameters
-
-| Param | Type | Description |
-| :--- | :--- | :--- |
-| `name` | `str` | Input name. |
-| `value` | `str` | Current raw value. |
-| `display` | `str | None` | Optional display value for read mode. |
-| `editing` | `bool` | Render the edit form instead of read mode. |
-| `endpoint` | `str | None` | Save endpoint. |
-| `edit_endpoint` | `str | None` | Endpoint that returns edit mode markup. |
-| `method` | `post | put | patch` | HTMX save method. |
-| `input_type` | `str` | Input type for edit mode. |
-| `hx_target` | `str | None` | HTMX swap target. Defaults to the component `id` when available. |
-| `hx_swap` | `str` | HTMX swap mode. |
+## API Reference
 
 ::: faststrap.components.forms.inline_editor.InlineEditor
     options:
         show_source: true
-        heading_level: 3
+        heading_level: 4

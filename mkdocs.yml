@@ -44,6 +44,8 @@ extra_css:
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js
   - javascripts/init.js
+  - javascripts/faststrap-embed.js
+
 
 plugins:
   - search

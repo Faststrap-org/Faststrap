@@ -841,4 +841,5 @@ def home() -> Any:
     )
 
 
-serve(port=5017)
+if __name__ == "__main__":
+    serve(port=5016)

@@ -1061,9 +1061,9 @@ def cta_section() -> Section:
                 Form(
                     Div(
                         Input(
-                            type="email",
+                            "email",
+                            input_type="email",
                             placeholder="your@email.com",
-                            name="email",
                             cls="form-control",
                             style="border-radius:5px 0 0 5px;min-height:2.8rem;",
                         ),
@@ -1163,9 +1163,9 @@ def api_search(q: str = "") -> Any:
 @app.post("/api/subscribe")
 def api_subscribe(email: str = "") -> Any:
     if not email or "@" not in email:
-        return toast_response("Please enter a valid email address.", category="danger")
+        return toast_response("", message="Please enter a valid email address.", variant="danger")
     return toast_response(
-        f"🎉 You're on the list! We'll reach out to {email} soon.", category="success"
+        "", message=f"🎉 You're on the list! We'll reach out to {email} soon.", variant="success"
     )
 
 
@@ -1180,4 +1180,4 @@ def toggle_theme(req) -> Any:
 
 
 if __name__ == "__main__":
-    serve(port=5010)
+    serve(port=5003)

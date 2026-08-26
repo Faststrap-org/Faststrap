@@ -50,10 +50,27 @@ MapView(
 )
 ```
 
+## Custom Tile Providers
+
+```python
+MapView(
+    latitude=51.5074,
+    longitude=-0.1278,
+    tiles_url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    popup_text="London",
+)
+```
+
 ## Size Implication
 
 Leaflet is CDN-first in this component, so Faststrap wheel size does not
 increase unless you choose to vendor assets yourself.
+
+## Accessibility
+
+- Provide an accessible label or surrounding context for the map container.
+- If `popup_text` is used, ensure it conveys the same information as any nearby text.
 
 ## API Reference
 

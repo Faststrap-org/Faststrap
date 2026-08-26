@@ -1,93 +1,60 @@
 # File Input
 
-The `FileInput` component is an enhanced wrapper for `<input type="file">`. It supports single/multiple uploads, size options, and includes a built-in **automatic preview** feature (Phase 4B).
-
-!!! tip "Bootstrap Reference"
-    [Bootstrap 5 File Input](https://getbootstrap.com/docs/5.3/forms/form-control/#file-input)
-
----
+The `FileInput` component provides a styled file upload control with optional image preview support.
 
 ## Quick Start
 
-<div class="component-preview">
-  <div class="preview-header">Live Preview</div>
-  <div class="preview-render">
-    <div class="w-100">
-      <label class="form-label">Upload Resume</label>
-      <input class="form-control" type="file" id="f1">
-    </div>
-  </div>
-  <div class="preview-code" markdown>
 ```python
-FileInput("resume", label="Upload Resume")
+FileInput("upload", label="Upload file")
 ```
-  </div>
-</div>
 
----
+## Usage Scenarios
 
-## Visual Examples & Use Cases
+### With Image Preview
 
-### 1. Multiple Files & Sizing
-Allow uploading multiple files at once.
-
-!!! note "Code & Output"
-<div class="component-preview">
-  <div class="preview-header">Live Preview (Multiple & Large)</div>
-  <div class="preview-render">
-    <div class="w-100">
-      <label class="form-label">Gallery Photos</label>
-      <input class="form-control form-control-lg" type="file" multiple id="f2">
-    </div>
-  </div>
-  <div class="preview-code" markdown>
 ```python
-FileInput("photos", label="Gallery Photos", multiple=True, size="lg")
+FileInput("avatar", label="Avatar", accept="image/*", preview_id="auto")
 ```
-  </div>
-</div>
 
-### 2. Automatic Image Preview (✨ New in Phase 4B)
-FastStrap includes a lightweight JavaScript snippet that can automatically show a preview of selected images *before* upload.
+### Multiple Files
 
-Set `preview_id="auto"` to have FastStrap handle everything for you.
-
-!!! note "Code & Output"
-<div class="component-preview">
-  <div class="preview-header">Live Preview (Automatic Preview)</div>
-  <div class="preview-render flex-column align-items-center">
-    <div class="w-100 mb-3">
-      <label class="form-label">Profile Picture</label>
-      <input class="form-control" type="file" accept="image/*" id="f3">
-    </div>
-    <div id="file-avatar-preview" class="border rounded d-flex align-items-center justify-content-center bg-light" style="width: 150px; height: 150px;">
-      <span class="text-muted small">Preview</span>
-    </div>
-  </div>
-  <div class="preview-code" markdown>
 ```python
-# Automatically generates a preview container with ID 'file-avatar-preview'
-FileInput(
-    "avatar", 
-    label="Profile Picture", 
-    accept="image/*", 
-    preview_id="auto" 
-)
+FileInput("docs", label="Documents", multiple=True)
 ```
-  </div>
-</div>
 
----
+### With Accept Filter
+
+```python
+FileInput("resume", label="Resume", accept=".pdf,.doc,.docx", required=True)
+```
 
 ## Parameter Reference
 
-| Param | Type | HTML Attribute | Description |
+| Parameter | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `name` | `str` | `name="..."` | Form field name. |
-| `label` | `str` | `<label>` | Input label. |
-| `multiple` | `bool` | `multiple` | Allow selecting multiple files. |
-| `accept` | `str` | `accept="..."` | File type filter (e.g. `image/*`, `.pdf`). |
-| `preview_id` | `str` | - | ID of element to display preview in. Use `"auto"` for automatic generation. |
+| `name` | `str` | Required | Input name attribute |
+| `label` | `str \| None` | `None` | Label text |
+| `multiple` | `bool` | `False` | Allow selecting multiple files |
+| `disabled` | `bool` | `False` | Disable the input |
+| `required` | `bool` | `False` | Mark as required |
+| `accept` | `str \| None` | `None` | File types to accept (e.g. "image/*", ".pdf") |
+| `size` | `str \| None` | `None` | Control size (`sm`, `lg`) |
+| `file_id` | `str \| None` | `None` | ID for the input |
+| `input_cls` | `str` | `""` | Additional classes for input element |
+| `label_cls` | `str` | `""` | Additional classes for label element |
+| `helper_text` | `str \| None` | `None` | Help text displayed below input |
+| `preview_id` | `str \| None` | `None` | ID of an img element for preview. Use `"auto"` to create one automatically. |
+| `preview_img_cls` | `str` | `"img-thumbnail mt-2"` | Classes for the preview image |
+| `preview_max_height` | `str` | `"200px"` | Max height for preview image |
+| `**kwargs` | `Any` | - | Additional HTML attributes |
+
+## Accessibility
+
+- Labels are associated with inputs via `for` and `id` attributes.
+- Required fields use the `required` attribute.
+- Preview images include `alt="File preview"`.
+
+## API Reference
 
 ::: faststrap.components.forms.file.FileInput
     options:

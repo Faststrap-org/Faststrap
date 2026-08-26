@@ -1,88 +1,57 @@
-# ExportButton
+# Export Button
 
-Standardized export action for CSV, Excel, JSON, or PDF downloads.
-
----
+The `ExportButton` component generates export buttons for CSV, Excel, JSON, and PDF downloads.
 
 ## Quick Start
 
-<div class="component-preview">
-  <div class="preview-header">Live Preview</div>
-  <div class="preview-render">
-    <button class="btn btn-outline-secondary">
-      <i class="bi bi-download me-1"></i>
-      Export CSV
-    </button>
-  </div>
-  <div class="preview-code" markdown>
 ```python
-from faststrap import ExportButton
-
-ExportButton("Export CSV", endpoint="/export", export_format="csv")
-```
-  </div>
-</div>
-
----
-
-## With DataTable State
-
-```python
-from faststrap import ExportButton, datatable_export_params
-
-params = datatable_export_params(sort="name", direction="asc", search="alice")
-ExportButton("Export", endpoint="/export", extra_params=params)
+ExportButton("Export", endpoint="/api/export", export_format="csv")
 ```
 
----
+## Usage Scenarios
 
-## GET vs POST
-
-- `method="get"` creates a link or HTMX request
-- `method="post"` creates a form submit
+### Excel Export
 
 ```python
-ExportButton(
-    "Export",
-    endpoint="/export",
-    method="post",
-    export_format="xlsx",
-)
+ExportButton("Download Excel", endpoint="/api/export", export_format="xlsx", filename="report.xlsx")
 ```
 
----
-
-## Custom Filename
+### JSON with Extra Params
 
 ```python
-ExportButton(
-    "Export",
-    endpoint="/export",
-    filename="report.xlsx",
-)
+ExportButton("Export JSON", endpoint="/api/export", export_format="json", extra_params={"include_archived": True})
 ```
 
----
-
-## HTMX Exports
+### HTMX Download
 
 ```python
-ExportButton(
-    "Export",
-    endpoint="/export",
-    use_hx=True,
-    hx_target="#status",
-    hx_swap="innerHTML",
-)
+ExportButton("Export", endpoint="/api/export", export_format="csv", use_hx=True, hx_target="#result", variant="success")
 ```
 
----
+## Parameter Reference
 
-## Security Notes
+| Parameter | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `str` | `"Export"` | Button label text |
+| `endpoint` | `str \| None` | `None` | Export endpoint URL |
+| `export_format` | `"csv" \| "xlsx" \| "json" \| "pdf"` | `"csv"` | Export file format |
+| `filename` | `str \| None` | `None` | Suggested filename for download |
+| `method` | `"get" \| "post"` | `"get"` | HTTP method |
+| `use_hx` | `bool` | `False` | Use HTMX for the request |
+| `hx_target` | `str \| None` | `None` | HTMX target selector |
+| `hx_swap` | `str \| None` | `"none"` | HTMX swap style |
+| `push_url` | `bool` | `False` | Push URL for HTMX GET flows |
+| `variant` | `str \| None` | UNSET | Bootstrap variant |
+| `outline` | `bool` | `True` | Use outline style |
+| `icon` | `str \| None` | `"download"` | Bootstrap icon name |
+| `extra_params` | `dict \| None` | `None` | Extra query/body parameters |
+| `**kwargs` | `Any` | - | Additional HTML attributes |
 
-Validate export formats server-side and require auth. Avoid using untrusted filenames.
+## Accessibility
 
----
+- Button uses semantic `<button>` or `<a>` tag based on method.
+- Icons use `aria-hidden="true"`.
+- Download attribute is set when `filename` is provided.
 
 ## API Reference
 
