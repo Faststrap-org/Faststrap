@@ -44,6 +44,12 @@
   border-color: transparent;
 }
 
+.faststrap-modern-toast-minimal {
+  background: var(--bs-body-bg);
+  border-color: transparent;
+  box-shadow: none;
+}
+
 .faststrap-modern-toast-glass {
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(14px);

@@ -157,11 +157,17 @@ def Toast(
     parts = []
 
     if title:
+        # Bootstrap's default close glyph is black; use the white variant on
+        # dark `text-bg-*` fills so it stays visible.
+        dark_variants = {"primary", "secondary", "success", "danger", "dark"}
+        close_cls = "btn-close"
+        if c_variant in dark_variants:
+            close_cls = merge_classes(close_cls, "btn-close-white")
         header = Div(
             Strong(title, cls="me-auto"),
             Button(
                 type="button",
-                cls="btn-close",
+                cls=close_cls,
                 data_bs_dismiss="toast",
                 aria_label="Close",
             ),

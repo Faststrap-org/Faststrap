@@ -82,6 +82,13 @@ def test_action_buttons_use_core_button_surface() -> None:
     assert 'aria-label="Primary action"' in fab
 
 
+
+def test_gradient_button_does_not_mutate_caller_css_vars() -> None:
+    shared: dict = {"--custom": "1px"}
+    to_xml(GradientButton("Launch", css_vars=shared))
+    assert shared == {"--custom": "1px"}
+
+
 def test_visual_css_is_loaded_with_core_assets() -> None:
     assert "css/faststrap-visual.css" in FASTSTRAP_CDN_CSS_FILES
     rendered = "".join(to_xml(asset) for asset in local_assets("/static", include_js=False))

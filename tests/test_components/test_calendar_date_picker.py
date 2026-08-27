@@ -47,3 +47,15 @@ def test_calendar_date_picker_supports_htmx_auto_submit() -> None:
 def test_calendar_date_picker_rejects_unknown_method() -> None:
     with pytest.raises(ValueError, match="method must be"):
         CalendarDatePicker(method="patch")  # type: ignore[arg-type]
+
+
+def test_calendar_date_picker_get_form_omits_enctype() -> None:
+    html = to_xml(CalendarDatePicker())
+    assert "enctype" not in html
+
+
+def test_calendar_date_picker_controls_share_baseline() -> None:
+    """Input wrapper margin is neutralized so buttons align with the control."""
+    html = to_xml(CalendarDatePicker(label="Date"))
+    assert "mb-3" not in html
+    assert "align-items-end" in html

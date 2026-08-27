@@ -124,6 +124,16 @@
       el.addEventListener('keydown', escapeHandler);
       el.dataset.fsEscapeHandler = 'true';
 
+      // Dismiss controls (close button, etc.) anywhere inside the toast.
+      const dismissControls = el.querySelectorAll('[data-fs-dismiss]');
+      dismissControls.forEach((control) => {
+        if (control.dataset.fsDismissInit === 'true') return;
+        control.dataset.fsDismissInit = 'true';
+        control.addEventListener('click', () => {
+          dismissToast(el, DISMISS_REASONS.MANUAL);
+        });
+      });
+
       let touchStartX = 0;
       let touchCurrentX = 0;
       let swiping = false;

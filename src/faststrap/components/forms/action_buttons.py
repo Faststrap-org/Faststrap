@@ -38,7 +38,8 @@ def GradientButton(
     gradient_value = GRADIENT_PRESETS.get(str(c_gradient), str(c_gradient))
 
     user_cls = kwargs.pop("cls", "")
-    css_vars = kwargs.pop("css_vars", {}) or {}
+    # Copy before mutating so callers can safely reuse their css_vars dict.
+    css_vars = {**(kwargs.pop("css_vars", {}) or {})}
     css_vars["--faststrap-gradient-button-bg"] = gradient_value
 
     return Button(

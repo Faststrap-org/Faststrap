@@ -392,6 +392,13 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* Icon-only FABs: Button injects `me-2` on icons; inside a fixed-size circle
+   that margin visibly shifts the glyph off-center, so neutralize it. */
+.faststrap-floating-action-button > .bi {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
 .faststrap-floating-action-button.fab-bottom-right {
   right: 2rem;
   bottom: 2rem;

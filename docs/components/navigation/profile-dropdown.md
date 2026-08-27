@@ -29,18 +29,18 @@ ProfileDropdown(
 - Avatar with image or automatic initials fallback
 - Optional subtitle/role display
 - Dropdown menu with account actions
-- Bootstrap Dropdown JS compatible
+- Menu items render as real `<a>` links, so navigation works without extra JavaScript
 
 ---
 
 ## Parameters
 
 | Parameter | Type | Default | Description |
-| --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- |
 | `name` | `str` | required | User display name. |
 | `subtitle` | `str \| None` | `None` | Optional role, team, or email shown below the name. |
 | `src` | `str \| None` | `None` | Optional avatar image URL. When omitted, initials are shown. |
-| `items` | `list[tuple[str, str]] \| None` | `None` | Menu items as ``(label, href)`` tuples. |
+| `items` | `list[tuple[str, str]] \| None` | `None` | Menu items as ``(label, href)`` tuples rendered as anchor links. |
 | `alignment` | `str` | `"end"` | Bootstrap dropdown menu alignment. |
 | `**kwargs` | `Any` | | Extra wrapper attributes. |
 
@@ -82,7 +82,8 @@ ProfileDropdown("Alice Smith", subtitle="Admin")
 
 ## Notes
 
-- Requires Bootstrap Dropdown JavaScript for toggle behavior.
+- Requires Bootstrap Dropdown JavaScript for toggle behavior; menu item links are plain anchors and navigate without extra JS.
+- The trigger is keyboard-accessible (`tabindex="0"`, `role="button"`, `aria-expanded`/`aria-haspopup`).
 - Marked `@experimental`.
 
 ---

@@ -189,3 +189,12 @@ def test_toast_container_rejects_conflicting_id():
     """ToastContainer should reject conflicting id and container_id values."""
     with pytest.raises(ValueError):
         ToastContainer(Toast("A"), container_id="x", id="y")
+
+
+def test_toast_close_button_visible_on_dark_variants():
+    """Dark text-bg fills get the white close glyph."""
+    dark = to_xml(Toast("Message", title="Header", variant="dark"))
+    assert "btn-close-white" in dark
+
+    light = to_xml(Toast("Message", title="Header"))
+    assert "btn-close-white" not in light

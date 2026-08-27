@@ -59,6 +59,20 @@ def CalendarDatePicker(
         max=max_date,
         cls=input_cls,
     )
+    # Neutralize Input's default `mb-3` wrapper margin so the date control and
+    # the action buttons share one clean horizontal baseline (flexbox
+    # bottom-aligns against margin boxes otherwise).
+    wrapper_attrs = getattr(date_input, "attrs", None)
+    if wrapper_attrs is not None:
+        for key in ("cls", "class"):
+            existing = wrapper_attrs.get(key) or ""
+            if "mb-3" in existing:
+                remaining = existing.replace("mb-3", "").strip()
+                if remaining:
+                    wrapper_attrs[key] = remaining
+                else:
+                    wrapper_attrs.pop(key, None)
+                break
 
     form_attrs: dict[str, Any] = {
         "method": method,
@@ -82,4 +96,11 @@ def CalendarDatePicker(
     if clear_label:
         controls.append(Button(clear_label, type="reset", variant="secondary", outline=True))
 
-    return Div(FTForm(*controls, **convert_attrs(form_attrs)), **attrs)
+    converted_form_attrs = convert_attrs(form_attrs)
+    # GET forms submit via the query string; the multipart encoding default is
+    # meaningless there. Applied after conversion because convert_attrs drops
+    # None values.
+    if method == "get":
+        converted_form_attrs["enctype"] = None
+
+    return Div(FTForm(*controls, **converted_form_attrs), **attrs)

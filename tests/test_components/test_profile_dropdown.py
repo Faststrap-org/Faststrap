@@ -79,4 +79,29 @@ def test_profile_dropdown_sets_data_attributes() -> None:
     """When items are provided, data attribute is set."""
     component = ProfileDropdown("Alice", items=[("Profile", "/profile")])
     html = to_xml(component)
+
+def test_profile_dropdown_items_are_anchor_links() -> None:
+    """Menu items render as real anchors that navigate without extra JS."""
+    component = ProfileDropdown("Alice", items=[("Profile", "/profile")])
+    html = to_xml(component)
+    assert "href=\"/profile\"" in html
+    assert "<a " in html
+    assert "data-fs-href" not in html
+
+
+def test_profile_dropdown_trigger_is_keyboard_accessible() -> None:
+    """Trigger exposes ARIA wiring and is focusable."""
+    component = ProfileDropdown("Alice", items=[("Profile", "/profile")])
+    html = to_xml(component)
+    assert 'tabindex="0"' in html
+    assert 'aria-haspopup="true"' in html
+    assert 'aria-expanded="false"' in html
+
+
+def test_profile_dropdown_items_have_single_dropdown_item_class() -> None:
+    """Items do not nest duplicate dropdown-item classes."""
+    component = ProfileDropdown("Alice", items=[("Profile", "/profile")])
+    html = to_xml(component)
+    assert html.count('class="dropdown-item"') >= 1
+    assert '<span class="dropdown-item">' not in html
     assert 'data-fs-items="true"' in html

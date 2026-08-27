@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from fasthtml.common import Div, Img, Span
+from fasthtml.common import A, Div, Img, Span
 
 from ...core._stability import experimental
 from ...core.base import merge_classes
@@ -69,19 +69,15 @@ def ProfileDropdown(
         cls="dropdown-toggle",
         data_bs_toggle="dropdown",
         aria_expanded="false",
+        aria_haspopup="true",
         role="button",
+        tabindex="0",
     )
 
     menu_children: list[Any] = []
     if items:
         for label, href in items:
-            menu_children.append(
-                Div(
-                    Span(label, cls="dropdown-item"),
-                    cls="dropdown-item",
-                    data_fs_href=href,
-                )
-            )
+            menu_children.append(A(label, href=href, cls="dropdown-item"))
 
     menu = Div(*menu_children, cls=f"dropdown-menu dropdown-menu-{alignment}") if items else None
 
