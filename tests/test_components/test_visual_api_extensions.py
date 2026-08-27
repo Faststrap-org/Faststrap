@@ -242,3 +242,52 @@ def test_error_dialog_icon_hook():
 
     calmed = str(to_xml(ErrorDialog(message="boom", modal_id="ed2", icon_cls="fs-3")))
     assert "fs-3" in calmed
+
+
+# ── GradientButton contrast + hover-none guards ───────────────────────────
+
+
+def _relative_luminance(hex_color: str) -> float:
+    """Compute WCAG relative luminance for a #rrggbb color."""
+    c = [int(hex_color[i : i + 2], 16) / 255 for i in (1, 3, 5)]
+    c = [(x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4) for x in c]
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+
+
+def test_gradient_button_presets_meet_ui_contrast_floor():
+    """Both gradient endpoints keep >=3:1 contrast against the default label."""
+    import re
+
+    from faststrap.components.forms.action_buttons import GRADIENT_PRESETS
+
+    white_lum = 1.0
+    for name, gradient in GRADIENT_PRESETS.items():
+        colors = re.findall(r"#[0-9a-fA-F]{6}", gradient)
+        assert colors, f"{name} has no colors"
+        for color in colors:
+            lum = _relative_luminance(color)
+            ratio = (white_lum + 0.05) / (lum + 0.05)
+            assert ratio >= 3.0, f"{name} endpoint {color} contrast {ratio:.2f} < 3.0"
+        # Leftmost (start) color should be the darker end carrying the label.
+        assert lum <= _relative_luminance(colors[-1]), f"{name} start is lighter than end"
+
+
+def test_gradient_button_hover_none_omits_lift_glow():
+    html = to_xml(GradientButton("Go", hover="none"))
+    assert "hover-none" in html
+    assert "hover-lift" not in html
+    assert "hover-glow" not in html
+
+
+# ── FAB validation ────────────────────────────────────────────────────────
+
+
+def test_floating_action_button_rejects_invalid_values():
+    import pytest
+
+    with pytest.raises(ValueError):
+        FloatingActionButton(icon="plus", position="center")
+    with pytest.raises(ValueError):
+        FloatingActionButton(icon="plus", size="xl")
+    with pytest.raises(ValueError):
+        FloatingActionButton(icon="plus", shape="square")

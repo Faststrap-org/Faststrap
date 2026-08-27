@@ -26,7 +26,7 @@ Use `GradientButton` when you want a stronger call-to-action than a default Boot
 | Parameter | Type | Default | Description |
 | --- | --- | --- | --- |
 | `*children` | `Any` | required | Button content. |
-| `gradient` | `purple \| blue \| green \| orange \| pink \| str` | `purple` | Preset or custom CSS gradient. Orange/pink presets use darkened, AA-contrast endpoints. |
+| `gradient` | `purple \| blue \| green \| orange \| pink \| str` | `purple` | Preset or custom CSS gradient. All presets keep ≥3:1 contrast (WCAG non-text/UI) against the default white label. |
 | `size` | `sm \| lg \| None` | `None` | Bootstrap button size. |
 | `text_color` | `str \| None` | `None` | Label color override for light gradients (via `--faststrap-gradient-button-text`). |
 | `hover` | `default \| lift \| glow \| none` | `default` | Hover treatment. |
@@ -59,6 +59,8 @@ FloatingActionButton("Edit draft", icon="edit", shape="pill")
 ## Notes
 
 - `GradientButton` and `FloatingActionButton` accept normal `Button` kwargs such as `href`, `hx_get`, `hx_target`, `data_bs_toggle`, and `disabled`.
+- `hover="none"` fully disables hover/focus treatment (no lift, glow, or brightness shift).
+- `FloatingActionButton` validates `position`, `size`, and `shape` at render time and raises `ValueError` for unknown values.
 - `faststrap-visual.css` is loaded automatically by `add_bootstrap()`.
 
 ## API Reference

@@ -115,9 +115,7 @@ def CalendarDatePicker(
 
     controls: list[Any] = [date_input]
     if apply_label:
-        controls.append(
-            Button(apply_label, type="submit", variant="primary", cls=apply_cls)
-        )
+        controls.append(Button(apply_label, type="submit", variant="primary", cls=apply_cls))
     if clear_label:
         controls.append(
             Button(

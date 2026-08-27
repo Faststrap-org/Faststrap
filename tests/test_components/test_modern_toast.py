@@ -98,3 +98,70 @@ def test_modern_toast_action_typed_dict_renders_button() -> None:
     assert "Retry" in html
     assert "btn-primary" in html
     assert "disabled" in html
+
+
+def test_modern_toast_error_intent_uses_danger_classes() -> None:
+    html = to_xml(ModernToast("Failed", intent="error"))
+    assert "border-danger" in html
+    assert "text-danger" in html
+    assert "border-error" not in html
+    assert "text-error" not in html
+    assert 'data-fs-intent="error"' in html  # semantic value preserved for theming
+
+
+def test_modern_toast_loading_intent_uses_primary_classes() -> None:
+    html = to_xml(ModernToast("Loading", intent="loading"))
+    assert "border-primary" in html
+    assert "text-primary" in html
+    assert "text-loading" not in html
+    assert 'data-fs-intent="loading"' in html
+
+
+def test_modern_toast_legacy_variant_danger_maps_to_valid_classes() -> None:
+    with pytest.warns(DeprecationWarning, match="variant="):
+        html = to_xml(ModernToast("Failed", variant="danger"))
+    assert "border-danger" in html
+    assert "border-error" not in html
+    assert 'data-fs-intent="error"' in html
+
+
+def test_modern_toast_legacy_variant_warning_maps_intent() -> None:
+    with pytest.warns(DeprecationWarning, match="variant="):
+        html = to_xml(ModernToast("Careful", variant="warning"))
+    assert 'data-fs-intent="warning"' in html
+    assert "border-warning" in html
+
+
+def test_modern_toast_action_style_literals_map_to_btn_classes() -> None:
+    for style, expected in [
+        ("primary", "btn-primary"),
+        ("secondary", "btn-secondary"),
+        ("destructive", "btn-danger"),
+        ("outline", "btn-outline-secondary"),
+    ]:
+        html = to_xml(ModernToast("T", action={"label": "Go", "style": style}))
+        assert expected in html, f"{style} -> {expected}"
+
+
+def test_modern_toast_cancel_style_maps_to_btn_class() -> None:
+    html = to_xml(ModernToast("T", cancel={"label": "No", "style": "destructive"}))
+    assert "btn-danger" in html
+
+
+def test_modern_toast_literal_error_loads_bootstrap_classes() -> None:
+    for intent in ("error", "loading"):
+        html = to_xml(ModernToast("T", intent=intent))
+        # No raw non-Bootstrap border/text color class is emitted.
+        assert f"border-{intent}" not in html
+        assert f"text-{intent}" not in html
+
+
+def test_modern_toast_stack_gap_parameter() -> None:
+    html = to_xml(ModernToastStack(ModernToast("x")))
+    assert "gap-8" in html
+    assert "gap:" not in html.split("style=")[1]  # default gutter uses the gap utility
+
+
+def test_modern_toast_stack_gutter_override_adds_inline_gap() -> None:
+    html = to_xml(ModernToastStack(ModernToast("x"), placement=ToastPlacement(gutter=16)))
+    assert "gap: 4.0rem" in html

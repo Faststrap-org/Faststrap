@@ -105,7 +105,7 @@ ProfileDropdown("Alice Smith", subtitle="Admin")
 ## Notes
 
 - Requires Bootstrap Dropdown JavaScript for toggle behavior; menu item links are plain anchors and navigate without extra JS.
-- The trigger is keyboard-accessible (`tabindex="0"`, `role="button"`, `aria-expanded`/`aria-haspopup`).
+- The trigger is a native `<button>` (`type="button"`, `data-bs-toggle="dropdown"`) so the menu opens with a mouse click, `Enter`, or `Space`, and is announced to screen readers with an `aria-label` matching the user's full name.
 - Marked `@experimental`.
 
 ---

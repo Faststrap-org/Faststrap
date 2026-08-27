@@ -198,3 +198,21 @@ def test_toast_close_button_visible_on_dark_variants():
 
     light = to_xml(Toast("Message", title="Header"))
     assert "btn-close-white" not in light
+
+
+def test_toast_container_auto_ids_are_unique():
+    """Two container_id=None containers get distinct ids."""
+    import re
+
+    first = to_xml(ToastContainer(container_id=None))
+    second = to_xml(ToastContainer(container_id=None))
+    id_a = re.search(r'id="(toast-container-[0-9a-f]+)"', first).group(1)
+    id_b = re.search(r'id="(toast-container-[0-9a-f]+)"', second).group(1)
+    assert id_a != id_b
+
+
+def test_simple_toast_legacy_seconds_duration_warns_and_converts():
+    """duration <= 50 is treated as seconds for backward compatibility."""
+    with pytest.warns(DeprecationWarning, match="seconds"):
+        html = to_xml(SimpleToast("Body", duration=2))
+    assert "toastFadeOut 0.5s ease-in-out 2.0s forwards" in html

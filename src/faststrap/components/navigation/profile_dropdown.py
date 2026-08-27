@@ -4,7 +4,8 @@ from __future__ import annotations
 
 from typing import Any, Literal, cast
 
-from fasthtml.common import A, Div, Img, Span
+from fasthtml.common import A, Div, Hr, Img, Span
+from fasthtml.common import Button as FTButton
 
 from ...core._stability import experimental
 from ...core.base import merge_classes
@@ -35,8 +36,10 @@ def ProfileDropdown(
     """Authenticated user menu for dashboards and portals.
 
     Renders a dropdown toggle showing the user's avatar/initials and a
-    menu of account actions. Menu items render as real ``<a>`` links so
-    navigation works without custom JavaScript.
+    menu of account actions. The toggle is a native ``<button>`` so the
+    menu opens via mouse click, ``Enter``, or ``Space``, and menu items
+    render as real ``<a>`` links so navigation works without custom
+    JavaScript.
 
     Args:
         name: User display name.
@@ -51,7 +54,7 @@ def ProfileDropdown(
         layout: Trigger text arrangement: ``"horizontal"`` keeps the
             subtitle on one line beside the name; ``"stacked"`` reproduces
             the original block layout.
-        trigger_cls: Extra classes for the dropdown toggle element.
+        trigger_cls: Extra classes for the dropdown toggle button.
         menu_cls: Extra classes for the dropdown menu.
         item_cls: Extra classes for each menu anchor.
         footer: Optional element rendered after the items inside the menu
@@ -94,18 +97,17 @@ def ProfileDropdown(
         )
 
     if c_layout == "horizontal":
-        subtitle_cls = (
-            "text-muted small text-truncate"
-            if subtitle is not None
-            else "d-none"
-        )
         toggle_inner_children: list[Any] = [
             Span(avatar_content, cls="me-2 flex-shrink-0"),
             Span(name, cls="d-none d-lg-inline fw-semibold"),
         ]
         if subtitle:
             toggle_inner_children.append(
-                Span(subtitle, cls=f"d-none d-lg-inline {subtitle_cls}")
+                Span(
+                    subtitle,
+                    cls="d-none d-lg-inline-block text-muted small text-truncate",
+                    style="max-width: 12rem;",
+                )
             )
     else:
         toggle_inner_children = [
@@ -117,16 +119,6 @@ def ProfileDropdown(
                 Span(subtitle, cls="d-block w-100 text-muted small", style="font-size: 0.75rem;")
             )
 
-    toggle = Div(
-        *toggle_inner_children,
-        cls=merge_classes("dropdown-toggle", trigger_cls),
-        data_bs_toggle="dropdown",
-        aria_expanded="false",
-        aria_haspopup="true",
-        role="button",
-        tabindex="0",
-    )
-
     menu_children: list[Any] = []
     if items:
         for entry in items:
@@ -137,25 +129,40 @@ def ProfileDropdown(
             )
 
     if footer is not None:
-        from fasthtml.common import Hr
-
         menu_children.append(Hr(cls="dropdown-divider"))
         menu_children.append(Div(footer, cls="px-3 py-2"))
 
+    has_menu = bool(menu_children)
     menu = (
         Div(
             *menu_children,
             cls=merge_classes(f"dropdown-menu dropdown-menu-{c_alignment}", menu_cls),
         )
-        if menu_children
+        if has_menu
         else None
+    )
+
+    toggle_kwargs: dict[str, Any] = {"type": "button", "aria_label": name}
+    if has_menu:
+        toggle_kwargs.update(
+            {
+                "data_bs_toggle": "dropdown",
+                "aria_expanded": "false",
+                "aria_haspopup": "true",
+            }
+        )
+
+    toggle = FTButton(
+        *toggle_inner_children,
+        cls=merge_classes(
+            "dropdown-toggle bg-transparent border-0 d-inline-flex align-items-center", trigger_cls
+        ),
+        **toggle_kwargs,
     )
 
     attrs: dict[str, Any] = {
         "cls": merge_classes(base_cls, user_cls),
     }
-    if items:
-        attrs["data_fs_items"] = "true"
     attrs.update(convert_attrs(kwargs))
 
     return Div(

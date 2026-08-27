@@ -150,6 +150,18 @@ extend-exclude = '''
 line-length = 100
 target-version = "py310"
 src = ["src"]
+# Demo apps (examples/showcase) intentionally use star imports and inline
+# examples; generated/large trees should not gate CI linting.
+extend-exclude = [
+    "examples",
+    "showcase",
+    "site",
+    "htmlcov",
+    ".codex-pytest-tmp",
+    ".pytest_tmp",
+    ".pytest_tmp_run_*",
+    ".pytest-release-*",
+]
 
 [tool.ruff.lint]
 select = [

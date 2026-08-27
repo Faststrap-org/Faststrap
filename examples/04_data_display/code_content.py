@@ -8,7 +8,7 @@ Demonstrates: CodeBlock, Mermaid, Tag, Kbd
 - Kbd: keyboard shortcut display
 """
 
-from fasthtml.common import FastHTML, H1, H2, P, Div, Span, serve
+from fasthtml.common import FastHTML, H1, H2, P, Div, Span, Script, serve
 from faststrap import (
     add_bootstrap,
     Container,
@@ -23,7 +23,11 @@ from faststrap import (
     Col,
 )
 
-app = FastHTML()
+app = FastHTML(
+    hdrs=(
+        Script(src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"),
+    )
+)
 add_bootstrap(app, theme="indigo-night", mode="dark")
 
 PYTHON_EXAMPLE = """from fasthtml.common import FastHTML, serve

@@ -16,7 +16,7 @@ from .loaders import (
     WaveLoader,
 )
 from .modal import Modal
-from .modern_toast import ModernToast, ModernToastStack
+from .modern_toast import ModernToast, ModernToastStack, ToastPlacement
 from .notification_center import NotificationCenter
 from .notifications import (
     ErrorToast,
@@ -43,6 +43,7 @@ __all__ = [
     "Modal",
     "ModernToast",
     "ModernToastStack",
+    "ToastPlacement",
     "NotificationCenter",
     "NoticeToast",
     "NoticeAlert",

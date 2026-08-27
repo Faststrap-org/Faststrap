@@ -65,12 +65,51 @@
     startTimer(instance);
   };
 
+  // ?? Stack queue management ??????????????????????????????????????????????
+
+  const stackOf = (el) => el.closest('[data-fs-modern-toast-stack]');
+  const stackQueues = new Map();
+
+  const visibleCount = (stack) =>
+    stack.querySelectorAll(
+      '.faststrap-modern-toast:not(.faststrap-modern-toast-queued):not(.faststrap-modern-toast-exit)',
+    ).length;
+
+  const dequeueNext = (stack) => {
+    const queue = stackQueues.get(stack);
+    if (!queue || !queue.length) return;
+    const next = queue.shift();
+    next.classList.remove('faststrap-modern-toast-queued');
+    const instance = toastInstances.get(next.dataset[TOAST_KEY]);
+    if (instance) resumeTimer(instance);
+  };
+
+  const enqueueToast = (el) => {
+    const stack = stackOf(el);
+    if (!stack) return;
+    const max = readNumber(stack.dataset.fsMaxVisible, 5);
+    if (max > 0 && visibleCount(stack) > max) {
+      let queue = stackQueues.get(stack);
+      if (!queue) {
+        queue = [];
+        stackQueues.set(stack, queue);
+      }
+      el.classList.add('faststrap-modern-toast-queued');
+      queue.push(el);
+      const instance = toastInstances.get(el.dataset[TOAST_KEY]);
+      if (instance) pauseTimer(instance);
+    }
+  };
+
   const dismissToast = (el, reason) => {
     const id = el.dataset[TOAST_KEY];
     const instance = toastInstances.get(id);
     if (!instance || instance.dismissed) return;
     instance.dismissed = true;
     if (instance.timer) clearTimeout(instance.timer);
+
+    const stack = stackOf(el);
+    if (stack) dequeueNext(stack);
 
     el.classList.add('faststrap-modern-toast-exit');
     const onAnimationEnd = () => {
@@ -105,6 +144,7 @@
       const instance = registerToast(el);
       const duration = readNumber(el.dataset.fsDuration, 4000);
       if (duration > 0) startTimer(instance);
+      enqueueToast(el);
 
       const pauseOnHover = el.dataset.fsPauseOnHover !== 'false';
 

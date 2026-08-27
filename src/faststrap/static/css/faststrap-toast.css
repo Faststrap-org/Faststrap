@@ -70,3 +70,90 @@
     animation: none !important;
   }
 }
+
+/* ?? Stack queueing ?????????????????????????????????????????????????????? */
+
+.faststrap-modern-toast-queued {
+  display: none;
+}
+
+/* ?? Intent hooks (loading spinner; reduced-motion safe) ???????????????? */
+
+.faststrap-modern-toast[data-fs-intent="loading"] .bi {
+  animation: faststrap-modern-toast-spin 1s linear infinite;
+}
+
+@keyframes faststrap-modern-toast-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ?? Animation variants ?????????????????????????????????????????????????? */
+
+.faststrap-modern-toast[data-fs-animation="fade"] {
+  animation-name: faststrap-modern-toast-fade-in;
+}
+
+.faststrap-modern-toast-exit[data-fs-animation="fade"] {
+  animation-name: faststrap-modern-toast-fade-out;
+}
+
+.faststrap-modern-toast[data-fs-animation="zoom"] {
+  animation-name: faststrap-modern-toast-zoom-in;
+}
+
+.faststrap-modern-toast-exit[data-fs-animation="zoom"] {
+  animation-name: faststrap-modern-toast-zoom-out;
+}
+
+.faststrap-modern-toast[data-fs-animation="none"],
+.faststrap-modern-toast-exit[data-fs-animation="none"] {
+  animation: none;
+}
+
+@keyframes faststrap-modern-toast-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes faststrap-modern-toast-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes faststrap-modern-toast-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes faststrap-modern-toast-zoom-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faststrap-modern-toast[data-fs-intent="loading"] .bi {
+    animation: none !important;
+  }
+}

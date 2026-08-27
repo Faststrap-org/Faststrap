@@ -13,12 +13,21 @@ from fasthtml.common import (
     H1,
     H2,
     P,
+    Link,
+    Script,
     serve,
 )
 
 from faststrap import Container, Math, add_bootstrap
 
-app = FastHTML()
+app = FastHTML(
+    hdrs=(
+        Link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"),
+        Script(src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"),
+        Script(src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"),
+        Script(src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/mhchem.min.js"),
+    )
+)
 add_bootstrap(app, theme="indigo-night", mode="light")
 
 

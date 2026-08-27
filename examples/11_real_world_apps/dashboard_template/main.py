@@ -954,5 +954,15 @@ def settings():
     return PageLayout(content, "settings", "Settings")
 
 
+@app.get("/profile")
+def profile():
+    return settings()
+
+
+@app.get("/logout")
+def logout():
+    return home()
+
+
 if __name__ == "__main__":
     serve(port=5099)

@@ -7,7 +7,7 @@ Use core `Toast` when you want Bootstrap's native toast structure. Use `ModernTo
 ## Import
 
 ```python
-from faststrap import ModernToast, ModernToastStack
+from faststrap import ModernToast, ModernToastStack, ToastPlacement
 ```
 
 ## Basic Usage
@@ -71,7 +71,7 @@ ModernToast(
 | `cancel` | `ToastAction \| Any \| None` | `None` | Optional cancel button or component. |
 | `dismissible` | `bool` | `True` | Shows the close button. |
 | `pause_on_hover` | `bool` | `True` | Pause auto-dismiss timer on hover/focus. |
-| `animation` | `ToastAnimation` | `slide` | Enter/exit animation: `slide`, `fade`, `zoom`, `none`. |
+| `animation` | `ToastAnimation` | `slide` | Enter/exit animation, now visually distinct for each value: `slide`, `fade`, `zoom`, `none`. |
 | `radius` | `str \| None` | `None` | Radius token overriding the default `rounded-4`: `sm`, `md`, `lg`, `none`. |
 | `shadow` | `str \| None` | `None` | Shadow token overriding the default `shadow-lg`: `sm`, `md`, `lg`, `none`. |
 | `title_cls` / `message_cls` / `close_button_cls` | `str` | `""` | Extra classes for the title, message, and close button. |
@@ -84,7 +84,7 @@ ModernToast(
 | `*toasts` | `Any` | | Toast children. |
 | `placement` | `ToastPlacement \| None` | `bottom-right` | Stack position + offset + gutter. |
 | `gap` | `int` | `2` | Bootstrap grid gap utility suffix. |
-| `max_visible` | `int` | `5` | Maximum visible toasts before queueing. |
+| `max_visible` | `int` | `5` | Maximum toasts visible at once; extras are queued (hidden) until an open toast dismisses. |
 | `**kwargs` | `Any` | | Extra attributes. |
 
 ## Behavior Notes
@@ -92,9 +92,12 @@ ModernToast(
 - `ModernToast` uses a dedicated JS runtime (`modern-toast.js`) for auto-dismiss, keyboard dismiss, pause-on-hover, and swipe-to-dismiss.
 - The runtime is loaded automatically when `ModernToast` or `ModernToastStack` is used with `add_bootstrap(app, components=[ModernToast, ...])`.
 - `variant`, `position`, and `style` parameters are deprecated but still accepted with `DeprecationWarning`. Use `intent`, `placement`, and `visual_style` instead.
+- `intent` controls both the semantic role (`status`/`alert`) and the Bootstrap color classes: `error` renders as `danger` and `loading` as `primary` (Bootstrap has no `error`/`loading` color names).
 - The default surface uses `rounded-4` + `shadow-lg`; for dense dashboards prefer `ModernToast(..., radius="md", shadow="sm")`.
 - Global defaults are supported: `set_component_defaults("ModernToast", intent="info", duration=4000)`.
 - Close buttons, auto-dismiss, keyboard dismiss (Escape while focused), and swipe-to-dismiss are handled by the runtime; no extra wiring needed.
+- `animation` values produce distinct enter/exit motions: `slide`, `fade`, `zoom`, or `none`.
+- `ModernToastStack(max_visible=...)` queues toasts beyond the limit and reveals them as older toasts dismiss.
 
 ::: faststrap.components.feedback.modern_toast.ModernToast
     options:

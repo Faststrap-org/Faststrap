@@ -376,8 +376,8 @@
   color: var(--faststrap-gradient-button-text, var(--bs-white)) !important;
 }
 
-.faststrap-gradient-button:hover,
-.faststrap-gradient-button:focus {
+.faststrap-gradient-button:not(.hover-none):hover,
+.faststrap-gradient-button:not(.hover-none):focus {
   color: var(--faststrap-gradient-button-text, var(--bs-white)) !important;
   filter: saturate(1.08) brightness(1.02);
 }
@@ -398,6 +398,18 @@
 .faststrap-gradient-button.hover-lift:active,
 .faststrap-gradient-button.hover-glow:active {
   transform: translateY(0);
+  box-shadow: none;
+}
+
+/* hover="none": fully static — override the global .btn:hover lift from core assets */
+.faststrap-gradient-button.hover-none:hover:not(:disabled),
+.faststrap-gradient-button.hover-none:focus {
+  transform: none;
+  box-shadow: none;
+}
+
+.faststrap-gradient-button.hover-none:active:not(:disabled) {
+  transform: none;
   box-shadow: none;
 }
 

@@ -75,27 +75,76 @@ def test_profile_dropdown_merges_custom_classes() -> None:
     assert "my-profile" in html
 
 
-def test_profile_dropdown_sets_data_attributes() -> None:
-    """When items are provided, data attribute is set."""
-    component = ProfileDropdown("Alice", items=[("Profile", "/profile")])
+def test_profile_dropdown_trigger_is_native_button() -> None:
+    """The toggle is a real button so Enter/Space natively open the menu."""
+    component = ProfileDropdown("Alice")
     html = to_xml(component)
+    assert "<button" in html
+    assert 'type="button"' in html
+    assert "tabindex" not in html  # buttons are natively tabbable
+
+
+def test_profile_dropdown_trigger_has_accessible_name() -> None:
+    """The toggle carries the user's full name as an accessible label."""
+    component = ProfileDropdown("Alice Smith", subtitle="Admin")
+    html = to_xml(component)
+    assert 'aria-label="Alice Smith"' in html
+
 
 def test_profile_dropdown_items_are_anchor_links() -> None:
     """Menu items render as real anchors that navigate without extra JS."""
     component = ProfileDropdown("Alice", items=[("Profile", "/profile")])
     html = to_xml(component)
-    assert "href=\"/profile\"" in html
+    assert 'href="/profile"' in html
     assert "<a " in html
     assert "data-fs-href" not in html
 
 
-def test_profile_dropdown_trigger_is_keyboard_accessible() -> None:
-    """Trigger exposes ARIA wiring and is focusable."""
+def test_profile_dropdown_without_items_has_no_dropdown_wiring() -> None:
+    """A toggle with no menu must not carry dropdown JS wiring.
+
+    Bootstrap's dropdown handler crashes with ``TypeError: Cannot read
+    properties of null (reading 'classList')`` when a ``data-bs-toggle``
+    button has no sibling ``.dropdown-menu``.
+    """
+    component = ProfileDropdown("Alice", subtitle="stacked trigger, no menu")
+    html = to_xml(component)
+    assert 'data-bs-toggle="dropdown"' not in html
+    assert "aria-haspopup" not in html
+    assert "aria-expanded" not in html
+    assert "<button" in html  # still a real, focusable button
+    assert 'aria-label="Alice"' in html
+
+
+def test_profile_dropdown_with_items_keeps_dropdown_wiring() -> None:
+    """Dropdown wiring is intact when a menu exists."""
     component = ProfileDropdown("Alice", items=[("Profile", "/profile")])
     html = to_xml(component)
-    assert 'tabindex="0"' in html
+    assert 'data-bs-toggle="dropdown"' in html
     assert 'aria-haspopup="true"' in html
     assert 'aria-expanded="false"' in html
+
+
+def test_profile_dropdown_footer_only_still_gets_menu() -> None:
+    """A footer without items still creates a menu (so wiring stays valid)."""
+    from fasthtml.common import Button as FTButton
+
+    component = ProfileDropdown(
+        "Alice", footer=FTButton("Prefs", type="button", cls="btn btn-sm btn-outline-secondary")
+    )
+    html = to_xml(component)
+    assert "dropdown-menu" in html
+    assert 'data-bs-toggle="dropdown"' in html
+
+
+def test_profile_dropdown_trigger_is_keyboard_accessible() -> None:
+    """Trigger exposes ARIA wiring and is a native focusable button."""
+    component = ProfileDropdown("Alice", items=[("Profile", "/profile")])
+    html = to_xml(component)
+    assert "<button" in html
+    assert 'aria-haspopup="true"' in html
+    assert 'aria-expanded="false"' in html
+    assert 'data-bs-toggle="dropdown"' in html
 
 
 def test_profile_dropdown_items_have_single_dropdown_item_class() -> None:
@@ -104,4 +153,4 @@ def test_profile_dropdown_items_have_single_dropdown_item_class() -> None:
     html = to_xml(component)
     assert html.count('class="dropdown-item"') >= 1
     assert '<span class="dropdown-item">' not in html
-    assert 'data-fs-items="true"' in html
+    assert 'data-fs-items="true"' not in html

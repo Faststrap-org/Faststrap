@@ -19,7 +19,6 @@ from ...utils.icons import Icon
 
 ToastStyle = Literal["solid", "soft", "glass", "minimal"]
 ToastIntent = Literal["success", "error", "warning", "info", "loading"]
-ToastVisualStyle = Literal["solid", "soft", "glass", "flat"]
 ToastAnimation = Literal["slide", "fade", "zoom", "none"]
 ToastCloseReason = Literal["auto", "manual", "escape", "swipe"]
 
@@ -77,6 +76,28 @@ _VARIANT_TO_INTENT = {
     "dark": "info",
     "link": "info",
 }
+
+# Map semantic intents to valid Bootstrap color utilities: Bootstrap has no
+# `error`/`loading` color names, so raw `border-error`/`text-loading` would
+# silently no-op. `data-fs-intent` still carries the semantic value for theming.
+_INTENT_TO_BOOTSTRAP_COLOR: dict[str, str] = {
+    "success": "success",
+    "warning": "warning",
+    "info": "info",
+    "error": "danger",
+    "loading": "primary",
+}
+
+# ToastAction style literals mapped to real Bootstrap button classes; raw
+# `btn-*` strings are passed through untouched for custom styling.
+_ACTION_STYLE_CLASSES: dict[str, str] = {
+    "primary": "btn-primary",
+    "secondary": "btn-secondary",
+    "destructive": "btn-danger",
+    "outline": "btn-outline-secondary",
+    "link": "btn-link",
+}
+
 
 _POSITION_ALIASES = {
     "top-right": "top-end",
@@ -169,6 +190,7 @@ def ModernToast(
     # Global defaults support (set_component_defaults("ModernToast", ...))
     cfg = resolve_defaults("ModernToast", intent=resolved_intent, duration=duration)
     resolved_intent = str(cfg.get("intent") or "info")
+    c_bootstrap_color = _INTENT_TO_BOOTSTRAP_COLOR.get(resolved_intent, resolved_intent)
     resolved_duration = cfg.get("duration")
     if resolved_duration is None:
         resolved_duration = 4000
@@ -185,7 +207,7 @@ def ModernToast(
             base_radius_cls,
             base_shadow_cls,
             f"faststrap-modern-toast-{resolved_style}",
-            f"border-{resolved_intent}",
+            f"border-{c_bootstrap_color}",
             user_cls,
         ),
         "role": "status" if resolved_intent not in {"danger", "warning", "error"} else "alert",
@@ -204,21 +226,22 @@ def ModernToast(
     if resolved_icon:
         parts.append(
             Span(
-                Icon(resolved_icon, cls=f"text-{resolved_intent}", aria_hidden="true"),
+                Icon(resolved_icon, cls=f"text-{c_bootstrap_color}", aria_hidden="true"),
                 cls="fs-5 lh-1 mt-1",
             )
         )
 
-    body_parts: list[Any] = [
-        Span(title, cls=merge_classes("fw-semibold d-block", title_cls))
-    ]
+    body_parts: list[Any] = [Span(title, cls=merge_classes("fw-semibold d-block", title_cls))]
     if message:
         body_parts.append(P(message, cls=merge_classes("small text-muted mb-0", message_cls)))
     if action:
         if isinstance(action, dict):
             action_label = action.get("label", "")
+            action_style = _ACTION_STYLE_CLASSES.get(
+                action.get("style", "link"), action.get("style", "link")
+            )
             action_cls = merge_classes(
-                "btn", action.get("style", "link"), "disabled" if action.get("loading") else None
+                "btn", action_style, "disabled" if action.get("loading") else None
             )
             action_btn = FTButton(
                 action_label,
@@ -232,8 +255,11 @@ def ModernToast(
     if cancel:
         if isinstance(cancel, dict):
             cancel_label = cancel.get("label", "")
+            cancel_style = _ACTION_STYLE_CLASSES.get(
+                cancel.get("style", "link"), cancel.get("style", "link")
+            )
             cancel_cls = merge_classes(
-                "btn", cancel.get("style", "link"), "disabled" if cancel.get("loading") else None
+                "btn", cancel_style, "disabled" if cancel.get("loading") else None
             )
             cancel_btn = FTButton(
                 cancel_label,
@@ -264,12 +290,24 @@ def ModernToast(
 def ModernToastStack(
     *toasts: Any,
     placement: ToastPlacement | None = None,
-    gap: int = 2,
+    gap: int = 8,
     max_visible: int = 5,
     position: str | None = UNSET,
     **kwargs: Any,
 ) -> Div:
-    """Render a positioned stack of ModernToast components."""
+    """Render a positioned stack of ModernToast components.
+
+    Args:
+        *toasts: Toast children.
+        placement: Stack position/offset/gutter.
+        gap: Bootstrap gap utility suffix; used when ``placement.gutter`` is
+            left at its default (the default ``8`` preserves the historical
+            2rem spacing).
+        max_visible: Toasts visible at once; extras queue (hidden) until
+            others dismiss.
+        position: Deprecated; use ``placement`` instead.
+        **kwargs: Additional HTML attributes.
+    """
     if position is not UNSET and position is not None:
         warnings.warn(
             "ModernToastStack(position=...) is deprecated; use placement=ToastPlacement(position=...) instead.",
@@ -296,13 +334,16 @@ def ModernToastStack(
         "middle-center": "top-50 start-50 translate-middle",
         "middle-end": "top-50 end-0 translate-middle-y",
     }
-    offset_style = (
-        f"margin: {resolved_placement.offset}px; gap: {resolved_placement.gutter * 0.25}rem;"
-    )
+    offset_style = f"margin: {resolved_placement.offset}px;"
+    gap_cls = f"gap-{gap}"
+    if resolved_placement.gutter != 8:
+        # An explicit gutter (px) takes precedence over the gap utility.
+        gap_cls = ""
+        offset_style += f" gap: {resolved_placement.gutter * 0.25}rem;"
     attrs: dict[str, Any] = {
         "cls": merge_classes(
             "faststrap-modern-toast-stack position-fixed p-3 d-grid",
-            f"gap-{gap}",
+            gap_cls,
             position_classes.get(resolved_placement.position, position_classes["bottom-right"]),
             user_cls,
         ),

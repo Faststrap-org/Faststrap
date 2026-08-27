@@ -82,7 +82,6 @@ def test_action_buttons_use_core_button_surface() -> None:
     assert 'aria-label="Primary action"' in fab
 
 
-
 def test_gradient_button_does_not_mutate_caller_css_vars() -> None:
     shared: dict = {"--custom": "1px"}
     to_xml(GradientButton("Launch", css_vars=shared))

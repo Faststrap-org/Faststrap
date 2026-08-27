@@ -18,18 +18,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ModernToast`: `radius`, `shadow`, `title_cls`, `message_cls`, and
   `close_button_cls`; participates in `set_component_defaults("ModernToast", ...)`
   for `intent`/`duration`. The declared `minimal` visual style now ships CSS.
+  `ToastPlacement` (and the modern-toast family) is now exported from the
+  top-level package.
 - `FloatingActionButton`: logical `size` (`sm`=44px, `md`=48px, `lg`=56px via
   `--fs-fab-size`), `offset` (viewport inset rem units via `--fs-fab-inset`),
   and `shape="pill"` for extended icon+label FABs. Sizing/inset tokens are now
-  CSS variables; the default render is unchanged (56px circle).
+  CSS variables; the default render is unchanged (56px circle). `position`,
+  `size`, and `shape` are validated and raise `ValueError` for unknown values.
 - `GradientButton`: `text_color` override and `hover` treatment
-  (`lift`/`glow`/`none`); the `orange` and `pink` presets were darkened to keep
-  white text within WCAG AA contrast (old values remain available via raw CSS).
+  (`lift`/`glow`/`none`); the `blue` and `green` presets were darkened
+  alongside `orange`/`pink` so every preset keeps ≥3:1 contrast (WCAG
+  non-text/UI) against the default white label, and `hover="none"` now fully
+  disables hover/focus treatment.
 - `ProfileDropdown`: flexible trigger API — `layout` (`horizontal` keeps the
   subtitle on one line instead of stacking), `avatar_size`,
   `trigger_cls`, `menu_cls`, `item_cls`, menu `footer` slot, and optional
-  3-tuple items merging extra attributes onto anchors. Participates in global
-  component defaults.
+  3-tuple items merging extra attributes onto anchors. The toggle is now a
+  native `<button>` with an `aria-label` so the menu opens via click, `Enter`,
+  or `Space`. Participates in global component defaults.
 - `CalendarDatePicker`: `apply_cls` / `clear_cls` button class hooks.
 - `ResultCard`: `icon_cls`, `title_cls`, `message_cls` slots.
 - `Sheet`: `radius` token (`lg` default preserves `rounded-top-4`).
@@ -54,6 +60,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   now work as expected.
 - Fixed `ModernToast` to use `data-fs-dismiss` instead of inline `onclick`, and
   centralized dismiss behavior in a new `modern-toast.js` runtime.
+- Fixed `ModernToast` so `intent="error"` and `intent="loading"` render valid
+  Bootstrap color classes (`border-danger`/`text-danger` and
+  `border-primary`/`text-primary`), repairing both direct usage and the legacy
+  `variant="danger"` deprecation path.
+- Wired the previously-decorative `ModernToast.animation` and
+  `ModernToastStack.max_visible` parameters: distinct `fade`/`zoom`/`none`
+  motions now ship CSS, and `max_visible` queueing is implemented in
+  `modern-toast.js` (excess toasts are hidden until open ones dismiss).
+- Fixed `ToastAction`/`cancel` style resolution so typed style names
+  (`primary`/`secondary`/`destructive`/`outline`) map to valid `btn-*` classes.
+- Made `ProfileDropdown`'s trigger a native `<button>` with an `aria-label`, so
+  the menu is keyboard-operable and screen-reader announced.
 
 ### Added
 

@@ -28,6 +28,17 @@ pytest
 git push origin feature/my-component
 ```
 
+> **Important — use an editable install.** `pip install -e ".[dev]"` makes the
+> installed package resolve to `src/faststrap`, so your edits are picked up
+> immediately. If you ever see a stale (non-editable) copy being imported
+> instead, verify with:
+> ```bash
+> python -c "import faststrap; print(faststrap.__file__)"
+> ```
+> The output must point inside this repo's `src/faststrap`. If it points into
+> `site-packages`, uninstall and reinstall editable (`pip uninstall faststrap`
+> then `pip install -e ".[dev]"`).
+
 ---
 
 ## 📋 Ways to Contribute

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal, cast
+from typing import Any, Literal, cast, get_args
 
 from ...core._stability import beta
 from ...core.base import merge_classes
@@ -17,12 +17,13 @@ FabSize = Literal["sm", "md", "lg"]
 FabShape = Literal["circle", "pill"]
 GradientHover = Literal["default", "lift", "glow", "none"]
 
-# Preset endpoints were darkened where the original gradients faded into
-# near-white colors with failing white-text contrast (WCAG AA).
+# All presets keep >=3:1 contrast (WCAG 1.4.11 non-text/UI) against the
+# default white label across the full gradient; darker ends approach 4.5:1.
+# Pass `text_color` for custom gradients or a strict AA small-text target.
 GRADIENT_PRESETS: dict[str, str] = {
     "purple": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-    "blue": "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-    "green": "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)",
+    "blue": "linear-gradient(135deg, #1d4ed8 0%, #0284c7 100%)",
+    "green": "linear-gradient(135deg, #15803d 0%, #0d9488 100%)",
     "orange": "linear-gradient(135deg, #ea580c 0%, #c2410c 100%)",
     "pink": "linear-gradient(135deg, #ec4899 0%, #be185d 100%)",
 }
@@ -69,6 +70,8 @@ def GradientButton(
         classes.append("hover-lift")
     elif hover == "glow":
         classes.append("hover-glow")
+    elif hover == "none":
+        classes.append("hover-none")
 
     return Button(
         *children,
@@ -111,6 +114,17 @@ def FloatingActionButton(
         shape: ``circle`` (default) or ``pill`` for extended icon+label FABs.
         **kwargs: Additional ``Button`` kwargs (cls, css_vars, hx-*, style, ...).
     """
+    if (
+        position is not UNSET
+        and position is not None
+        and str(position) not in get_args(FabPosition)
+    ):
+        raise ValueError(f"position must be one of {get_args(FabPosition)}, got {position!r}")
+    if size is not UNSET and size is not None and str(size) not in get_args(FabSize):
+        raise ValueError(f"size must be one of {get_args(FabSize)}, got {size!r}")
+    if shape is not UNSET and shape is not None and str(shape) not in get_args(FabShape):
+        raise ValueError(f"shape must be one of {get_args(FabShape)}, got {shape!r}")
+
     cfg = resolve_defaults(
         "FloatingActionButton",
         variant=variant,
