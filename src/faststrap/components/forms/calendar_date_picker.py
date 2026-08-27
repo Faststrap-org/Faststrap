@@ -36,9 +36,32 @@ def CalendarDatePicker(
     push_url: bool = False,
     input_cls: str | None = None,
     form_cls: str | None = None,
+    apply_cls: str | None = None,
+    clear_cls: str | None = None,
     **kwargs: Any,
 ) -> Div:
-    """Render a single date picker around the native HTML date input."""
+    """Render a single date picker around the native HTML date input.
+
+    Args:
+        name: Input ``name`` attribute.
+        label: Label shown above the date input.
+        value: Initial date in ``YYYY-MM-DD`` format.
+        min_date: Earliest selectable date.
+        max_date: Latest selectable date.
+        endpoint: Optional form/HTMX endpoint.
+        method: Submission method.
+        auto: Submit on date change when an endpoint is present.
+        apply_label: Submit button label; ``None`` hides it.
+        clear_label: Optional reset button label.
+        hx_target: HTMX target for responses.
+        hx_swap: HTMX swap style.
+        push_url: Whether HTMX should push the URL.
+        input_cls: Extra classes for the date input.
+        form_cls: Extra classes for the wrapping form row.
+        apply_cls: Extra classes for the Apply button.
+        clear_cls: Extra classes for the Clear button.
+        **kwargs: Additional HTML attributes for the wrapper.
+    """
     if method not in {"get", "post"}:
         msg = f"method must be 'get' or 'post', got {method!r}"
         raise ValueError(msg)
@@ -92,9 +115,19 @@ def CalendarDatePicker(
 
     controls: list[Any] = [date_input]
     if apply_label:
-        controls.append(Button(apply_label, type="submit", variant="primary"))
+        controls.append(
+            Button(apply_label, type="submit", variant="primary", cls=apply_cls)
+        )
     if clear_label:
-        controls.append(Button(clear_label, type="reset", variant="secondary", outline=True))
+        controls.append(
+            Button(
+                clear_label,
+                type="reset",
+                variant="secondary",
+                outline=True,
+                cls=clear_cls,
+            )
+        )
 
     converted_form_attrs = convert_attrs(form_attrs)
     # GET forms submit via the query string; the multipart encoding default is

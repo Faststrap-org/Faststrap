@@ -70,11 +70,14 @@ CalendarDatePicker(
 | `auto` | `bool` | `False` | Submit on date change when an endpoint is present. |
 | `apply_label` | `str \| None` | `"Apply"` | Submit button label. Set to `None` to hide. |
 | `clear_label` | `str \| None` | `None` | Optional reset button label. |
+| `apply_cls` / `clear_cls` | `str \| None` | `None` | Extra classes for the Apply/Clear buttons (e.g. `btn-sm`). |
 | `hx_target` | `str \| None` | `None` | HTMX target for responses. |
 | `hx_swap` | `str \| None` | `"outerHTML"` | HTMX swap style. |
 | `push_url` | `bool` | `False` | Whether HTMX should push the URL. |
 | `input_cls` / `form_cls` | `str \| None` | `None` | Styling hooks. |
 | `**kwargs` | `Any` | | Extra wrapper attributes. |
+
+The input control and the action buttons share one horizontal baseline; GET forms submit via the query string.
 
 ::: faststrap.components.forms.calendar_date_picker.CalendarDatePicker
     options:

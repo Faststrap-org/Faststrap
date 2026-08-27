@@ -111,6 +111,11 @@ def add_item():
 | `delay` | `int` | `data-bs-delay` | Duration in milliseconds before closing. |
 | `duration` (`SimpleToast`) | `int` | CSS animation delay | Duration in milliseconds before fade out. |
 | `position` | `str` | - | Location: `top-end`, `bottom-start`, etc. |
+| `radius` | `str \| None` | `None` | Radius token (`sm`, `md`, `lg`, `none`, `pill`); `None` keeps the default rounding. |
+| `header_cls` / `body_cls` / `close_button_cls` (`Toast`) | `str` | `""` | Slot class hooks for the header row, body, and dismiss button. |
+| `body_cls` (`SimpleToast`) | `str` | `""` | Extra classes for the toast body. |
+
+Multiple `ToastContainer`s are supported: pass a distinct `container_id` per container, or `container_id=None` for an auto-generated id.
 
 !!! note "JavaScript Requirement"
     The `Toast` component requires Bootstrap's JavaScript plugin. FastStrap automatically initializes Bootstrap Toasts via `faststrap-init.js` when `add_bootstrap(app, components=[Toast, ...])` is called, or when JS is always included.

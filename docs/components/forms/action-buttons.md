@@ -26,11 +26,14 @@ Use `GradientButton` when you want a stronger call-to-action than a default Boot
 | Parameter | Type | Default | Description |
 | --- | --- | --- | --- |
 | `*children` | `Any` | required | Button content. |
-| `gradient` | `purple \| blue \| green \| orange \| pink \| str` | `purple` | Preset or custom CSS gradient. |
+| `gradient` | `purple \| blue \| green \| orange \| pink \| str` | `purple` | Preset or custom CSS gradient. Orange/pink presets use darkened, AA-contrast endpoints. |
 | `size` | `sm \| lg \| None` | `None` | Bootstrap button size. |
+| `text_color` | `str \| None` | `None` | Label color override for light gradients (via `--faststrap-gradient-button-text`). |
+| `hover` | `default \| lift \| glow \| none` | `default` | Hover treatment. |
 
 ```python
 GradientButton("Start trial", gradient="linear-gradient(135deg, #111827, #22c55e)")
+GradientButton("Buy now", gradient="orange", hover="lift")
 ```
 
 ## FloatingActionButton
@@ -44,6 +47,14 @@ Use `FloatingActionButton` for a page-level primary action, especially in dashbo
 | `variant` | Bootstrap variant | `primary` | Button color. |
 | `position` | `bottom-right \| bottom-left \| top-right \| top-left` | `bottom-right` | Fixed viewport position. |
 | `label` | `str \| None` | `Primary action` | Accessible label. |
+| `size` | `sm \| md \| lg` | `lg` | Logical size via `--fs-fab-size` (44/48/56px). |
+| `offset` | `int \| None` | `2rem` inset | Viewport inset in rem units via `--fs-fab-inset`; reduce on mobile. |
+| `shape` | `circle \| pill` | `circle` | `pill` renders an extended icon+label FAB. |
+
+```python
+FloatingActionButton(icon="plus", label="Add expense", size="sm", offset=4)
+FloatingActionButton("Edit draft", icon="edit", shape="pill")
+```
 
 ## Notes
 

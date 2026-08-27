@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Shared visual tokens in `faststrap.core.visual` (`radius_class`/`shadow_class`)
+  mapping `none|sm|md|lg|pill` radius and `none|sm|md|lg` shadow tokens to
+  Bootstrap utilities.
+- `Toast`: `radius`, `header_cls`, `body_cls`, and `close_button_cls` hooks;
+  `SimpleToast`: `radius` and `body_cls`; `ToastContainer(container_id=None)`
+  auto-generates a unique id so multiple containers can coexist.
+- `ModernToast`: `radius`, `shadow`, `title_cls`, `message_cls`, and
+  `close_button_cls`; participates in `set_component_defaults("ModernToast", ...)`
+  for `intent`/`duration`. The declared `minimal` visual style now ships CSS.
+- `FloatingActionButton`: logical `size` (`sm`=44px, `md`=48px, `lg`=56px via
+  `--fs-fab-size`), `offset` (viewport inset rem units via `--fs-fab-inset`),
+  and `shape="pill"` for extended icon+label FABs. Sizing/inset tokens are now
+  CSS variables; the default render is unchanged (56px circle).
+- `GradientButton`: `text_color` override and `hover` treatment
+  (`lift`/`glow`/`none`); the `orange` and `pink` presets were darkened to keep
+  white text within WCAG AA contrast (old values remain available via raw CSS).
+- `ProfileDropdown`: flexible trigger API — `layout` (`horizontal` keeps the
+  subtitle on one line instead of stacking), `avatar_size`,
+  `trigger_cls`, `menu_cls`, `item_cls`, menu `footer` slot, and optional
+  3-tuple items merging extra attributes onto anchors. Participates in global
+  component defaults.
+- `CalendarDatePicker`: `apply_cls` / `clear_cls` button class hooks.
+- `ResultCard`: `icon_cls`, `title_cls`, `message_cls` slots.
+- `Sheet`: `radius` token (`lg` default preserves `rounded-top-4`).
+- `ErrorDialog`: `icon_cls` and `message_cls` hooks.
+
 ### Changed
 
 - Extracted Faststrap's browser initialization script from inline Python source into

@@ -12,7 +12,8 @@ from fasthtml.common import Div, P, Span
 from ...core._stability import beta
 from ...core.base import merge_classes
 from ...core.registry import register
-from ...core.theme import UNSET
+from ...core.theme import UNSET, resolve_defaults
+from ...core.visual import RadiusToken, ShadowToken, radius_class, shadow_class
 from ...utils.attrs import convert_attrs
 from ...utils.icons import Icon
 
@@ -91,10 +92,10 @@ def ModernToast(
     title: str,
     message: str | None = None,
     *,
-    intent: ToastIntent | str = "info",
+    intent: ToastIntent | str | None = UNSET,
     visual_style: ToastStyle = "glass",
     placement: ToastPlacement | None = None,
-    duration: int | Literal["infinite"] = 4000,
+    duration: int | Literal["infinite"] | None = UNSET,
     icon: str | None = None,
     action: ToastAction | Any | None = None,
     cancel: ToastAction | Any | None = None,
@@ -105,9 +106,37 @@ def ModernToast(
     position: str | None = UNSET,
     style: str | None = UNSET,
     on_dismiss: Any | None = None,
+    radius: RadiusToken | str | None = None,
+    shadow: ShadowToken | str | None = None,
+    title_cls: str = "",
+    message_cls: str = "",
+    close_button_cls: str = "",
     **kwargs: Any,
 ) -> Div:
-    """Render an opinionated modern toast surface."""
+    """Render an opinionated modern toast surface.
+
+    Args:
+        title: Primary toast heading.
+        message: Optional supporting body text.
+        intent: Semantic intent driving color and live-region role.
+        visual_style: Surface treatment (``solid``, ``soft``, ``glass``,
+            ``minimal``).
+        placement: Positioned placement (position/offset/gutter).
+        duration: Auto-dismiss delay in ms, or ``"infinite"`` to disable.
+        icon: Bootstrap icon name override.
+        action: Optional action button spec or custom element.
+        cancel: Optional cancel button spec or custom element.
+        dismissible: Render a close button.
+        pause_on_hover: Pause the auto-dismiss timer while hovered/focused.
+        animation: Enter/exit animation style.
+        radius: Radius token overriding the default ``rounded-4``
+            (e.g. ``md`` for a calmer surface in dense dashboards).
+        shadow: Shadow token overriding the default ``shadow-lg``.
+        title_cls: Extra classes for the title line.
+        message_cls: Extra classes for the message paragraph.
+        close_button_cls: Extra classes for the dismiss button.
+        **kwargs: Additional HTML attributes (``cls``, ``css_vars``, hx-*, ...).
+    """
     resolved_intent = intent
     if variant is not UNSET and variant is not None:
         warnings.warn(
@@ -137,13 +166,24 @@ def ModernToast(
         )
         resolved_style = style
 
-    duration_ms = 0 if duration == "infinite" else int(duration)
+    # Global defaults support (set_component_defaults("ModernToast", ...))
+    cfg = resolve_defaults("ModernToast", intent=resolved_intent, duration=duration)
+    resolved_intent = str(cfg.get("intent") or "info")
+    resolved_duration = cfg.get("duration")
+    if resolved_duration is None:
+        resolved_duration = 4000
+
+    duration_ms = 0 if resolved_duration == "infinite" else int(resolved_duration)
 
     user_cls = kwargs.pop("cls", "")
     resolved_icon = icon if icon is not None else TOAST_ICONS.get(resolved_intent)
+    base_radius_cls = radius_class(radius) or "rounded-4"
+    base_shadow_cls = shadow_class(shadow) or "shadow-lg"
     attrs: dict[str, Any] = {
         "cls": merge_classes(
-            "faststrap-modern-toast d-flex gap-3 rounded-4 border shadow-lg p-3",
+            "faststrap-modern-toast d-flex gap-3 border p-3",
+            base_radius_cls,
+            base_shadow_cls,
             f"faststrap-modern-toast-{resolved_style}",
             f"border-{resolved_intent}",
             user_cls,
@@ -169,9 +209,11 @@ def ModernToast(
             )
         )
 
-    body_parts: list[Any] = [Span(title, cls="fw-semibold d-block")]
+    body_parts: list[Any] = [
+        Span(title, cls=merge_classes("fw-semibold d-block", title_cls))
+    ]
     if message:
-        body_parts.append(P(message, cls="small text-muted mb-0"))
+        body_parts.append(P(message, cls=merge_classes("small text-muted mb-0", message_cls)))
     if action:
         if isinstance(action, dict):
             action_label = action.get("label", "")
@@ -208,7 +250,7 @@ def ModernToast(
         parts.append(
             FTButton(
                 type="button",
-                cls="btn-close",
+                cls=merge_classes("btn-close", close_button_cls),
                 aria_label="Dismiss notification",
                 data_fs_dismiss="true",
             )

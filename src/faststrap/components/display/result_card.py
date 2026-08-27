@@ -41,9 +41,26 @@ def ResultCard(
     icon: str | None = None,
     action: Any | None = None,
     compact: bool = False,
+    icon_cls: str | None = None,
+    title_cls: str | None = None,
+    message_cls: str | None = None,
     **kwargs: Any,
 ) -> Div:
-    """Render a focused result surface for completed actions."""
+    """Render a focused result surface for completed actions.
+
+    Args:
+        title: Result heading.
+        message: Optional supporting text.
+        status: Semantic outcome driving color and live-region role.
+        icon: Bootstrap icon name override.
+        action: Optional action element rendered below the text.
+        compact: Reduce vertical padding for dense layouts.
+        icon_cls: Extra classes merged onto the icon (e.g. ``fs-2`` to
+            reduce the icon's visual weight).
+        title_cls: Extra classes merged onto the title heading.
+        message_cls: Extra classes merged onto the message paragraph.
+        **kwargs: Additional HTML attributes.
+    """
     variant = RESULT_VARIANTS.get(status, "secondary")
     resolved_icon = icon if icon is not None else RESULT_ICONS.get(status)
     user_cls = kwargs.pop("cls", "")
@@ -66,14 +83,18 @@ def ResultCard(
     if resolved_icon:
         content.append(
             Div(
-                Icon(resolved_icon, cls=f"text-{variant} fs-4", aria_hidden="true"),
+                Icon(
+                    resolved_icon,
+                    cls=merge_classes(f"text-{variant} fs-4", icon_cls),
+                    aria_hidden="true",
+                ),
                 cls="flex-shrink-0",
             )
         )
 
-    text_parts: list[Any] = [H5(title, cls="card-title mb-1")]
+    text_parts: list[Any] = [H5(title, cls=merge_classes("card-title mb-1", title_cls))]
     if message:
-        text_parts.append(P(message, cls="card-text text-muted mb-0"))
+        text_parts.append(P(message, cls=merge_classes("card-text text-muted mb-0", message_cls)))
     if action:
         text_parts.append(Div(action, cls="mt-3"))
 

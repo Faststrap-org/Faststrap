@@ -7,6 +7,7 @@ from typing import Any
 
 from fasthtml.common import Div, P
 
+from ...core.base import merge_classes
 from ...core.registry import register
 from ...core.theme import UNSET, resolve_defaults
 from ...core.types import VariantType
@@ -25,6 +26,8 @@ def ErrorDialog(
     retry_text: str = "Retry",
     close_text: str = "Close",
     show: bool = True,
+    icon_cls: str | None = None,
+    message_cls: str | None = None,
     **kwargs: Any,
 ) -> Any:
     """Modal/dialog variant for inline error display.
@@ -41,6 +44,10 @@ def ErrorDialog(
         retry_text: Text for retry button
         close_text: Text for close button
         show: Whether to show modal immediately
+        icon_cls: Extra classes merged onto the icon wrapper. Combine with
+            ``fs-2``/``fs-3`` to reduce the default ``fs-1`` icon weight in
+            compact dialogs.
+        message_cls: Extra classes merged onto the message paragraph.
         **kwargs: Additional HTML attributes
 
     Returns:
@@ -108,12 +115,12 @@ def ErrorDialog(
     # Build error content
     error_icon = Div(
         Icon(icon_name),
-        cls=f"text-{c_variant} fs-1 mb-3",
+        cls=merge_classes(f"text-{c_variant} fs-1 mb-3", icon_cls),
     )
 
     error_message = P(
         message,
-        cls="mb-0",
+        cls=merge_classes("mb-0", message_cls),
     )
 
     error_content = Div(

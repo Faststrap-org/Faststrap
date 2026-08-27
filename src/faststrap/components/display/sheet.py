@@ -17,6 +17,7 @@ def Sheet(
     sheet_id: str | None = None,
     title: str | None = None,
     height: str = "auto",  # auto, 50%, 100%
+    radius: str = "lg",
     **kwargs: Any,
 ) -> Div:
     """
@@ -30,14 +31,22 @@ def Sheet(
         sheet_id: Unique ID
         title: Title
         height: CSS height value (default: auto)
+        radius: Top-corner rounding token (``lg`` default keeps the original
+            ``rounded-top-4``; use ``md`` or ``none`` for calmer surfaces).
         **kwargs: Arguments passed to Drawer
     """
     # Force placement to bottom
     kwargs["placement"] = "bottom"
 
-    # Custom class for sheet styling (rounded corners)
+    # Radius handling: keep the historical rounded top corners by default.
     user_cls = kwargs.pop("cls", "")
-    sheet_cls = "rounded-top-4"  # Bootstrap 5 utility for large top rounding
+    radius_map = {
+        "lg": "rounded-top-4",
+        "md": "rounded-top-3",
+        "sm": "rounded-top-2",
+        "none": "rounded-top-0",
+    }
+    sheet_cls = radius_map.get(radius, "rounded-top-4")
 
     # Add handle visual
     # We inject a small handle at the top of the body or header

@@ -72,6 +72,9 @@ ModernToast(
 | `dismissible` | `bool` | `True` | Shows the close button. |
 | `pause_on_hover` | `bool` | `True` | Pause auto-dismiss timer on hover/focus. |
 | `animation` | `ToastAnimation` | `slide` | Enter/exit animation: `slide`, `fade`, `zoom`, `none`. |
+| `radius` | `str \| None` | `None` | Radius token overriding the default `rounded-4`: `sm`, `md`, `lg`, `none`. |
+| `shadow` | `str \| None` | `None` | Shadow token overriding the default `shadow-lg`: `sm`, `md`, `lg`, `none`. |
+| `title_cls` / `message_cls` / `close_button_cls` | `str` | `""` | Extra classes for the title, message, and close button. |
 | `**kwargs` | `Any` | | Extra attributes. |
 
 ### `ModernToastStack`
@@ -89,6 +92,9 @@ ModernToast(
 - `ModernToast` uses a dedicated JS runtime (`modern-toast.js`) for auto-dismiss, keyboard dismiss, pause-on-hover, and swipe-to-dismiss.
 - The runtime is loaded automatically when `ModernToast` or `ModernToastStack` is used with `add_bootstrap(app, components=[ModernToast, ...])`.
 - `variant`, `position`, and `style` parameters are deprecated but still accepted with `DeprecationWarning`. Use `intent`, `placement`, and `visual_style` instead.
+- The default surface uses `rounded-4` + `shadow-lg`; for dense dashboards prefer `ModernToast(..., radius="md", shadow="sm")`.
+- Global defaults are supported: `set_component_defaults("ModernToast", intent="info", duration=4000)`.
+- Close buttons, auto-dismiss, keyboard dismiss (Escape while focused), and swipe-to-dismiss are handled by the runtime; no extra wiring needed.
 
 ::: faststrap.components.feedback.modern_toast.ModernToast
     options:

@@ -11,6 +11,7 @@ from ...core.base import merge_classes
 from ...core.registry import register
 from ...core.theme import UNSET, resolve_defaults
 from ...core.types import ToastPositionType, VariantType
+from ...core.visual import radius_class
 from ...utils.attrs import convert_attrs
 
 
@@ -21,9 +22,23 @@ def SimpleToast(
     variant: VariantType | None = UNSET,
     duration: int | None = UNSET,
     position: ToastPositionType | None = UNSET,
+    radius: str | None = None,
+    body_cls: str = "",
     **kwargs: Any,
 ) -> Div:
-    """Simple Toast component that works without JavaScript."""
+    """Simple Toast component that works without JavaScript.
+
+    Args:
+        *children: Toast body content.
+        title: Optional heading rendered above the body.
+        variant: Bootstrap alert variant color.
+        duration: Auto-fade delay in milliseconds.
+        position: Fixed screen position.
+        radius: Radius token (``sm``, ``md``, ``lg``, ``none``); ``None``
+            keeps the default alert rounding.
+        body_cls: Extra classes for the toast body.
+        **kwargs: Additional HTML attributes.
+    """
     # Resolve API defaults
     cfg = resolve_defaults("SimpleToast", variant=variant, duration=duration, position=position)
 
@@ -35,6 +50,9 @@ def SimpleToast(
     classes = ["alert", "fade", "show"]
     if c_variant:
         classes.append(f"alert-{c_variant}")
+    radius_cls = radius_class(radius)
+    if radius_cls:
+        classes.append(radius_cls)
 
     # Position classes for fixed overlay
     position_classes = {
@@ -96,7 +114,7 @@ def SimpleToast(
         )
         parts.append(header)
 
-    body = Div(*children, cls="mb-0")
+    body = Div(*children, cls=merge_classes("mb-0", body_cls) if body_cls else "mb-0")
     parts.append(body)
 
     return Div(*parts, **attrs)
@@ -110,9 +128,29 @@ def Toast(
     autohide: bool | None = UNSET,
     delay: int | None = UNSET,
     animation: bool | None = UNSET,
+    radius: str | None = None,
+    header_cls: str = "",
+    body_cls: str = "",
+    close_button_cls: str = "",
     **kwargs: Any,
 ) -> Div:
-    """Bootstrap Toast component for temporary notifications."""
+    """Bootstrap Toast component for temporary notifications.
+
+    Args:
+        *children: Toast body content.
+        title: Optional header text; renders the ``toast-header`` row with a
+            dismiss button.
+        variant: Bootstrap color variant applied as ``text-bg-{variant}``.
+        autohide: Whether Bootstrap auto-hides the toast.
+        delay: Auto-hide delay in milliseconds.
+        animation: Whether Bootstrap animates show/hide.
+        radius: Radius token (``sm``, ``md``, ``lg``, ``none``); ``None``
+            keeps the default Bootstrap toast rounding.
+        header_cls: Extra classes for the header row.
+        body_cls: Extra classes for the body row.
+        close_button_cls: Extra classes for the close button.
+        **kwargs: Additional HTML attributes.
+    """
     # Resolve API defaults
     cfg = resolve_defaults(
         "Toast", variant=variant, autohide=autohide, delay=delay, animation=animation
@@ -127,6 +165,9 @@ def Toast(
     classes = ["toast"]
     if c_variant:
         classes.append(f"text-bg-{c_variant}")
+    radius_cls = radius_class(radius)
+    if radius_cls:
+        classes.append(radius_cls)
 
     # Merge with user classes
     user_cls = kwargs.pop("cls", "")
@@ -167,15 +208,15 @@ def Toast(
             Strong(title, cls="me-auto"),
             Button(
                 type="button",
-                cls=close_cls,
+                cls=merge_classes(close_cls, close_button_cls),
                 data_bs_dismiss="toast",
                 aria_label="Close",
             ),
-            cls="toast-header",
+            cls=merge_classes("toast-header", header_cls),
         )
         parts.append(header)
 
-    body = Div(*children, cls="toast-body")
+    body = Div(*children, cls=merge_classes("toast-body", body_cls))
     parts.append(body)
 
     return Div(*parts, **attrs)
@@ -185,10 +226,18 @@ def Toast(
 def ToastContainer(
     *toasts: Any,
     position: ToastPositionType | None = UNSET,
-    container_id: str = "toast-container",
+    container_id: str | None = "toast-container",
     **kwargs: Any,
 ) -> Div:
-    """Container for positioning toasts on the page."""
+    """Container for positioning toasts on the page.
+
+    Args:
+        *toasts: Toast components to place inside the container.
+        position: Fixed screen position of the container.
+        container_id: DOM id for HTMX targeting; pass ``None`` to auto-generate
+            a unique id when multiple containers are needed.
+        **kwargs: Additional HTML attributes.
+    """
     # Resolve API defaults
     cfg = resolve_defaults("ToastContainer", position=position)
     c_position = cfg.get("position", "top-end")
@@ -212,16 +261,22 @@ def ToastContainer(
 
     # Merge with user classes
     user_cls = kwargs.pop("cls", "")
-    all_classes = merge_classes(" ".join(classes), user_cls)
+    all_classes = merge_classes(classes, user_cls)
 
     # Build attributes
     explicit_id = kwargs.pop("id", None)
-    if explicit_id is not None and explicit_id != container_id:
+    if explicit_id is not None and container_id is not None and explicit_id != container_id:
         raise ValueError(
             "ToastContainer received both container_id and id with different values; "
             "use container_id only."
         )
-    attrs: dict[str, Any] = {"cls": all_classes, "id": container_id}
+    resolved_id = explicit_id or container_id
+    if resolved_id is None:
+        # Auto-generate a unique id so multiple containers can coexist.
+        import uuid
+
+        resolved_id = f"toast-container-{uuid.uuid4().hex[:8]}"
+    attrs: dict[str, Any] = {"cls": all_classes, "id": resolved_id}
     attrs.update(convert_attrs(kwargs))
 
     return Div(*toasts, **attrs)

@@ -372,21 +372,41 @@
 .faststrap-gradient-button {
   border: 0;
   background: var(--faststrap-gradient-button-bg) !important;
-  color: var(--bs-white) !important;
+  background-color: transparent;
+  color: var(--faststrap-gradient-button-text, var(--bs-white)) !important;
 }
 
 .faststrap-gradient-button:hover,
 .faststrap-gradient-button:focus {
-  color: var(--bs-white) !important;
+  color: var(--faststrap-gradient-button-text, var(--bs-white)) !important;
   filter: saturate(1.08) brightness(1.02);
+}
+
+.faststrap-gradient-button.hover-lift:hover,
+.faststrap-gradient-button.hover-lift:focus {
+  filter: none;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+}
+
+.faststrap-gradient-button.hover-glow:hover,
+.faststrap-gradient-button.hover-glow:focus {
+  filter: none;
+  box-shadow: 0 0 0 3px rgba(var(--bs-primary-rgb), 0.35);
+}
+
+.faststrap-gradient-button.hover-lift:active,
+.faststrap-gradient-button.hover-glow:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .faststrap-floating-action-button {
   position: fixed;
   z-index: 1000;
   display: inline-flex;
-  width: 56px;
-  height: 56px;
+  width: var(--fs-fab-size, 56px);
+  height: var(--fs-fab-size, 56px);
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -399,24 +419,31 @@
   margin-right: 0 !important;
 }
 
+/* Extended (pill) FAB for icon + label content. */
+.faststrap-floating-action-button.fab-pill {
+  width: auto;
+  min-width: var(--fs-fab-size, 56px);
+  padding-inline: 1.25rem;
+}
+
 .faststrap-floating-action-button.fab-bottom-right {
-  right: 2rem;
-  bottom: 2rem;
+  right: var(--fs-fab-inset, 2rem);
+  bottom: var(--fs-fab-inset, 2rem);
 }
 
 .faststrap-floating-action-button.fab-bottom-left {
-  bottom: 2rem;
-  left: 2rem;
+  bottom: var(--fs-fab-inset, 2rem);
+  left: var(--fs-fab-inset, 2rem);
 }
 
 .faststrap-floating-action-button.fab-top-right {
-  top: 2rem;
-  right: 2rem;
+  top: var(--fs-fab-inset, 2rem);
+  right: var(--fs-fab-inset, 2rem);
 }
 
 .faststrap-floating-action-button.fab-top-left {
-  top: 2rem;
-  left: 2rem;
+  top: var(--fs-fab-inset, 2rem);
+  left: var(--fs-fab-inset, 2rem);
 }
 
 .faststrap-parallax-section {
