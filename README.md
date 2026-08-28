@@ -96,6 +96,23 @@ Div(style="background-image: url('/assets/hero.jpg')")
 
 See [Static Files Guide](docs/STATIC_FILES.md) for more details.
 
+### 🎨 Interactive Component Preview Studio (100% Offline)
+
+Explore, test props, and preview all 73 FastStrap components interactively on your local machine with zero network latency — no cloud server costs, no cold starts, no internet required:
+
+```bash
+pip install faststrap-preview-studio
+faststrap-preview
+```
+
+Opens a local studio at `http://localhost:8080` with:
+- **Real-time viewport testing** — Mobile (375px), Tablet (768px), Laptop (1024px), Desktop (full)
+- **Dynamic props controls** — tweak variants, sizes, colours, and boolean toggles live
+- **Copy-ready Python snippets** with explicit import paths (`from faststrap import ...`)
+- **HTMX interactive sandboxes** for search, loading states, and data tables
+
+The Studio bundles all FastStrap stylesheets and Bootstrap JS locally, so it works fully offline after installation.
+
 ---
 
 ## Enhanced Features
