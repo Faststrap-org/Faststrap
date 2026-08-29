@@ -4,6 +4,19 @@ Faststrap keeps a dedicated `showcase/` layer for polished, production-style ref
 
 These are not tiny component demos. They are fuller applications and landing pages meant to show what the framework looks like when the design system, layout, and interaction patterns are working together.
 
+## ⚡ Interactive Component Studio & Playground
+
+Looking for an interactive playground to test individual components, adjust props, and preview live layouts in real-time? Check out **FastStrap Preview Studio**:
+
+```bash
+pip install faststrap-preview-studio
+faststrap-preview
+```
+
+![FastStrap Preview Studio](faststrap_studio_dark.png)
+
+---
+
 ## Why The Showcase Layer Exists
 
 The smaller examples in `examples/` are still useful for learning individual APIs, but they do not fully communicate the visual ceiling of the framework.

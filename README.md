@@ -113,6 +113,10 @@ Opens a local studio at `http://localhost:8080` with:
 
 The Studio bundles all FastStrap stylesheets and Bootstrap JS locally, so it works fully offline after installation.
 
+<p align="center">
+  <img src="docs/showcase/faststrap_studio_dark.png" alt="FastStrap Preview Studio" width="100%" />
+</p>
+
 ---
 
 ## Enhanced Features
