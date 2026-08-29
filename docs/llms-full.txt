@@ -1,1071 +1,533 @@
-# FastStrap — Full Documentation Corpus
+# FastStrap
 
-> The most complete, Pythonic, zero-JS Bootstrap 5 component library for FastHTML — 152+ registered UI components for web apps, data dashboards, ML tools, and AI-native interfaces.
+> Python-native Bootstrap 5 UI components for FastHTML - web apps, dashboards, data tools, and AI-friendly interfaces.
 
-## Overview
-
-FastStrap is a Python component library for FastHTML that provides 152+ registered UI components (170+ total with presets, integrations, helpers) built on Bootstrap 5.3.3. It follows a zero-JS core philosophy: all components work without JavaScript, with progressive enhancement via HTMX and optional JS integrations.
-
-- **Version:** VCS-derived at runtime (see `faststrap.__version__`)
-- **License:** MIT
-- **Python:** 3.10+
-- **Dependency:** python-fasthtml>=0.6.0
-- **Tests:** 857+ passing, 91%+ coverage
-- **Repository:** https://github.com/Faststrap-org/Faststrap
-- **Documentation:** https://faststrap-org.github.io/Faststrap/
-- **PyPI:** https://pypi.org/project/faststrap/
-
-## Installation
-
-```bash
-pip install faststrap
-
-# Optional extras
-pip install faststrap[markdown]  # Markdown rendering
-pip install faststrap[dev]       # Development tools
-```
+**166 registered UI components** - **232 public exports** - MIT - Python 3.10+ - FastHTML 0.6+
 
 ## Quick Start
 
 ```python
-from fasthtml.common import FastHTML
-from faststrap import add_bootstrap, Button, Card, Alert
+from fasthtml.common import FastHTML, serve
+from faststrap import add_bootstrap, Card, Button
 
 app = FastHTML()
-add_bootstrap(app)  # Adds Bootstrap 5.3 CSS/JS + Bootstrap Icons
+add_bootstrap(app)
 
 @app.get("/")
 def home():
     return Card(
-        Button("Click Me", variant="primary"),
-        Alert("Welcome to FastStrap!", color="success"),
+        "Hello FastStrap!",
+        Button("Get started", variant="primary"),
+        title="Welcome",
     )
-```
-
-## Architecture
-
-### Core Concepts
-
-1. **Zero-JS Core**: All components function without JavaScript. Enhancements are progressive.
-2. **Server-rendered HTML**: State lives on the server. HTMX handles client interactions.
-3. **Deterministic output**: Use `to_xml()` for test assertions. HTML is predictable.
-4. **Bootstrap-native**: Generated markup is idiomatic Bootstrap 5.
-5. **Pythonic API**: Components are Python functions/classes with typed parameters.
-
-### Project Structure
-
-```
-Faststrap/
-  src/faststrap/
-    __init__.py           # Public API exports
-    core/
-      assets.py           # Bootstrap wiring, CDN/local, INIT_SCRIPT
-      base.py             # BaseComponent, merge_classes
-      registry.py         # @register decorator, component discovery
-      theme.py            # Theme system, CSS variables, dark mode
-      effects.py          # Fx animation utilities
-      _stability.py       # @stable, @beta, @experimental markers
-    components/
-      display/            # Card, Table, Badge, Avatar, Chart, etc.
-      forms/              # Button, Input, Select, Form, OTPInput, etc.
-      feedback/           # Alert, Toast, Modal, Spinner, etc.
-      navigation/         # Navbar, Tabs, Drawer, CommandPalette, etc.
-      layout/             # Grid, Hero, Stack, Separator, etc.
-      patterns/           # FeatureGrid, Pricing, Testimonial, etc.
-    integrations/         # Optional: ChartJS, GSAP
-    presets/              # HTMX interaction/response presets
-    seo/                  # SEO and structured data helpers
-    pwa/                  # Progressive Web App support
-    layouts/              # Composed page layouts (Auth, Dashboard, Landing)
-    utils/                # Shared utilities (attrs, icons, static)
-  tests/                  # pytest test suite (857+ tests)
-  docs/                   # MkDocs Material documentation
-  examples/               # Usage examples and showcases
-```
-
-### Asset Pipeline
-
-```python
-from fasthtml.common import FastHTML
-from faststrap import add_bootstrap
-
-app = FastHTML()
-
-# CDN mode (default) — Bootstrap 5.3.3 + Bootstrap Icons via jsDelivr
-add_bootstrap(app)
-
-# Local mode — for offline/self-hosted
-add_bootstrap(app, use_cdn=False)
-
-# Theme mode
-add_bootstrap(app, theme="blue-ocean", mode="dark")
-
-# With optional integrations
-add_bootstrap(app, chartjs=True, gsap=True)
-```
-
-### Component Registry
-
-Components are registered via the `@register` decorator for automatic discovery:
-
-```python
-from faststrap.core.registry import register
-from faststrap.core.base import BaseComponent
-
-@register
-class MyComponent(BaseComponent):
-    """My custom component."""
-    def __init__(self, children, *, variant="primary", **kwargs):
-        ...
-```
-
-### Theme System
-
-10 built-in themes with light/dark/auto modes:
-
-```python
-from faststrap import add_bootstrap, create_theme, Theme
-
-# Built-in themes: green-nature, blue-ocean, purple-magic, red-alert,
-# orange-sunset, teal-oasis, indigo-night, pink-love, cyan-sky, gray-mist
-
-# Custom theme
-my_theme = create_theme(
-    primary="#6366f1",
-    secondary="#8b5cf6",
-    accent="#06b6d4",
-    bg="#0f172a",
-    text="#f8fafc",
-)
-add_bootstrap(app, theme=my_theme, mode="dark")
-```
-
-### Stability Markers
-
-```python
-from faststrap import stable, beta, experimental
-
-@stable       # API won't break in minor versions
-class Button: ...
-
-@beta         # API may change in minor versions
-class DataTable: ...
-
-@api.experimental  # API will likely change
-class NewComponent: ...
-```
-
----
-
-## Component Catalog (152+ registered)
-
-### Forms (30+)
-
-#### Button, ButtonGroup, ButtonToolbar
-```python
-from faststrap import Button, ButtonGroup, ButtonToolbar
-
-Button("Click Me", variant="primary", size="lg")
-Button("Link", href="/page")  # Renders as <a>
-ButtonGroup(Button("Left"), Button("Right"))
-ButtonToolbar(ButtonGroup(Button("1")), ButtonGroup(Button("2")))
-```
-
-#### Input, Select, Checkbox, Radio, Switch, Range
-```python
-from faststrap import Input, Select, Checkbox, Radio, Switch, Range
-
-Input(placeholder="Enter text", name="email", type="email")
-Select(["Option 1", "Option 2"], name="choice")
-Checkbox("Accept terms", name="terms")
-Radio("Option A", name="group", value="a")
-Switch("Dark mode", name="dark_mode")
-Range(min=0, max=100, value=50, name="slider")
-```
-
-#### FloatingLabel
-```python
-from faststrap import FloatingLabel
-
-FloatingLabel("Email", name="email", type="email")
-```
-
-#### InputGroup
-```python
-from faststrap import InputGroup, InputGroupText
-
-InputGroup(InputGroupText("@"), Input(placeholder="username"))
-```
-
-#### Form, FormSection, FormGroup, FormWizard
-```python
-from faststrap import Form, FormSection, FormGroup, FormWizard
-
-Form(
-    FormSection("Personal Info",
-        FormGroup("Name", Input(name="name")),
-        FormGroup("Email", Input(name="email", type="email")),
-    ),
-    FormSection("Preferences",
-        FormGroup("Theme", Select(["Light", "Dark"], name="theme")),
-    ),
-    method="post",
-    action="/submit",
-)
-
-# Multi-step wizard
-FormWizard(
-    WizardStep("Step 1", FormGroup("Name", Input(name="name"))),
-    WizardStep("Step 2", FormGroup("Email", Input(name="email"))),
-)
-```
-
-#### SearchableSelect, MultiSelect
-```python
-from faststrap import SearchableSelect, MultiSelect
-
-SearchableSelect(
-    options=[("us", "United States"), ("uk", "United Kingdom")],
-    name="country",
-    placeholder="Search countries...",
-)
-
-MultiSelect(
-    options=[("py", "Python"), ("js", "JavaScript")],
-    name="languages",
-)
-```
-
-#### DateRangePicker, CalendarDatePicker
-```python
-from faststrap import DateRangePicker, CalendarDatePicker
-
-DateRangePicker(name="date_range", presets=["Today", "Last 7 days"])
-CalendarDatePicker(name="birthday")
-```
-
-#### FilterBar
-```python
-from faststrap import FilterBar
-
-FilterBar(
-    Select(["All", "Active", "Inactive"], name="status"),
-    Input(placeholder="Search...", name="q"),
-    hx_get="/api/data",
-    hx_target="#results",
-)
-```
-
-#### OTPInput, OTPInputGroup (v0.8.1)
-```python
-from faststrap import OTPInput, OTPInputGroup
-
-# Zero-JS single-field OTP input
-OTPInput(length=6, name="otp", variant="primary")
-
-# JS-enhanced multi-field with auto-advance
-OTPInputGroup(length=6, name="otp", variant="primary", gap=2, autofocus=True)
-```
-
-#### InlineEditor
-```python
-from faststrap import InlineEditor
-
-InlineEditor(value="Click to edit", name="title", hx_put="/update/title")
-```
-
-#### ExportButton
-```python
-from faststrap import ExportButton
-
-ExportButton("/api/export", format="csv", filename="data.csv")
-```
-
-#### ToggleGroup
-```python
-from faststrap import ToggleGroup
-
-ToggleGroup(
-    ("bold", "B"),
-    ("italic", "I"),
-    ("underline", "U"),
-    name="formatting",
-)
-```
-
-#### ThemeToggle
-```python
-from faststrap import ThemeToggle
-
-ThemeToggle()  # Dark/light mode switch
-```
-
-#### LiveValidationField, ValidationMessage
-```python
-from faststrap import LiveValidationField, ValidationMessage
-
-LiveValidationField(
-    Input(name="email", type="email"),
-    hx_post="/validate/email",
-    hx_target="next .validation-msg",
-)
-ValidationMessage("Invalid email", cls="text-danger")
-```
-
-#### FormBuilder, FormGroupFromErrors
-```python
-from faststrap import FormBuilder, FormGroupFromErrors
-
-# Auto-generate forms from Pydantic models (beta)
-FormBuilder(MyPydanticModel)
-
-# Map server errors to form groups
-FormGroupFromErrors(errors={"name": "Required", "email": "Invalid"})
-```
-
-#### GradientButton, FloatingActionButton
-```python
-from faststrap import GradientButton, FloatingActionButton
-
-GradientButton("Gradient", gradient="primary-to-secondary")
-FloatingActionButton(icon="plus", href="/new", position="bottom-end")
-```
-
----
-
-### Display (40+)
-
-#### Card
-```python
-from faststrap import Card
-
-Card(
-    Card.Header("Title"),
-    Card.Body("Content here"),
-    Card.Footer("Footer"),
-    variant="primary",
-)
-```
-
-#### Badge, Tag, Kbd (Tag and Kbd are v0.8.1)
-```python
-from faststrap import Badge, Tag, Kbd
-
-Badge("New", color="success")
-Badge("99+", color="danger", pill=True)
-
-Tag("React", variant="info", removable=True)
-Tag("Python", variant="primary", icon="python")
-
-Kbd("Ctrl+C")  # Styled keyboard shortcut
-Kbd("Enter", size="lg", variant="dark")
-```
-
-#### Avatar, AvatarGroup
-```python
-from faststrap import Avatar, AvatarGroup
-
-Avatar(src="https://i.pravatar.cc/150?u=alice", alt="Alice", size="md")
-AvatarGroup(
-    Avatar(src="...", alt="User 1"),
-    Avatar(src="...", alt="User 2"),
-    Avatar(src="...", alt="User 3"),
-    max=3,
-)
-```
-
-#### StatusBadge, BadgeGroup
-```python
-from faststrap import StatusBadge, BadgeGroup
-
-StatusBadge("Active", status="success")
-StatusBadge("Error", status="danger")
-BadgeGroup(
-    StatusBadge("Draft", status="secondary"),
-    StatusBadge("Published", status="success"),
-)
-```
-
-#### Table, BsTable, DataTable
-```python
-from faststrap import Table, BsTable, DataTable
-
-# Simple table
-Table(
-    THead(TRow(THead("Name"), THead("Email"))),
-    TBody(
-        TRow(TCell("Alice"), TCell("alice@example.com")),
-        TRow(TCell("Bob"), TCell("bob@example.com")),
-    ),
-    striped=True, hover=True,
-)
-
-# DataTable with sort/filter/pagination (DataFrames)
-DataTable(df=my_dataframe, page_size=20, sortable=True, filterable=True)
-```
-
-#### Chart
-```python
-from faststrap import Chart
-
-Chart(
-    data={"labels": ["Jan", "Feb", "Mar"], "values": [10, 20, 15]},
-    chart_type="bar",
-    responsive=True,
-)
-```
-
-#### StatCard, MetricCard, TrendCard, KPICard
-```python
-from faststrap import StatCard, MetricCard, TrendCard, KPICard
-
-StatCard(label="Revenue", value="$12,345", delta="+12%", delta_color="success")
-MetricCard(title="Users", value="1,234", icon="people")
-TrendCard(title="Sales", value="$45K", trend=[10, 15, 12, 20, 18])
-KPICard(
-    metrics=[
-        ("Revenue", "$12K", "+5%"),
-        ("Users", "1.2K", "+12%"),
-        ("Orders", "456", "+3%"),
-    ]
-)
-```
-
-#### EmptyState, ResultCard, TextClamp
-```python
-from faststrap import EmptyState, ResultCard, TextClamp
-
-EmptyState(icon="inbox", title="No items", description="Create your first item")
-ResultCard(status="success", title="Saved!", description="Your changes were saved")
-TextClamp("Long text that will be clamped...", lines=2)
-```
-
-#### Timeline, Stepper
-```python
-from faststrap import Timeline, TimelineItem, Stepper, StepperStep
-
-Timeline(
-    TimelineItem("Created", time="2 hours ago"),
-    TimelineItem("Updated", time="1 hour ago"),
-    TimelineItem("Published", time="30 min ago"),
-)
-
-Stepper(
-    StepperStep("Account", completed=True),
-    StepperStep("Profile", active=True),
-    StepperStep("Confirm"),
-)
-```
-
-#### Image, Carousel, Figure
-```python
-from faststrap import Image, Carousel, CarouselItem, Figure
-
-Image(src="/photo.jpg", alt="Photo", fluid=True, rounded=True)
-Carousel(
-    CarouselItem(Image(src="/slide1.jpg"), caption="Slide 1"),
-    CarouselItem(Image(src="/slide2.jpg"), caption="Slide 2"),
-    auto_play=True,
-)
-Figure(Image(src="/chart.png"), caption="Revenue chart")
-```
-
-#### CodeBlock, JsonViewer, KeyValueList, RecordDetail
-```python
-from faststrap import CodeBlock, JsonViewer, KeyValueList, RecordDetail
-
-CodeBlock('print("Hello")', language="python")
-JsonViewer({"name": "Alice", "age": 30})
-KeyValueList([("Name", "Alice"), ("Email", "alice@example.com")])
-RecordDetail(record=my_dict, title="User Details")
-```
-
-#### FlipCard, TiltCard, RevealCard, GlowCard
-```python
-from faststrap import FlipCard, TiltCard, RevealCard, GlowCard
-
-FlipCard(front="Front content", back="Back content")
-TiltCard("Hover me for tilt effect")
-RevealCard("Hover to reveal hidden content")
-GlowCard("Glowing border on hover")
-```
-
-#### Svg, Mermaid, Markdown
-```python
-from faststrap import Svg, Mermaid, Markdown
-
-Svg("<circle cx='50' cy='50' r='40' fill='blue'/>", width=100, height=100)
-Mermaid("graph TD; A-->B; B-->C;")
-Markdown("# Hello\n\n**Bold** and *italic*")
-```
-
-#### Sheet, SSETarget
-```python
-from faststrap import Sheet, SSETarget
-
-Sheet("Sheet content", placement="end")
-SSETarget(id="events", hx_ext="sse", sse_connect="/stream")
-```
-
----
-
-### Feedback (30+)
-
-#### Alert
-```python
-from faststrap import Alert
-
-Alert("Success!", color="success", dismissible=True)
-Alert("Warning!", color="warning")
-Alert("Danger!", color="danger")
-```
-
-#### Toast, SimpleToast, ModernToast
-```python
-from faststrap import Toast, SimpleToast, ModernToast, ModernToastStack
-
-# Bootstrap JS toast
-Toast("Saved successfully!", color="success", autohide=True)
-
-# Zero-JS toast (CSS animation)
-SimpleToast("Processing...", color="info")
-
-# Premium modern toast stack
-ModernToastStack(position="top-right")
-ModernToast("New notification!", variant="success")
-```
-
-#### Modal, ConfirmDialog, ErrorDialog
-```python
-from faststrap import Modal, ConfirmDialog, ErrorDialog
-
-Modal(
-    Modal.Header("Confirm Action"),
-    Modal.Body("Are you sure?"),
-    Modal.Footer(Button("Yes", variant="danger"), Button("Cancel")),
-    id="confirmModal",
-)
-
-ConfirmDialog(title="Delete item?", on_confirm="/delete/123")
-ErrorDialog(title="Error", message="Something went wrong")
-```
-
-#### Spinner, Progress, ProgressRing
-```python
-from faststrap import Spinner, Progress, ProgressRing
-
-Spinner(variant="primary", size="lg")
-Progress(value=75, variant="success", label="75%")
-ProgressRing(value=60, size=80, stroke=6)
-```
-
-#### Placeholder (Skeleton Loading)
-```python
-from faststrap import Placeholder, PlaceholderCard, PlaceholderButton
-
-Placeholder(lines=3, animated=True)
-PlaceholderCard()
-PlaceholderButton()
-```
-
-#### CSS Loaders (7 variants)
-```python
-from faststrap import (
-    DotsLoader, PolygonLoader, PulseLoader,
-    RingLoader, ShadowLoader, TypewriterLoader, WaveLoader
-)
-
-DotsLoader(color="primary")
-PulseLoader()
-RingLoader()
-```
-
-#### ErrorPage
-```python
-from faststrap import ErrorPage
-
-ErrorPage(status=404, title="Page Not Found", message="The page doesn't exist")
-ErrorPage(status=500, title="Server Error")
-```
-
-#### NotificationCenter, SSEStream
-```python
-from faststrap import NotificationCenter, SSEStream
-
-NotificationCenter(position="top-right", max_items=10)
-SSEStream(url="/events", target="#notifications")
-```
-
-#### Tooltip, Popover
-```python
-from faststrap import Tooltip, Popover
-
-Tooltip("Hover me", title="Tooltip text")
-Popover("Click me", title="Popover", content="Rich content here", trigger="click")
-```
-
-#### InstallPrompt (PWA)
-```python
-from faststrap import InstallPrompt
-
-InstallPrompt()  # PWA install prompt
-```
-
----
-
-### Navigation (25+)
-
-#### Navbar, GlassNavbar, SidebarNavbar
-```python
-from faststrap import Navbar, GlassNavbar, SidebarNavbar
-
-Navbar(
-    Navbar.Brand("FastStrap"),
-    Navbar.Toggle(),
-    Navbar.Collapse(
-        Navbar.Item("Home", href="/"),
-        Navbar.Item("About", href="/about"),
-    ),
-)
-
-GlassNavbar(transparent=True, blur="sm")
-SidebarNavbar(
-    SidebarNavItem("Dashboard", icon="speedometer2", href="/"),
-    SidebarNavItem("Settings", icon="gear", href="/settings"),
-)
-```
-
-#### Tabs, TabPane
-```python
-from faststrap import Tabs, TabPane
-
-Tabs(
-    TabPane("Profile", id="profile", children="Profile content"),
-    TabPane("Settings", id="settings", children="Settings content"),
-    TabPane("Activity", id="activity", children="Activity content"),
-)
-```
-
-#### Accordion, AccordionItem
-```python
-from faststrap import Accordion, AccordionItem
-
-Accordion(
-    AccordionItem("Section 1", children="Content 1", id="sec1"),
-    AccordionItem("Section 2", children="Content 2", id="sec2"),
-    always_open=True,
-)
-```
-
-#### Drawer
-```python
-from faststrap import Drawer
-
-Drawer(
-    Drawer.Header("Menu"),
-    Drawer.Body(Navbar.Item("Home"), Navbar.Item("About")),
-    placement="start",
-    id="mainDrawer",
-)
-```
-
-#### Dropdown, DropdownItem, DropdownDivider
-```python
-from faststrap import Dropdown, DropdownItem, DropdownDivider
-
-Dropdown(
-    DropdownItem("Profile"),
-    DropdownItem("Settings"),
-    DropdownDivider(),
-    DropdownItem("Logout", variant="danger"),
-    label="Menu",
-)
-```
-
-#### Breadcrumb, Pagination, ListGroup
-```python
-from faststrap import Breadcrumb, Pagination, ListGroup, ListGroupItem
-
-Breadcrumb(("Home", "/"), ("Products", "/products"), "Current Page")
-Pagination(total_pages=10, current_page=3)
-ListGroup(
-    ListGroupItem("Item 1", active=True),
-    ListGroupItem("Item 2"),
-    ListGroupItem("Item 3", badge="New"),
-)
-```
-
-#### BottomNav
-```python
-from faststrap import BottomNav, BottomNavItem
-
-BottomNav(
-    BottomNavItem("Home", icon="house", href="/"),
-    BottomNavItem("Search", icon="search", href="/search"),
-    BottomNavItem("Profile", icon="person", href="/profile"),
-)
-```
-
-#### Scrollspy, Collapse
-```python
-from faststrap import Scrollspy, Collapse
-
-Scrollspy(target="navbar", items=["section1", "section2"])
-Collapse("Toggle content", target="collapseContent")
-```
-
-#### CommandPalette (v0.8.0)
-```python
-from faststrap import CommandPalette
-
-CommandPalette(
-    CommandItem("Go to Dashboard", href="/dashboard"),
-    CommandItem("Open Settings", href="/settings"),
-    CommandItem("Search...", action="search"),
-    placeholder="Type a command...",
-)
-```
-
----
-
-### Layout (12+)
-
-#### Container, Row, Col
-```python
-from faststrap import Container, Row, Col
-
-Container(
-    Row(
-        Col("Left", cols=12, cols_md=6),
-        Col("Right", cols=12, cols_md=6),
-    ),
-    fluid=False,
-)
-```
-
-#### Stack, Cluster, Center (v0.8.0)
-```python
-from faststrap import Stack, Cluster, Center
-
-Stack("Item 1", "Item 2", "Item 3", gap=3, direction="vertical")
-Cluster(Button("Save"), Button("Cancel"), gap=2)
-Center("Centered content", max_width="600px")
-```
-
-#### AspectRatio, Separator (v0.8.1)
-```python
-from faststrap import AspectRatio, Separator
-
-AspectRatio("16/9", children=Image(src="/video.jpg"))
-Separator(orientation="horizontal", thickness=2, spacing=4)
-Separator(orientation="vertical", label="OR")
-```
-
-#### Hero, PageHeader, DashboardGrid
-```python
-from faststrap import Hero, PageHeader, DashboardGrid
-
-Hero(
-    title="Welcome to FastStrap",
-    subtitle="Build beautiful UIs in Python",
-    cta_text="Get Started",
-    cta_href="/docs",
-    centered=True,
-)
-
-PageHeader(title="Dashboard", description="Overview of your account")
-
-DashboardGrid(
-    Card("Widget 1"),
-    Card("Widget 2"),
-    Card("Widget 3"),
-    cols=3,
-)
-```
-
-#### ParallaxSection
-```python
-from faststrap import ParallaxSection
-
-ParallaxSection(Image(src="/bg.jpg"), speed=0.5)
-```
-
----
-
-### Patterns (8)
-
-```python
-from faststrap import (
-    Feature, FeatureGrid, PricingGroup, PricingTier,
-    Testimonial, TestimonialSection, FooterModern, NavbarModern
-)
-
-FeatureGrid(
-    Feature(icon="speedometer2", title="Fast", description="Lightning fast"),
-    Feature(icon="shield-check", title="Secure", description="Enterprise security"),
-    Feature(icon="code-slash", title="Simple", description="Clean Python API"),
-)
-
-PricingGroup(
-    PricingTier("Starter", price="0", features=["10 components", "Community support"]),
-    PricingTier("Pro", price="29", features=["All components", "Priority support"], featured=True),
-)
-
-TestimonialSection(
-    Testimonial("Best UI library!", author="Developer", role="Senior Engineer"),
-)
-
-FooterModern(brand="FastStrap", links={"Product": ["/docs", "/pricing"]})
-```
-
----
-
-### Layouts (3)
-
-```python
-from faststrap import AuthLayout, DashboardLayout, LandingLayout
-
-AuthLayout(
-    Card("Login", FormGroup("Email", Input(name="email"))),
-    brand="FastStrap",
-)
-
-DashboardLayout(
-    sidebar=SidebarNavbar(...),
-    content=main_content,
-    navbar=Navbar(...),
-)
-
-LandingLayout(
-    Hero(...),
-    FeatureGrid(...),
-    TestimonialSection(...),
-)
-```
-
----
-
-### Accessibility Helpers (4)
-
-```python
-from faststrap import SkipLink, LiveRegion, VisuallyHidden, FocusTrap
-
-SkipLink(href="#main", text="Skip to content")
-LiveRegion(message="Item added to cart", polite=True)
-VisuallyHidden("Screen reader only text")
-FocusTrap(children=Modal(...), active=True)
-```
-
----
-
-### HTMX Presets (18)
-
-#### Interaction Presets
-```python
-from faststrap.presets import (
-    ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad,
-    LoadingButton, OptimisticAction, LocationAction, PollUntil
-)
-
-ActiveSearch(input_name="q", target="#results", url="/api/search")
-InfiniteScroll(url="/api/items", target="#list", trigger="load")
-AutoRefresh(url="/api/status", target="#status", interval=5000)
-LazyLoad(url="/api/content", target="#content")
-LoadingButton("Save", hx_post="/save", loading_text="Saving...")
-
-# HTMX response helpers
-from faststrap.presets import hx_redirect, hx_refresh, toast_response
-
-hx_redirect("/success")       # Server-side redirect
-hx_refresh()                  # Full page refresh
-toast_response("Saved!", variant="success")
-```
-
-#### SSE Stream
-```python
-from faststrap.presets import SSEStream
-
-SSEStream(url="/events", target="#notifications")
-```
-
----
-
-### SEO Helpers (3)
-
-```python
-from faststrap import SEO, PageMeta, StructuredData
-
-SEO(
-    title="My Page",
-    description="Page description",
-    image="/og-image.png",
-    url="https://example.com/page",
-)
-
-PageMeta(
-    title="My Page",
-    canonical="https://example.com/page",
-    favicon="/favicon.ico",
-)
-
-StructuredData(
-    schema_type="Product",
-    name="FastStrap",
-    description="Bootstrap components for FastHTML",
-)
-```
-
----
-
-### PWA Support (2)
-
-```python
-from faststrap import add_pwa, PwaMeta
-
-add_pwa(app, name="My App", theme_color="#3b82f6")
-PwaMeta(manifest="/manifest.json", theme_color="#3b82f6")
-```
-
----
-
-### Utilities (5+)
-
-```python
-from faststrap import Icon, Fx, merge_classes, convert_attrs
-
-Icon("house", size="24px", color="primary")
-Fx.fade_in(duration=300)
-merge_classes("btn", "btn-primary", "btn-lg", user_classes)
-```
-
----
-
-## Data Science & ML Components (v0.6+)
-
-FastStrap includes specialized components for data science dashboards:
-
-### DataTable
-```python
-from faststrap import DataTable
-
-DataTable(
-    df=my_pandas_dataframe,
-    page_size=20,
-    sortable=True,
-    filterable=True,
-    exportable=True,  # CSV/Excel export buttons
-)
-```
-
-### Chart (Matplotlib/Plotly/Altair)
-```python
-from faststrap import Chart
-
-# Wraps any matplotlib/plotly/altair figure
-Chart(fig=my_plotly_fig, responsive=True, height=400)
-```
-
-### Dashboard Grid
-```python
-from faststrap import DashboardGrid, MetricCard, TrendCard, FilterBar
-
-DashboardGrid(
-    MetricCard("Revenue", "$12K", "+5%"),
-    MetricCard("Users", "1.2K", "+12%"),
-    TrendCard("Sales Trend", "$45K", trend=[10, 15, 12, 20]),
-    cols=4,
-)
-```
-
-### SSE for Real-time Data
-```python
-from faststrap import SSEStream, SSETarget, LiveChart
-
-SSEStream(url="/ws/metrics", target="#dashboard")
-LiveChart(metric="cpu_usage", url="/stream/cpu")
-```
-
----
-
-## Optional Integrations
-
-### ChartJS
-```python
-from faststrap import add_chartjs, ChartJS
-
-add_chartjs(app)  # Adds Chart.js CDN
-
-ChartJS(
-    chart_type="line",
-    data={"labels": ["Jan", "Feb", "Mar"], "datasets": [{"data": [10, 20, 15]}]},
-    responsive=True,
-)
-```
-
-### GSAP Motion
-```python
-from faststrap import add_gsap, Gsap, GsapReveal
-
-add_gsap(app)  # Adds GSAP CDN
-
-Gsap(target="#element", animation="fadeIn", duration=0.5)
-GsapReveal(target=".reveal-item", stagger=0.1)
-```
-
----
-
-## Testing
-
-### Test Pattern
-```python
-from fasthtml.common import to_xml
-from faststrap import Button, Card, Alert
-
-def test_button():
-    btn = Button("Click", variant="primary")
-    html = to_xml(btn)
-    assert "btn-primary" in html
-    assert "Click" in html
-
-def test_card():
-    card = Card("Content", variant="dark")
-    html = to_xml(card)
-    assert "card" in html
-    assert "Content" in html
-```
-
-### Running Tests
-```bash
-cd Faststrap
-python -m pytest -q                          # All tests (857+)
-python -m pytest tests/test_button.py -v     # Specific file
-python -m ruff check src/faststrap tests     # Linting
-python -m black --check src/faststrap tests  # Format check
-```
-
----
-
-## Contributing
-
-1. Read `BUILDING_COMPONENTS.md` for the full guide
-2. Components go in `src/faststrap/components/<category>/<name>.py`
-3. Register with `@register` decorator
-4. Tests go in `tests/test_components/test_<name>.py`
-5. Use `to_xml()` for HTML assertions
-6. Run `pytest -q` and `ruff check` before submitting
-
----
-
-## Key Design Principles
-
-- **Zero-JS Core**: Components MUST work without JavaScript
-- **Deterministic HTML**: Server-rendered output is predictable and testable
-- **No Client State**: State lives on the server; HTMX handles interactions
-- **Accessibility First**: WCAG-aligned defaults for all components
-- **Bootstrap Native**: Generated markup is idiomatic Bootstrap 5
-- **Progressive Enhancement**: Optional JS for richer UX, never required
-- **Pythonic API**: Typed parameters, keyword arguments, no template strings
-
-## License
 
-MIT License - Copyright (c) 2025-2026 FastStrap Contributors
+serve()  # http://localhost:5001
+```
+
+Install: `pip install faststrap` (optional: `pip install faststrap[markdown]`).
+
+## Key Links
+
+- [Documentation](https://faststrap-org.github.io/Faststrap/)
+- [README](https://github.com/Faststrap-org/Faststrap/blob/main/README.md)
+- [Changelog](https://github.com/Faststrap-org/Faststrap/blob/main/CHANGELOG.md)
+- [Component Registry API](https://faststrap-org.github.io/Faststrap/api/registry/): programmatic component discovery for agents/tools
+- [Component Defaults API](https://faststrap-org.github.io/Faststrap/api/defaults/): `UNSET` semantics and `set_component_defaults`
+
+## Component Catalog
+
+166 components registered via `@register`:
+
+### Display (45) - cards, tables, badges, charts, data viewers
+
+- `Avatar` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/avatar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/avatar.py))
+  - Signature: `Avatar(name: 'str | None' = None, *, src: 'str | None' = None, alt: 'str | None' = None, initials: 'str | None' = None, size: 'AvatarSize' = 'md', shape: 'AvatarShape' = 'circle', variant: 'str' = 'secondary', status: 'str | None' = None, status_variant: 'str | None' = None, **kwargs: 'Any') -> 'Span'`
+- `AvatarGroup` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/avatar.py))
+  - Signature: `AvatarGroup(*avatars: 'Any', max_visible: 'int | None' = None, total: 'int | None' = None, size: 'AvatarSize' = 'md', overlap: 'bool' = True, **kwargs: 'Any') -> 'Div'`
+- `Badge` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/display/badge/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/badge.py))
+  - Signature: `Badge(*children: 'Any', variant: 'VariantType | None' = UNSET, pill: 'bool | None' = UNSET, **kwargs: 'Any') -> 'Span'`
+- `BadgeGroup` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/status_badge.py))
+  - Signature: `BadgeGroup(*badges: 'Any', gap: 'int' = 2, align: 'str' = 'center', **kwargs: 'Any') -> 'Span'`
+- `Card` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/display/card/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/card.py))
+  - Signature: `Card(*children: Any, title: str | None = None, subtitle: str | None = None, header: typing.Any | None = None, footer: typing.Any | None = None, img_top: str | None = None, img_bottom: str | None = None, img_overlay: bool = False, header_cls: str | None = UNSET, body_cls: str | None = UNSET, footer_cls: str | None = UNSET, title_cls: str | None = None, subtitle_cls: str | None = None, text_cls: str | None = None, header_attrs: dict[str, typing.Any] | None = None, body_attrs: dict[str, typing.Any] | None = None, footer_attrs: dict[str, typing.Any] | None = None, title_attrs: dict[str, typing.Any] | None = None, subtitle_attrs: dict[str, typing.Any] | None = None, text_attrs: dict[str, typing.Any] | None = None, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `Carousel` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/display/carousel/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/carousel.py))
+  - Signature: `Carousel(*items: Any, carousel_id: str | None = None, controls: bool | None = UNSET, indicators: bool | None = UNSET, interval: int | None = UNSET, keyboard: bool | None = UNSET, pause: bool | str | None = UNSET, ride: bool | str | None = UNSET, wrap: bool | None = UNSET, fade: bool | None = UNSET, dark: bool | None = UNSET, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `CarouselItem` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/carousel.py))
+  - Signature: `CarouselItem(*content: Any, caption: str | None = None, caption_title: str | None = None, active: bool = False, interval: int | None = None, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `Chart` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/chart/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/chart.py))
+  - Signature: `Chart(figure: 'Any', *, backend: 'ChartBackend | None' = None, include_js: 'bool' = False, responsive: 'bool' = True, width: 'str | int | None' = None, height: 'str | int | None' = None, allow_unsafe_html: 'bool' = False, **kwargs: 'Any') -> 'Div'`
+- `CodeBlock` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/structured.py))
+  - Signature: `CodeBlock(code: 'str', *, language: 'str | None' = None, filename: 'str | None' = None, copy: 'bool' = False, wrap: 'bool' = False, **kwargs: 'Any') -> 'Div'`
+- `DataCard` (experimental) ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-card/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/data_card.py))
+  - Signature: `DataCard(title: 'str', *, subtitle: 'str | None' = None, status: 'str | None' = None, metrics: 'dict[str, str] | None' = None, fields: 'dict[str, str] | None' = None, footer: 'Any | None' = None, variant: 'str' = 'default', **kwargs: 'Any') -> 'Div'`
+- `DataTable` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/data_table.py))
+  - Signature: `DataTable(data: 'Any', *, columns: 'list[str] | None' = None, header_map: 'dict[str, str] | None' = None, max_rows: 'int | None' = None, include_index: 'bool' = False, empty_text: 'str' = 'No data available', none_as: 'str' = '', striped: 'bool' = True, hover: 'bool' = True, bordered: 'bool' = False, responsive: 'bool | ResponsiveType' = True, sortable: 'bool | list[str]' = False, sort: 'str | None' = None, direction: 'SortableDirection' = 'asc', searchable: 'bool' = False, search: 'str | None' = None, search_param: 'str' = 'q', search_placeholder: 'str' = 'Search...', search_debounce: 'int' = 300, pagination: 'bool' = False, page: 'int' = 1, per_page: 'int' = 25, total_rows: 'int | None' = None, endpoint: 'str | None' = None, base_url: 'str | None' = None, filters: 'dict[str, Any] | None' = None, hx_target: 'str | None' = None, hx_swap: 'str | None' = 'outerHTML', push_url: 'bool' = False, table_id: 'str | None' = None, table_cls: 'str | None' = None, table_attrs: 'dict[str, Any] | None' = None, **kwargs: 'Any') -> 'Div'`
+- `EmptyState` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/empty_state.py))
+  - Signature: `EmptyState(icon: typing.Any | None = None, title: str = 'No data available', description: str | None = None, action: typing.Any | None = None, centered: bool = True, icon_cls: str = 'display-4 text-muted mb-3', title_cls: str = 'mb-2', description_cls: str = 'text-muted mb-4', **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `Figure` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/display/figure/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/figure.py))
+  - Signature: `Figure(src: 'str', caption: 'str | Any | None' = None, alt: 'str' = '', size: 'str | None' = None, align: 'str | None' = None, fluid: 'bool' = True, rounded: 'bool' = True, thumbnail: 'bool' = False, img_cls: 'str' = '', caption_cls: 'str' = '', **kwargs: 'Any') -> 'FTFigure'`
+- `FilePreview` (experimental) ([docs](https://faststrap-org.github.io/Faststrap/components/display/file-preview/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/file_preview.py))
+  - Signature: `FilePreview(src: 'str', *, kind: 'str | None' = None, title: 'str | None' = None, height: 'str | int | None' = None, width: 'str | int | None' = None, fallback: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+- `FlipCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/visual_cards.py))
+  - Signature: `FlipCard(front: 'Any', back: 'Any', *, height: 'str | None' = UNSET, width: 'str | None' = UNSET, duration: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `GlowCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/visual_cards.py))
+  - Signature: `GlowCard(*children: 'Any', glow_color: 'str | None' = UNSET, intensity: 'GlowIntensity | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `Image` ([docs](https://faststrap-org.github.io/Faststrap/components/display/image/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/image.py))
+  - Signature: `Image(src: str, alt: str | None = None, fluid: bool | None = UNSET, thumbnail: bool | None = UNSET, rounded: bool | None = UNSET, rounded_circle: bool | None = UNSET, align: Optional[Literal['start', 'center', 'end']] = UNSET, width: str | int | None = None, height: str | int | None = None, loading: Optional[Literal['lazy', 'eager']] = UNSET, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'img')`
+- `JsonViewer` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/structured.py))
+  - Signature: `JsonViewer(data: 'Any', *, title: 'str | None' = None, expanded: 'bool' = True, **kwargs: 'Any') -> 'Any'`
+- `KPICard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stat_card.py))
+  - Signature: `KPICard(title: 'str', metrics: 'Sequence[Sequence[Any]]', columns: 'int' = 2, variant: 'VariantType | None' = UNSET, inverse: 'bool' = False, **kwargs: 'Any') -> 'Div'`
+- `KeyValueList` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/structured.py))
+  - Signature: `KeyValueList(items: 'KeyValueItems', *, striped: 'bool' = False, compact: 'bool' = False, **kwargs: 'Any') -> 'Div'`
+- `MapView` (experimental) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/display/map-view/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/map_view.py))
+  - Signature: `MapView(*, latitude: 'float', longitude: 'float', zoom: 'int' = 13, height: 'str' = '320px', width: 'str' = '100%', marker: 'bool' = True, popup_text: 'str | None' = None, map_id: 'str | None' = None, include_assets: 'bool' = True, tiles_url: 'str' = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', attribution: 'str' = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', leaflet_css_url: 'str' = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css', leaflet_js_url: 'str' = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js', **kwargs: 'Any') -> 'tuple[Any, ...]'`
+- `Markdown` ([docs](https://faststrap-org.github.io/Faststrap/components/display/markdown/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/markdown.py))
+  - Signature: `Markdown(text: 'str', *, sanitize: 'bool' = True, extensions: 'list[str] | None' = None, allowed_tags: 'list[str] | None' = None, allowed_attributes: 'dict[str, list[str]] | None' = None, allowed_protocols: 'list[str] | None' = None, **kwargs: 'Any') -> 'Div'`
+- `Math` (beta) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/display/math/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/math.py))
+  - Signature: `Math(latex: 'str', *, display_mode: 'bool | None' = UNSET, throw_on_error: 'bool | None' = UNSET, renderer: 'str' = 'katex', **kwargs: 'Any') -> 'Div | Span'`
+- `Mermaid` (beta) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/display/mermaid/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/mermaid.py))
+  - Signature: `Mermaid(diagram: 'str', *, theme: 'str | None' = UNSET, security_level: 'str | None' = UNSET, min_width: 'str | int | None' = None, **kwargs: 'Any') -> 'Div'`
+- `MetricCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/metric-card/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stat_card.py))
+  - Signature: `MetricCard(title: 'str', value: 'str | int | float', delta: 'str | int | float | None' = None, delta_type: "Literal['up', 'down', 'neutral']" = 'neutral', icon: 'Any | None' = None, variant: 'VariantType | None' = UNSET, inverse: 'bool' = False, icon_bg: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `RecordDetail` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/structured.py))
+  - Signature: `RecordDetail(items: 'KeyValueItems', *, title: 'str | None' = None, subtitle: 'str | None' = None, actions: 'Any | list[Any] | tuple[Any, ...] | None' = None, **kwargs: 'Any') -> 'Div'`
+- `ResultCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/result-card/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/result_card.py))
+  - Signature: `ResultCard(title: 'str', message: 'str | None' = None, *, status: 'ResultStatus' = 'success', icon: 'str | None' = None, action: 'Any | None' = None, compact: 'bool' = False, icon_cls: 'str | None' = None, title_cls: 'str | None' = None, message_cls: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+- `RevealCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/visual_cards.py))
+  - Signature: `RevealCard(img_src: 'str', title: 'str', *, description: 'str | None' = None, action: 'Any | None' = None, alt: 'str | None' = None, height: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `SSETarget` (beta) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/sse_target.py))
+  - Signature: `SSETarget(*children: 'Any', endpoint: 'str', event: 'str' = 'message', swap: 'SSESwapType' = 'inner', target: 'str | None' = None, with_credentials: 'bool' = False, reconnect: 'bool' = True, retry: 'int | None' = UNSET, aria_live: 'str | None' = 'polite', content: 'Any | None' = None, **kwargs: 'Any') -> 'Div'`
+- `Sheet` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/display/sheet/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/sheet.py))
+  - Signature: `Sheet(*children: 'Any', sheet_id: 'str | None' = None, title: 'str | None' = None, height: 'str' = 'auto', radius: 'str' = 'lg', **kwargs: 'Any') -> 'Div'`
+- `StatCard` (stable) ([docs](https://faststrap-org.github.io/Faststrap/api/presets/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stat_card.py))
+  - Signature: `StatCard(title: 'str', value: 'str | int | float', icon: 'Any | None' = None, trend: 'str | None' = None, trend_type: "Literal['up', 'down', 'neutral']" = 'neutral', variant: 'VariantType | None' = UNSET, inverse: 'bool' = False, icon_bg: 'str | None' = UNSET, delta: 'str | int | float | None' = None, delta_type: "Literal['up', 'down', 'neutral'] | None" = None, **kwargs: 'Any') -> 'Div'`
+- `StatusBadge` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/status-badge/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/status_badge.py))
+  - Signature: `StatusBadge(label: 'str', *, status: 'StatusType' = 'neutral', variant: 'VariantType | None' = None, icon: 'str | None' = None, show_dot: 'bool' = False, pill: 'bool' = True, **kwargs: 'Any') -> 'Span'`
+- `Stepper` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/stepper/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stepper.py))
+  - Signature: `Stepper(*steps: 'Any', orientation: 'StepperOrientation' = 'horizontal', numbered: 'bool' = True, **kwargs: 'Any') -> 'Div'`
+- `StepperStep` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stepper.py))
+  - Signature: `StepperStep(title: 'str', *, description: 'str | None' = None, status: 'StepStatus' = 'pending', step: 'int | str | None' = None, icon: 'str | None' = None, href: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+- `Svg` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/svg/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/svg.py))
+  - Signature: `Svg(svg: 'str', *, sanitize: 'bool' = True, allowed_tags: 'list[str] | None' = None, allowed_attributes: 'dict[str, list[str]] | None' = None, allowed_protocols: 'list[str] | None' = None, **kwargs: 'Any') -> 'Div'`
+- `TBody` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/table.py))
+  - Signature: `TBody(*children: 'Any', variant: 'TableVariantType | None' = None, divider: 'bool' = False, **kwargs: 'Any') -> 'Tbody'`
+- `TCell` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/table.py))
+  - Signature: `TCell(*children: 'Any', header: 'bool' = False, variant: 'TableVariantType | None' = None, active: 'bool' = False, colspan: 'int | None' = None, rowspan: 'int | None' = None, scope: "Literal['row', 'col', 'rowgroup', 'colgroup'] | None" = None, **kwargs: 'Any') -> 'Th | Td'`
+- `THead` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/table.py))
+  - Signature: `THead(*children: 'Any', variant: 'TableVariantType | None' = None, **kwargs: 'Any') -> 'Thead'`
+- `TRow` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/table.py))
+  - Signature: `TRow(*children: 'Any', variant: 'TableVariantType | None' = None, active: 'bool' = False, **kwargs: 'Any') -> 'Tr'`
+- `Table` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/display/table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/table.py))
+  - Signature: `Table(*children: 'Any', striped: 'bool' = False, striped_columns: 'bool' = False, bordered: 'bool' = False, borderless: 'bool' = False, hover: 'bool' = False, small: 'bool' = False, variant: 'TableVariantType | None' = None, responsive: "bool | Literal['sm', 'md', 'lg', 'xl', 'xxl']" = False, caption_top: 'bool' = False, **kwargs: 'Any') -> 'FTTable | Div'`
+- `TextClamp` ([docs](https://faststrap-org.github.io/Faststrap/components/display/text-clamp/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/text_clamp.py))
+  - Signature: `TextClamp(text: 'str', max_chars: 'int' = 180, show_more: 'bool' = True, expand_label: 'str' = 'Show more', collapse_label: 'str' = 'Show less', button_cls: 'str' = 'btn btn-link p-0 text-decoration-none', ellipsis: 'str' = '...', **kwargs: 'Any') -> 'Div'`
+- `TiltCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/visual_cards.py))
+  - Signature: `TiltCard(*children: 'Any', **kwargs: 'Any') -> 'Div'`
+- `Timeline` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/timeline/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/timeline.py))
+  - Signature: `Timeline(*items: 'Any', density: 'TimelineDensity' = 'comfortable', **kwargs: 'Any') -> 'Div'`
+- `TimelineItem` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/timeline.py))
+  - Signature: `TimelineItem(title: 'str', *, description: 'Any | None' = None, time: 'str | None' = None, icon: 'str | None' = None, variant: 'str' = 'primary', active: 'bool' = False, meta: 'Any | None' = None, **kwargs: 'Any') -> 'Div'`
+- `TrendCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/trend-card/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stat_card.py))
+  - Signature: `TrendCard(title: 'str', value: 'str | int | float', sparkline: 'Any | None' = None, sparkline_safe: 'bool' = False, delta: 'str | int | float | None' = None, delta_type: "Literal['up', 'down', 'neutral']" = 'neutral', variant: 'VariantType | None' = UNSET, inverse: 'bool' = False, **kwargs: 'Any') -> 'Div'`
+
+### Feedback (35) - alerts, modals, toasts, loaders, progress
+
+- `Alert` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/alert/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/alert.py))
+  - Signature: `Alert(*children: 'Any', variant: 'VariantType | None' = UNSET, dismissible: 'bool | None' = UNSET, heading: 'Any | None' = None, heading_cls: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `ConfirmAction` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/confirm.py))
+  - Signature: `ConfirmAction(*children: Any, url: str, confirm: str = 'Are you sure?', method: str = 'post', target: str | None = None, swap: str | None = None, variant: Literal['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'link'] = 'danger', **kwargs: Any) -> Any`
+- `ConfirmDialog` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/confirm.py))
+  - Signature: `ConfirmDialog(message: str | typing.Any, *, confirm_text: str = 'Confirm', cancel_text: str = 'Cancel', title: str = 'Confirm Action', variant: Literal['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'link'] = 'danger', dialog_id: str | None = None, hx_confirm_method: str = 'post', hx_confirm_url: str | None = None, hx_target: str | None = None, hx_swap: str | None = None, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `DotsLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+  - Signature: `DotsLoader(*, variant: 'str | None' = UNSET, label: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `ErrorDialog` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/error-dialog/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/error_dialog.py))
+  - Signature: `ErrorDialog(message: str, title: str = 'Error', variant: Optional[Literal['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'link']] = UNSET, modal_id: str = 'error-dialog', retry_url: str | None = None, retry_text: str = 'Retry', close_text: str = 'Close', show: bool = True, icon_cls: str | None = None, message_cls: str | None = None, **kwargs: Any) -> Any`
+- `ErrorPage` ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/error-page/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/error_page.py))
+  - Signature: `ErrorPage(code: Union[Literal[403, 404, 500], int], title: str | None = None, message: str | None = None, icon: str | None = None, action_text: str | None = 'Go Home', action_href: str = '/', show_code: bool = True, **kwargs: Any) -> tuple[typing.Any, ...]`
+- `ErrorToast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+  - Signature: `ErrorToast(message: 'str', title: 'str' = 'Error', **kwargs: 'Any') -> 'Any'`
+- `InfoToast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+  - Signature: `InfoToast(message: 'str', title: 'str' = 'Info', **kwargs: 'Any') -> 'Any'`
+- `InstallPrompt` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/install-prompt/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/install_prompt.py))
+  - Signature: `InstallPrompt(title: 'str' = 'Install App', description: 'str' = 'Add this app to your home screen for the best experience.', ios_text: 'str' = "Tap the Share button below and select 'Add to Home Screen'.", android_text: 'str' = "Tap 'Install' to add to your home screen.", delay: 'int' = 3000, **kwargs: 'Any') -> 'Div'`
+- `Modal` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/modal/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/modal.py))
+  - Signature: `Modal(*children: 'Any', modal_id: 'str | None' = None, title: 'str | None' = None, footer: 'Any | None' = None, size: 'ModalSizeType | None' = UNSET, centered: 'bool | None' = UNSET, scrollable: 'bool | None' = UNSET, fullscreen: "bool | Literal['sm-down', 'md-down', 'lg-down', 'xl-down', 'xxl-down'] | None" = UNSET, static_backdrop: 'bool | None' = UNSET, fade: 'bool | None' = UNSET, focus_trap: 'bool | None' = UNSET, autofocus_selector: 'str | None' = UNSET, dialog_cls: 'str | None' = UNSET, content_cls: 'str | None' = UNSET, header_cls: 'str | None' = UNSET, body_cls: 'str | None' = UNSET, footer_cls: 'str | None' = UNSET, title_cls: 'str | None' = UNSET, close_cls: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `ModernToast` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/modern-toast/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/modern_toast.py))
+  - Signature: `ModernToast(title: 'str', message: 'str | None' = None, *, intent: 'ToastIntent | str | None' = UNSET, visual_style: 'ToastStyle' = 'glass', placement: 'ToastPlacement | None' = None, duration: "int | Literal['infinite'] | None" = UNSET, icon: 'str | None' = None, action: 'ToastAction | Any | None' = None, cancel: 'ToastAction | Any | None' = None, dismissible: 'bool' = True, pause_on_hover: 'bool' = True, animation: 'ToastAnimation' = 'slide', variant: 'str | None' = UNSET, position: 'str | None' = UNSET, style: 'str | None' = UNSET, on_dismiss: 'Any | None' = None, radius: 'RadiusToken | str | None' = None, shadow: 'ShadowToken | str | None' = None, title_cls: 'str' = '', message_cls: 'str' = '', close_button_cls: 'str' = '', **kwargs: 'Any') -> 'Div'`
+- `ModernToastStack` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/modern_toast.py))
+  - Signature: `ModernToastStack(*toasts: 'Any', placement: 'ToastPlacement | None' = None, gap: 'int' = 8, max_visible: 'int' = 5, position: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `NoticeAlert` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+  - Signature: `NoticeAlert(message: 'str', kind: 'NoticeKind' = 'info', **kwargs: 'Any') -> 'Any'`
+- `NoticeToast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+  - Signature: `NoticeToast(message: 'str', kind: 'NoticeKind' = 'info', title: 'str | None' = None, **kwargs: 'Any') -> 'Any'`
+- `NotificationCenter` (beta) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/notification-center/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notification_center.py))
+  - Signature: `NotificationCenter(*items: 'Any', count: 'int | None' = None, title: 'str' = 'Notifications', endpoint: 'str | None' = None, center_id: 'str | None' = None, menu_cls: 'str | None' = None, button_cls: 'str | None' = None, badge_variant: 'VariantType | None' = UNSET, empty_text: 'str' = 'No notifications', max_items: 'int | None' = None, hx_swap: 'str | None' = 'innerHTML', push_url: 'bool' = False, **kwargs: 'Any') -> 'Div'`
+- `Placeholder` ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/placeholder/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/placeholder.py))
+  - Signature: `Placeholder(width: str | None = None, height: str | None = None, animation: Optional[Literal['glow', 'wave']] = UNSET, variant: str | None = UNSET, size: Optional[Literal['xs', 'sm', 'lg']] = UNSET, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'span')`
+- `PlaceholderButton` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/placeholder.py))
+  - Signature: `PlaceholderButton(width: str = '100px', animation: Optional[Literal['glow', 'wave']] = UNSET, variant: str = 'primary', **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'span')`
+- `PlaceholderCard` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/placeholder.py))
+  - Signature: `PlaceholderCard(show_image: bool = True, show_title: bool = True, show_text: bool = True, animation: Optional[Literal['glow', 'wave']] = UNSET, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `PolygonLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+  - Signature: `PolygonLoader(*, label: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `Popover` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/overlays.py))
+  - Signature: `Popover(title: 'str', content: 'str', *children: 'Any', placement: 'PlacementType' = 'right', trigger: 'TriggerType' = 'click', html: 'bool' = False, tag: 'str' = 'span', container: 'str | None' = 'body', **kwargs: 'Any') -> 'Any'`
+- `Progress` ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/progress/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/progress.py))
+  - Signature: `Progress(value: 'int', max_value: 'int' = 100, variant: 'VariantType | None' = UNSET, striped: 'bool | None' = UNSET, animated: 'bool | None' = UNSET, label: 'str | None' = None, height: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+- `ProgressBar` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/progress.py))
+  - Signature: `ProgressBar(value: 'int', max_value: 'int' = 100, variant: 'VariantType | None' = UNSET, striped: 'bool | None' = UNSET, animated: 'bool | None' = UNSET, label: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+- `ProgressRing` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+  - Signature: `ProgressRing(value: 'int | float', *, max_value: 'int | float' = 100, size: 'str | None' = UNSET, variant: 'str | None' = UNSET, show_text: 'bool | None' = UNSET, label: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `PulseLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+  - Signature: `PulseLoader(*, variant: 'str | None' = UNSET, size: 'LoaderSize | None' = UNSET, label: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `RingLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+  - Signature: `RingLoader(*, variant: 'str | None' = UNSET, size: 'str | None' = UNSET, label: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `ShadowLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+  - Signature: `ShadowLoader(text: 'str' = 'Loading...', **kwargs: 'Any') -> 'Div'`
+- `SimpleToast` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/toast.py))
+  - Signature: `SimpleToast(*children: 'Any', title: 'str | None' = None, variant: 'VariantType | None' = UNSET, duration: 'int | None' = UNSET, position: 'ToastPositionType | None' = UNSET, radius: 'str | None' = None, body_cls: 'str' = '', **kwargs: 'Any') -> 'Div'`
+- `Spinner` ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/spinner/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/spinner.py))
+  - Signature: `Spinner(variant: 'VariantType | None' = UNSET, size: 'str | None' = UNSET, spinner_type: 'str | None' = UNSET, label: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `SuccessToast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+  - Signature: `SuccessToast(message: 'str', title: 'str' = 'Success', **kwargs: 'Any') -> 'Any'`
+- `Toast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/toast/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/toast.py))
+  - Signature: `Toast(*children: 'Any', title: 'str | None' = None, variant: 'VariantType | None' = UNSET, autohide: 'bool | None' = UNSET, delay: 'int | None' = UNSET, animation: 'bool | None' = UNSET, radius: 'str | None' = None, header_cls: 'str' = '', body_cls: 'str' = '', close_button_cls: 'str' = '', **kwargs: 'Any') -> 'Div'`
+- `ToastContainer` ([docs](https://faststrap-org.github.io/Faststrap/api/presets/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/toast.py))
+  - Signature: `ToastContainer(*toasts: 'Any', position: 'ToastPositionType | None' = UNSET, container_id: 'str | None' = 'toast-container', **kwargs: 'Any') -> 'Div'`
+- `Tooltip` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/overlays.py))
+  - Signature: `Tooltip(text: 'str', *children: 'Any', placement: 'PlacementType' = 'top', trigger: 'TriggerType' = 'hover focus', html: 'bool' = False, tag: 'str' = 'span', **kwargs: 'Any') -> 'Any'`
+- `TypewriterLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+  - Signature: `TypewriterLoader(text: 'str' = 'Loading...', **kwargs: 'Any') -> 'Div'`
+- `WarningToast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+  - Signature: `WarningToast(message: 'str', title: 'str' = 'Warning', **kwargs: 'Any') -> 'Any'`
+- `WaveLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+  - Signature: `WaveLoader(*, variant: 'str | None' = UNSET, label: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+
+### Forms (34) - inputs, buttons, pickers, validation surfaces
+
+- `Button` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/button/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/button.py))
+  - Signature: `Button(*children: 'Any', as_: "Literal['button', 'a']" = 'button', variant: 'VariantType | None' = UNSET, size: 'SizeType | None' = UNSET, outline: 'bool | None' = UNSET, disabled: 'bool | None' = UNSET, loading: 'bool' = False, spinner: 'bool' = True, loading_text: 'str | None' = None, icon: 'str | None' = None, icon_pos: "Literal['start', 'end']" = 'start', icon_cls: 'str | None' = None, spinner_pos: "Literal['start', 'end']" = 'start', spinner_cls: 'str | None' = None, full_width: 'bool | None' = UNSET, active: 'bool | None' = UNSET, pill: 'bool | None' = UNSET, css_vars: 'dict[str, Any] | None' = None, style: 'dict[str, Any] | str | None' = None, **kwargs: 'Any') -> 'FTButton | A'`
+- `ButtonGroup` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/buttongroup.py))
+  - Signature: `ButtonGroup(*buttons: Any, size: Optional[Literal['sm', 'lg']] = None, vertical: bool = False, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `ButtonToolbar` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/buttongroup.py))
+  - Signature: `ButtonToolbar(*groups: Any, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `CalendarDatePicker` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/calendar-date-picker/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/calendar_date_picker.py))
+  - Signature: `CalendarDatePicker(name: 'str' = 'date', *, label: 'str' = 'Date', value: 'str | None' = None, min_date: 'str | None' = None, max_date: 'str | None' = None, endpoint: 'str | None' = None, method: 'CalendarMethod' = 'get', auto: 'bool' = False, apply_label: 'str | None' = 'Apply', clear_label: 'str | None' = None, hx_target: 'str | None' = None, hx_swap: 'str | None' = 'outerHTML', push_url: 'bool' = False, input_cls: 'str | None' = None, form_cls: 'str | None' = None, apply_cls: 'str | None' = None, clear_cls: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+- `Checkbox` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/checks.py))
+  - Signature: `Checkbox(name: 'str', *, label: 'str | None' = None, value: 'str' = '1', checked: 'bool' = False, disabled: 'bool' = False, required: 'bool' = False, inline: 'bool' = False, reverse: 'bool' = False, checkbox_id: 'str | None' = None, size: 'SizeType | None' = None, input_cls: 'str' = '', label_cls: 'str' = '', help_text: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+- `CloseButton` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/button.py))
+  - Signature: `CloseButton(*children: 'Any', white: 'bool' = False, aria_label: 'str' = 'Close', **kwargs: 'Any') -> 'FTButton'`
+- `DateRangePicker` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/date-range-picker/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/date_range_picker.py))
+  - Signature: `DateRangePicker(*, start_name: 'str' = 'start_date', end_name: 'str' = 'end_date', start_label: 'str' = 'Start date', end_label: 'str' = 'End date', start_value: 'str | None' = None, end_value: 'str | None' = None, min_date: 'str | None' = None, max_date: 'str | None' = None, presets: 'list[tuple[str, str, str]] | None' = None, endpoint: 'str | None' = None, method: 'str' = 'get', auto: 'bool' = False, apply_label: 'str | None' = 'Apply', hx_target: 'str | None' = None, hx_swap: 'str | None' = 'outerHTML', push_url: 'bool' = False, form_cls: 'str | None' = None, presets_cls: 'str | None' = None, inputs_cls: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+- `ExportButton` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/export-button/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/export_button.py))
+  - Signature: `ExportButton(label: 'str' = 'Export', *, endpoint: 'str | None' = None, export_format: 'ExportFormat' = 'csv', filename: 'str | None' = None, method: 'ExportMethod' = 'get', use_hx: 'bool' = False, hx_target: 'str | None' = None, hx_swap: 'str | None' = 'none', push_url: 'bool' = False, variant: 'VariantType | None' = UNSET, outline: 'bool' = True, icon: 'str | None' = 'download', extra_params: 'dict[str, Any] | None' = None, **kwargs: 'Any') -> 'Any'`
+- `FileInput` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/file-input/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/file.py))
+  - Signature: `FileInput(name: 'str', *, label: 'str | None' = None, multiple: 'bool' = False, disabled: 'bool' = False, required: 'bool' = False, accept: 'str | None' = None, size: 'SizeType | None' = None, file_id: 'str | None' = None, input_cls: 'str' = '', label_cls: 'str' = '', helper_text: 'str | None' = None, preview_id: 'str | None' = None, preview_img_cls: 'str' = 'img-thumbnail mt-2', preview_max_height: 'str' = '200px', **kwargs: 'Any') -> 'Div'`
+- `FilterBar` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/filter-bar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/filter_bar.py))
+  - Signature: `FilterBar(*filters: 'Any', endpoint: 'str | None' = None, method: 'FilterMethod' = 'get', mode: 'FilterMode' = 'auto', apply_label: 'str' = 'Apply', apply_variant: 'VariantType' = 'primary', reset_label: 'str | None' = None, reset_href: 'str | None' = None, debounce: 'int' = 300, hx_target: 'str | None' = None, hx_swap: 'str | None' = 'outerHTML', push_url: 'bool' = False, filters_cls: 'str | None' = None, actions_cls: 'str | None' = None, form_cls: 'str | None' = None, **kwargs: 'Any') -> 'FTForm'`
+- `FloatingActionButton` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/action_buttons.py))
+  - Signature: `FloatingActionButton(*children: 'Any', icon: 'str | None' = None, variant: 'VariantType | None' = UNSET, position: 'FabPosition | None' = UNSET, label: 'str | None' = UNSET, size: 'FabSize | None' = UNSET, offset: 'int | None' = UNSET, shape: 'FabShape | None' = UNSET, **kwargs: 'Any') -> 'Any'`
+- `FloatingLabel` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/inputgroup.py))
+  - Signature: `FloatingLabel(name: 'str', *, label: 'str', input_type: "Literal['text', 'password', 'email', 'number', 'url', 'tel', 'search', 'date', 'time', 'datetime-local']" = 'text', value: 'str' = '', placeholder: 'str' = '', disabled: 'bool' = False, readonly: 'bool' = False, required: 'bool' = False, input_id: 'str | None' = None, input_cls: 'str' = '', label_cls: 'str' = '', **kwargs: 'Any') -> 'Div'`
+- `FormErrorSummary` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+  - Signature: `FormErrorSummary(errors: 'Mapping[str, Any] | Iterable[str] | str | None', *, title: 'str' = 'Please fix the following', variant: 'str | None' = UNSET, heading_cls: 'str | None' = UNSET, list_cls: 'str | None' = None, show_field_names: 'bool' = True, dismissible: 'bool | None' = UNSET, **kwargs: 'Any') -> 'Any | None'`
+- `FormGroup` ([docs](https://faststrap-org.github.io/Faststrap/api/registry/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/formgroup.py))
+  - Signature: `FormGroup(input_element: Any, label: str | None = None, help_text: str | None = None, error: str | None = None, success: str | None = None, is_invalid: bool = False, is_valid: bool = False, required: bool = False, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `FormGroupFromErrors` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+  - Signature: `FormGroupFromErrors(input_element: 'Any', field: 'str', errors: 'Mapping[str, Any] | None' = None, **kwargs: 'Any') -> 'Any'`
+- `FormSection` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/form-section/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/form_section.py))
+  - Signature: `FormSection(*fields: 'Any', title: 'str | None' = None, description: 'str | None' = None, actions: 'Any | list[Any] | tuple[Any, ...] | None' = None, divider: 'bool' = True, **kwargs: 'Any') -> 'Div'`
+- `FormWizard` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/form-wizard/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/form_wizard.py))
+  - Signature: `FormWizard(*steps: 'Any', current_step: 'int' = 0, endpoint: 'str | None' = None, method: 'WizardMethod' = 'post', step_name: 'str' = 'step', next_label: 'str' = 'Next', previous_label: 'str' = 'Back', finish_label: 'str' = 'Finish', show_stepper: 'bool' = True, hx_target: 'str | None' = None, hx_swap: 'str' = 'outerHTML', controls_cls: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+- `GradientButton` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/action_buttons.py))
+  - Signature: `GradientButton(*children: 'Any', gradient: 'GradientPreset | str | None' = UNSET, size: 'SizeType | None' = UNSET, text_color: 'str | None' = None, hover: 'GradientHover' = 'default', **kwargs: 'Any') -> 'Any'`
+- `InlineEditor` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/inline-editor/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/inline_editor.py))
+  - Signature: `InlineEditor(name: 'str', value: 'str' = '', *, display: 'Any | None' = None, editing: 'bool' = False, endpoint: 'str | None' = None, edit_endpoint: 'str | None' = None, method: 'InlineEditorMethod' = 'post', input_type: 'str' = 'text', save_label: 'str' = 'Save', cancel_label: 'str' = 'Cancel', edit_label: 'str' = 'Edit', hx_target: 'str | None' = None, hx_swap: 'str' = 'outerHTML', input_cls: 'str | None' = None, actions_cls: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+- `Input` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/input/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/input.py))
+  - Signature: `Input(name: 'str', input_type: 'InputType | None' = UNSET, placeholder: 'str | None' = None, value: 'str | None' = None, label: 'str | None' = None, help_text: 'str | None' = None, size: 'SizeType | None' = UNSET, disabled: 'bool | None' = UNSET, readonly: 'bool | None' = UNSET, required: 'bool | None' = UNSET, validation_state: 'str | None' = None, validation_message: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+- `InputGroup` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/inputgroup.py))
+  - Signature: `InputGroup(*children: 'Any', size: 'SizeType | None' = None, nowrap: 'bool' = False, **kwargs: 'Any') -> 'Div'`
+- `InputGroupText` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/inputgroup.py))
+  - Signature: `InputGroupText(*children: 'Any', **kwargs: 'Any') -> 'Span'`
+- `LiveValidationField` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+  - Signature: `LiveValidationField(input_element: 'Any', validate_url: 'str', *, label: 'str | None' = None, help_text: 'str | None' = None, error: 'str | None' = None, success: 'str | None' = None, is_invalid: 'bool' = False, is_valid: 'bool' = False, required: 'bool' = False, method: "Literal['get', 'post']" = 'post', trigger: 'str' = 'blur changed delay:300ms', target: 'str' = 'closest .mb-3', swap: 'str' = 'outerHTML', indicator: 'str | None' = None, **kwargs: 'Any') -> 'Any'`
+- `MultiSelect` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/multi-select/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/multi_select.py))
+  - Signature: `MultiSelect(name: 'str', *options: 'tuple[str, str] | tuple[str, str, bool]', label: 'str | None' = None, help_text: 'str | None' = None, size: 'SizeType | None' = UNSET, disabled: 'bool | None' = UNSET, required: 'bool | None' = UNSET, selected: 'Iterable[str] | None' = None, **kwargs: 'Any') -> 'Div'`
+- `Radio` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/checks.py))
+  - Signature: `Radio(name: 'str', *, label: 'str | None' = None, value: 'str' = '', checked: 'bool' = False, disabled: 'bool' = False, required: 'bool' = False, inline: 'bool' = False, reverse: 'bool' = False, radio_id: 'str | None' = None, input_cls: 'str' = '', label_cls: 'str' = '', **kwargs: 'Any') -> 'Div'`
+- `Range` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/checks.py))
+  - Signature: `Range(name: 'str', *, label: 'str | None' = None, value: 'int | float | None' = None, min_val: 'int | float' = 0, max_val: 'int | float' = 100, step: 'int | float | None' = None, disabled: 'bool' = False, range_id: 'str | None' = None, input_cls: 'str' = '', label_cls: 'str' = '', **kwargs: 'Any') -> 'Div'`
+- `RangeSlider` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/range-slider/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/range_slider.py))
+  - Signature: `RangeSlider(name: 'str', *, label: 'str | None' = None, help_text: 'str | None' = None, min_value: 'int | float' = 0, max_value: 'int | float' = 100, step: 'int | float' = 1, value: 'int | float | None' = None, dual: 'bool' = False, min_name: 'str | None' = None, max_name: 'str | None' = None, min_selected: 'int | float | None' = None, max_selected: 'int | float | None' = None, show_value: 'bool' = True, value_suffix: 'str' = '', **kwargs: 'Any') -> 'Div'`
+- `SearchableSelect` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/searchable-select/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/searchable_select.py))
+  - Signature: `SearchableSelect(endpoint: str, name: str, placeholder: str = 'Search...', min_chars: int = 2, debounce: int = 300, initial_options: list[tuple[str, str]] | None = None, required: bool = False, size: Optional[Literal['sm', 'lg']] = UNSET, select_id: str | None = None, csp_safe: bool | None = None, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `Select` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/select/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/select.py))
+  - Signature: `Select(name: 'str', *options: 'tuple[str, str] | tuple[str, str, bool]', label: 'str | None' = None, help_text: 'str | None' = None, size: 'SizeType | None' = UNSET, disabled: 'bool | None' = UNSET, required: 'bool | None' = UNSET, multiple: 'bool | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `Switch` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/checks.py))
+  - Signature: `Switch(name: 'str', *, label: 'str | None' = None, value: 'str' = '1', checked: 'bool' = False, disabled: 'bool' = False, required: 'bool' = False, reverse: 'bool' = False, switch_id: 'str | None' = None, input_cls: 'str' = '', label_cls: 'str' = '', **kwargs: 'Any') -> 'Div'`
+- `ThemeToggle` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/theme-toggle/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/theme_toggle.py))
+  - Signature: `ThemeToggle(current_theme: Literal['light', 'dark', 'auto'] = 'auto', endpoint: str = '/theme/toggle', toggle_id: str = 'theme-toggle', show_label: bool = False, label_text: str = 'Dark Mode', show_icon: bool = False, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `ToggleGroup` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/toggle-group/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/toggle_group.py))
+  - Signature: `ToggleGroup(*buttons: 'Any', name: 'str | None' = None, values: 'list[str] | None' = None, active_index: 'int' = 0, active_cls: 'str' = 'active', hidden_input: 'bool' = True, **kwargs: 'Any') -> 'Div'`
+- `ValidationMessage` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+  - Signature: `ValidationMessage(message: 'str | None', *, state: "Literal['invalid', 'valid', 'neutral']" = 'invalid', **kwargs: 'Any') -> 'Div | None'`
+- `WizardStep` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/form_wizard.py))
+  - Signature: `WizardStep(title: 'str', *content: 'Any', description: 'str | None' = None, icon: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+
+### Layout (13) - grid, containers, page scaffolding
+
+- `Center` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/primitives.py))
+  - Signature: `Center(*children: 'Any', min_height: 'str | None' = UNSET, max_width: 'str | None' = UNSET, text_center: 'bool | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `Cluster` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/primitives.py))
+  - Signature: `Cluster(*children: 'Any', gap: 'int | str | None' = UNSET, align: 'Align | None' = UNSET, justify: 'Justify | None' = UNSET, wrap: 'bool | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `Col` (stable) ([docs](https://faststrap-org.github.io/Faststrap/effects/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/grid.py))
+  - Signature: `Col(*children: Any, span: int | bool = True, sm: int | None = None, md: int | None = None, lg: int | None = None, xl: int | None = None, xxl: int | None = None, offset: int | None = None, offset_sm: int | None = None, offset_md: int | None = None, offset_lg: int | None = None, offset_xl: int | None = None, offset_xxl: int | None = None, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `Container` (stable) ([docs](https://faststrap-org.github.io/Faststrap/accessibility/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/grid.py))
+  - Signature: `Container(*children: Any, fluid: Union[Literal['fluid', 'sm', 'md', 'lg', 'xl', 'xxl'], bool] = False, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `DashboardGrid` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/dashboard-grid/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/dashboard_grid.py))
+  - Signature: `DashboardGrid(*children: 'Any', cols: 'int | None' = UNSET, gap: 'str | int | float' = 1.5, min_card_width: 'str | int | float' = 240, dense: 'bool' = False, **kwargs: 'Any') -> 'Div'`
+- `Hero` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/hero/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/hero.py))
+  - Signature: `Hero(title: str, subtitle: str | None = None, cta: typing.Any | None = None, align: str = 'center', bg_variant: Optional[Literal['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'link']] = None, bg_color: str | None = None, text_color: str | None = None, py: str = '5', container: bool = True, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `PageHeader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/page-header/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/page_header.py))
+  - Signature: `PageHeader(title: 'str', *, subtitle: 'str | None' = None, eyebrow: 'str | None' = None, badge: 'Any | None' = None, actions: 'Any | list[Any] | tuple[Any, ...] | None' = None, **kwargs: 'Any') -> 'Div'`
+- `ParallaxSection` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/parallax-section/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/parallax.py))
+  - Signature: `ParallaxSection(*children: 'Any', img_src: 'str', height: 'str | None' = UNSET, overlay_opacity: 'float | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `Row` (stable) ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/grid.py))
+  - Signature: `Row(*children: Any, cols: int | None = None, cols_sm: int | None = None, cols_md: int | None = None, cols_lg: int | None = None, cols_xl: int | None = None, cols_xxl: int | None = None, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `SectionHeader` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/section-header/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/section_header.py))
+  - Signature: `SectionHeader(title: 'str', *, subtitle: 'str | None' = None, eyebrow: 'str | None' = None, badge: 'Any | None' = None, actions: 'Any | list[Any] | tuple[Any, ...] | None' = None, size: 'str' = 'md', **kwargs: 'Any') -> 'Div'`
+- `SplitPane` (experimental) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/split_pane.py))
+  - Signature: `SplitPane(left: 'Any', right: 'Any', *, initial_ratio: 'str' = '30/70', collapsible: 'bool' = False, collapsed: 'bool' = False, divider_width: 'str' = '4px', min_left: 'str' = '200px', max_left: 'str' = '50%', stack_on: 'str | None' = 'md', **kwargs: 'Any') -> 'Div'`
+- `Stack` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/primitives.py))
+  - Signature: `Stack(*children: 'Any', gap: 'int | str | None' = UNSET, align: 'Align | None' = UNSET, justify: 'Justify | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `Switcher` (experimental) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/switcher/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/switcher.py))
+  - Signature: `Switcher(*children: 'Any', breakpoint: 'str' = 'md', ratio: 'str | None' = None, gap: 'int | str' = 3, min_item_width: 'str | None' = None, **kwargs: 'Any') -> 'Div'`
+
+### Navigation (25) - navbars, tabs, menus, drawers, pagination
+
+- `Accordion` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/accordion/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/accordion.py))
+  - Signature: `Accordion(*children: 'Any', accordion_id: 'str | None' = None, flush: 'bool' = False, always_open: 'bool' = False, **kwargs: 'Any') -> 'Div'`
+- `AccordionItem` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/accordion.py))
+  - Signature: `AccordionItem(*children: 'Any', title: 'str' = '', expanded: 'bool' = False, header_cls: 'str' = '', body_cls: 'str' = '', button_cls: 'str' = '', **kwargs: 'Any') -> 'AccordionItemBuilder'`
+- `BottomNav` ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/bottom-nav/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/bottom_nav.py))
+  - Signature: `BottomNav(*children: 'Any', variant: 'str | None' = UNSET, fixed: 'bool | None' = True, labels: 'bool' = True, **kwargs: 'Any') -> 'Nav'`
+- `BottomNavItem` ([docs](https://faststrap-org.github.io/Faststrap/PWA_GUIDE/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/bottom_nav.py))
+  - Signature: `BottomNavItem(label: 'str', href: 'str' = '#', icon: 'str | None' = None, active: 'bool' = False, cls: 'str | None' = None, **kwargs: 'Any') -> 'A'`
+- `Breadcrumb` ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/breadcrumb/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/breadcrumb.py))
+  - Signature: `Breadcrumb(*items: 'tuple[Any, str | None] | tuple[Any, str | None, bool]', **kwargs: 'Any') -> 'Nav'`
+- `Collapse` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/collapse/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/listgroup.py))
+  - Signature: `Collapse(*children: 'Any', collapse_id: 'str', show: 'bool' = False, horizontal: 'bool' = False, **kwargs: 'Any') -> 'Div'`
+- `CommandItem` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/command_palette.py))
+  - Signature: `CommandItem(label: 'str', *, href: 'str | None' = None, description: 'str | None' = None, icon: 'str | None' = None, shortcut: 'str | None' = None, active: 'bool' = False, **kwargs: 'Any') -> 'Div | A'`
+- `CommandPalette` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/command-palette/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/command_palette.py))
+  - Signature: `CommandPalette(*commands: 'Any', name: 'str' = 'q', placeholder: 'str' = 'Search commands...', endpoint: 'str | None' = None, method: 'CommandPaletteMethod' = 'get', title: 'str | None' = 'Command palette', empty: 'Any | None' = None, hx_target: 'str | None' = None, hx_swap: 'str' = 'innerHTML', **kwargs: 'Any') -> 'Div'`
+- `Drawer` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/drawer/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/drawer.py))
+  - Signature: `Drawer(*children: 'Any', drawer_id: 'str | None' = None, title: 'str | None' = None, footer: 'Any | None' = None, placement: 'PlacementType | None' = UNSET, backdrop: 'bool | None' = UNSET, scroll: 'bool | None' = UNSET, dark: 'bool | None' = UNSET, focus_trap: 'bool | None' = UNSET, autofocus_selector: 'str | None' = UNSET, header_cls: 'str | None' = UNSET, body_cls: 'str | None' = UNSET, footer_cls: 'str | None' = UNSET, title_cls: 'str | None' = UNSET, close_cls: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `Dropdown` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/dropdown/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/dropdown.py))
+  - Signature: `Dropdown(*items: 'Any', label: 'str | None' = UNSET, variant: 'VariantType | None' = UNSET, size: 'str | None' = UNSET, split: 'bool | None' = UNSET, direction: 'DirectionType | None' = UNSET, toggle_cls: 'str | None' = UNSET, menu_cls: 'str | None' = UNSET, item_cls: 'str | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+- `DropdownDivider` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/dropdown.py))
+  - Signature: `DropdownDivider() -> 'Li'`
+- `DropdownItem` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/dropdown.py))
+  - Signature: `DropdownItem(*children: 'Any', active: 'bool' = False, disabled: 'bool' = False, **kwargs: 'Any') -> 'A'`
+- `GlassNavItem` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/glass_navbar.py))
+  - Signature: `GlassNavItem(label: str, href: str = '#', active: bool = False, **kwargs: Any) -> <function A at 0x000001F61CFBBB00>`
+- `GlassNavbar` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/glass-navbar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/glass_navbar.py))
+  - Signature: `GlassNavbar(*items: Any, brand: str | None = None, brand_href: str = '/', blur_strength: Optional[Literal['low', 'medium', 'high']] = UNSET, transparency: float | None = UNSET, theme: str | None = UNSET, sticky: bool | None = UNSET, expand: str | None = UNSET, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'nav')`
+- `ListGroup` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/listgroup.py))
+  - Signature: `ListGroup(*children: 'Any', flush: 'bool' = False, horizontal: "bool | Literal['sm', 'md', 'lg', 'xl', 'xxl']" = False, numbered: 'bool' = False, **kwargs: 'Any') -> 'Ul | Div'`
+- `ListGroupItem` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/listgroup.py))
+  - Signature: `ListGroupItem(*children: 'Any', variant: 'VariantType | None' = None, active: 'bool' = False, disabled: 'bool' = False, action: 'bool' = False, href: 'str | None' = None, badge: 'Any' = None, **kwargs: 'Any') -> 'Li | A | Button'`
+- `Navbar` (stable) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/navbar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/navbar.py))
+  - Signature: `Navbar(*children: 'Any', items: 'list[Any] | None' = None, brand: 'Any | None' = None, brand_href: 'str' = '/', variant: 'str | None' = UNSET, color_scheme: 'str | None' = UNSET, bg: 'str | None' = UNSET, expand: 'ExpandType | None' = UNSET, sticky: 'str | None' = UNSET, fixed: 'str | None' = UNSET, container: 'bool | str | None' = UNSET, **kwargs: 'Any') -> 'Nav'`
+- `Pagination` ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/pagination/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/pagination.py))
+  - Signature: `Pagination(current_page: 'int', total_pages: 'int', size: 'SizeType | None' = UNSET, align: 'AlignType | None' = UNSET, max_pages: 'int | None' = UNSET, base_url: 'str | None' = UNSET, show_first_last: 'bool | None' = UNSET, show_prev_next: 'bool | None' = UNSET, page_param: 'str' = 'page', query_params: 'dict[str, Any] | None' = None, htmx: 'bool' = False, hx_target: 'str | None' = None, hx_swap: 'str | None' = 'outerHTML', hx_push_url: 'bool' = False, **kwargs: 'Any') -> 'Nav'`
+- `ProfileDropdown` (experimental) ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/profile-dropdown/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/profile_dropdown.py))
+  - Signature: `ProfileDropdown(name: 'str', *, subtitle: 'str | None' = None, src: 'str | None' = None, items: 'list[tuple[str, str]] | list[tuple[str, str, dict[str, Any]]] | None' = None, alignment: 'str | None' = UNSET, avatar_size: 'int | None' = UNSET, layout: "Literal['horizontal', 'stacked'] | None" = UNSET, trigger_cls: 'str' = '', menu_cls: 'str' = '', item_cls: 'str' = '', footer: 'Any | None' = None, **kwargs: 'Any') -> 'Div'`
+- `Scrollspy` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/scrollspy/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/scrollspy.py))
+  - Signature: `Scrollspy(*children: Any, target: str, offset: int | None = None, method: str | None = None, smooth_scroll: bool | None = None, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `SearchBar` (experimental) ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/search-bar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/search_bar.py))
+  - Signature: `SearchBar(placeholder: 'str' = 'Search...', *, endpoint: 'str | None' = None, target: 'str | None' = None, swap: 'str' = 'innerHTML', name: 'str' = 'q', method: 'str' = 'get', autocomplete: 'str' = 'off', **kwargs: 'Any') -> 'Div'`
+- `SidebarNavItem` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/sidebar_navbar.py))
+  - Signature: `SidebarNavItem(label: str, href: str = '#', icon: str | None = None, active: bool = False, theme: str = 'dark', **kwargs: Any) -> <function A at 0x000001F61CFBBB00>`
+- `SidebarNavbar` ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/sidebar-navbar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/sidebar_navbar.py))
+  - Signature: `SidebarNavbar(*items: Any, brand: str | None = None, brand_href: str = '/', position: str | None = UNSET, width: str | None = UNSET, collapsible: bool | None = UNSET, theme: str | None = UNSET, sticky: bool | None = UNSET, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `TabPane` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/tabs.py))
+  - Signature: `TabPane(*children: 'Any', tab_id: 'str', active: 'bool' = False, **kwargs: 'Any') -> 'Div'`
+- `Tabs` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/tabs/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/tabs.py))
+  - Signature: `Tabs(*items: 'tuple[str, Any, bool] | tuple[str, Any]', variant: 'TabType | None' = UNSET, justified: 'bool | None' = UNSET, fill: 'bool | None' = UNSET, vertical: 'bool | None' = UNSET, htmx: 'bool | None' = UNSET, **kwargs: 'Any') -> 'Div'`
+
+### Patterns (8) - composed marketing/product page sections
+
+- `Feature` (beta) ([docs](https://faststrap-org.github.io/Faststrap/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/feature.py))
+  - Signature: `Feature(title: str, description: str, icon: str | typing.Any | None = None, icon_cls: str = 'bg-primary text-white', icon_wrapper_cls: str | None = None, title_cls: str = 'fs-4 fw-bold', description_cls: str = 'text-muted', icon_wrapper_attrs: dict[str, typing.Any] | None = None, title_attrs: dict[str, typing.Any] | None = None, description_attrs: dict[str, typing.Any] | None = None, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `FeatureGrid` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/patterns/feature-grid/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/feature.py))
+  - Signature: `FeatureGrid(*features: Any, columns: int = 3, row_cls: str | None = None, col_cls: str | None = None, row_attrs: dict[str, typing.Any] | None = None, col_attrs: dict[str, typing.Any] | None = None, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `FooterModern` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/patterns/footer-modern/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/footer.py))
+  - Signature: `FooterModern(brand: str | typing.Any | None = None, tagline: str | None = None, columns: list[dict[str, typing.Any]] | None = None, social_links: list[dict[str, str]] | None = None, copyright_text: str | None = None, bg_variant: str | None = UNSET, text_variant: str | None = UNSET, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'footer')`
+- `NavbarModern` (beta) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/patterns/navbar-modern/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/navbar.py))
+  - Signature: `NavbarModern(brand: Any, items: list[typing.Any] | None = None, sticky: bool = True, glass: bool = True, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'nav')`
+- `PricingGroup` (beta) ([docs](https://faststrap-org.github.io/Faststrap/api/registry/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/pricing.py))
+  - Signature: `PricingGroup(*tiers: Any, title: str = 'Choose Your Plan', subtitle: str | None = None, header_cls: str | None = None, title_cls: str | None = None, subtitle_cls: str | None = None, row_cls: str | None = None, col_cls: str | None = None, header_attrs: dict[str, typing.Any] | None = None, title_attrs: dict[str, typing.Any] | None = None, subtitle_attrs: dict[str, typing.Any] | None = None, row_attrs: dict[str, typing.Any] | None = None, col_attrs: dict[str, typing.Any] | None = None, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+- `PricingTier` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/pricing.py))
+  - Signature: `PricingTier(name: str, price: str | int, period: str = 'month', features: list[str] | None = None, button_text: str = 'Get Started', button_href: str = '#', highlighted: bool = False, **kwargs: Any) -> Any`
+- `Testimonial` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/testimonial.py))
+  - Signature: `Testimonial(quote: str, author: str, role: str | None = None, avatar: str | None = None, rating: int | None = None, **kwargs: Any) -> Any`
+- `TestimonialSection` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/patterns/testimonial-section/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/testimonial.py))
+  - Signature: `TestimonialSection(*testimonials: Any, title: str = 'What Our Customers Say', subtitle: str | None = None, columns: int = 3, header_cls: str | None = None, title_cls: str | None = None, subtitle_cls: str | None = None, row_cls: str | None = None, col_cls: str | None = None, header_attrs: dict[str, typing.Any] | None = None, title_attrs: dict[str, typing.Any] | None = None, subtitle_attrs: dict[str, typing.Any] | None = None, row_attrs: dict[str, typing.Any] | None = None, col_attrs: dict[str, typing.Any] | None = None, **kwargs: Any) -> functools.partial(<function ft_hx at 0x000001F61CFBB2E0>, 'div')`
+
+## HTMX Presets
+
+- `ActiveSearch` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `AutoRefresh` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `ConfirmPrompt` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `Debounce` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `InfiniteScroll` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `LazyLoad` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `LoadingButton` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `LocationAction` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `OptimisticAction` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `PollUntil` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `SSEStream` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/streams.py))
+- `SwapOnEvent` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `hx_redirect` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
+- `hx_refresh` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
+- `hx_reswap` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
+- `hx_retarget` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
+- `hx_trigger` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
+- `require_auth` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/auth.py))
+- `sse_comment` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/streams.py))
+- `sse_event` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/streams.py))
+- `toast_response` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
+
+## Layouts, Integrations, Helpers
+
+- `SEO` ([docs](https://faststrap-org.github.io/Faststrap/TROUBLESHOOTING/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/seo/meta.py))
+  - Signature: `SEO(title: 'str | None' = None, description: 'str | None' = None, keywords: 'list[str] | None' = None, image: 'str | None' = None, url: 'str | None' = None, og_type: "Literal['website', 'article', 'product']" = 'website', article: 'bool' = False, published_time: 'str | None' = None, modified_time: 'str | None' = None, author: 'str | None' = None, section: 'str | None' = None, tags: 'list[str] | None' = None, twitter_card: "Literal['summary', 'summary_large_image', 'app', 'player']" = 'summary_large_image', twitter_site: 'str | None' = None, twitter_creator: 'str | None' = None, robots: 'str' = 'index, follow', canonical: 'str | None' = None, locale: 'str | None' = None, alternate_locales: 'list[str] | None' = None, **kwargs: 'Any') -> 'tuple[Any, ...]'`
+- `UNSET` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+- `add_bootstrap` ([docs](https://faststrap-org.github.io/Faststrap/PWA_GUIDE/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/assets.py))
+  - Signature: `add_bootstrap(app: 'Any', theme: 'str | Theme | None' = None, mode: 'ModeType' = 'light', use_cdn: 'bool | None' = None, mount_static: 'bool' = True, static_url: 'str' = '/static', force_static_url: 'bool' = False, include_favicon: 'bool' = True, favicon_url: 'str | None' = None, font_family: 'str | None' = None, font_weights: 'list[int] | None' = None, components: 'list[Any] | None' = None, include_modern_toast: 'bool | None' = None) -> 'Any'`
+- `add_chartjs` ([docs](https://faststrap-org.github.io/Faststrap/integrations/chartjs/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/integrations/chartjs.py))
+  - Signature: `add_chartjs(app: 'Any', *, version: 'str' = '4.4.7', cdn_url: 'str | None' = None, defer: 'bool' = True) -> 'None'`
+- `add_gsap` ([docs](https://faststrap-org.github.io/Faststrap/integrations/gsap/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/integrations/gsap.py))
+  - Signature: `add_gsap(app: 'Any', *, version: 'str' = '3.12.5', cdn_url: 'str | None' = None, include_init: 'bool' = True, defer: 'bool' = True) -> 'None'`
+- `add_pwa` ([docs](https://faststrap-org.github.io/Faststrap/PWA_GUIDE/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/pwa/core.py))
+  - Signature: `add_pwa(app: Any, name: str = 'Faststrap App', short_name: str = 'Faststrap', description: str = 'A Progressive Web App built with Faststrap', theme_color: str = '#ffffff', background_color: str = '#ffffff', icon_path: str = '/assets/icon.png', icon_192: str | None = None, icon_512: str | None = None, display: str = 'standalone', start_url: str = '/', scope: str = '/', service_worker: bool = True, offline_page: bool = True, cache_name: str = 'faststrap-app', cache_version: str = 'v1', pre_cache_urls: collections.abc.Sequence[str] | None = None, use_cdn: bool | None = None, enable_background_sync: bool = False, background_sync_tag: str = 'faststrap-background-sync', route_cache_policies: dict[str, str] | None = None, enable_push: bool = False, default_push_title: str = 'Faststrap Notification') -> None`
+- `beta` ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/_stability.py))
+  - Signature: `beta(func: 'F') -> 'F'`
+- `chartjs_assets` ([docs](https://faststrap-org.github.io/Faststrap/integrations/chartjs/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/integrations/chartjs.py))
+  - Signature: `chartjs_assets(*, version: 'str' = '4.4.7', cdn_url: 'str | None' = None, defer: 'bool' = True) -> 'tuple[Any, ...]'`
+- `cleanup_static_resources` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/utils/static_management.py))
+  - Signature: `cleanup_static_resources() -> 'None'`
+- `convert_attrs` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/utils/attrs.py))
+  - Signature: `convert_attrs(kwargs: 'dict[str, Any]') -> 'dict[str, Any]'`
+- `create_theme` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+  - Signature: `create_theme(primary: 'str | None' = None, secondary: 'str | None' = None, success: 'str | None' = None, danger: 'str | None' = None, warning: 'str | None' = None, info: 'str | None' = None, **extra_vars: 'str') -> 'Theme'`
+- `datatable_export_params` ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/data_table.py))
+  - Signature: `datatable_export_params(*, sort: 'str | None' = None, direction: 'SortableDirection' = 'asc', search: 'str | None' = None, search_param: 'str' = 'q', filters: 'dict[str, Any] | None' = None, include_pagination: 'bool' = False, page: 'int | None' = None, per_page: 'int | None' = None) -> 'dict[str, Any]'`
+- `datatable_page_url` ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/data_table.py))
+  - Signature: `datatable_page_url(base_url: 'str', *, page: 'int', per_page: 'int | None' = None, sort: 'str | None' = None, direction: 'SortableDirection' = 'asc', search: 'str | None' = None, search_param: 'str' = 'q', filters: 'dict[str, Any] | None' = None) -> 'str'`
+- `datatable_query_params` ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/data_table.py))
+  - Signature: `datatable_query_params(*, sort: 'str | None' = None, direction: 'SortableDirection' = 'asc', search: 'str | None' = None, search_param: 'str' = 'q', filters: 'dict[str, Any] | None' = None, page: 'int | None' = None, per_page: 'int | None' = None) -> 'dict[str, Any]'`
+- `experimental` ([docs](https://faststrap-org.github.io/Faststrap/components/advance/confusion_matrix/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/_stability.py))
+  - Signature: `experimental(func: 'F') -> 'F'`
+- `extract_field_error` ([docs](https://faststrap-org.github.io/Faststrap/guides/validation/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+  - Signature: `extract_field_error(errors: 'Mapping[str, Any] | None', field: 'str') -> 'str | None'`
+- `find_components` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+  - Signature: `find_components(query: 'str', *, category: 'str | None' = None) -> 'list[str]'`
+- `get_assets` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/assets.py))
+  - Signature: `get_assets(use_cdn: 'bool | None' = None, include_custom: 'bool' = True, static_url: 'str | None' = None, theme: 'str | Theme | None' = None, mode: 'ModeType' = 'light', font_family: 'str | None' = None, font_weights: 'list[int] | None' = None, include_js: 'bool' = True, include_favicon: 'bool' = False, include_modern_toast: 'bool' = False) -> 'tuple[Any, ...]'`
+- `get_builtin_theme` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+  - Signature: `get_builtin_theme(name: 'str') -> 'Theme'`
+- `get_component` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+  - Signature: `get_component(name: 'str') -> 'Callable[..., Any] | None'`
+- `get_components_by_pattern` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+  - Signature: `get_components_by_pattern(pattern: 'str', *, category: 'str | None' = None) -> 'list[Callable[..., Any]]'`
+- `get_faststrap_static_url` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/utils/static_management.py))
+  - Signature: `get_faststrap_static_url(app: 'Any') -> 'str | None'`
+- `gsap_assets` ([docs](https://faststrap-org.github.io/Faststrap/integrations/gsap/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/integrations/gsap.py))
+  - Signature: `gsap_assets(*, version: 'str' = '3.12.5', cdn_url: 'str | None' = None, include_init: 'bool' = True, defer: 'bool' = True) -> 'tuple[Any, ...]'`
+- `list_builtin_themes` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+  - Signature: `list_builtin_themes() -> 'list[str]'`
+- `list_component_metadata` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+  - Signature: `list_component_metadata(category: 'str | None' = None) -> 'list[dict[str, Any]]'`
+- `list_components` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+  - Signature: `list_components(category: 'str | None' = None) -> 'list[str]'`
+- `map_formgroup_validation` ([docs](https://faststrap-org.github.io/Faststrap/guides/validation/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+  - Signature: `map_formgroup_validation(errors: 'Mapping[str, Any] | None', field: 'str') -> 'dict[str, Any]'`
+- `merge_classes` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/base.py))
+  - Signature: `merge_classes(*class_lists: Any) -> str`
+- `mount_assets` ([docs](https://faststrap-org.github.io/Faststrap/STATIC_FILES/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/assets.py))
+  - Signature: `mount_assets(app: 'Any', directory: 'str', url_path: 'str' = '/assets', name: 'str | None' = None, priority: 'bool' = True, allow_override: 'bool' = False, base_dir: 'str | os.PathLike[str] | None' = None) -> 'None'`
+- `register` ([docs](https://faststrap-org.github.io/Faststrap/PWA_GUIDE/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+  - Signature: `register(name: 'str | None' = None, category: 'str | None' = None, bootstrap_version: 'str' = '5.3.3', requires_js: 'bool' = False) -> 'Callable[[F], F]'`
+- `render_svg` ([docs](https://faststrap-org.github.io/Faststrap/components/display/svg/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/svg.py))
+  - Signature: `render_svg(svg: 'str', *, sanitize: 'bool' = True, allowed_tags: 'list[str] | None' = None, allowed_attributes: 'dict[str, list[str]] | None' = None, allowed_protocols: 'list[str] | None' = None) -> 'str'`
+- `reset_component_defaults` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+  - Signature: `reset_component_defaults(component: 'str | None' = None) -> 'None'`
+- `resolve_defaults` ([docs](https://faststrap-org.github.io/Faststrap/api/defaults/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+  - Signature: `resolve_defaults(component: 'str', **kwargs: 'Any') -> 'dict[str, Any]'`
+- `set_component_defaults` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+  - Signature: `set_component_defaults(component: 'str', **defaults: 'Any') -> 'None'`
+- `stable` ([docs](https://faststrap-org.github.io/Faststrap/guides/custom-components/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/_stability.py))
+  - Signature: `stable(func: 'F') -> 'F'`
+- `theme_variant_css` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+  - Signature: `theme_variant_css(selector: 'str', *, light: 'dict[str, str] | None' = None, dark: 'dict[str, str] | None' = None) -> 'Style'`
+
+## Type Aliases & Constants
+
+- `ChartJSType` (typing)
+- `GsapPreset` (typing)
+- `MotionPreset` (typing)
+- `AuthLayout` (faststrap.layouts.auth)
+- `BsTBody` (faststrap.components.display.table)
+- `BsTCell` (faststrap.components.display.table)
+- `BsTHead` (faststrap.components.display.table)
+- `BsTRow` (faststrap.components.display.table)
+- `BsTable` (faststrap.components.display.table)
+- `CHARTJS_CDN_URL` (faststrap)
+- `CHARTJS_VERSION` (faststrap)
+- `ChartJS` (faststrap.integrations.chartjs)
+- `DashboardLayout` (faststrap.layouts.dashboard)
+- `FocusTrap` (faststrap.accessibility)
+- `Form` (faststrap.components.forms.form)
+- `FormBuilder` (faststrap.components.forms.form)
+- `Fx` (faststrap.core.effects)
+- `GSAP_CDN_URL` (faststrap)
+- `GSAP_VERSION` (faststrap)
+- `Gsap` (faststrap.integrations.gsap)
+- `GsapReveal` (faststrap.integrations.gsap)
+- `Icon` (faststrap.utils.icons)
+- `LandingLayout` (faststrap.layouts.landing)
+- `LiveRegion` (faststrap.accessibility)
+- `Motion` (faststrap.integrations.gsap)
+- `PageMeta` (faststrap.seo.page_meta)
+- `PwaMeta` (faststrap.pwa.core)
+- `SkipLink` (faststrap.accessibility)
+- `StructuredData` (faststrap.seo.structured_data)
+- `Theme` (faststrap.core.theme)
+- `ToastPlacement` (faststrap.components.feedback.modern_toast)
+- `VisuallyHidden` (faststrap.accessibility)
+- `presets` (faststrap)
+
+## Theming
+
+Built-in themes: green-nature, blue-ocean, purple-magic, red-alert, orange-sunset, teal-oasis, indigo-night, pink-love, cyan-sky, gray-mist
+
+Modes: `light`, `dark`, `auto`. Create custom themes with `create_theme()`.
+
+## AI/Agent Discovery
+
+```python
+from faststrap import find_components, get_component, list_component_metadata
+
+find_components("toast")            # name/docstring search
+get_component("Modal")              # fetch a component callable by name
+list_component_metadata(category="display")  # structured metadata
+```
+
+## Verification
+
+- Generated by `scripts/generate_llms.py` from the live registry - do not edit by hand.
+- Every signature above comes from `inspect.signature` of the installed package.
+- Re-run `python scripts/generate_llms.py` after any API change.

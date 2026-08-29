@@ -281,6 +281,21 @@ def checkout(req):
 
 ---
 
+## Customizing With Slot Classes
+
+Newer versions expose class hooks for the icon and message slots:
+
+```python
+ErrorDialog(
+    message="Could not reach the training service.",
+    title="Connection Error",
+    icon_cls="bi-cloud-slash fs-3 text-danger",
+    message_cls="text-body-secondary",
+)
+```
+
+---
+
 ## Parameter Reference
 
 | Parameter | Type | Default | Description |
@@ -291,7 +306,10 @@ def checkout(req):
 | `modal_id` | `str` | "error-dialog" | Unique modal ID |
 | `retry_url` | `str \| None` | `None` | URL for retry button (None to hide) |
 | `retry_text` | `str` | "Retry" | Text for retry button |
-| `show` | `bool` | `False` | Whether to show modal immediately |
+| `close_text` | `str` | "Close" | Text for the close button |
+| `show` | `bool` | `True` | Whether to show modal immediately |
+| `icon_cls` | `str \| None` | `None` | Extra classes for the icon slot |
+| `message_cls` | `str \| None` | `None` | Extra classes for the message slot |
 | `**kwargs` | `Any` | - | Additional HTML attributes |
 
 ---

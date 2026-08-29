@@ -47,27 +47,24 @@ git push origin feature/my-component
 
 The easiest way to contribute! Pick from [ROADMAP.md](ROADMAP.md):
 
-**Phase 4A Priority Components (v0.4.0):**
-- Table (+ THead, TBody, TRow, TCell)
-- Accordion (+ AccordionItem)
-- Checkbox
-- Radio
-- Switch
-- Range
-- ListGroup (+ ListGroupItem)
-- Collapse
-- InputGroup
-- FloatingLabel
+**High-Priority Components (next release):**
+- Data/ML visualization components (see `docs/roadmap/`)
+- Enhanced form validation components
+- Advanced DataTable features (column pinning, row grouping)
 
-**Phase 4B Components (v0.4.5):**
-- FileInput
-- Tooltip
-- Popover
-- Figure
-- ConfirmDialog
-- EmptyState
-- StatCard
-- Hero
+**Recently Completed (v0.4.x – v0.9.x):**
+- Table family (THead, TBody, TRow, TCell) + DataTable ✅
+- Accordion, Collapse ✅
+- Checkbox, Radio, Switch, Range ✅
+- ListGroup ✅
+- InputGroup, FloatingLabel ✅
+- FileInput, Tooltip, Popover ✅
+- ConfirmDialog, EmptyState ✅
+- StatCard, Hero ✅
+- ProfileDropdown, ModernToast, ToastContainer ✅
+- CalendarDatePicker, GradientButton, FloatingActionButton ✅
+
+See [ROADMAP.md](ROADMAP.md) for the full current roadmap.
 
 **How to build:**
 1. Copy `src/faststrap/components/forms/button.py` as template

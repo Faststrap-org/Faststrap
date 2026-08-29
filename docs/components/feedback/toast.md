@@ -115,6 +115,54 @@ def add_item():
 | `header_cls` / `body_cls` / `close_button_cls` (`Toast`) | `str` | `""` | Slot class hooks for the header row, body, and dismiss button. |
 | `body_cls` (`SimpleToast`) | `str` | `""` | Extra classes for the toast body. |
 
+---
+
+## Toast Placements
+
+`ToastContainer` supports 13 placement positions via the `position` parameter or the `ToastPlacement` helper:
+
+| Position Value | Screen Location | Use Case |
+|---|---|---|
+| `top-left` | Top-left corner | Desktop admin tools |
+| `top-center` | Top center | Desktop notifications |
+| `top-right` | Top-right corner | Classic desktop notifications |
+| `bottom-left` | Bottom-left corner | Mobile-friendly (left-handed) |
+| `bottom-center` | Bottom center | Mobile-friendly centered |
+| `bottom-right` *(default)* | Bottom-right corner | Mobile-friendly, most common |
+| `top-start` | Top-left (RTL-aware) | RTL language support |
+| `top-end` | Top-right (RTL-aware) | RTL language support |
+| `bottom-start` | Bottom-left (RTL-aware) | RTL language support |
+| `bottom-end` | Bottom-right (RTL-aware) | RTL language support |
+| `middle-start` | Middle-left (RTL-aware) | Centered vertical alerts |
+| `middle-center` | Dead center | Modal-like toasts |
+| `middle-end` | Middle-right (RTL-aware) | Centered vertical alerts |
+
+```python
+from faststrap import ToastContainer, ToastPlacement
+
+# Using a string
+ToastContainer(position="bottom-right")
+
+# Using the typed helper
+ToastContainer(
+    position=ToastPlacement(
+        position="bottom-right",
+        offset=16,   # pixels from edge
+        gutter=8,    # spacing between toasts
+    ),
+)
+```
+
+The `offset` and `gutter` parameters control spacing: `offset` is the distance from the screen edge, and `gutter` is the gap between stacked toasts.
+
+Multiple toasts in the same container stack vertically with the newest toast appearing closest to the center (configurable via `stack_order`).
+
+::: faststrap.components.feedback.modern_toast.ToastPlacement
+    options:
+        show_source: true
+        heading_level: 4
+
+---
 Multiple `ToastContainer`s are supported: pass a distinct `container_id` per container, or `container_id=None` for an auto-generated id.
 
 !!! note "JavaScript Requirement"

@@ -1,106 +1,338 @@
 # FastStrap
 
-> The most complete, Pythonic, zero-JS Bootstrap 5 component library for FastHTML — 152+ registered UI components for web apps, data dashboards, ML tools, and AI-native interfaces.
+> Python-native Bootstrap 5 UI components for FastHTML - web apps, dashboards, data tools, and AI-friendly interfaces.
+
+**166 registered UI components** - **232 public exports** - MIT - Python 3.10+ - FastHTML 0.6+
 
 ## Quick Start
 
-- [README.md](https://github.com/Faststrap-org/Faststrap/blob/main/README.md): Installation, setup, and first component
-- [ROADMAP.md](https://github.com/Faststrap-org/Faststrap/blob/main/ROADMAP.md): Full roadmap, phase breakdown, and v1.0 milestones
-- [BUILDING_COMPONENTS.md](https://github.com/Faststrap-org/Faststrap/blob/main/BUILDING_COMPONENTS.md): How to author new components
-- [COMPONENT_SPEC.md](https://github.com/Faststrap-org/Faststrap/blob/main/COMPONENT_SPEC.md): API conventions and component authoring spec
+```python
+from fasthtml.common import FastHTML, serve
+from faststrap import add_bootstrap, Card, Button
 
-## Architecture
+app = FastHTML()
+add_bootstrap(app)
 
-- [Core assets pipeline](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/assets.py): Bootstrap wiring, INIT_SCRIPT, CDN/local asset mounting
-- [Component registry](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py): Metadata-driven component discovery and registration
-- [Theme system](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py): Built-in themes, dark mode, CSS variable generation
-- [Base component](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/base.py): ComponentBuilder and BaseComponent patterns
+@app.get("/")
+def home():
+    return Card(
+        "Hello FastStrap!",
+        Button("Get started", variant="primary"),
+        title="Welcome",
+    )
 
-## Component Catalog (152+ registered)
+serve()  # http://localhost:5001
+```
 
-### Forms
-- [Button, ButtonGroup](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/button.py): Primary actions, button groups, toolbar compositions
-- [Input, Select, Checkbox, Radio, Switch](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/input.py): All standard form controls with validation
-- [SearchableSelect](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/searchable_select.py): Server-side searchable dropdown
-- [OTPInput, OTPInputGroup](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/otp_input.py): One-time password input (zero-JS and JS-enhanced variants)
-- [Form, FormGroup, FormWizard](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/form.py): Form composition, validation, multi-step flows
-- [DateRangePicker, MultiSelect, RangeSlider](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/date_range_picker.py): Advanced data selection components
-- [ExportButton, InlineEditor, CalendarDatePicker](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/export_button.py): Data export, inline editing, date picking
+Install: `pip install faststrap` (optional: `pip install faststrap[markdown]`).
 
-### Display
-- [Card, Badge, Tag, Kbd](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/card.py): Core display primitives
-- [Table, DataTable](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/table.py): Static and data-driven tables with sort/filter/pagination
-- [Chart, Mermaid, Svg](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/chart.py): Chart wrappers for Matplotlib/Plotly/Altair
-- [StatCard, MetricCard, TrendCard, KPICard](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stat_card.py): Dashboard metrics
-- [Avatar, AvatarGroup, StatusBadge, BadgeGroup](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/avatar.py): Identity and status primitives
-- [Image, Carousel, Figure](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/image.py): Media display components
-- [ResultCard, EmptyState, TextClamp](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/result_card.py): Result surfaces and text utilities
-- [Timeline, Stepper](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/timeline.py): Chronological and step-based displays
-- [CodeBlock, JsonViewer, KeyValueList, RecordDetail](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/structured.py): Structured data display
-- [FlipCard, TiltCard, RevealCard, GlowCard](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/visual_cards.py): Visual effect cards
+## Key Links
 
-### Feedback
-- [Alert, Toast, SimpleToast](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/alert.py): Alert and notification system
-- [Modal, ConfirmDialog, ErrorDialog](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/modal.py): Dialog components
-- [Spinner, Progress, ProgressRing](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/spinner.py): Loading and progress indicators
-- [Placeholder](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/placeholder.py): Skeleton loading states
-- [NotificationCenter, SSEStream](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notification_center.py): Real-time notifications
-- [Tooltip, Popover](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/overlays.py): Contextual overlays
+- [Documentation](https://faststrap-org.github.io/Faststrap/)
+- [README](https://github.com/Faststrap-org/Faststrap/blob/main/README.md)
+- [Changelog](https://github.com/Faststrap-org/Faststrap/blob/main/CHANGELOG.md)
+- [Component Registry API](https://faststrap-org.github.io/Faststrap/api/registry/): programmatic component discovery for agents/tools
+- [Component Defaults API](https://faststrap-org.github.io/Faststrap/api/defaults/): `UNSET` semantics and `set_component_defaults`
 
-### Navigation
-- [Navbar, GlassNavbar, SidebarNavbar](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/navbar.py): Navigation bars
-- [Tabs, Accordion, Drawer](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/tabs.py): Content organization
-- [Dropdown, Breadcrumb, Pagination](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/dropdown.py): Navigation helpers
-- [CommandPalette](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/command_palette.py): Keyboard-driven command launcher
-- [BottomNav, Scrollspy](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/bottom_nav.py): Mobile navigation and scroll tracking
+## Component Catalog
 
-### Layout
-- [Container, Row, Col](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/grid.py): Bootstrap grid system
-- [Stack, Cluster, Center](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/primitives.py): CSS layout primitives
-- [AspectRatio, Separator](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/aspect_ratio.py): Ratio containers and dividers
-- [Hero, PageHeader, DashboardGrid](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/hero.py): Page-level layout components
-- [ParallaxSection](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/parallax.py): Scroll-based parallax effects
+166 components registered via `@register`:
 
-### Patterns
-- [FeatureGrid, PricingGroup, TestimonialSection](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/feature.py): Landing page patterns
-- [FooterModern](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/footer.py): Modern multi-column footer
+### Display (45) - cards, tables, badges, charts, data viewers
 
-## Integrations (Optional)
+- `Avatar` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/avatar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/avatar.py))
+- `AvatarGroup` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/avatar.py))
+- `Badge` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/display/badge/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/badge.py))
+- `BadgeGroup` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/status_badge.py))
+- `Card` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/display/card/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/card.py))
+- `Carousel` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/display/carousel/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/carousel.py))
+- `CarouselItem` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/carousel.py))
+- `Chart` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/chart/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/chart.py))
+- `CodeBlock` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/structured.py))
+- `DataCard` (experimental) ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-card/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/data_card.py))
+- `DataTable` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/data_table.py))
+- `EmptyState` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/empty_state.py))
+- `Figure` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/display/figure/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/figure.py))
+- `FilePreview` (experimental) ([docs](https://faststrap-org.github.io/Faststrap/components/display/file-preview/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/file_preview.py))
+- `FlipCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/visual_cards.py))
+- `GlowCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/visual_cards.py))
+- `Image` ([docs](https://faststrap-org.github.io/Faststrap/components/display/image/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/image.py))
+- `JsonViewer` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/structured.py))
+- `KPICard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stat_card.py))
+- `KeyValueList` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/structured.py))
+- `MapView` (experimental) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/display/map-view/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/map_view.py))
+- `Markdown` ([docs](https://faststrap-org.github.io/Faststrap/components/display/markdown/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/markdown.py))
+- `Math` (beta) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/display/math/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/math.py))
+- `Mermaid` (beta) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/display/mermaid/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/mermaid.py))
+- `MetricCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/metric-card/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stat_card.py))
+- `RecordDetail` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/structured.py))
+- `ResultCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/result-card/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/result_card.py))
+- `RevealCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/visual_cards.py))
+- `SSETarget` (beta) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/sse_target.py))
+- `Sheet` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/display/sheet/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/sheet.py))
+- `StatCard` (stable) ([docs](https://faststrap-org.github.io/Faststrap/api/presets/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stat_card.py))
+- `StatusBadge` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/status-badge/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/status_badge.py))
+- `Stepper` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/stepper/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stepper.py))
+- `StepperStep` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stepper.py))
+- `Svg` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/svg/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/svg.py))
+- `TBody` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/table.py))
+- `TCell` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/table.py))
+- `THead` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/table.py))
+- `TRow` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/table.py))
+- `Table` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/display/table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/table.py))
+- `TextClamp` ([docs](https://faststrap-org.github.io/Faststrap/components/display/text-clamp/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/text_clamp.py))
+- `TiltCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/visual_cards.py))
+- `Timeline` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/timeline/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/timeline.py))
+- `TimelineItem` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/timeline.py))
+- `TrendCard` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/display/trend-card/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/stat_card.py))
 
-- [ChartJS](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/integrations/chartjs.py): Optional Chart.js integration via `faststrap[chartjs]`
-- [GSAP Motion](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/integrations/gsap.py): Optional animation system via `faststrap[gsap]`
+### Feedback (35) - alerts, modals, toasts, loaders, progress
 
-## Data Science & ML (v0.6+)
+- `Alert` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/alert/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/alert.py))
+- `ConfirmAction` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/confirm.py))
+- `ConfirmDialog` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/confirm.py))
+- `DotsLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+- `ErrorDialog` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/error-dialog/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/error_dialog.py))
+- `ErrorPage` ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/error-page/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/error_page.py))
+- `ErrorToast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+- `InfoToast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+- `InstallPrompt` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/install-prompt/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/install_prompt.py))
+- `Modal` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/modal/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/modal.py))
+- `ModernToast` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/modern-toast/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/modern_toast.py))
+- `ModernToastStack` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/modern_toast.py))
+- `NoticeAlert` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+- `NoticeToast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+- `NotificationCenter` (beta) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/notification-center/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notification_center.py))
+- `Placeholder` ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/placeholder/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/placeholder.py))
+- `PlaceholderButton` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/placeholder.py))
+- `PlaceholderCard` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/placeholder.py))
+- `PolygonLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+- `Popover` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/overlays.py))
+- `Progress` ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/progress/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/progress.py))
+- `ProgressBar` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/progress.py))
+- `ProgressRing` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+- `PulseLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+- `RingLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+- `ShadowLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+- `SimpleToast` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/toast.py))
+- `Spinner` ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/spinner/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/spinner.py))
+- `SuccessToast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+- `Toast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/toast/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/toast.py))
+- `ToastContainer` ([docs](https://faststrap-org.github.io/Faststrap/api/presets/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/toast.py))
+- `Tooltip` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/overlays.py))
+- `TypewriterLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
+- `WarningToast` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/notifications.py))
+- `WaveLoader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/feedback/loaders.py))
 
-- [DataTable](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/data_table.py): Advanced table with sort/filter/pagination for DataFrames
-- [Chart](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/chart.py): Wrapper for Matplotlib, Plotly, Altair
-- [FilterBar, DateRangePicker, MultiSelect](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/filter_bar.py): Dashboard filtering components
-- [SSEStream, SSETarget](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/sse_target.py): Server-Sent Events for live updates
+### Forms (34) - inputs, buttons, pickers, validation surfaces
 
-## Key Design Principles
+- `Button` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/button/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/button.py))
+- `ButtonGroup` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/buttongroup.py))
+- `ButtonToolbar` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/buttongroup.py))
+- `CalendarDatePicker` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/calendar-date-picker/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/calendar_date_picker.py))
+- `Checkbox` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/checks.py))
+- `CloseButton` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/button.py))
+- `DateRangePicker` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/date-range-picker/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/date_range_picker.py))
+- `ExportButton` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/export-button/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/export_button.py))
+- `FileInput` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/file-input/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/file.py))
+- `FilterBar` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/filter-bar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/filter_bar.py))
+- `FloatingActionButton` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/action_buttons.py))
+- `FloatingLabel` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/inputgroup.py))
+- `FormErrorSummary` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+- `FormGroup` ([docs](https://faststrap-org.github.io/Faststrap/api/registry/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/formgroup.py))
+- `FormGroupFromErrors` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+- `FormSection` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/form-section/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/form_section.py))
+- `FormWizard` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/form-wizard/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/form_wizard.py))
+- `GradientButton` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/action_buttons.py))
+- `InlineEditor` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/forms/inline-editor/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/inline_editor.py))
+- `Input` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/input/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/input.py))
+- `InputGroup` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/inputgroup.py))
+- `InputGroupText` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/inputgroup.py))
+- `LiveValidationField` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+- `MultiSelect` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/multi-select/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/multi_select.py))
+- `Radio` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/checks.py))
+- `Range` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/checks.py))
+- `RangeSlider` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/range-slider/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/range_slider.py))
+- `SearchableSelect` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/searchable-select/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/searchable_select.py))
+- `Select` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/select/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/select.py))
+- `Switch` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/checks.py))
+- `ThemeToggle` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/theme-toggle/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/theme_toggle.py))
+- `ToggleGroup` ([docs](https://faststrap-org.github.io/Faststrap/components/forms/toggle-group/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/toggle_group.py))
+- `ValidationMessage` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+- `WizardStep` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/form_wizard.py))
 
-- **Zero-JS Core**: All components function without JavaScript; enhancements are progressive
-- **Deterministic HTML**: Server-rendered output is predictable and testable via `to_xml()`
-- **No Client State**: State lives on the server; HTMX handles interactions
-- **Accessibility First**: WCAG-aligned defaults for all components
-- **Bootstrap Native**: Generated markup is idiomatic Bootstrap 5
+### Layout (13) - grid, containers, page scaffolding
+
+- `Center` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/primitives.py))
+- `Cluster` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/primitives.py))
+- `Col` (stable) ([docs](https://faststrap-org.github.io/Faststrap/effects/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/grid.py))
+- `Container` (stable) ([docs](https://faststrap-org.github.io/Faststrap/accessibility/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/grid.py))
+- `DashboardGrid` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/dashboard-grid/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/dashboard_grid.py))
+- `Hero` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/hero/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/hero.py))
+- `PageHeader` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/page-header/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/page_header.py))
+- `ParallaxSection` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/parallax-section/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/parallax.py))
+- `Row` (stable) ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/grid.py))
+- `SectionHeader` (stable) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/section-header/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/section_header.py))
+- `SplitPane` (experimental) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/split_pane.py))
+- `Stack` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/primitives.py))
+- `Switcher` (experimental) ([docs](https://faststrap-org.github.io/Faststrap/components/layout/switcher/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/layout/switcher.py))
+
+### Navigation (25) - navbars, tabs, menus, drawers, pagination
+
+- `Accordion` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/accordion/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/accordion.py))
+- `AccordionItem` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/accordion.py))
+- `BottomNav` ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/bottom-nav/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/bottom_nav.py))
+- `BottomNavItem` ([docs](https://faststrap-org.github.io/Faststrap/PWA_GUIDE/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/bottom_nav.py))
+- `Breadcrumb` ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/breadcrumb/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/breadcrumb.py))
+- `Collapse` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/feedback/collapse/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/listgroup.py))
+- `CommandItem` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/command_palette.py))
+- `CommandPalette` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/command-palette/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/command_palette.py))
+- `Drawer` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/drawer/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/drawer.py))
+- `Dropdown` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/dropdown/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/dropdown.py))
+- `DropdownDivider` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/dropdown.py))
+- `DropdownItem` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/dropdown.py))
+- `GlassNavItem` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/glass_navbar.py))
+- `GlassNavbar` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/glass-navbar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/glass_navbar.py))
+- `ListGroup` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/listgroup.py))
+- `ListGroupItem` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/listgroup.py))
+- `Navbar` (stable) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/navbar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/navbar.py))
+- `Pagination` ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/pagination/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/pagination.py))
+- `ProfileDropdown` (experimental) ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/profile-dropdown/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/profile_dropdown.py))
+- `Scrollspy` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/scrollspy/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/scrollspy.py))
+- `SearchBar` (experimental) ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/search-bar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/search_bar.py))
+- `SidebarNavItem` ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/sidebar_navbar.py))
+- `SidebarNavbar` ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/sidebar-navbar/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/sidebar_navbar.py))
+- `TabPane` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/tabs.py))
+- `Tabs` - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/navigation/tabs/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/navigation/tabs.py))
+
+### Patterns (8) - composed marketing/product page sections
+
+- `Feature` (beta) ([docs](https://faststrap-org.github.io/Faststrap/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/feature.py))
+- `FeatureGrid` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/patterns/feature-grid/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/feature.py))
+- `FooterModern` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/patterns/footer-modern/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/footer.py))
+- `NavbarModern` (beta) - requires Bootstrap JS ([docs](https://faststrap-org.github.io/Faststrap/components/patterns/navbar-modern/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/navbar.py))
+- `PricingGroup` (beta) ([docs](https://faststrap-org.github.io/Faststrap/api/registry/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/pricing.py))
+- `PricingTier` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/pricing.py))
+- `Testimonial` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/index/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/testimonial.py))
+- `TestimonialSection` (beta) ([docs](https://faststrap-org.github.io/Faststrap/components/patterns/testimonial-section/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/patterns/testimonial.py))
 
 ## HTMX Presets
 
-- [ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py): Interaction presets
-- [LoadingButton, ConfirmAction](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py): Button state presets
-- [hx_redirect, hx_refresh, toast_response](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py): Response presets
-- [SSEStream, SSE Target](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/streams.py): Real-time streaming presets
+- `ActiveSearch` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `AutoRefresh` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `ConfirmPrompt` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `Debounce` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `InfiniteScroll` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `LazyLoad` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `LoadingButton` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `LocationAction` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `OptimisticAction` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `PollUntil` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `SSEStream` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/streams.py))
+- `SwapOnEvent` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/interactions.py))
+- `hx_redirect` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
+- `hx_refresh` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
+- `hx_reswap` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
+- `hx_retarget` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
+- `hx_trigger` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
+- `require_auth` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/auth.py))
+- `sse_comment` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/streams.py))
+- `sse_event` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/streams.py))
+- `toast_response` ([source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/presets/responses.py))
 
-## Theme System
+## Layouts, Integrations, Helpers
+
+- `SEO` ([docs](https://faststrap-org.github.io/Faststrap/TROUBLESHOOTING/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/seo/meta.py))
+- `UNSET` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+- `add_bootstrap` ([docs](https://faststrap-org.github.io/Faststrap/PWA_GUIDE/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/assets.py))
+- `add_chartjs` ([docs](https://faststrap-org.github.io/Faststrap/integrations/chartjs/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/integrations/chartjs.py))
+- `add_gsap` ([docs](https://faststrap-org.github.io/Faststrap/integrations/gsap/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/integrations/gsap.py))
+- `add_pwa` ([docs](https://faststrap-org.github.io/Faststrap/PWA_GUIDE/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/pwa/core.py))
+- `beta` ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/_stability.py))
+- `chartjs_assets` ([docs](https://faststrap-org.github.io/Faststrap/integrations/chartjs/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/integrations/chartjs.py))
+- `cleanup_static_resources` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/utils/static_management.py))
+- `convert_attrs` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/utils/attrs.py))
+- `create_theme` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+- `datatable_export_params` ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/data_table.py))
+- `datatable_page_url` ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/data_table.py))
+- `datatable_query_params` ([docs](https://faststrap-org.github.io/Faststrap/components/display/data-table/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/data_table.py))
+- `experimental` ([docs](https://faststrap-org.github.io/Faststrap/components/advance/confusion_matrix/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/_stability.py))
+- `extract_field_error` ([docs](https://faststrap-org.github.io/Faststrap/guides/validation/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+- `find_components` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+- `get_assets` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/assets.py))
+- `get_builtin_theme` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+- `get_component` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+- `get_components_by_pattern` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+- `get_faststrap_static_url` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/utils/static_management.py))
+- `gsap_assets` ([docs](https://faststrap-org.github.io/Faststrap/integrations/gsap/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/integrations/gsap.py))
+- `list_builtin_themes` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+- `list_component_metadata` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+- `list_components` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+- `map_formgroup_validation` ([docs](https://faststrap-org.github.io/Faststrap/guides/validation/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/forms/errors.py))
+- `merge_classes` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/base.py))
+- `mount_assets` ([docs](https://faststrap-org.github.io/Faststrap/STATIC_FILES/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/assets.py))
+- `register` ([docs](https://faststrap-org.github.io/Faststrap/PWA_GUIDE/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/registry.py))
+- `render_svg` ([docs](https://faststrap-org.github.io/Faststrap/components/display/svg/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/components/display/svg.py))
+- `reset_component_defaults` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+- `resolve_defaults` ([docs](https://faststrap-org.github.io/Faststrap/api/defaults/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+- `set_component_defaults` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+- `stable` ([docs](https://faststrap-org.github.io/Faststrap/guides/custom-components/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/_stability.py))
+- `theme_variant_css` ([docs](https://faststrap-org.github.io/Faststrap/api/core/) - [source](https://github.com/Faststrap-org/Faststrap/blob/main/src/faststrap/core/theme.py))
+
+## Type Aliases & Constants
+
+- `ChartJSType` (typing)
+- `GsapPreset` (typing)
+- `MotionPreset` (typing)
+- `AuthLayout` (faststrap.layouts.auth)
+- `BsTBody` (faststrap.components.display.table)
+- `BsTCell` (faststrap.components.display.table)
+- `BsTHead` (faststrap.components.display.table)
+- `BsTRow` (faststrap.components.display.table)
+- `BsTable` (faststrap.components.display.table)
+- `CHARTJS_CDN_URL` (faststrap)
+- `CHARTJS_VERSION` (faststrap)
+- `ChartJS` (faststrap.integrations.chartjs)
+- `DashboardLayout` (faststrap.layouts.dashboard)
+- `FocusTrap` (faststrap.accessibility)
+- `Form` (faststrap.components.forms.form)
+- `FormBuilder` (faststrap.components.forms.form)
+- `Fx` (faststrap.core.effects)
+- `GSAP_CDN_URL` (faststrap)
+- `GSAP_VERSION` (faststrap)
+- `Gsap` (faststrap.integrations.gsap)
+- `GsapReveal` (faststrap.integrations.gsap)
+- `Icon` (faststrap.utils.icons)
+- `LandingLayout` (faststrap.layouts.landing)
+- `LiveRegion` (faststrap.accessibility)
+- `Motion` (faststrap.integrations.gsap)
+- `PageMeta` (faststrap.seo.page_meta)
+- `PwaMeta` (faststrap.pwa.core)
+- `SkipLink` (faststrap.accessibility)
+- `StructuredData` (faststrap.seo.structured_data)
+- `Theme` (faststrap.core.theme)
+- `ToastPlacement` (faststrap.components.feedback.modern_toast)
+- `VisuallyHidden` (faststrap.accessibility)
+- `presets` (faststrap)
+
+## Theming
 
 Built-in themes: green-nature, blue-ocean, purple-magic, red-alert, orange-sunset, teal-oasis, indigo-night, pink-love, cyan-sky, gray-mist
 
-Modes: `light`, `dark`, `auto`
+Modes: `light`, `dark`, `auto`. Create custom themes with `create_theme()`.
 
-## Testing
+## AI/Agent Discovery
 
-- 857+ tests passing (pytest)
-- 91%+ code coverage
-- All tests use `to_xml()` for deterministic HTML assertions
-- Run: `pytest -q` from the Faststrap directory
+```python
+from faststrap import find_components, get_component, list_component_metadata
+
+find_components("toast")            # name/docstring search
+get_component("Modal")              # fetch a component callable by name
+list_component_metadata(category="display")  # structured metadata
+```
+
+## Verification
+
+- Generated by `scripts/generate_llms.py` from the live registry - do not edit by hand.
+- Every signature above comes from `inspect.signature` of the installed package.
+- Re-run `python scripts/generate_llms.py` after any API change.

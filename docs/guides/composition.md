@@ -151,6 +151,59 @@ def MyButton(text: str, *, variant: str = "primary", **kwargs):
 
 ---
 
+---
+
+## Bootstrap JS Requirements
+
+Some Faststrap components require Bootstrap's JavaScript to function (modals, dropdowns, tabs, tooltips, etc.). These components are marked with `requires_js=True` in the component registry. When you use `add_bootstrap(app)`, the JavaScript is automatically included.
+
+Components that require Bootstrap JS include: Accordion, Alert, Carousel, Collapse, Drawer, Dropdown, Modal, Navbar, Popover, Sheet, Tabs, Toast, Tooltip, and others. The full list is available programmatically:
+
+```python
+from faststrap import list_component_metadata
+
+js_required = [
+    meta["name"]
+    for meta in list_component_metadata()
+    if meta.get("requires_js")
+]
+```
+
+If you are building a custom component that wraps a Bootstrap JS feature, register it with `requires_js=True`:
+
+```python
+from faststrap.core.registry import register
+
+@register(requires_js=True)
+def MyCustomModal(...):
+    ...
+```
+
+---
+
+## Slot Class Convention
+
+Faststrap components follow a naming convention for slot customization:
+
+- `*_cls` — CSS class for a specific slot (e.g., `header_cls`, `body_cls`, `footer_cls`)
+- `*_attrs` — arbitrary HTML attributes for a specific slot (e.g., `header_attrs`)
+
+For example, `Card` supports:
+
+```python
+Card(
+    "Content",
+    header_cls="bg-primary text-white",
+    body_cls="p-4",
+    footer_cls="text-muted",
+)
+```
+
+This convention applies across most composite components. Check the API reference of each component for the specific slot names it supports.
+
+---
+
+## When to Create Custom Components
 ## When to Create Custom Components
 
 Create a custom component when:

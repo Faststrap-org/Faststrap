@@ -17,7 +17,7 @@ FastStrap helps Python developers build production web apps, admin panels, analy
 FastHTML is amazing for building web apps in pure Python, but complete product and data interfaces still need a reliable UI layer. FastStrap fills that gap by providing:
 
 
-- **170+ components, helpers, and presets** - 152 registered UI components plus HTMX, SEO, PWA, and optional integrations
+- **230+ components, helpers, and presets** - 166 registered UI components plus HTMX, SEO, PWA, and optional integrations
 - **Product UI foundations** - Forms, navigation, layouts, modals, notifications, auth screens, and Bootstrap surfaces
 - **Dashboard and data-app tools** - DataTable, metric cards, KPI cards, charts, maps, polling, SSE helpers, Markdown, Mermaid, JSON, and code rendering
 - **HTMX Presets Module** - Ready-to-use patterns for search, lazy loading, polling, optimistic actions, geolocation, and server-sent events
@@ -290,11 +290,11 @@ modal = get_component("Modal")
 
 ---
 
-## Available Components And Helpers (170+ Total)
+## Available Components And Helpers (230+ Total)
 
-Faststrap currently exposes **152 registered UI components** across forms, display, feedback, navigation, layout, and patterns, plus **18 HTMX presets**, SEO/PWA helpers, accessibility helpers, core utilities, and optional integrations. Components are typed, HTMX-friendly, and follow Bootstrap conventions. Stability markers (`@stable`, `@beta`, `@experimental`) indicate API maturity.
+Faststrap currently exposes **166 registered UI components** across forms, display, feedback, navigation, layout, and patterns, plus **21 HTMX presets**, SEO/PWA helpers, accessibility helpers, core utilities, and optional integrations. Components are typed, HTMX-friendly, and follow Bootstrap conventions. Stability markers (`@stable`, `@beta`, `@experimental`) indicate API maturity.
 
-### Presets Module (18 Utilities)
+### Presets Module (21 Utilities)
 
 - `ActiveSearch`
 - `InfiniteScroll`
@@ -304,6 +304,9 @@ Faststrap currently exposes **152 registered UI components** across forms, displ
 - `OptimisticAction`
 - `LocationAction`
 - `PollUntil`
+- `ConfirmPrompt`
+- `Debounce`
+- `SwapOnEvent`
 - `hx_redirect`
 - `hx_refresh`
 - `hx_trigger`
@@ -592,8 +595,8 @@ Comprehensive examples organized by learning path:
 
 Faststrap's current main branch reflects the v0.8.1 stability release on top of the v0.8.0 core primitive and visual component wave:
 
-- **152 registered UI components** across forms, display, feedback, navigation, layout, and patterns.
-- **170+ total components, helpers, presets, and integrations** including HTMX presets, SEO helpers, PWA helpers, and optional integrations.
+- **166 registered UI components** across forms, display, feedback, navigation, layout, and patterns.
+- **230+ total components, helpers, presets, and integrations** including HTMX presets, SEO helpers, PWA helpers, and optional integrations.
 - **Optional integrations** for Chart.js, GSAP, and Markdown (`pip install faststrap[markdown]` required for the `Markdown` display component).
 - **Discovery APIs** including `list_components()`, `find_components()`, `get_components_by_pattern()`, and `list_component_metadata()`.
 - **Documentation structure** with component index, architecture guide, upgrade guide, performance guide, and custom component guide.
@@ -798,7 +801,7 @@ Pagination(
 ```
 faststrap/
  src/faststrap/               # Library source
-    components/              # 152 registered UI components
+    components/              # 166 registered UI components
     core/                    # Assets, theme, registry, discovery, base primitives
     integrations/            # Optional ChartJS and GSAP integrations
     presets/                 # HTMX interaction/response helpers

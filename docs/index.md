@@ -123,8 +123,8 @@ def home():
 
 ## Features
 
-- **170+ exports**: Components and helpers across forms, display, navigation, and layouts.
-- **HTMX Presets**: ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton, OptimisticAction, LocationAction, PollUntil, SSEStream.
+- **230+ exports**: Components and helpers across forms, display, navigation, and layouts.
+- **HTMX Presets**: ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton, OptimisticAction, LocationAction, PollUntil, SSEStream, ConfirmPrompt, Debounce, SwapOnEvent.
 - **SEO Module**: SEO meta tags, Open Graph, Twitter Cards, and JSON-LD structured data.
 - **PWA Module**: one-call installable app setup (manifest, service worker, install flow).
 - **Zero Build Step**: No webpack, no npm, no node_modules.
@@ -153,9 +153,9 @@ See the Showcase section in the docs for the current flagship set and screenshot
 
 ## Stats
 
-- **152 registered UI components** implemented.
-- **170+ components, helpers, presets, and integrations** available.
-- **8 interaction presets** + **6 response helpers** + **1 auth decorator** + **3 SSE helpers**.
+- **166 registered UI components** implemented.
+- **230+ components, helpers, presets, and integrations** available.
+- **12 interaction presets** + **5 hx helpers** + **1 response helper** + **2 SSE helpers** + **1 auth decorator** = **21 preset utilities**.
 - **100% Python**.
 
 ## Next Steps

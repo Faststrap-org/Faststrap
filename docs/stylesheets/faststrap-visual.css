@@ -1,0 +1,508 @@
+/* Faststrap visual primitives: CSS-only cards, loaders, buttons, and sections. */
+
+:root {
+  --faststrap-visual-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --faststrap-visual-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --faststrap-visual-shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.2);
+  --faststrap-loader-color: var(--bs-primary);
+}
+
+.faststrap-flip-card {
+  background-color: transparent;
+  perspective: 1000px;
+}
+
+.faststrap-flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform var(--faststrap-flip-duration, 0.6s);
+  transform-style: preserve-3d;
+}
+
+.faststrap-flip-card:hover .faststrap-flip-card-inner,
+.faststrap-flip-card:focus-within .faststrap-flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.faststrap-flip-card-front,
+.faststrap-flip-card-back {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.faststrap-flip-card-front {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+.faststrap-flip-card-back {
+  background-color: var(--bs-primary);
+  color: var(--bs-white);
+  transform: rotateY(180deg);
+}
+
+.faststrap-tilt-card {
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.faststrap-tilt-card:hover,
+.faststrap-tilt-card:focus-within {
+  box-shadow: var(--faststrap-visual-shadow-lg);
+  transform: translateY(-5px) rotateX(5deg) rotateY(2deg);
+}
+
+.faststrap-reveal-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.faststrap-reveal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.faststrap-reveal-overlay {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(var(--bs-primary-rgb), 0.9);
+  color: var(--bs-white);
+  text-align: center;
+  transition: bottom 0.4s ease;
+}
+
+.faststrap-reveal-card:hover .faststrap-reveal-overlay,
+.faststrap-reveal-card:focus-within .faststrap-reveal-overlay {
+  bottom: 0;
+}
+
+.faststrap-reveal-card:hover .faststrap-reveal-image,
+.faststrap-reveal-card:focus-within .faststrap-reveal-image {
+  transform: scale(1.1);
+}
+
+.faststrap-glow-card {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.faststrap-glow-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: -2px;
+  border-radius: inherit;
+  background: var(--faststrap-glow-color, var(--bs-primary));
+  content: "";
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.faststrap-glow-card:hover::before,
+.faststrap-glow-card:focus-within::before {
+  opacity: 0.6;
+}
+
+.faststrap-glow-card.glow-low:hover::before,
+.faststrap-glow-card.glow-low:focus-within::before {
+  filter: blur(5px);
+  opacity: 0.3;
+}
+
+.faststrap-glow-card.glow-high:hover::before,
+.faststrap-glow-card.glow-high:focus-within::before {
+  filter: blur(15px);
+  opacity: 0.9;
+}
+
+.faststrap-dots-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.faststrap-dots-loader > div {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  animation: faststrap-dots-bounce 1.4s infinite ease-in-out both;
+  background-color: var(--faststrap-loader-color, var(--bs-primary));
+}
+
+.faststrap-dots-loader > div:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.faststrap-dots-loader > div:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes faststrap-dots-bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+
+  40% {
+    transform: scale(1);
+  }
+}
+
+.faststrap-ring-loader {
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+}
+
+.faststrap-ring-loader > div:not(.visually-hidden) {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  width: calc(100% - 13px);
+  height: calc(100% - 13px);
+  margin: 6px;
+  border: 6px solid var(--faststrap-loader-color, var(--bs-primary));
+  border-color: var(--faststrap-loader-color, var(--bs-primary)) transparent transparent transparent;
+  border-radius: 50%;
+  animation: faststrap-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.faststrap-ring-loader > div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.faststrap-ring-loader > div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.faststrap-ring-loader > div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes faststrap-ring {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.faststrap-wave-loader {
+  display: inline-flex;
+  height: 2rem;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.faststrap-wave-bar {
+  width: 0.25rem;
+  height: 100%;
+  animation: faststrap-wave 1.2s ease-in-out infinite;
+  background-color: var(--faststrap-loader-color, var(--bs-primary));
+}
+
+@keyframes faststrap-wave {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.faststrap-pulse-loader {
+  display: inline-block;
+}
+
+.faststrap-pulse-circle {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  animation: faststrap-pulse 1.5s ease-in-out infinite;
+  background-color: var(--faststrap-loader-color, var(--bs-primary));
+}
+
+.faststrap-pulse-loader.pulse-sm .faststrap-pulse-circle {
+  width: 2rem;
+  height: 2rem;
+}
+
+.faststrap-pulse-loader.pulse-lg .faststrap-pulse-circle {
+  width: 4rem;
+  height: 4rem;
+}
+
+@keyframes faststrap-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.faststrap-polygon-loader {
+  width: 50px;
+  border: 8px solid var(--faststrap-loader-color, var(--bs-primary));
+  border-radius: 50%;
+  animation:
+    faststrap-polygon-shape 0.8s infinite linear alternate,
+    faststrap-polygon-rotate 1.6s infinite linear;
+  aspect-ratio: 1;
+}
+
+@keyframes faststrap-polygon-shape {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 50% 0%, 50% 0%, 50% 0%, 50% 0%);
+  }
+
+  25% {
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 100% 100%, 100% 100%);
+  }
+
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 50% 0%, 100% 0%, 100% 100%, 50% 100%, 0% 100%);
+  }
+
+  75% {
+    clip-path: polygon(50% 50%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 50% 100%, 0% 100%);
+  }
+
+  100% {
+    clip-path: polygon(50% 50%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 0% 100%);
+  }
+}
+
+@keyframes faststrap-polygon-rotate {
+  0% {
+    transform: scaleY(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scaleY(-1) rotate(0deg);
+  }
+
+  100% {
+    transform: scaleY(-1) rotate(-135deg);
+  }
+}
+
+.faststrap-typewriter-loader {
+  width: fit-content;
+  overflow: hidden;
+  animation: faststrap-typewriter 2s steps(11) infinite;
+  clip-path: inset(0 100% 0 0);
+  color: var(--bs-body-color);
+  font-family: monospace;
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+.faststrap-typewriter-loader::before,
+.faststrap-shadow-loader::before {
+  content: attr(data-text);
+}
+
+@keyframes faststrap-typewriter {
+  to {
+    clip-path: inset(0 -1ch 0 0);
+  }
+}
+
+.faststrap-shadow-loader {
+  width: 10ch;
+  overflow: hidden;
+  animation: faststrap-shadow-loader 2s infinite linear;
+  color: transparent;
+  font-family: monospace;
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: 10ch;
+  line-height: 1.4em;
+  white-space: nowrap;
+}
+
+@keyframes faststrap-shadow-loader {
+  0%,
+  100% {
+    text-shadow: 0 0 var(--bs-primary);
+  }
+
+  50% {
+    text-shadow: 0 -10px var(--bs-primary);
+  }
+}
+
+.faststrap-progress-ring {
+  position: relative;
+  display: inline-block;
+}
+
+.faststrap-progress-ring-value {
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.faststrap-gradient-button {
+  border: 0;
+  background: var(--faststrap-gradient-button-bg) !important;
+  background-color: transparent;
+  color: var(--faststrap-gradient-button-text, var(--bs-white)) !important;
+}
+
+.faststrap-gradient-button:not(.hover-none):hover,
+.faststrap-gradient-button:not(.hover-none):focus {
+  color: var(--faststrap-gradient-button-text, var(--bs-white)) !important;
+  filter: saturate(1.08) brightness(1.02);
+}
+
+.faststrap-gradient-button.hover-lift:hover,
+.faststrap-gradient-button.hover-lift:focus {
+  filter: none;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.22);
+}
+
+.faststrap-gradient-button.hover-glow:hover,
+.faststrap-gradient-button.hover-glow:focus {
+  filter: none;
+  box-shadow: 0 0 0 3px rgba(var(--bs-primary-rgb), 0.35);
+}
+
+.faststrap-gradient-button.hover-lift:active,
+.faststrap-gradient-button.hover-glow:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* hover="none": fully static — override the global .btn:hover lift from core assets */
+.faststrap-gradient-button.hover-none:hover:not(:disabled),
+.faststrap-gradient-button.hover-none:focus {
+  transform: none;
+  box-shadow: none;
+}
+
+.faststrap-gradient-button.hover-none:active:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+}
+
+.faststrap-floating-action-button {
+  position: fixed;
+  z-index: 1000;
+  display: inline-flex;
+  width: var(--fs-fab-size, 56px);
+  height: var(--fs-fab-size, 56px);
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Icon-only FABs: Button injects `me-2` on icons; inside a fixed-size circle
+   that margin visibly shifts the glyph off-center, so neutralize it. */
+.faststrap-floating-action-button > .bi {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Extended (pill) FAB for icon + label content. */
+.faststrap-floating-action-button.fab-pill {
+  width: auto;
+  min-width: var(--fs-fab-size, 56px);
+  padding-inline: 1.25rem;
+}
+
+.faststrap-floating-action-button.fab-bottom-right {
+  right: var(--fs-fab-inset, 2rem);
+  bottom: var(--fs-fab-inset, 2rem);
+}
+
+.faststrap-floating-action-button.fab-bottom-left {
+  bottom: var(--fs-fab-inset, 2rem);
+  left: var(--fs-fab-inset, 2rem);
+}
+
+.faststrap-floating-action-button.fab-top-right {
+  top: var(--fs-fab-inset, 2rem);
+  right: var(--fs-fab-inset, 2rem);
+}
+
+.faststrap-floating-action-button.fab-top-left {
+  top: var(--fs-fab-inset, 2rem);
+  left: var(--fs-fab-inset, 2rem);
+}
+
+.faststrap-parallax-section {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.faststrap-parallax-overlay {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, var(--faststrap-parallax-overlay-opacity, 0.5));
+}
+
+@media (max-width: 768px) {
+  .faststrap-parallax-section {
+    background-attachment: scroll;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faststrap-flip-card-inner,
+  .faststrap-tilt-card,
+  .faststrap-reveal-image,
+  .faststrap-reveal-overlay,
+  .faststrap-glow-card,
+  .faststrap-glow-card::before,
+  .faststrap-progress-ring-value {
+    transition: none !important;
+  }
+
+  .faststrap-dots-loader > div,
+  .faststrap-ring-loader > div,
+  .faststrap-wave-bar,
+  .faststrap-pulse-circle,
+  .faststrap-polygon-loader,
+  .faststrap-typewriter-loader,
+  .faststrap-shadow-loader {
+    animation: none !important;
+  }
+}

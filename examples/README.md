@@ -46,6 +46,7 @@ examples/
 | Add GSAP entrance motion | `08_themes_motion/motion.py` |
 | Build an auth flow | `10_page_templates/auth_pages.py` |
 | Explore a full production app | `11_real_world_apps/ecommerce/app.py` |
+| Track ML experiments / build data-science UIs | `11_real_world_apps/experiment_tracker/app.py` |
 
 ---
 
@@ -165,3 +166,4 @@ examples/
 | `saas_landing/` | Full SaaS marketing site |
 | `dashboard_template/` | Copy-paste dashboard starter |
 | `landing_template/` | Copy-paste landing page starter |
+| `experiment_tracker/` | ML experiment tracker: KPI metrics, run filtering, hyperparameter inspection (JsonViewer), training timeline, live epoch progress (AutoRefresh) |

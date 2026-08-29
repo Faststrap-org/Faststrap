@@ -139,6 +139,114 @@ DataTable(
 
 ---
 
+## Server-Side Pagination Cookbook
+
+When your dataset exceeds a few hundred rows, you should paginate server-side. This section shows the complete round-trip pattern.
+
+### Server Route
+
+Your FastHTML route reads the query params emitted by `DataTable`, validates them, queries your database, and returns the rendered table:
+
+```python
+from fasthtml.common import FastHTML, Titled
+from faststrap import DataTable
+
+app = FastHTML()
+
+ALLOWED_SORT = {"name", "email", "created_at", "status"}
+
+@app.get("/users")
+def users_page(sort: str = "name", direction: str = "asc",
+                page: int = 1, per_page: int = 25, q: str = ""):
+    # Validate sort column
+    if sort not in ALLOWED_SORT:
+        sort = "name"
+    if direction not in ("asc", "desc"):
+        direction = "asc"
+    per_page = min(max(per_page, 1), 100)  # clamp
+
+    # Query your database here (example uses in-memory data)
+    data = query_users(sort=sort, direction=direction,
+                       search=q, page=page, per_page=per_page)
+    total = count_users(search=q)
+
+    return Titled(
+        "Users",
+        DataTable(
+            data,
+            sortable=True,
+            searchable=True,
+            pagination=True,
+            page=page,
+            per_page=per_page,
+            total_rows=total,
+            sort=sort,
+            direction=direction,
+            search=q,
+            endpoint="/users",
+            hx_target="#users-table",
+            hx_swap="outerHTML",
+            push_url=True,
+            id="users-table",
+        ),
+    )
+```
+
+### Client-Side Rendering
+
+On the initial page load, render the table with `endpoint` pointing to your server route:
+
+```python
+from faststrap import DataTable
+
+DataTable(
+    initial_data,
+    sortable=True,
+    searchable=True,
+    pagination=True,
+    per_page=25,
+    total_rows=total_count,
+    endpoint="/users",
+    hx_target="#users-table",
+    hx_swap="outerHTML",
+    push_url=True,
+    id="users-table",
+)
+```
+
+### What Happens
+
+1. User clicks a column header → `DataTable` emits HTMX GET to `/users?sort=name&direction=desc&page=1`
+2. Server validates `sort`/`direction`, queries the database, returns the re-rendered table
+3. HTMX swaps the table body via `hx_swap="outerHTML"`
+4. `push_url=True` updates the browser URL so the current state is shareable
+
+### Helper Functions
+
+Use the helper functions to reuse the current query state for export buttons, links, and related actions:
+
+```python
+from faststrap import datatable_query_params, datatable_page_url, datatable_export_params
+
+# Build a link to page 3 with current sort/search preserved
+url = datatable_page_url("/users", page=3, sort="email", direction="asc", search="alice")
+
+# Build export params matching the current table state
+params = datatable_export_params(sort="name", direction="desc", search="bob", filters={"team": "ops"})
+
+# Build query params for custom links
+qp = datatable_query_params(sort="created_at", direction="desc", page=2, per_page=50)
+```
+
+These helpers are available both as top-level imports and as convenience attributes on `DataTable`:
+
+```python
+DataTable.query_params(sort="name", direction="asc")
+DataTable.export_params(sort="name", filters={"active": True})
+DataTable.page_url("/users", page=5, per_page=25)
+```
+---
+
 ## Filters and Base URL
 
 Use `filters` to preserve extra query params in pagination and sort links. Use `base_url` if you are not using HTMX. When you pass `sort` or `search`, DataTable applies that state to the rendered rows so the UI stays consistent with the current request.

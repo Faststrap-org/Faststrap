@@ -73,6 +73,22 @@ ResultCard(
 )
 ```
 
+## Customizing With Slot Classes
+
+Slot classes let you restyle parts of the card without wrapping it:
+
+```python
+ResultCard(
+    title="Experiment finished",
+    message="42 runs completed. 3 failed. Full logs attached.",
+    status="warning",
+    icon="bi-hourglass-split",
+    icon_cls="fs-4 text-warning",
+    title_cls="fw-semibold",
+    message_cls="text-body-secondary",
+)
+```
+
 ## Parameters
 
 | Param | Type | Description |
@@ -83,6 +99,9 @@ ResultCard(
 | `icon` | `str | None` | Bootstrap icon name override. |
 | `action` | `Any | None` | Optional action component. |
 | `compact` | `bool` | Use tighter spacing. |
+| `icon_cls` | `str | None` | Extra classes for the icon slot. |
+| `title_cls` | `str | None` | Extra classes for the title slot. |
+| `message_cls` | `str | None` | Extra classes for the message slot. |
 
 ## Accessibility
 

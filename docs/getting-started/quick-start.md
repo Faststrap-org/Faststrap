@@ -31,6 +31,11 @@ def home():
 # 4. Run the server
 if __name__ == "__main__":
     serve()
+
+!!! tip "FastHTML Routing: `@app.route` vs `@rt`"
+    FastHTML offers two routing styles. This quick start uses `FastHTML()` + `@app.route` for explicit control. Many FastHTML tutorials use `fast_app()` + `@rt` as a shorthand. Both work identically with Faststrap — choose whichever style your project or team prefers. See the [FastHTML documentation](https://docs.fastht.ml/) for details on `fast_app()` and `@rt`.
+
+## 2. Run it
 ```
 
 ## 2. Run it
