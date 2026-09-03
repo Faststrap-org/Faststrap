@@ -259,6 +259,8 @@ def DataTable(
     filters: dict[str, Any] | None = None,
     hx_target: str | None = None,
     hx_swap: str | None = "outerHTML",
+    poll_interval: int | None = None,
+    poll_morph: bool = False,
     push_url: bool = False,
     table_id: str | None = None,
     table_cls: str | None = None,
@@ -428,6 +430,8 @@ def DataTable(
         base_params["sort"] = sort
         base_params["direction"] = c_direction
 
+    effective_hx_swap = "morph" if (poll_morph and hx_swap == "outerHTML") else hx_swap
+
     head_cells: list[Any] = []
     for col in visible_columns:
         header_label = (header_map or {}).get(col, col)
@@ -451,7 +455,7 @@ def DataTable(
                     url,
                     endpoint=endpoint,
                     hx_target=hx_target,
-                    hx_swap=hx_swap,
+                    hx_swap=effective_hx_swap,
                     push_url=push_url,
                 ),
             )
@@ -522,7 +526,7 @@ def DataTable(
                     "hx_get": link_base,
                     "hx_target": hx_target,
                     "hx_trigger": f"keyup changed delay:{search_debounce}ms",
-                    "hx_swap": hx_swap,
+                    "hx_swap": effective_hx_swap,
                 }
             )
             if push_url:
@@ -584,7 +588,7 @@ def DataTable(
                         url,
                         endpoint=endpoint,
                         hx_target=hx_target,
-                        hx_swap=hx_swap,
+                        hx_swap=effective_hx_swap,
                         push_url=push_url,
                     ),
                 )
@@ -610,6 +614,11 @@ def DataTable(
         "id": wrapper_id,
         "cls": merge_classes("faststrap-data-table", kwargs.pop("cls", "")),
     }
+    if poll_interval and (endpoint or base_url):
+        wrapper_attrs["hx_get"] = endpoint or base_url
+        wrapper_attrs["hx_trigger"] = f"every {poll_interval}s"
+        wrapper_attrs["hx_target"] = f"#{wrapper_id}"
+        wrapper_attrs["hx_swap"] = effective_hx_swap
     wrapper_attrs.update(convert_attrs(kwargs))
 
     return Div(*parts, **wrapper_attrs)

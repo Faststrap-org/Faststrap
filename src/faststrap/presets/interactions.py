@@ -389,6 +389,7 @@ def LoadingButton(
     method: str = "post",
     target: str | None = None,
     variant: str = "primary",
+    pending: str | None = None,
     **kwargs: Any,
 ) -> Any:
     """Button with automatic loading state during HTMX requests.
@@ -402,6 +403,7 @@ def LoadingButton(
         method: HTTP method ("get", "post", "put", "delete")
         target: CSS selector for where to render response (optional)
         variant: Bootstrap button variant
+        pending: CSS selector for optimistic pending state template (HTMX 4)
         **kwargs: Additional HTML attributes
 
     Returns:
@@ -443,6 +445,8 @@ def LoadingButton(
 
     if target:
         hx_attrs["hx_target"] = target
+    if pending:
+        hx_attrs["hx_pending"] = pending
 
     # Default indicator to "this" if not provided
     if "hx_indicator" not in kwargs:

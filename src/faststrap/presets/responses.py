@@ -4,6 +4,8 @@ Utilities for setting HTMX response headers and creating common response pattern
 These helpers eliminate boilerplate for HTMX server-side interactions.
 """
 
+from __future__ import annotations
+
 import json
 import re
 from typing import Any
@@ -11,6 +13,7 @@ from typing import Any
 from starlette.responses import Response
 
 from ..components.feedback.toast import Toast
+from ..core._stability import beta
 
 _HTMX_EVENT_NAME_RE = re.compile(r"^[a-zA-Z0-9_:.-]+$")
 
@@ -258,3 +261,65 @@ def toast_response(
     if isinstance(content, (list, tuple)):
         return (*content, toast)
     return (content, toast)
+
+
+@beta
+def multi_response(
+    content: Any = "",
+    *oob_items: Any,
+    toast: Any | str | None = None,
+    toast_variant: str = "success",
+    toast_id: str = "toast-container",
+    **toast_kwargs: Any,
+) -> tuple[Any, ...]:
+    """Return primary content alongside multiple out-of-band (OOB) swapped elements.
+
+    Enables updating multiple distinct regions of the page from a single HTMX handler
+    without requiring separate network round-trips.
+
+    Args:
+        content: Main response content (swapped into the caller's hx-target).
+        *oob_items: Additional elements that include `hx_swap_oob` attribute.
+        toast: Optional toast notification (string message or Toast instance).
+        toast_variant: Toast variant if message string is provided (success, danger, etc.).
+        toast_id: Target container ID for the toast (default: "toast-container").
+        **toast_kwargs: Additional kwargs passed to Toast when `toast` is a string.
+
+    Returns:
+        Tuple of (content, *oob_items, [toast]) suitable for FastHTML rendering.
+
+    Examples:
+        Update a counter and a table row while showing a confirmation toast:
+        >>> @app.post("/items/add")
+        >>> def add_item(req):
+        >>>     return multi_response(
+        >>>         Tr(Td("New Item"), Td("$20")),
+        >>>         Span("5", id="cart-counter", hx_swap_oob="true"),
+        >>>         toast="Item added to cart!",
+        >>>         toast_variant="success"
+        >>>     )
+    """
+    items: list[Any] = []
+    if isinstance(content, (list, tuple)):
+        items.extend(content)
+    elif content != "" and content is not None:
+        items.append(content)
+
+    for item in oob_items:
+        if item is not None:
+            items.append(item)
+
+    if toast is not None:
+        if isinstance(toast, str):
+            t = Toast(
+                toast,
+                variant=toast_variant,  # type: ignore
+                hx_swap_oob=f"afterbegin:#{toast_id}",
+                **toast_kwargs,
+            )
+            items.append(t)
+        else:
+            items.append(toast)
+
+    return tuple(items)
+

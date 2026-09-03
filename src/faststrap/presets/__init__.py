@@ -5,7 +5,7 @@ that eliminate boilerplate for common web interactions.
 
 Includes:
 - Interaction presets (ActiveSearch, InfiniteScroll, AutoRefresh, etc.)
-- Response helpers (hx_redirect, hx_refresh, toast_response, etc.)
+- Response helpers (hx_redirect, hx_refresh, toast_response, multi_response, etc.)
 - Route protection (@require_auth decorator)
 """
 
@@ -29,6 +29,7 @@ from .responses import (
     hx_reswap,
     hx_retarget,
     hx_trigger,
+    multi_response,
     toast_response,
 )
 from .streams import SSEStream, sse_comment, sse_event
@@ -52,6 +53,7 @@ __all__ = [
     "hx_reswap",
     "hx_retarget",
     "hx_trigger",
+    "multi_response",
     "toast_response",
     # Streams
     "SSEStream",

@@ -32,6 +32,7 @@ def SSETarget(
     event: str = "message",
     swap: SSESwapType = "inner",
     target: str | None = None,
+    engine: Literal["eventsource", "htmx"] = "eventsource",
     with_credentials: bool = False,
     reconnect: bool = True,
     retry: int | None = UNSET,
@@ -77,22 +78,34 @@ def SSETarget(
     user_cls = kwargs.pop("cls", "")
     cls = merge_classes("faststrap-sse-target", user_cls)
 
-    attrs: dict[str, Any] = {
-        "cls": cls,
-        "data_fs_sse": "true",
-        "data_fs_sse_endpoint": endpoint,
-        "data_fs_sse_event": c_event,
-        "data_fs_sse_swap": c_swap,
-    }
+    if engine == "htmx":
+        attrs: dict[str, Any] = {
+            "cls": cls,
+            "hx_ext": "sse",
+            "sse_connect": endpoint,
+            "sse_swap": c_event,
+        }
+        if target:
+            attrs["hx_target"] = target
+        if c_swap:
+            attrs["hx_swap"] = c_swap
+    else:
+        attrs = {
+            "cls": cls,
+            "data_fs_sse": "true",
+            "data_fs_sse_endpoint": endpoint,
+            "data_fs_sse_event": c_event,
+            "data_fs_sse_swap": c_swap,
+        }
+        if target:
+            attrs["data_fs_sse_target"] = target
+        if c_with_credentials:
+            attrs["data_fs_sse_credentials"] = "true"
+        if not c_reconnect:
+            attrs["data_fs_sse_reconnect"] = "false"
+        if c_retry is not None:
+            attrs["data_fs_sse_retry"] = str(c_retry)
 
-    if target:
-        attrs["data_fs_sse_target"] = target
-    if c_with_credentials:
-        attrs["data_fs_sse_credentials"] = "true"
-    if not c_reconnect:
-        attrs["data_fs_sse_reconnect"] = "false"
-    if c_retry is not None:
-        attrs["data_fs_sse_retry"] = str(c_retry)
     if c_aria_live:
         attrs["aria_live"] = c_aria_live
 
