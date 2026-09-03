@@ -36,7 +36,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "python-fasthtml>=0.6.0",
+    "python-fasthtml>=0.14.13",
 ]
 
 [project.optional-dependencies]

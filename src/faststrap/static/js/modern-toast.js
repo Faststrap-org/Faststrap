@@ -233,5 +233,11 @@
     initModernToasts();
   }
 
-  document.addEventListener('htmx:afterSwap', (event) => initModernToasts(event.target));
+  // Re-scan swapped content on both htmx 2 and htmx 4 (bridge-normalized scope).
+  const rescope = (event, elt) => initModernToasts(elt || document);
+  if (window.FaststrapHtmx) {
+    window.FaststrapHtmx.onSwap(rescope);
+  } else {
+    document.addEventListener('htmx:afterSwap', (event) => initModernToasts(event.target));
+  }
 })();

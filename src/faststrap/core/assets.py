@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
-from fasthtml.common import Link, Script, Style
+from fasthtml.common import Link, Meta, Script, Style
 from starlette.routing import Mount
 from starlette.staticfiles import StaticFiles
 
@@ -53,6 +53,12 @@ FASTSTRAP_CDN_CSS_FILES = [
 ]
 FASTSTRAP_INIT_JS_FILE = "js/faststrap-init.js"
 FASTSTRAP_MODERN_TOAST_JS_FILE = "js/modern-toast.js"
+# HTMX cross-version bridge: resolved synchronously in <head> so body-inline
+# component scripts and the deferred init/modern-toast runtimes can rely on it.
+FASTSTRAP_HTMX_BRIDGE_JS_FILE = "js/faststrap-htmx.js"
+# htmx 4 official 2.x-compat extension (load AFTER the htmx core script when a
+# page enables `htmx4=True`; restores old event names for user code).
+HTMX4_COMPAT_JS_URL = "https://cdn.jsdelivr.net/npm/htmx.org@4.0.0/dist/ext/htmx-2-compat.min.js"
 
 # CDN assets with SRI hashes
 CDN_ASSETS = (
@@ -217,6 +223,16 @@ def _faststrap_init_script(static_base: str) -> Any:
     return Script(src=f"{base}/{FASTSTRAP_INIT_JS_FILE}", defer=True)
 
 
+def _faststrap_htmx_bridge_script(static_base: str) -> Any:
+    """Return the HTMX cross-version bridge script.
+
+    Loaded synchronously (not deferred) so inline component scripts in the
+    body can rely on ``window.FaststrapHtmx`` during page parse.
+    """
+    base = static_base.rstrip("/")
+    return Script(src=f"{base}/{FASTSTRAP_HTMX_BRIDGE_JS_FILE}")
+
+
 def _faststrap_modern_toast_script(static_base: str) -> Any:
     """Return the ModernToast runtime script for the given static base URL."""
     base = static_base.rstrip("/")
@@ -287,16 +303,13 @@ def get_assets(
     if include_custom:
         elements.append(CUSTOM_STYLES)
         if use_cdn:
-            elements.append(
-                _faststrap_init_script(_faststrap_static_cdn_base(_get_faststrap_cdn_version()))
-            )
+            cdn_base = _faststrap_static_cdn_base(_get_faststrap_cdn_version())
+            elements.append(_faststrap_htmx_bridge_script(cdn_base))
+            elements.append(_faststrap_init_script(cdn_base))
             if include_modern_toast:
-                elements.append(
-                    _faststrap_modern_toast_script(
-                        _faststrap_static_cdn_base(_get_faststrap_cdn_version())
-                    )
-                )
+                elements.append(_faststrap_modern_toast_script(cdn_base))
         else:
+            elements.append(_faststrap_htmx_bridge_script(actual_static_url))
             elements.append(_faststrap_init_script(actual_static_url))
             if include_modern_toast:
                 elements.append(_faststrap_modern_toast_script(actual_static_url))
@@ -343,6 +356,64 @@ def _any_uses_modern_toast(components: list[Any]) -> bool:
     return False
 
 
+def _detect_htmx4(app: Any) -> bool:
+    """Return True when the app's headers already serve htmx 4 (FastHTML(htmx4=True))."""
+    for h in getattr(app, "hdrs", []):
+        attrs = getattr(h, "attrs", None)
+        src = attrs.get("src", "") if isinstance(attrs, dict) else ""
+        if isinstance(src, str) and "htmx.org@4" in src:
+            return True
+    return False
+
+
+def _set_htmx_config(app: Any, *, extensions: list[str]) -> None:
+    """Merge the `extensions` allow-list into the htmx-config meta element.
+
+    htmx 4 reads only the *first* ``meta[name=\"htmx-config\"]`` in the page, so
+    FastHTML's own ``metaCharacter`` shim must be patched in place rather than
+    shadowed by a second meta (which htmx would ignore).
+    """
+    import json as _json
+
+    hdrs = getattr(app, "hdrs", [])
+    for h in hdrs:
+        attrs = getattr(h, "attrs", None)
+        if isinstance(attrs, dict) and attrs.get("name") == "htmx-config":
+            try:
+                cfg = _json.loads(attrs.get("content") or "{}")
+            except ValueError:
+                cfg = {}
+            cfg["extensions"] = extensions
+            attrs["content"] = _json.dumps(cfg)
+            return
+    # No htmx-config meta present yet (e.g. custom app without def_hdrs).
+    hdrs.append(Meta(name="htmx-config", content=_json.dumps({"extensions": extensions})))
+
+
+def _htmx4_compat_script() -> Any:
+    """Official htmx 4 -> htmx 2 compat extension (restores old event names)."""
+    return Script(src=HTMX4_COMPAT_JS_URL, defer=True)
+
+
+def _apply_htmx4_options(app: Any, *, htmx4: bool | None, htmx_compat: bool, allow_extensions: list[str] | None) -> None:
+    """Apply Faststrap-level htmx 4 integrations onto the app's own headers.
+
+    Detect the runtime from the app (``FastHTML(htmx4=True)``) unless an
+    explicit override is given. When the runtime is htmx 4:
+    - ``allow_extensions`` merges an extension allow-list into the page's
+      htmx-config meta (htmx 4 security model).
+    - ``htmx_compat`` appends the official 2.x-compat extension script AFTER
+      the htmx core script so downstream user code keeps working.
+    """
+    is_htmx4 = _detect_htmx4(app) if htmx4 is None else bool(htmx4)
+    if not is_htmx4:
+        return
+    if allow_extensions:
+        _set_htmx_config(app, extensions=allow_extensions)
+    if htmx_compat:
+        getattr(app, "hdrs", []).append(_htmx4_compat_script())
+
+
 def add_bootstrap(
     app: Any,
     theme: str | Theme | None = None,
@@ -357,6 +428,9 @@ def add_bootstrap(
     font_weights: list[int] | None = None,
     components: list[Any] | None = None,
     include_modern_toast: bool | None = None,
+    htmx4: bool | None = None,
+    htmx_compat: bool = False,
+    allow_extensions: list[str] | None = None,
 ) -> Any:
     """Enhance FastHTML app with Bootstrap and FastStrap assets.
 
@@ -387,6 +461,14 @@ def add_bootstrap(
         include_modern_toast: Explicitly include the ModernToast runtime script.
             When None (default), the script is included only if `components`
             contains ModernToast or ModernToastStack.
+        htmx4: Whether the app runs htmx 4 (FastHTML(htmx4=True)). When None
+            (default), Faststrap auto-detects from the app's headers. This
+            gates the htmx 4 compatibility and allow-list integrations below.
+        htmx_compat: When running htmx 4, load the official htmx-2-compat
+            extension so downstream code using legacy event names keeps working.
+        allow_extensions: When running htmx 4, restrict which HTMX extensions
+            may register by merging an allow-list into the page's htmx-config
+            meta element (htmx 4 security model).
 
     Returns:
         Modified app instance
@@ -539,6 +621,14 @@ def add_bootstrap(
                 app._faststrap_hdrs = fallback_fs_hdrs
 
     app._faststrap_bootstrap_added = True
+    # htmx 4 integrations (compat extension + extension allow-list) must be applied
+    # after both the normal and the CDN-fallback header assembly above.
+    _apply_htmx4_options(
+        app,
+        htmx4=htmx4,
+        htmx_compat=htmx_compat,
+        allow_extensions=allow_extensions,
+    )
     return app
 
 

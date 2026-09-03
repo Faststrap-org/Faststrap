@@ -582,20 +582,28 @@ document.addEventListener('DOMContentLoaded', () => {
     initSwapOnEvent(document);
     initMath(document);
 
-    // HTMX support: Re-initialize on content swap
-    document.body.addEventListener('htmx:afterSwap', (evt) => {
-        initBS(evt.detail.elt);
-        initToggleGroups(evt.detail.elt);
-        initTextClamp(evt.detail.elt);
-        initFocusTraps(evt.detail.elt);
-        initSearchableSelect(evt.detail.elt);
-        initDateRangePresets(evt.detail.elt);
-        initInfiniteScroll(evt.detail.elt);
-        initSseTargets(evt.detail.elt);
-        initMermaid(evt.detail.elt);
-        initOtpGroups(evt.detail.elt);
-        initTags(evt.detail.elt);
-        initSwapOnEvent(evt.detail.elt);
-        initMath(evt.detail.elt);
-    });
+    // HTMX support: Re-initialize on content swap.
+    // Cross-version: uses FaststrapHtmx bridge so this fires on htmx 2
+    // (htmx:afterSwap) and htmx 4 (htmx:after:swap), with a normalized scope.
+    const reinitAfterSwap = (evt) => {
+        const scope = (window.FaststrapHtmx && window.FaststrapHtmx.swap(evt)) || evt.detail?.elt || document;
+        initBS(scope);
+        initToggleGroups(scope);
+        initTextClamp(scope);
+        initFocusTraps(scope);
+        initSearchableSelect(scope);
+        initDateRangePresets(scope);
+        initInfiniteScroll(scope);
+        initSseTargets(scope);
+        initMermaid(scope);
+        initOtpGroups(scope);
+        initTags(scope);
+        initSwapOnEvent(scope);
+        initMath(scope);
+    };
+    if (window.FaststrapHtmx) {
+        window.FaststrapHtmx.onSwap(reinitAfterSwap);
+    } else if (document.body) {
+        document.body.addEventListener('htmx:afterSwap', reinitAfterSwap);
+    }
 });

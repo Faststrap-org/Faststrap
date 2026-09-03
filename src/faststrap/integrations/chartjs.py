@@ -77,7 +77,11 @@ def ChartJS(
   }} else {{
     init();
   }}
-  document.addEventListener("htmx:afterSwap", init);
+  document.addEventListener(
+    (window.FaststrapHtmx && window.FaststrapHtmx.resolve("htmx:afterSwap")) ||
+      "htmx:afterSwap",
+    init
+  );
 }})();
 """
 

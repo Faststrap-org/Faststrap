@@ -118,9 +118,15 @@ _SPLITPANE_JS = """
   }
 
   if (window.htmx) {
-    document.body.addEventListener('htmx:afterSwap', (evt) => {
-      evt.detail.elt.querySelectorAll('.faststrap-split-pane').forEach(initSplitPane);
-    });
+    const reinitSplit = (evt, elt) => {
+      const scope = elt || (evt.detail && evt.detail.elt);
+      (scope || document).querySelectorAll('.faststrap-split-pane').forEach(initSplitPane);
+    };
+    if (window.FaststrapHtmx) {
+      window.FaststrapHtmx.onSwap(reinitSplit);
+    } else {
+      document.body.addEventListener('htmx:afterSwap', reinitSplit);
+    }
   }
 })();
 """

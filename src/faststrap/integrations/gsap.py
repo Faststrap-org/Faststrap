@@ -88,7 +88,11 @@ GSAP_INIT_SCRIPT = """
     init(document);
   }
 
-  document.addEventListener("htmx:afterSwap", (event) => init(event.target));
+  if (window.FaststrapHtmx) {
+    window.FaststrapHtmx.onSwap((event, elt) => init(elt || document));
+  } else {
+    document.addEventListener("htmx:afterSwap", (event) => init(event.target));
+  }
   window.FaststrapGsap = { init };
 })();
 """
