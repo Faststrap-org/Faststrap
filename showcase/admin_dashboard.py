@@ -527,6 +527,18 @@ CSS = """
 @media (max-width: 991px) {
   .nx-hamburger { display: flex; }
 }
+
+/* Backdrop for open mobile sidebar — closes sidebar on click */
+.nx-sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1035;
+}
+@media (max-width: 991px) {
+  .nx-sidebar-backdrop.show { display: block; }
+}
 """
 
 # ── Chart JS init ──────────────────────────────────────────────────────────────
@@ -622,9 +634,16 @@ def nx_topbar() -> Any:
                 Icon("list", style="font-size:1.2rem; color:#374151"),
                 cls="nx-hamburger me-3",
                 **{
-                    "data-bs-toggle": "collapse",
-                    "data-bs-target": "#nx-sidebar",
-                    "onclick": "document.getElementById('nx-sidebar').classList.toggle('show')",
+                    # Custom fixed sidebar slide (see .nx-sidebar/.show CSS) —
+                    # deliberately NOT using Bootstrap collapse: data-bs-toggle="collapse"
+                    # fights the inline .show toggle and leaves the menu stuck open.
+                    "onclick": (
+                        "var s=document.getElementById('nx-sidebar');"
+                        "var b=document.getElementById('nx-sidebar-backdrop');"
+                        "var open=s.classList.toggle('show');"
+                        "if(b) b.classList.toggle('show', open);"
+                    ),
+                    "aria-label": "Toggle navigation",
                 },
             ),
             Div(
@@ -778,6 +797,13 @@ def home() -> Any:
         Script(src="https://cdn.jsdelivr.net/npm/chart.js"),
         # Layout shell
         Div(
+            # Backdrop closes the mobile sidebar on click.
+            Div(id="nx-sidebar-backdrop", cls="nx-sidebar-backdrop", onclick=(
+                "var s=document.getElementById('nx-sidebar');"
+                "var b=document.getElementById('nx-sidebar-backdrop');"
+                "s.classList.remove('show');"
+                "if(b) b.classList.remove('show');"
+            )),
             nx_sidebar(),
             # Main column
             Div(
@@ -991,6 +1017,22 @@ def home() -> Any:
         ),
         # Toast container
         ToastContainer(position="top-end"),
+        # Close mobile sidebar when any nav link is tapped (mobile only).
+        Script("""
+        document.addEventListener('DOMContentLoaded', function () {
+          var sidebar = document.getElementById('nx-sidebar');
+          var backdrop = document.getElementById('nx-sidebar-backdrop');
+          if (!sidebar) return;
+          sidebar.querySelectorAll('.nx-nav-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+              if (window.matchMedia('(max-width: 991px)').matches) {
+                sidebar.classList.remove('show');
+                if (backdrop) backdrop.classList.remove('show');
+              }
+            });
+          });
+        });
+        """),
     )
 
 
