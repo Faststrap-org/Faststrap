@@ -92,6 +92,7 @@ nav:
     - Upgrading: guides/upgrading.md
     - First App Tutorial: getting-started/first-app.md
     - HTMX Integration: guides/htmx-integration.md
+    - HTMX Compatibility: guides/htmx-compatibility.md
     - Theming: guides/theming.md
     - Validation: guides/validation.md
     - Testing: guides/testing.md

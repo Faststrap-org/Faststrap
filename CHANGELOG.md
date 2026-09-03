@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- FastHTML 0.14.x platform shift and HTMX 4.0.0 dual-engine compatibility support.
+- `FaststrapHtmx` cross-version JavaScript bridge (`faststrap-htmx.js`) normalizing lifecycle events (`onSwap`), element processing (`process`), and version detection (`isV4`) across HTMX 2.x and 4.x.
+- HTMX 4 opt-in and security configuration options in `add_bootstrap()`: `htmx4` (with auto-detection from FastHTML app), `htmx_compat` (loads official `hx-compat` 2.x extension), `allow_extensions` (extension allow-list policy), and `hx_config` (custom `<meta name="htmx-config">` injection).
+- `multi_response` preset (`@beta`) in `faststrap.presets` enabling atomic returns of primary content, arbitrary out-of-band swapped elements (`hx_swap_oob`), and optional toast notifications.
+- `DataTable(poll_morph=True)` parameter supporting DOM morphing swaps (`hx-swap="morph"`) during periodic polling without losing input focus, expanded details, or scroll position.
+- `SSETarget(engine="eventsource" | "htmx")` allowing developers to explicitly toggle between native browser EventSource or HTMX SSE extensions.
+- `LoadingButton(pending=...)` parameter supporting optimistic pending UI states via HTMX 4 `hx-pending`.
+
 - Shared visual tokens in `faststrap.core.visual` (`radius_class`/`shadow_class`)
   mapping `none|sm|md|lg|pill` radius and `none|sm|md|lg` shadow tokens to
   Bootstrap utilities.
@@ -42,6 +50,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ErrorDialog`: `icon_cls` and `message_cls` hooks.
 
 ### Changed
+
+- Updated core dependency requirement in `pyproject.toml` to `python-fasthtml>=0.14.13`.
+- Migrated internal swap listeners across `faststrap-init.js`, `modern-toast.js`, `ChartJS`, `GSAP`, and `SplitPane` from raw `htmx:afterSwap` event binding to the unified `FaststrapHtmx.onSwap` bridge.
 
 - Extracted Faststrap's browser initialization script from inline Python source into
   `src/faststrap/static/js/faststrap-init.js`, allowing the initializer to be served

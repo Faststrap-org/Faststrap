@@ -4,18 +4,25 @@
 
 ---
 
-## Current Status (v0.8.0 - May 2026)
+## Current Status (v0.8.2 - September 2026)
 
 **152 registered UI components live**
 **170+ total components, helpers, presets, integrations, and utilities**
-**790+ tests collected in CI**
-**Full HTMX + Bootstrap 5.3.3 support**
+**1011+ tests collected in CI (100% pass rate, 89% coverage)**
+**FastHTML 0.14.x Platform Compatibility & Dual-Engine HTMX Support (HTMX 2.x certified default + HTMX 4.0 opt-in)**
 **Core remains FastHTML/Bootstrap/HTMX-first**
 **Zero custom JavaScript required**
 **Optional integrations available** for ChartJS, GSAP, Markdown, maps, and richer motion/chart use cases
 **Docs structure hardened** with component index, architecture guide, upgrade guide, performance guide, and docs standards
 **v0.8 core primitives added**: `Stack`, `Cluster`, `Center`, `PageHeader`, `KeyValueList`, `RecordDetail`, `CodeBlock`, `JsonViewer`, `FormSection`, and `PollUntil`
 **Visual primitives absorbed into core**: `FlipCard`, `TiltCard`, `RevealCard`, `GlowCard`, CSS loaders, `ProgressRing`, `GradientButton`, `FloatingActionButton`, and `ParallaxSection`
+
+### FastHTML 0.14.x & HTMX 4 Integration Strategy
+
+- **Dual-Engine Architecture**: HTMX 2.0.7 remains the certified production default for maximum stability. Developers can opt into HTMX 4.0 via `add_bootstrap(app, htmx4=True)`.
+- **Cross-Version Client Bridge**: `faststrap-htmx.js` normalizes DOM swap lifecycles (`FaststrapHtmx.onSwap()`) and dynamic processing across both HTMX 2 and 4.
+- **Modern Presets & Display**: Shipped `multi_response` for multi-target out-of-band updates, `DataTable(poll_morph=True)` for morph polling, `SSETarget(engine="eventsource"|"htmx")`, and `LoadingButton(pending=...)`.
+- **P3 (LiveBind / `hx-live`) Deferral**: Evaluated reactive two-way binding against HTMX 4.0.0. Due to active evolution in the `hx-live` wire protocol and event contract in early 4.0 releases, **`LiveBind` is explicitly deferred to HTMX 4.1+** to prevent breaking downstream applications.
 
 ### Pre-v0.6 Delivered by v0.5.9
 

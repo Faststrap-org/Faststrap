@@ -4,14 +4,20 @@
 
 ---
 
-##  Current Status (v0.8.1  July 2026)
+##  Current Status (v0.8.2  September 2026)
 
 **152 registered UI components** across forms, display, feedback, navigation, layout, and patterns  
 **170+ total** including HTMX presets, SEO helpers, PWA helpers, and optional integrations  
-**790+ tests**  90%+ coverage  
-**Full HTMX + Bootstrap 5.3.3 support**  
+**1011+ tests** — 100% passing, 89% coverage  
+**FastHTML 0.14.x & Dual-Engine HTMX Support (HTMX 2.x certified default + HTMX 4.0 opt-in)**  
 **Zero custom JavaScript required for core workflows**  
 **Optional integrations** for ChartJS, GSAP, and Markdown
+
+### FastHTML 0.14.x & HTMX 4 Strategy
+- **HTMX 2.0.7 Default**: Production-certified stability with complete backwards compatibility.
+- **HTMX 4.0.0 Forward Support**: Opt-in via `add_bootstrap(htmx4=True, htmx_compat=..., allow_extensions=...)`.
+- **Bridge Script**: `FaststrapHtmx` handles lifecycle event abstraction (`onSwap`), dynamic processing, and feature detection.
+- **P3 (LiveBind) Architecture Decision**: Defer two-way `hx-live` bindings to HTMX 4.1+ when the specification reaches stabilization.
 
 ### Overall Progress to v1.0
 

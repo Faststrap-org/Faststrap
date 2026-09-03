@@ -5,7 +5,15 @@ Server-side response utilities for common HTMX patterns. These eliminate boilerp
 ## Import
 
 ```python
-from faststrap.presets import hx_redirect, hx_refresh, hx_trigger, toast_response
+from faststrap.presets import (
+    hx_redirect,
+    hx_refresh,
+    hx_trigger,
+    hx_reswap,
+    hx_retarget,
+    toast_response,
+    multi_response,
+)
 ```
 
 ---
@@ -98,6 +106,40 @@ def save():
     ```python
     ToastContainer(position="top-end")
     ```
+
+---
+
+## multi_response *(beta)*
+
+Bundles a primary response with one or more out-of-band (OOB) swapped elements and an optional toast notification into a single response tuple compatible with both HTMX 2 and HTMX 4.
+
+```python
+from faststrap.presets import multi_response
+from faststrap import Card, Badge, StatCard
+
+@app.post("/tasks/complete")
+def complete_task(task_id: int):
+    # 1. Primary content for the invoking button's target
+    primary = Button("Completed", variant="success", disabled=True)
+
+    # 2. Out-of-band updates across the page
+    badge_update = Badge("Done", id=f"status-{task_id}", hx_swap_oob="true")
+    kpi_update = StatCard(title="Completed Tasks", value=15, id="kpi-completed", hx_swap_oob="outerHTML:#kpi-completed")
+
+    return multi_response(
+        primary,
+        badge_update,
+        kpi_update,
+        toast=("Task marked as complete", "success"),
+    )
+```
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `primary` | `Any` | **required** | Primary response element targeted by the triggering request |
+| `*oob_targets` | `Any` | `()` | Additional elements to swap out-of-band elsewhere in the DOM. Automatically gets `hx_swap_oob="true"` if not already set. |
+| `toast` | `str \| tuple[str, str] \| Any \| None` | `None` | Optional toast message (`str`), `(message, variant)` tuple, or Toast element to swap into the toast container |
+| `toast_container_id` | `str` | `"toast-container"` | ID of the target toast container |
 
 ---
 
