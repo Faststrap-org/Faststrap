@@ -322,4 +322,3 @@ def multi_response(
             items.append(toast)
 
     return tuple(items)
-

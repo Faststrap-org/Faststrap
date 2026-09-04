@@ -1,16 +1,17 @@
 """Tests for HTMX cross-version bridge and HTMX 4 compatibility features."""
 
 import json
-from fasthtml.common import FastHTML, Meta, Script, Div, Span
-from faststrap import add_bootstrap, DataTable, SSETarget, Toast
+
+from fasthtml.common import Div, FastHTML, Meta, Script, Span
+
+from faststrap import DataTable, SSETarget, Toast, add_bootstrap
 from faststrap.core.assets import (
     HTMX4_COMPAT_JS_URL,
     _detect_htmx4,
-    _htmx4_compat_script,
     _set_htmx_config,
     get_assets,
 )
-from faststrap.presets import multi_response, LoadingButton
+from faststrap.presets import LoadingButton, multi_response
 
 
 def test_detect_htmx4():
@@ -50,10 +51,7 @@ def test_add_bootstrap_htmx4_options():
         htmx_compat=True,
         allow_extensions=["hx-sse", "hx-pending"],
     )
-    scripts = [
-        getattr(h, "attrs", {}).get("src", "")
-        for h in app.hdrs
-    ]
+    scripts = [getattr(h, "attrs", {}).get("src", "") for h in app.hdrs]
     assert HTMX4_COMPAT_JS_URL in scripts
 
     metas = [h for h in app.hdrs if getattr(h, "attrs", {}).get("name") == "htmx-config"]

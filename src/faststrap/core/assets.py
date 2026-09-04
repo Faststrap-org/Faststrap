@@ -395,7 +395,9 @@ def _htmx4_compat_script() -> Any:
     return Script(src=HTMX4_COMPAT_JS_URL, defer=True)
 
 
-def _apply_htmx4_options(app: Any, *, htmx4: bool | None, htmx_compat: bool, allow_extensions: list[str] | None) -> None:
+def _apply_htmx4_options(
+    app: Any, *, htmx4: bool | None, htmx_compat: bool, allow_extensions: list[str] | None
+) -> None:
     """Apply Faststrap-level htmx 4 integrations onto the app's own headers.
 
     Detect the runtime from the app (``FastHTML(htmx4=True)``) unless an
