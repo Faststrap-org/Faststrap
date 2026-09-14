@@ -224,9 +224,9 @@ async function processBackgroundSync() {{
 }}
 
 function resolveRouteStrategy(request) {{
-  const pathname = new URL(request.url).pathname;
+  const url = new URL(request.url);
   for (const [prefix, strategy] of Object.entries(ROUTE_CACHE_POLICIES)) {{
-    if (pathname.startsWith(prefix)) return strategy;
+    if (url.pathname.startsWith(prefix) || url.href.startsWith(prefix) || url.origin === prefix) return strategy;
   }}
   return null;
 }}

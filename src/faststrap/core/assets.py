@@ -100,7 +100,10 @@ def local_assets(static_url: str, *, include_js: bool = True) -> tuple[Any, ...]
 def _get_faststrap_cdn_version() -> str:
     """Read installed package version for CDN pinning, fallback to main in editable/dev."""
     try:
-        return importlib_metadata.version("faststrap")
+        ver = importlib_metadata.version("faststrap")
+        if not ver or "dev" in ver or "+" in ver or ver.startswith("0.0.0"):
+            return "main"
+        return ver
     except importlib_metadata.PackageNotFoundError:
         return "main"
 
