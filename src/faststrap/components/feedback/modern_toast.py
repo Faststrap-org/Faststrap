@@ -268,9 +268,7 @@ def ModernToast(
             action_cls = merge_classes(
                 "btn", action_style, "disabled" if action.get("loading") else None
             )
-            action_event = _browser_event_name(
-                action.get("onClick"), parameter="action['onClick']"
-            )
+            action_event = _browser_event_name(action.get("onClick"), parameter="action['onClick']")
             action_attrs: dict[str, Any] = {
                 "type": "button",
                 "cls": action_cls,
@@ -294,9 +292,7 @@ def ModernToast(
             cancel_cls = merge_classes(
                 "btn", cancel_style, "disabled" if cancel.get("loading") else None
             )
-            cancel_event = _browser_event_name(
-                cancel.get("onClick"), parameter="cancel['onClick']"
-            )
+            cancel_event = _browser_event_name(cancel.get("onClick"), parameter="cancel['onClick']")
             cancel_attrs: dict[str, Any] = {
                 "type": "button",
                 "cls": cancel_cls,
