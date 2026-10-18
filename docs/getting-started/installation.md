@@ -5,7 +5,7 @@ Getting started with FastStrap is easy.
 ## Prerequisites
 
 - **Python 3.10** or higher
-- **FastHTML 0.6** or higher
+- **FastHTML 0.14.13** or higher (`python-fasthtml>=0.14.13`)
 
 ## Install via pip
 

@@ -106,8 +106,9 @@ def FloatingActionButton(
         position: Fixed corner placement.
         label: Accessible label (required meaningfully when icon-only).
         size: Logical size token driving the ``--fs-fab-size`` CSS variable
-            (``sm``=44px, ``md``=48px, ``lg``=56px). Default keeps the
-            historical 56px circle.
+            (``sm``=44px, ``md``=48px, ``lg``=56px). The default is the
+            balanced ``md`` size; choose ``lg`` explicitly for a larger
+            touch target.
         offset: Inset from the viewport edge in spacing units (1 unit =
             ``--bs-spacer`` ≈ 1rem), driving ``--fs-fab-inset``. Reduce for
             tighter mobile layouts.
@@ -137,7 +138,7 @@ def FloatingActionButton(
     c_variant = cast(VariantType, cfg.get("variant") or "primary")
     c_position = cfg.get("position") or "bottom-right"
     c_label = cfg.get("label") or "Primary action"
-    c_size = cast(FabSize | None, cfg.get("size")) or "lg"
+    c_size = cast(FabSize | None, cfg.get("size")) or "md"
     c_offset = cfg.get("offset")
     c_shape = cast(FabShape, cfg.get("shape") or "circle")
 

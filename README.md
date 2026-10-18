@@ -6,7 +6,7 @@ FastStrap helps Python developers build production web apps, admin panels, analy
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![FastHTML](https://img.shields.io/badge/FastHTML-0.6+-green.svg)](https://fastht.ml/)
+[![FastHTML](https://img.shields.io/badge/FastHTML-0.14.13+-green.svg)](https://fastht.ml/)
 [![PyPI version](https://img.shields.io/pypi/v/faststrap.svg)](https://pypi.org/project/faststrap/)
 [![Tests](https://github.com/Faststrap-org/Faststrap/workflows/Tests/badge.svg)](https://github.com/Faststrap-org/Faststrap/actions)
 
@@ -17,7 +17,7 @@ FastStrap helps Python developers build production web apps, admin panels, analy
 FastHTML is amazing for building web apps in pure Python, but complete product and data interfaces still need a reliable UI layer. FastStrap fills that gap by providing:
 
 
-- **230+ components, helpers, and presets** - 166 registered UI components plus HTMX, SEO, PWA, and optional integrations
+- **166 registered UI components**, plus HTMX presets, SEO/PWA helpers, and optional integrations
 - **Product UI foundations** - Forms, navigation, layouts, modals, notifications, auth screens, and Bootstrap surfaces
 - **Dashboard and data-app tools** - DataTable, metric cards, KPI cards, charts, maps, polling, SSE helpers, Markdown, Mermaid, JSON, and code rendering
 - **HTMX Presets Module** - Ready-to-use patterns for search, lazy loading, polling, optimistic actions, geolocation, and server-sent events
@@ -290,7 +290,7 @@ modal = get_component("Modal")
 
 ---
 
-## Available Components And Helpers (230+ Total)
+## Available Components And Helpers
 
 Faststrap currently exposes **166 registered UI components** across forms, display, feedback, navigation, layout, and patterns, plus **21 HTMX presets**, SEO/PWA helpers, accessibility helpers, core utilities, and optional integrations. Components are typed, HTMX-friendly, and follow Bootstrap conventions. Stability markers (`@stable`, `@beta`, `@experimental`) indicate API maturity.
 
@@ -593,10 +593,10 @@ Comprehensive examples organized by learning path:
 
 ## Current Release Snapshot
 
-Faststrap's current main branch reflects the v0.8.1 stability release on top of the v0.8.0 core primitive and visual component wave:
+The latest tagged release is **v0.9.0**. The current source tree includes additional unreleased work recorded under `[Unreleased]` in `CHANGELOG.md`.
 
-- **166 registered UI components** across forms, display, feedback, navigation, layout, and patterns.
-- **230+ total components, helpers, presets, and integrations** including HTMX presets, SEO helpers, PWA helpers, and optional integrations.
+- **166 registered UI components** in the current source tree across forms, display, feedback, navigation, layout, and patterns.
+- **232 names in `faststrap.__all__`**, plus HTMX presets, SEO/PWA helpers, and optional integrations.
 - **Optional integrations** for Chart.js, GSAP, and Markdown (`pip install faststrap[markdown]` required for the `Markdown` display component).
 - **Discovery APIs** including `list_components()`, `find_components()`, `get_components_by_pattern()`, and `list_component_metadata()`.
 - **Documentation structure** with component index, architecture guide, upgrade guide, performance guide, and custom component guide.
@@ -826,7 +826,7 @@ faststrap/
 ### Prerequisites
 
 - Python 3.10+
-- FastHTML 0.6+
+- FastHTML 0.14.13+ (`python-fasthtml>=0.14.13`)
 - Git
 
 ### Setup

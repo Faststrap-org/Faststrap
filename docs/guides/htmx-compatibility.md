@@ -1,6 +1,6 @@
 # HTMX Compatibility & Migration Guide
 
-Faststrap is designed around HTMX as its primary engine for reactive, zero-JavaScript user interfaces. Starting with Faststrap v0.8.2 and FastHTML 0.14.x, Faststrap provides a dual-engine architecture supporting both **HTMX 2.x** and **HTMX 4.0.0**.
+Faststrap uses HTMX for server-driven interactions. The current source tree (work after the `v0.9.0` tag, recorded in the changelog's **Unreleased** section) includes a compatibility bridge for **HTMX 2.x** and opt-in **HTMX 4.0.0** support. This source requires `python-fasthtml>=0.14.13`; HTMX 4 support is not part of the `v0.9.0` release.
 
 ---
 
@@ -8,10 +8,10 @@ Faststrap is designed around HTMX as its primary engine for reactive, zero-JavaS
 
 | Engine | Status | Default | Notes |
 | --- | --- | --- | --- |
-| **HTMX 2.0.7** | Certified Stable | **Yes** | 100% backwards-compatible, production certified across all Faststrap components. |
-| **HTMX 4.0.0** | Forward Support (Opt-In) | No | Next-generation runtime featuring security isolation, native morphing, and modernized events. |
+| **HTMX 2.x** | Default path | **Yes** | Selected by the standard `add_bootstrap(app)` setup. |
+| **HTMX 4.0.0** | Opt-in | No | Enable with `htmx4=True`; test extensions and application behavior in your deployment. |
 
-Faststrap guarantees that your existing apps will continue running smoothly on HTMX 2.0.7 without breaking changes. At the same time, you can opt into HTMX 4 today with a single parameter.
+The standard setup continues to use the HTMX 2.x path. The current source also lets you opt into HTMX 4 with `htmx4=True`; validate any extensions and app-specific interactions as part of your upgrade.
 
 ---
 

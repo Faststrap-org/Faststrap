@@ -71,6 +71,27 @@ def test_card_with_img_bottom():
     assert "card-img-bottom" in html
 
 
+def test_card_image_attributes_are_configurable():
+    card = Card(
+        "Content",
+        img_top="laptop.jpg",
+        img_alt="Laptop on a desk",
+        img_loading="lazy",
+        img_width=640,
+        img_height=360,
+        img_cls="object-fit-cover",
+        img_attrs={"data-testid": "card-image"},
+    )
+    html = to_xml(card)
+
+    assert 'alt="Laptop on a desk"' in html
+    assert 'loading="lazy"' in html
+    assert 'width="640"' in html
+    assert 'height="360"' in html
+    assert "card-img-top object-fit-cover" in html
+    assert 'data-testid="card-image"' in html
+
+
 def test_card_img_overlay():
     """Card supports image overlay mode."""
     card = Card("Overlay text", title="Title", img_top="bg.jpg", img_overlay=True)

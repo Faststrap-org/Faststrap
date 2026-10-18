@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-10-18
+
 ### Added
 
 - FastHTML 0.14.x platform shift and HTMX 4.0.0 dual-engine compatibility support.
@@ -31,7 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `FloatingActionButton`: logical `size` (`sm`=44px, `md`=48px, `lg`=56px via
   `--fs-fab-size`), `offset` (viewport inset rem units via `--fs-fab-inset`),
   and `shape="pill"` for extended icon+label FABs. Sizing/inset tokens are now
-  CSS variables; the default render is unchanged (56px circle). `position`,
+  CSS variables; the default render is now the balanced 48px medium circle.
+  `position`,
   `size`, and `shape` are validated and raise `ValueError` for unknown values.
 - `GradientButton`: `text_color` override and `hover` treatment
   (`lift`/`glow`/`none`); the `blue` and `green` presets were darkened
@@ -57,9 +60,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Extracted Faststrap's browser initialization script from inline Python source into
   `src/faststrap/static/js/faststrap-init.js`, allowing the initializer to be served
   as a cacheable static asset in both local and CDN modes.
-- Updated roadmap and contributor documentation to reflect the v0.8.1 baseline,
+- Updated roadmap and contributor documentation to reflect the v0.9.0 baseline,
   Milestone M0 cleanup completion, and the next mobile/offline/ML roadmap sequence.
-- Expanded the upgrade guide with a v0.5.x to v0.8.x migration path and clarified
+- Expanded the upgrade guide with a v0.5.x to v0.9.x migration path and clarified
   optional `faststrap[markdown]` installation guidance.
 
 ### Fixed
@@ -885,6 +888,7 @@ First production-ready release with 12 core components.
 Initial release establishing the foundation.
 
 [0.8.0]: https://github.com/Faststrap-org/Faststrap/compare/v0.7.0...v0.8.0
+[0.10.0]: https://github.com/Faststrap-org/Faststrap/compare/v0.9.0...v0.10.0
 [0.7.0]: https://github.com/Faststrap-org/Faststrap/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/Faststrap-org/Faststrap/compare/v0.5.9...v0.6.0
 [0.5.9]: https://github.com/Faststrap-org/Faststrap/compare/v0.5.8...v0.5.9

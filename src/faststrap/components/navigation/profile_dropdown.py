@@ -14,6 +14,7 @@ from ...core.theme import UNSET, resolve_defaults
 from ...utils.attrs import convert_attrs
 
 AvatarSize = int
+ProfileTriggerContent = Literal["avatar", "avatar-name", "avatar-name-subtitle"]
 
 
 @register(category="navigation")
@@ -27,6 +28,8 @@ def ProfileDropdown(
     alignment: str | None = UNSET,
     avatar_size: int | None = UNSET,
     layout: Literal["horizontal", "stacked"] | None = UNSET,
+    trigger_content: ProfileTriggerContent | None = UNSET,
+    mobile_content: ProfileTriggerContent | None = UNSET,
     trigger_cls: str = "",
     menu_cls: str = "",
     item_cls: str = "",
@@ -54,6 +57,12 @@ def ProfileDropdown(
         layout: Trigger text arrangement: ``"horizontal"`` keeps the
             subtitle on one line beside the name; ``"stacked"`` reproduces
             the original block layout.
+        trigger_content: Content shown in the desktop trigger: ``"avatar"``
+            (avatar only), ``"avatar-name"`` (avatar and name), or
+            ``"avatar-name-subtitle"`` (all identity context).
+        mobile_content: Optional compact trigger content for small screens.
+            Uses the same values as ``trigger_content``. When omitted, the
+            desktop content is shown at every breakpoint.
         trigger_cls: Extra classes for the dropdown toggle button.
         menu_cls: Extra classes for the dropdown menu.
         item_cls: Extra classes for each menu anchor.
@@ -69,10 +78,15 @@ def ProfileDropdown(
         alignment=alignment,
         avatar_size=avatar_size,
         layout=layout,
+        trigger_content=trigger_content,
+        mobile_content=mobile_content,
     )
     c_alignment = str(cfg.get("alignment") or "end")
     c_avatar_size = cast(AvatarSize, cfg.get("avatar_size") or 32)
     c_layout = str(cfg.get("layout") or "stacked")
+    default_content: ProfileTriggerContent = "avatar-name-subtitle" if subtitle else "avatar-name"
+    c_trigger_content = cast(ProfileTriggerContent, cfg.get("trigger_content") or default_content)
+    c_mobile_content = cast(ProfileTriggerContent, cfg.get("mobile_content") or c_trigger_content)
 
     user_cls = kwargs.pop("cls", "")
     base_cls = "faststrap-profile-dropdown dropdown"
@@ -96,28 +110,45 @@ def ProfileDropdown(
             style=f"{inline_size} font-size: {font_size};",
         )
 
-    if c_layout == "horizontal":
-        toggle_inner_children: list[Any] = [
-            Span(avatar_content, cls="me-2 flex-shrink-0"),
-            Span(name, cls="d-none d-lg-inline fw-semibold"),
-        ]
-        if subtitle:
-            toggle_inner_children.append(
-                Span(
-                    subtitle,
-                    cls="d-none d-lg-inline-block text-muted small text-truncate",
-                    style="max-width: 12rem;",
-                )
+    avatar_wrapper_cls = "me-2 flex-shrink-0"
+
+    def text_content(content: ProfileTriggerContent) -> Any | None:
+        if content == "avatar":
+            return None
+        name_el = Span(name, cls="fw-semibold text-truncate")
+        if content == "avatar-name" or not subtitle:
+            return Span(name_el, cls="text-start text-truncate")
+        subtitle_el = Span(subtitle, cls="text-muted small text-truncate")
+        if c_layout == "horizontal":
+            return Span(
+                name_el,
+                subtitle_el,
+                cls="d-inline-flex align-items-baseline gap-2 text-start text-truncate",
+                style="max-width: 14rem;",
             )
-    else:
-        toggle_inner_children = [
-            Span(avatar_content, cls="me-2"),
-            Span(name, cls="d-none d-lg-inline"),
-        ]
-        if subtitle:
-            toggle_inner_children.append(
-                Span(subtitle, cls="d-block w-100 text-muted small", style="font-size: 0.75rem;")
+        return Span(
+            name_el,
+            subtitle_el,
+            cls="d-flex flex-column align-items-start text-start lh-sm",
+        )
+
+    desktop_text = text_content(c_trigger_content)
+    mobile_text = text_content(c_mobile_content)
+    toggle_inner_children = [Span(avatar_content, cls=avatar_wrapper_cls)]
+    if desktop_text is not None:
+        desktop_cls = ""
+        if c_mobile_content != c_trigger_content:
+            desktop_cls = "d-none d-sm-inline-flex"
+        if desktop_cls:
+            desktop_text.attrs["class"] = merge_classes(
+                desktop_text.attrs.get("class", ""), desktop_cls
             )
+        toggle_inner_children.append(desktop_text)
+    if mobile_text is not None and c_mobile_content != c_trigger_content:
+        mobile_text.attrs["class"] = merge_classes(
+            mobile_text.attrs.get("class", ""), "d-inline-flex d-sm-none"
+        )
+        toggle_inner_children.append(mobile_text)
 
     menu_children: list[Any] = []
     if items:

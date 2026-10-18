@@ -82,7 +82,7 @@ def StatCard(
     trend_el = Span(trend, cls=f"{trend_cls} small fw-bold ms-2") if trend else None
 
     # Value wrapper
-    value_el = H3(value, trend_el, cls="mb-0 fw-bold")
+    value_el = H3(value, trend_el, cls="faststrap-numeric mb-0 fw-bold")
 
     # Title
     title_cls = "text-muted small text-uppercase fw-semibold"
@@ -164,7 +164,7 @@ def MetricCard(
     c_icon_bg = cfg.get("icon_bg", icon_bg)
 
     delta_el = _trend_badge(delta, delta_type=c_delta_type)
-    value_el = H3(value, cls="mb-0 fw-bold")
+    value_el = H3(value, cls="faststrap-numeric mb-0 fw-bold")
     title_cls = "text-muted small text-uppercase fw-semibold"
     if c_inverse:
         title_cls = "text-white-50 small text-uppercase fw-semibold"
@@ -220,7 +220,7 @@ def TrendCard(
     c_inverse = cfg.get("inverse", inverse)
 
     delta_el = _trend_badge(delta, delta_type=c_delta_type)
-    value_el = H3(value, cls="mb-0 fw-bold")
+    value_el = H3(value, cls="faststrap-numeric mb-0 fw-bold")
     title_cls = "text-muted small text-uppercase fw-semibold"
     if c_inverse:
         title_cls = "text-white-50 small text-uppercase fw-semibold"
@@ -300,7 +300,7 @@ def KPICard(
         metric_cells.append(
             Div(
                 P(label, cls="mb-1 text-muted small"),
-                H3(value, cls="mb-0 fw-bold"),
+                H3(value, cls="faststrap-numeric mb-0 fw-bold"),
                 delta_el,
                 cls=col_class,
             )

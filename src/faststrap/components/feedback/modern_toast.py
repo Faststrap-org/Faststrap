@@ -25,7 +25,7 @@ ToastCloseReason = Literal["auto", "manual", "escape", "swipe"]
 
 class ToastAction(TypedDict, total=False):
     label: str
-    onClick: Any
+    onClick: str
     style: Literal["primary", "secondary", "destructive", "outline"]
     loading: bool
 
@@ -107,6 +107,21 @@ _POSITION_ALIASES = {
 }
 
 
+def _browser_event_name(value: Any, *, parameter: str) -> str | None:
+    """Return a safe browser event name without embedding executable JS."""
+    if value is None:
+        return None
+    if isinstance(value, str) and value.strip():
+        return value.strip()
+    warnings.warn(
+        f"ModernToast({parameter}=...) accepts a browser event name string; "
+        "Python callables cannot run in the browser and were ignored.",
+        RuntimeWarning,
+        stacklevel=3,
+    )
+    return None
+
+
 @register(category="feedback")
 @beta
 def ModernToast(
@@ -156,6 +171,9 @@ def ModernToast(
         title_cls: Extra classes for the title line.
         message_cls: Extra classes for the message paragraph.
         close_button_cls: Extra classes for the dismiss button.
+        on_dismiss: Optional browser event name dispatched when the toast is
+            dismissed. The runtime always dispatches
+            ``faststrap:toast-dismiss``; this adds a named event as well.
         **kwargs: Additional HTML attributes (``cls``, ``css_vars``, hx-*, ...).
     """
     resolved_intent = intent
@@ -211,6 +229,10 @@ def ModernToast(
             user_cls,
         ),
         "role": "status" if resolved_intent not in {"danger", "warning", "error"} else "alert",
+        "aria_live": (
+            "assertive" if resolved_intent in {"danger", "warning", "error"} else "polite"
+        ),
+        "aria_atomic": "true",
         "data_fs_modern_toast": "true",
         "data_fs_intent": resolved_intent,
         "data_fs_position": resolved_position,
@@ -220,6 +242,9 @@ def ModernToast(
     }
     if dismissible:
         attrs["data_fs_dismiss"] = "true"
+    dismiss_event = _browser_event_name(on_dismiss, parameter="on_dismiss")
+    if dismiss_event:
+        attrs["data_fs_dismiss_event"] = dismiss_event
     attrs.update(convert_attrs(kwargs))
 
     parts: list[Any] = []
@@ -243,11 +268,19 @@ def ModernToast(
             action_cls = merge_classes(
                 "btn", action_style, "disabled" if action.get("loading") else None
             )
+            action_event = _browser_event_name(
+                action.get("onClick"), parameter="action['onClick']"
+            )
+            action_attrs: dict[str, Any] = {
+                "type": "button",
+                "cls": action_cls,
+                "aria_label": action_label,
+            }
+            if action_event:
+                action_attrs["data_fs_action_event"] = action_event
             action_btn = FTButton(
                 action_label,
-                type="button",
-                cls=action_cls,
-                aria_label=action_label,
+                **action_attrs,
             )
             body_parts.append(Div(action_btn, cls="mt-2"))
         else:
@@ -261,11 +294,19 @@ def ModernToast(
             cancel_cls = merge_classes(
                 "btn", cancel_style, "disabled" if cancel.get("loading") else None
             )
+            cancel_event = _browser_event_name(
+                cancel.get("onClick"), parameter="cancel['onClick']"
+            )
+            cancel_attrs: dict[str, Any] = {
+                "type": "button",
+                "cls": cancel_cls,
+                "aria_label": cancel_label,
+            }
+            if cancel_event:
+                cancel_attrs["data_fs_action_event"] = cancel_event
             cancel_btn = FTButton(
                 cancel_label,
-                type="button",
-                cls=cancel_cls,
-                aria_label=cancel_label,
+                **cancel_attrs,
             )
             body_parts.append(Div(cancel_btn, cls="mt-2"))
         else:

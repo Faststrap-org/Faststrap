@@ -1,14 +1,13 @@
-# FastStrap Roadmap - Updated May 2026
+# FastStrap Roadmap - Updated October 2026
 
 **Vision:** The most complete, Pythonic, zero-JS Bootstrap 5 component library for FastHTML - a production-grade UI layer for web apps, data apps, ML tools, and AI-native interfaces.
 
 ---
 
-## Current Status (v0.8.2 - September 2026)
+## Current Status (latest tag: v0.9.0; current tree has unreleased changes)
 
-**152 registered UI components live**
-**170+ total components, helpers, presets, integrations, and utilities**
-**1011+ tests collected in CI (100% pass rate, 89% coverage)**
+**166 registered UI components in the current source tree**
+**The changelog's Unreleased section records changes after v0.9.0**
 **FastHTML 0.14.x Platform Compatibility & Dual-Engine HTMX Support (HTMX 2.x certified default + HTMX 4.0 opt-in)**
 **Core remains FastHTML/Bootstrap/HTMX-first**
 **Zero custom JavaScript required**
@@ -36,13 +35,13 @@
 - `Form.from_pydantic()` and `Table.from_df()` beta data bridges
 - PWA advanced foundations (background sync, push scaffolding, route-aware cache controls)
 
-### Deferred Post-v0.6
+### Deferred Post-v0.6 (current status)
 
-- Advanced DataTable query contract and optional ORM bridges
-- Production map provider integrations and geospatial presets
-- Extended PWA reliability presets (queue persistence, richer retry/telemetry)
-- Workflow/UI helpers where audits keep showing repetition: `ResultCard`, `InlineEditor`, `Avatar`, and richer `Pagination` ergonomics
-- Documentation-first polish for validation workflows, filter/search recipes, and non-table pagination guidance
+- Advanced DataTable query contract and optional ORM bridges remain planned
+- Production map provider integrations and geospatial presets remain planned
+- Extended PWA reliability presets (queue persistence, richer retry/telemetry) remain planned
+- The formerly deferred UI helpers `ResultCard`, `InlineEditor`, and `Avatar`, plus richer `Pagination` ergonomics, are shipped
+- Documentation polish for validation workflows, filter/search recipes, and non-table pagination guidance has been added; keep these guides aligned with source changes
 
 ### Suggested release cut
 
@@ -70,13 +69,12 @@ These items are intentionally tracked here so they are not lost between releases
   - Rich DataTable query contract and optional ORM bridges.
   - Advanced PWA opt-in implementations (Background Sync, Push, route-aware caching).
 
-##  Overall Progress to v1.0
+## Overall Progress to v1.0
 
 ```text
-Components:    152+ registered UI (170+ total with presets, integrations, helpers)
-Tests:         790+ (target 800)
-Coverage:      90%+ (target 95%)
-Contributors:  15+/100 (15%)
+Latest tag:    v0.9.0
+UI registry:   166 components in the current source tree
+Next roadmap:  M1 Mobile Wave (M0 cleanup is complete)
 
 ```
 
@@ -94,8 +92,9 @@ Contributors:  15+/100 (15%)
 | 6 | +16 (DataTable, Chart, MetricCard, TrendCard, KPICard, DashboardGrid, FilterBar, DateRangePicker, MultiSelect, RangeSlider, ExportButton, SSEStream, SSETarget, NotificationCenter, Svg, Mermaid) | ✅ Complete | Mar 2026 |
 | 7 | +14 (ResultCard, Avatar, AvatarGroup, StatusBadge, BadgeGroup, InlineEditor, Timeline, Stepper, CalendarDatePicker, FormWizard, CommandPalette) + optional integrations (ModernToast, ChartJS, GSAP) | ✅ Complete | May 2026 |
 | 8 | +13 core primitives (Stack, Cluster, Center, PageHeader, KeyValueList, RecordDetail, CodeBlock, JsonViewer, FormSection, PollUntil) + visual primitives (FlipCard, TiltCard, RevealCard, GlowCard, 7 loaders, ProgressRing, GradientButton, FloatingActionButton, ParallaxSection) | ✅ Complete | May 2026 |
+| 9 | Math, Switcher, SplitPane, SearchBar, ProfileDropdown, DataCard, FilePreview | ✅ Complete | Aug 2026 |
 
-**Total: 152 registered UI components + 18 HTMX presets + SEO/PWA/accessibility helpers = 170+ total**
+**Phase 8 shipped 152 registered UI components. The current source tree registers 166.**
 
 ---
 
@@ -335,7 +334,7 @@ Faststrap commits to the following architectural contracts:
 
 | Priority | Component | Description | Status |
 |----------|-----------|-------------|--------|
-| 1 | `Form.from_pydantic()` | Auto-generate forms from Pydantic models | Planned |
+| 1 | `FormBuilder.from_pydantic()` | Auto-generate forms from Pydantic models | Implemented (v0.5.9 beta) |
 | 2 | `TimeSeriesPlot` | Time series with moving averages | Planned |
 | 3 | `GeoMap` | Geographic visualization (optional) | Planned |
 | 4 | `NotificationCenter` | Centralized notification management | Implemented |
@@ -348,25 +347,12 @@ Faststrap commits to the following architectural contracts:
 
 ### Proposed Frontend Primitives & Experience Layer (post-v0.6)
 
-These are the next frontend-focused additions that would most improve day-to-day product building for Faststrap users.
+These are the remaining frontend-focused candidates after reviewing the current source tree.
 
 | Component | Purpose | Notes |
 |-----------|---------|-------|
-| `Stack` | Vertical spacing primitive | Reduce repeated flex-column/gap scaffolding |
-| `Cluster` | Inline wrapping action/chip layout | Great for toolbars, chips, and metadata rows |
-| `Center` | Centered constrained content wrapper | Useful for auth, empty states, and hero content |
-| `Switcher` | Responsive switch layout primitive | Better abstraction for summary cards and adaptive panels |
 | `Sidebar` | Composable app-shell sidebar | Distinct from navbar-only composition |
-| `SearchBar` | Polished global search surface | Optional HTMX suggestions |
-| `ProfileDropdown` | Authenticated user menu | Strong fit for dashboards and portals |
-| `Timeline` | Chronological event feed | Audits, bookings, releases, activities |
-| `Stepper` | Multi-step progress indicator | Form flows and onboarding |
-| `FormWizard` | Server-driven multi-step form helper | Built around HTMX + existing form primitives |
-| `SplitPane` | Two-pane productivity layout | Docs, editors, inspectors, master/detail screens |
 | `MegaMenu` | Premium expanded navigation | SaaS, docs, ecommerce |
-| `CommandPalette` | Keyboard-driven command/search launcher | Progressive enhancement; minimal JS |
-| `ModernToast` | Premium toast surface | Should remain server-rendered first, JS-enhanced only where valuable |
-| `ChartJS` | Optional modern chart integration | Proposed extra: `faststrap[chartjs]` |
 
 **Implementation stance:**
 
@@ -376,9 +362,9 @@ These are the next frontend-focused additions that would most improve day-to-day
 
 > **Note:** `ActiveSearch` and `InfiniteScroll` are already available in v0.5.6 as part of the `faststrap.presets` module.
 
-### Canonical Next Build Roadmap
+### v0.7 Component Wave (delivery record)
 
-This section is the main source of truth for the next Faststrap buildout after the v0.6 data foundations. It merges the component suggestions from audits, implementation planning, and the Kilo/Gemini-style review into one roadmap so we stop tracking overlapping lists in different places.
+This historical plan has been delivered. Its remaining future work is tracked in the Forward Roadmap below and the milestone list in `ROADMAP_EXPANDED.md`.
 
 #### Scope Summary
 
@@ -410,8 +396,8 @@ These integrations are intentionally opt-in. They should not change Faststrap's 
 | Item | Type | Priority | Complexity | Wave | Notes |
 |------|------|----------|------------|------|-------|
 | `ModernToast` | Optional integration | Medium | Medium | 3 | Alternative modern toast system with configurable position, timing, style, and queue behavior |
-| `ChartJS` | Optional integration | Medium | High | 3 | Optional Chart.js integration via an extra such as `faststrap[chartjs]` |
-| `GSAP Motion` | Optional integration | Medium | High | 3 | Optional animation system via `faststrap[gsap]`; richer motion without changing core `Fx` defaults |
+| `ChartJS` | Optional integration | Medium | High | 3 | Shipped; uses CDN assets and does not require the empty `faststrap[chartjs]` extra |
+| `GSAP Motion` | Optional integration | Medium | High | 3 | Shipped; uses CDN assets and does not require the empty `faststrap[gsap]` extra |
 
 #### Supporting Framework and Pattern Improvements
 
@@ -482,29 +468,13 @@ useful for data science teams, ML engineers, frontend builders, and AI agents.
 
 ### Existing Surface Check
 
-The following proposed component/API names were checked against the current
-Faststrap source, tests, docs, examples, README, and roadmap and are not
-currently shipped:
+The following proposed component/API names are not currently shipped in the source tree:
 
 - `PdfEmbed`
 - `PdfViewer`
-- `CodeBlock`
-- `JsonViewer`
-- `KeyValueList`
-- `Stack`
-- `Cluster`
-- `Center`
 - `Sidebar`
-- `SplitPane`
 - `LogViewer`
-- `PageHeader`
-- `FormSection`
-- `FilePreview`
-- `DataCard`
-- `RecordDetail`
-- `SectionHeader`
 - `ResourceList`
-- `PollUntil`
 - `Debounce`
 - `ConfirmPrompt`
 - `SwapOnEvent`
@@ -522,6 +492,13 @@ currently shipped:
 - `MessageThread`
 - `ReasoningTimeline`
 - `EvalResultCard`
+
+Already shipped core candidates include `Stack`, `Cluster`, `Center`, `PageHeader`,
+`KeyValueList`, `RecordDetail`, `CodeBlock`, `JsonViewer`, `FormSection`, and
+`PollUntil`.
+
+Shipped since the v0.8.x baseline include `Math`, `Switcher`, `SplitPane`,
+`SearchBar`, `ProfileDropdown`, `DataCard`, and `FilePreview` (v0.9.0).
 
 Adjacent existing capabilities that should not be duplicated:
 
@@ -542,16 +519,19 @@ These should remain lightweight, HTML-first, and dependency-free where possible.
 | `Cluster` | Complete | Horizontal wrapping layout primitive for toolbar/action/filter rows. |
 | `Center` | Complete | Centering primitive for empty states, auth shells, and focused panels. |
 | `Sidebar` | Planned | App-shell primitive distinct from `SidebarNavbar`; pairs a fixed/sidebar region with scrollable main content. |
-| `SplitPane` | Planned | Two-pane editor/inspector/master-detail layout; start non-resizable in core, richer behavior later if needed. |
+| `SplitPane` | Complete | Shipped in v0.9.0 as a two-pane editor/inspector/master-detail layout. |
 | `PdfEmbed` / `PdfViewer` | Planned | Basic iframe/object PDF display with download fallback; no PDF.js in core. |
 | `CodeBlock` | Complete | Developer/docs/AI app primitive for displaying code snippets. |
 | `JsonViewer` | Complete | Useful for APIs, ML outputs, agent traces, and config dashboards. |
 | `KeyValueList` | Complete | Common metadata/detail display pattern. |
 | `LogViewer` | Planned | Useful for jobs, deployment logs, agent runs, and ML training logs. |
 | `FormSection` | Complete | Groups related fields with title, description, and optional divider. |
-| `FilePreview` | Planned | Generic file preview shell with safe fallback/download behavior. |
-| `DataCard` / `RecordDetail` | Partial | `RecordDetail` is complete; `DataCard` remains planned. |
-| `PageHeader` / `SectionHeader` | Partial | `PageHeader` is complete; `SectionHeader` remains planned. |
+| `FilePreview` | Complete | Shipped in v0.9.0 with preview and download fallback behavior. |
+| `DataCard` / `RecordDetail` | Complete | Both are available in the current source tree. |
+| `PageHeader` / `SectionHeader` | Complete | Both are available in the current source tree. |
+| `Switcher` | Complete | Shipped in v0.9.0 as a responsive layout primitive. |
+| `SearchBar` | Complete | Shipped in v0.9.0 with optional HTMX suggestions. |
+| `ProfileDropdown` | Complete | Shipped in v0.9.0. |
 | `ResourceList` | Planned | Entity list pattern with icon/avatar/status/action support. |
 
 ### Core Track: Interaction Presets
@@ -659,6 +639,10 @@ The docs site should eventually include a lightweight playground where users can
 adjust common component parameters and see rendered output without installing
 Faststrap locally.
 
+The standalone FastStrap Preview Studio project already provides a component
+playground. This roadmap item is specifically about integrating a curated,
+safe playground into the documentation site.
+
 Preferred stance:
 
 - Static-docs friendly.
@@ -669,38 +653,15 @@ Preferred stance:
 
 ### Recommended Next Build Sequence
 
-**Wave A: Core primitives, no new dependencies**
+The no-dependency core primitive wave (`Stack`, `Cluster`, `Center`,
+`PageHeader`, `KeyValueList`, `RecordDetail`, `CodeBlock`, `JsonViewer`,
+`FormSection`, and `PollUntil`) shipped in v0.8.0. Do not schedule it as future work.
 
-1. `Stack`, `Cluster`, `Center`
-2. `PageHeader`, `KeyValueList`, `RecordDetail`
-3. `CodeBlock`, `JsonViewer`
-4. `FormSection`
-5. `PollUntil`
-
-**Wave B: `faststrap[plots]`**
-
-1. `PlotlyChart`
-2. `AltairChart`
-3. `VegaChart`
-4. `DistributionPlot`
-5. `CorrelationMatrix`
-
-**Wave C: `faststrap[agents]`**
-
-1. `agent_action`
-2. `AgentManifest`
-3. `MessageThread`
-4. `ToolCallCard`
-5. form/table schema export hooks
-
-**Wave D: `faststrap[ml]`**
-
-1. `ModelCard`
-2. `DatasetCard`
-3. `ExperimentRunCard`
-4. `TrainingProgress`
-5. `PredictionResult`
-6. `ConfusionMatrix`
+The next planned delivery is **M1 Mobile Wave**, followed by **M2 Offline PWA**;
+`ROADMAP_EXPANDED.md` holds the milestone list. The `plots`, `agents`, and `ml`
+packs remain future candidates without a committed release slot. A Plotly-based
+optional plotting integration is my recommended next proposal for the data/ML
+track after the current mobile/offline sequence.
 
 ---
 
@@ -840,12 +801,12 @@ What Faststrap intentionally *won't* do:
 
 ## Success Metrics
 
-| Metric | v0.4.5 | v0.6.0 | v0.8.0 (Now) | v1.0.0 |
+| Metric | v0.4.5 | v0.6.0 | v0.9.0 (latest tag) | v1.0.0 |
 |--------|--------|--------|--------------|--------|
-| Components | 38 | 109+ | 152 registered (170+ total) | 200+ |
-| Tests | 230+ | 683 | 790+ | 800+ |
-| Coverage | 85%+ | 90%+ | 90%+ | 95%+ |
-| Contributors | 15+ | 15+ | 15+ | 50+ |
+| Components | 38 | 109+ | 166 registered in current source tree | 200+ |
+| Tests | 230+ | 683 | Track from CI | 800+ |
+| Coverage | 85%+ | 90%+ | Track from CI | 95%+ |
+| Contributors | 15+ | 15+ | Track from repository history | 50+ |
 
 ---
 
@@ -886,7 +847,7 @@ Your votes directly influence what gets built next.
 
 ---
 
-**Last Updated: July 2026**
-**Current Version: v0.8.0 (core primitive wave + visual primitives absorbed into core)**
+**Last Updated: October 2026**
+**Latest tag: v0.9.0; current source includes unreleased changes listed in `CHANGELOG.md`**
 
 **Let's build the definitive UI library for FastHTML  together.**

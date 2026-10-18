@@ -16,13 +16,17 @@ from faststrap import (
     ErrorDialog,
     FloatingActionButton,
     GradientButton,
+    KPICard,
+    MetricCard,
     ModernToast,
     ProfileDropdown,
     ResultCard,
     Sheet,
     SimpleToast,
+    StatCard,
     Toast,
     ToastContainer,
+    TrendCard,
 )
 from faststrap.core.theme import reset_component_defaults, set_component_defaults
 from faststrap.core.visual import RADIUS_CLASSES, SHADOW_CLASSES, radius_class
@@ -126,9 +130,9 @@ def test_fab_size_offset_shape():
     assert "fab-pill" in pill
     assert "rounded-circle" not in pill
 
-    # Default output stays compatible with the historical 56px circle.
+    # Default output uses the balanced medium touch target.
     legacy = to_xml(FloatingActionButton(icon="plus"))
-    assert "--fs-fab-size: 56px" in legacy
+    assert "--fs-fab-size: 48px" in legacy
     assert "rounded-circle" in legacy
     assert "fab-bottom-right" in legacy
 
@@ -143,6 +147,16 @@ def test_gradient_button_text_color_hover_presets():
 
     none_hover = to_xml(GradientButton("Go", hover="none"))
     assert "hover-lift" not in none_hover
+
+
+def test_metric_cards_use_tabular_numeric_values():
+    for component in (
+        StatCard("Revenue", 1200),
+        MetricCard("Users", 42),
+        TrendCard("Latency", 18),
+        KPICard("Overview", [("Jobs", 7)]),
+    ):
+        assert "faststrap-numeric" in to_xml(component)
 
 
 # ── ProfileDropdown ──────────────────────────────────────────────────────
@@ -162,6 +176,30 @@ def test_profile_dropdown_horizontal_layout_and_sizes():
     assert 'height="40"' in html
     assert "d-block w-100" not in html  # stacked subtitle is gone
     assert "text-truncate" in html
+
+
+def test_profile_dropdown_keeps_identity_visible_and_supports_mobile_modes():
+    default_html = to_xml(ProfileDropdown("Alice Smith", subtitle="Admin"))
+    assert "Alice Smith" in default_html
+    assert "Admin" in default_html
+    assert "d-none d-lg-inline" not in default_html
+
+    compact_html = to_xml(
+        ProfileDropdown(
+            "Alice Smith",
+            subtitle="Admin",
+            trigger_content="avatar-name-subtitle",
+            mobile_content="avatar-name",
+        )
+    )
+    assert "d-none d-sm-inline-flex" in compact_html
+    assert "d-inline-flex d-sm-none" in compact_html
+
+    avatar_only_html = to_xml(
+        ProfileDropdown("Alice Smith", trigger_content="avatar", mobile_content="avatar")
+    )
+    assert ">Alice Smith<" not in avatar_only_html
+    assert ">Admin<" not in avatar_only_html
 
 
 def test_profile_dropdown_slot_classes_footer_and_item_attrs():

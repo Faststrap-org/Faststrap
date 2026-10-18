@@ -10,6 +10,35 @@
   animation: faststrap-modern-toast-exit 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Enter and exit from the side or edge where the toast is placed. */
+.faststrap-modern-toast[data-fs-position="top-start"],
+.faststrap-modern-toast[data-fs-position="bottom-start"],
+.faststrap-modern-toast[data-fs-position="middle-start"] {
+  animation-name: faststrap-modern-toast-enter-left;
+}
+
+.faststrap-modern-toast-exit[data-fs-position="top-start"],
+.faststrap-modern-toast-exit[data-fs-position="bottom-start"],
+.faststrap-modern-toast-exit[data-fs-position="middle-start"] {
+  animation-name: faststrap-modern-toast-exit-left;
+}
+
+.faststrap-modern-toast[data-fs-position="top-center"] {
+  animation-name: faststrap-modern-toast-enter-top;
+}
+
+.faststrap-modern-toast-exit[data-fs-position="top-center"] {
+  animation-name: faststrap-modern-toast-exit-top;
+}
+
+.faststrap-modern-toast[data-fs-position="bottom-center"] {
+  animation-name: faststrap-modern-toast-enter-bottom;
+}
+
+.faststrap-modern-toast-exit[data-fs-position="bottom-center"] {
+  animation-name: faststrap-modern-toast-exit-bottom;
+}
+
 @keyframes faststrap-modern-toast-enter {
   from {
     opacity: 0;
@@ -32,6 +61,36 @@
   }
 }
 
+@keyframes faststrap-modern-toast-enter-left {
+  from { opacity: 0; transform: translateX(-100%) scale(0.96); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes faststrap-modern-toast-exit-left {
+  from { opacity: 1; transform: translateX(0) scale(1); }
+  to { opacity: 0; transform: translateX(-100%) scale(0.96); }
+}
+
+@keyframes faststrap-modern-toast-enter-top {
+  from { opacity: 0; transform: translateY(-100%) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes faststrap-modern-toast-exit-top {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(-100%) scale(0.96); }
+}
+
+@keyframes faststrap-modern-toast-enter-bottom {
+  from { opacity: 0; transform: translateY(100%) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes faststrap-modern-toast-exit-bottom {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(100%) scale(0.96); }
+}
+
 /* ── Style variants ────────────────────────────────────────────────────── */
 
 .faststrap-modern-toast-solid {
@@ -51,10 +110,10 @@
 }
 
 .faststrap-modern-toast-glass {
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--fs-surface-glass-bg, rgba(255, 255, 255, 0.72));
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--fs-surface-glass-border, rgba(255, 255, 255, 0.3));
 }
 
 [data-bs-theme="dark"] .faststrap-modern-toast-glass {

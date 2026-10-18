@@ -123,7 +123,7 @@ def home():
 
 ## Features
 
-- **230+ exports**: Components and helpers across forms, display, navigation, and layouts.
+- **232 names in `faststrap.__all__`**: Components and public helpers across forms, display, navigation, and layouts.
 - **HTMX Presets**: ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton, OptimisticAction, LocationAction, PollUntil, SSEStream, ConfirmPrompt, Debounce, SwapOnEvent.
 - **SEO Module**: SEO meta tags, Open Graph, Twitter Cards, and JSON-LD structured data.
 - **PWA Module**: one-call installable app setup (manifest, service worker, install flow).
@@ -154,7 +154,7 @@ See the Showcase section in the docs for the current flagship set and screenshot
 ## Stats
 
 - **166 registered UI components** implemented.
-- **230+ components, helpers, presets, and integrations** available.
+- **21 preset utilities**, plus SEO/PWA/accessibility helpers and optional integrations.
 - **12 interaction presets** + **5 hx helpers** + **1 response helper** + **2 SSE helpers** + **1 auth decorator** = **21 preset utilities**.
 - **100% Python**.
 

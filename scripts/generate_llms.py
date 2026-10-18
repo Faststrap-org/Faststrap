@@ -182,7 +182,7 @@ def render(data, full):
     L.append("")
     L.append("> " + TAGLINE)
     L.append("")
-    L.append("**%d registered UI components** - **%d public exports** - MIT - Python 3.10+ - FastHTML 0.6+" % (data["registered"], data["exports"]))
+    L.append("**%d registered UI components** - **%d names in `faststrap.__all__`** - MIT - Python 3.10+ - FastHTML 0.14.13+" % (data["registered"], data["exports"]))
     L.append("")
     L.append("## Quick Start")
     L.append("")

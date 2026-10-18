@@ -108,6 +108,19 @@
     instance.dismissed = true;
     if (instance.timer) clearTimeout(instance.timer);
 
+    const detail = { id: el.id || null, reason, element: el };
+    el.dispatchEvent(new CustomEvent('faststrap:toast-dismiss', {
+      bubbles: true,
+      detail,
+    }));
+    const dismissEvent = el.dataset.fsDismissEvent;
+    if (dismissEvent && dismissEvent !== 'faststrap:toast-dismiss') {
+      el.dispatchEvent(new CustomEvent(dismissEvent, {
+        bubbles: true,
+        detail,
+      }));
+    }
+
     const stack = stackOf(el);
     if (stack) dequeueNext(stack);
 
@@ -137,7 +150,16 @@
   // ── Initialization ─────────────────────────────────────────────────────
 
   const initModernToasts = (scope = document) => {
-    scope.querySelectorAll('[data-fs-modern-toast="true"]').forEach((el) => {
+    const selector = '[data-fs-modern-toast="true"]';
+    const elements = [];
+    if (scope && typeof scope.matches === 'function' && scope.matches(selector)) {
+      elements.push(scope);
+    }
+    if (scope && typeof scope.querySelectorAll === 'function') {
+      scope.querySelectorAll(selector).forEach((el) => elements.push(el));
+    }
+
+    elements.forEach((el) => {
       if (el.dataset.fsModernToastInit === 'true') return;
       el.dataset.fsModernToastInit = 'true';
 
@@ -171,6 +193,21 @@
         control.dataset.fsDismissInit = 'true';
         control.addEventListener('click', () => {
           dismissToast(el, DISMISS_REASONS.MANUAL);
+        });
+      });
+
+      // Action specs dispatch named browser events without embedding arbitrary JS.
+      const actionControls = el.querySelectorAll('[data-fs-action-event]');
+      actionControls.forEach((control) => {
+        if (control.dataset.fsActionEventInit === 'true') return;
+        control.dataset.fsActionEventInit = 'true';
+        control.addEventListener('click', () => {
+          const eventName = control.dataset.fsActionEvent;
+          if (!eventName) return;
+          control.dispatchEvent(new CustomEvent(eventName, {
+            bubbles: true,
+            detail: { toast: el, action: control },
+          }));
         });
       });
 

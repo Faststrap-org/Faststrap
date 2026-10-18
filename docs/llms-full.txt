@@ -2,7 +2,7 @@
 
 > Python-native Bootstrap 5 UI components for FastHTML - web apps, dashboards, data tools, and AI-friendly interfaces.
 
-**166 registered UI components** - **232 public exports** - MIT - Python 3.10+ - FastHTML 0.6+
+**166 registered UI components** - **232 names in `faststrap.__all__`** - MIT - Python 3.10+ - FastHTML 0.14.13+
 
 ## Quick Start
 

@@ -43,7 +43,9 @@ ProfileDropdown(
 | `items` | `list[tuple[str, str]] \| list[tuple[str, str, dict]] \| None` | `None` | Menu entries as `(label, href)` tuples rendered as anchor links; an optional third dict element merges extra attributes onto the anchor. |
 | `alignment` | `str` | `"end"` | Bootstrap dropdown menu alignment. |
 | `avatar_size` | `int` | `32` | Avatar edge length in pixels (initials font scales automatically). |
-| `layout` | `"horizontal" \| "stacked"` | `"stacked"` | `"horizontal"` places the subtitle beside the name on one line; `"stacked"` reproduces the original block layout. |
+| `layout` | `"horizontal" \| "stacked"` | `"stacked"` | `"horizontal"` places identity text beside the avatar; `"stacked"` puts the name and subtitle in a compact column. |
+| `trigger_content` | `"avatar" \| "avatar-name" \| "avatar-name-subtitle"` | Contextual | Desktop/default trigger content. The default includes the name and subtitle when supplied. |
+| `mobile_content` | `"avatar" \| "avatar-name" \| "avatar-name-subtitle"` | Same as `trigger_content` | Optional small-screen trigger content. Use `"avatar"` for a compact avatar-only mobile trigger or `"avatar-name"` to retain identity context without the subtitle. |
 | `trigger_cls` / `menu_cls` / `item_cls` | `str` | `""` | Slot classes for the toggle, menu, and each item anchor. |
 | `footer` | `Any \| None` | `None` | Element rendered after the items inside the menu (divider + padded section). |
 | `**kwargs` | `Any` | | Extra wrapper attributes. |
@@ -63,6 +65,26 @@ ProfileDropdown(
     footer=Button("Switch workspace", variant="outline-secondary", size="sm"),
 )
 ```
+
+The trigger is identity-preserving by default: the name remains visible on small
+screens instead of being hidden behind a large-screen breakpoint. For a compact
+mobile header, choose the mobile content explicitly:
+
+```python
+ProfileDropdown(
+    "Alice Smith",
+    subtitle="Administrator",
+    trigger_content="avatar-name-subtitle",
+    mobile_content="avatar-name",  # Keep the useful name, hide only the subtitle
+    items=[("Profile", "/profile")],
+)
+```
+
+Supported content modes are:
+
+- `"avatar"`: avatar or initials only
+- `"avatar-name"`: avatar plus display name
+- `"avatar-name-subtitle"`: avatar, display name, and subtitle
 
 Global defaults work too: `set_component_defaults("ProfileDropdown", avatar_size=36, layout="horizontal")`.
 

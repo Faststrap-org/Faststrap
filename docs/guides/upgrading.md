@@ -2,9 +2,9 @@
 
 This guide highlights the main changes to watch when upgrading Faststrap applications.
 
-## From v0.5.x To v0.8.x
+## From v0.5.x To v0.9.x
 
-Faststrap v0.8.x is a larger jump from the early v0.5 line. The core install path remains lightweight, but the component surface, defaults system, docs structure, and optional integrations have grown significantly.
+Faststrap v0.9.x is a larger jump from the early v0.5 line. The latest tagged release is v0.9.0; changes after that tag are listed as Unreleased in the changelog. The core install path remains lightweight, while the component surface, defaults system, documentation, and optional integrations have grown significantly.
 
 ### Application Setup
 
@@ -36,6 +36,8 @@ The v0.6 to v0.8 line added the bulk of Faststrap's data, workflow, and applicat
 - Core primitives: `Stack`, `Cluster`, `Center`, `PageHeader`, `KeyValueList`, `RecordDetail`, `CodeBlock`, `JsonViewer`, `FormSection`
 - Visual primitives: `FlipCard`, `TiltCard`, `RevealCard`, `GlowCard`, loaders, `ProgressRing`, `GradientButton`, `FloatingActionButton`, `ParallaxSection`
 - Small v0.8.1 additions: `Separator`, `Kbd`, `OTPInput`, `OTPInputGroup`, `AspectRatio`, `Tag`
+- v0.9.0 additions: `Math`, `Switcher`, `SplitPane`, `SearchBar`, `ProfileDropdown`, `DataCard`, and `FilePreview`
+- Current unreleased work includes HTMX 2/4 compatibility support, multi-target response helpers, and further component refinements. See `CHANGELOG.md` before upgrading to a version built from the current source tree.
 
 ### Renames And Compatibility Aliases
 

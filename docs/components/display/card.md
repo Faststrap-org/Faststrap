@@ -64,6 +64,25 @@ Card(
   </div>
 </div>
 
+Card images are decorative by default (`alt=""`). Add accessible alternative
+text and reserve image dimensions when the card represents meaningful content:
+
+```python
+Card(
+    "Portable performance for demanding workflows.",
+    title="Developer laptop",
+    img_top="/assets/laptop.jpg",
+    img_alt="Silver laptop on a desk",
+    img_loading="lazy",
+    img_width=640,
+    img_height=360,
+    img_cls="object-fit-cover",
+)
+```
+
+Use `img_attrs={...}` for additional attributes such as `data-testid`,
+`decoding`, or application-specific hooks.
+
 ### 2. Semantic Variants
 Apply background colors with `text-bg-{variant}` classes by using the `variant` argument.
 

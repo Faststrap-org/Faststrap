@@ -150,7 +150,12 @@ def test_add_bootstrap_cdn_default_favicon_is_version_pinned():
     app = FastHTML()
     add_bootstrap(app, use_cdn=True, include_favicon=True)
     text = _hdrs_to_text(app)
-    assert "cdn.jsdelivr.net/gh/Faststrap-org/Faststrap@v" in text
+    # Published installs use their version tag; editable/dev installs use the
+    # live main branch so local assets are available before a release exists.
+    assert (
+        "cdn.jsdelivr.net/gh/Faststrap-org/Faststrap@v" in text
+        or "cdn.jsdelivr.net/gh/Faststrap-org/Faststrap@main" in text
+    )
     assert "/src/faststrap/static/favicon.svg" in text
 
 

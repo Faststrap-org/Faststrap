@@ -164,10 +164,17 @@ def _build_cdn_assets(
 # Custom FastStrap enhancements
 CUSTOM_STYLES_CSS = """
 :root {
-  --fs-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --fs-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-  --fs-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  --fs-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --fs-shadow-sm: var(--fs-surface-shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.05));
+  --fs-shadow: var(--fs-surface-shadow, 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1));
+  --fs-shadow-lg: var(--fs-surface-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1));
+  --fs-transition-duration: 0.2s;
+  --fs-transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --fs-transition: transform var(--fs-transition-duration) var(--fs-transition-ease),
+    opacity var(--fs-transition-duration) var(--fs-transition-ease),
+    box-shadow var(--fs-transition-duration) var(--fs-transition-ease),
+    color var(--fs-transition-duration) var(--fs-transition-ease),
+    background-color var(--fs-transition-duration) var(--fs-transition-ease),
+    border-color var(--fs-transition-duration) var(--fs-transition-ease);
 }
 
 .shadow-sm { box-shadow: var(--fs-shadow-sm) !important; }
@@ -175,10 +182,32 @@ CUSTOM_STYLES_CSS = """
 .shadow-lg { box-shadow: var(--fs-shadow-lg) !important; }
 
 .btn { transition: var(--fs-transition); }
-.btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--fs-shadow); }
-.btn:active:not(:disabled) { transform: translateY(0); }
+.btn:hover:not(:disabled):not(.faststrap-static) {
+  transform: translateY(var(--fs-button-hover-lift, -1px));
+  box-shadow: var(--fs-shadow);
+}
+.btn:active:not(:disabled):not(.faststrap-static) {
+  transform: translateY(0);
+}
+.btn.faststrap-static,
+.btn[data-fs-motion="none"] {
+  transition: none;
+  transform: none;
+  box-shadow: none;
+}
 
 [data-bs-theme="dark"] { transition: background-color 0.3s, color 0.3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  [data-bs-theme="dark"] {
+    transition: none !important;
+  }
+  .btn:hover:not(:disabled),
+  .btn:active:not(:disabled) {
+    transform: none !important;
+  }
+}
 
 .fs-theme-toggle {
   gap: 0.5rem;

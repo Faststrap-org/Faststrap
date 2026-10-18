@@ -1,10 +1,14 @@
 /* Faststrap visual primitives: CSS-only cards, loaders, buttons, and sections. */
 
 :root {
-  --faststrap-visual-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --faststrap-visual-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
-  --faststrap-visual-shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.2);
+  --faststrap-visual-shadow-sm: var(--fs-surface-shadow-sm, var(--fs-shadow-sm, 0 2px 4px rgba(0, 0, 0, 0.1)));
+  --faststrap-visual-shadow-md: var(--fs-surface-shadow, var(--fs-shadow, 0 4px 8px rgba(0, 0, 0, 0.15)));
+  --faststrap-visual-shadow-lg: var(--fs-surface-shadow-lg, var(--fs-shadow-lg, 0 10px 20px rgba(0, 0, 0, 0.2)));
   --faststrap-loader-color: var(--bs-primary);
+}
+
+.faststrap-numeric {
+  font-variant-numeric: tabular-nums;
 }
 
 .faststrap-flip-card {
@@ -104,6 +108,7 @@
 
 .faststrap-glow-card {
   position: relative;
+  isolation: isolate;
   transition: transform 0.3s ease;
 }
 
@@ -439,23 +444,23 @@
 }
 
 .faststrap-floating-action-button.fab-bottom-right {
-  right: var(--fs-fab-inset, 2rem);
-  bottom: var(--fs-fab-inset, 2rem);
+  right: max(var(--fs-fab-inset, 2rem), env(safe-area-inset-right));
+  bottom: max(var(--fs-fab-inset, 2rem), env(safe-area-inset-bottom));
 }
 
 .faststrap-floating-action-button.fab-bottom-left {
-  bottom: var(--fs-fab-inset, 2rem);
-  left: var(--fs-fab-inset, 2rem);
+  bottom: max(var(--fs-fab-inset, 2rem), env(safe-area-inset-bottom));
+  left: max(var(--fs-fab-inset, 2rem), env(safe-area-inset-left));
 }
 
 .faststrap-floating-action-button.fab-top-right {
-  top: var(--fs-fab-inset, 2rem);
-  right: var(--fs-fab-inset, 2rem);
+  top: max(var(--fs-fab-inset, 2rem), env(safe-area-inset-top));
+  right: max(var(--fs-fab-inset, 2rem), env(safe-area-inset-right));
 }
 
 .faststrap-floating-action-button.fab-top-left {
-  top: var(--fs-fab-inset, 2rem);
-  left: var(--fs-fab-inset, 2rem);
+  top: max(var(--fs-fab-inset, 2rem), env(safe-area-inset-top));
+  left: max(var(--fs-fab-inset, 2rem), env(safe-area-inset-left));
 }
 
 .faststrap-parallax-section {
@@ -494,6 +499,16 @@
   .faststrap-glow-card::before,
   .faststrap-progress-ring-value {
     transition: none !important;
+  }
+
+  .faststrap-flip-card-inner,
+  .faststrap-tilt-card,
+  .faststrap-reveal-image {
+    transform: none !important;
+  }
+
+  .faststrap-reveal-overlay {
+    bottom: 0;
   }
 
   .faststrap-dots-loader > div,

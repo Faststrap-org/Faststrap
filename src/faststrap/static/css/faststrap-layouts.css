@@ -2,9 +2,9 @@
 
 :root {
     --fs-sidebar-width: 250px;
-    --fs-sidebar-bg: #f8f9fa;
-    --fs-sidebar-border: #dee2e6;
-    --fs-main-bg: #fff;
+    --fs-sidebar-bg: var(--fs-surface-muted-bg, #f8f9fa);
+    --fs-sidebar-border: var(--fs-surface-border, #dee2e6);
+    --fs-main-bg: var(--fs-surface-bg, #fff);
 }
 
 /* Dashboard Layout */
@@ -40,15 +40,10 @@
 
 /* Glassmorphism Navbar */
 .navbar-glass {
-    background: rgba(255, 255, 255, 0.7);
+    background: var(--fs-surface-glass-bg, rgba(255, 255, 255, 0.7));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px border rgba(255, 255, 255, 0.2);
-}
-
-[data-bs-theme="dark"] .navbar-glass {
-    background: rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--fs-surface-glass-border, rgba(255, 255, 255, 0.2));
 }
 
 /* Feature Grid */
@@ -69,10 +64,21 @@
 }
 
 .pricing-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+    transform: translateY(-4px);
+    box-shadow: var(--fs-surface-shadow-lg, 0 1rem 3rem rgba(0, 0, 0, 0.175)) !important;
 }
 
 .pricing-card.featured {
     border: 2px solid var(--bs-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sidebar,
+    .pricing-card {
+        transition: none !important;
+    }
+
+    .pricing-card:hover {
+        transform: none;
+    }
 }

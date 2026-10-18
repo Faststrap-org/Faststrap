@@ -1,14 +1,15 @@
-# FastStrap Roadmap  Comprehensive Edition (Updated July 2026)
+# FastStrap Roadmap Comprehensive Edition (Updated October 2026)
+
+> Historical planning archive. `ROADMAP.md` is the active roadmap and reflects the current source tree. Older phase tables below preserve the plans as written at the time; use the current status and milestone summaries at the top of this file for release planning.
 
 **Vision:** The most complete, Pythonic, zero-JS Bootstrap 5 component library for FastHTML — a production-grade UI layer for web apps, data apps, ML tools, and AI-native interfaces.
 
 ---
 
-##  Current Status (v0.8.2  September 2026)
+## Current Status (latest tag: v0.9.0; current tree has unreleased changes)
 
-**152 registered UI components** across forms, display, feedback, navigation, layout, and patterns  
-**170+ total** including HTMX presets, SEO helpers, PWA helpers, and optional integrations  
-**1011+ tests** — 100% passing, 89% coverage  
+**166 registered UI components** in the current source tree across forms, display, feedback, navigation, layout, and patterns
+**Changes after v0.9.0 are tracked in the changelog's Unreleased section**
 **FastHTML 0.14.x & Dual-Engine HTMX Support (HTMX 2.x certified default + HTMX 4.0 opt-in)**  
 **Zero custom JavaScript required for core workflows**  
 **Optional integrations** for ChartJS, GSAP, and Markdown
@@ -22,9 +23,9 @@
 ### Overall Progress to v1.0
 
 ```text
-Components:    152 registered UI / 170+ total (target 200+)
-Tests:         790+ (target 800+)
-Coverage:      90%+ (target 95%)
+Latest tag:    v0.9.0
+UI registry:   166 components in the current source tree
+Tests/coverage: use the current CI results
 Contributors:  15+/100 (15%)
 ```
 
@@ -40,19 +41,20 @@ Contributors:  15+/100 (15%)
 -  **Mar 2026**: Phase 6 — DataTable, Chart, KPI/Metric/TrendCard, DashboardGrid, FilterBar, SSE, Mermaid, Svg
 -  **May 2026**: Phase 7 — ResultCard, Avatar, Timeline, Stepper, CalendarDatePicker, FormWizard, CommandPalette + optional integrations (ModernToast, ChartJS, GSAP)
 -  **May 2026**: Phase 8 — Core primitives (Stack, Cluster, Center, PageHeader, KeyValueList, RecordDetail, CodeBlock, JsonViewer, FormSection, PollUntil) + visual primitives (FlipCard, TiltCard, GlowCard, 7 loaders, GradientButton, FAB, ParallaxSection)
+-  **Aug 2026**: v0.9.0 — Math, Switcher, SplitPane, SearchBar, ProfileDropdown, DataCard, and FilePreview
 
 ---
 
 ##  Delivery Milestones (Sequential, No Fixed Dates)
 
 ```
-M0  Cleanup        Technical debt cleanup, docs reality pass, migration guide
-M1  Mobile Wave    MobileAppShell, Chip/ChipGroup, SegmentedControl, Snackbar, SafeArea
+M0  Cleanup        Complete: technical debt cleanup, docs reality pass, migration guide
+M1  Mobile Wave    Next: MobileAppShell, Chip/ChipGroup, SegmentedControl, Snackbar, SafeArea
 M2  Offline PWA    OfflineBanner, SyncQueueBadge, SyncStatusIndicator, PendingChangesList
 M3  ML/DS Wave 1   LiveChart, LiveMetric, DistributionPlot, CorrelationMatrix
 M4  ML/DS Wave 2   ConfusionMatrix, ROCCurve, FeatureImportance, ModelMetrics
 M5  Real-time      TimeSeriesPlot, GeoMap, SSE cookbook / end-to-end tutorial
-M6  Layout Exp.    SplitPane, MegaMenu, Switcher
+M6  Layout Exp.    Remaining: MegaMenu (SplitPane and Switcher shipped in v0.9.0)
 M7  ORM Bridge     DataTable.from_query() with SQLAlchemy server-side sort/filter/page
 M8  CLI Scaffold   faststrap init --template= (5 templates)
 M9  Accessibility  ARIA validation helpers, contrast checker, WCAG report in doctor CLI
@@ -160,7 +162,7 @@ assert "btn btn-primary" in str(button)  # Always true
 **+Visual primitives:** FlipCard, TiltCard, RevealCard, GlowCard, DotsLoader, RingLoader, WaveLoader, PulseLoader, PolygonLoader, TypewriterLoader, ShadowLoader, ProgressRing, GradientButton, FloatingActionButton, ParallaxSection  
 **+Static asset:** `faststrap-visual.css`
 
-**Total (v0.8.0): 152 registered UI components + 18 HTMX presets + SEO/PWA/accessibility = 170+ total**
+**Phase 8 shipped 152 registered UI components. The current source tree registers 166.**
 
 ### Phase 8.1: Stability + AI Discoverability (v0.8.1) âœ… July 2026
 
@@ -173,7 +175,7 @@ assert "btn btn-primary" in str(button)  # Always true
 - Added AI-discoverability files (`llms.txt`, `llms-full.txt`, `robots.txt`, `CLAUDE.md`, `.cursor/rules`).
 - Clarified documentation positioning around dashboards, data tools, and AI-ready interfaces.
 
-**Current total (v0.8.1): 152+ registered UI components + HTMX presets + SEO/PWA/accessibility = 170+ total.**
+**The current source tree registers 166 UI components.**
 
 ---
 
@@ -2516,9 +2518,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
 
 ---
 
-**Last Updated:** July 2026  
-**Current Version:** v0.8.1 (stability release + AI discoverability + v0.8.0 primitives)  
-**Next Release:** Milestone M1 mobile component wave
+**Last Updated:** October 2026
+**Latest tag:** v0.9.0; current source includes unreleased changes listed in `CHANGELOG.md`
+**Next roadmap milestone:** M1 mobile component wave
 
 **Let's build the definitive UI library for FastHTML  together.** 
 

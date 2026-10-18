@@ -47,7 +47,7 @@ Use `FloatingActionButton` for a page-level primary action, especially in dashbo
 | `variant` | Bootstrap variant | `primary` | Button color. |
 | `position` | `bottom-right \| bottom-left \| top-right \| top-left` | `bottom-right` | Fixed viewport position. |
 | `label` | `str \| None` | `Primary action` | Accessible label. |
-| `size` | `sm \| md \| lg` | `lg` | Logical size via `--fs-fab-size` (44/48/56px). |
+| `size` | `sm \| md \| lg` | `md` | Logical size via `--fs-fab-size` (44/48/56px). The balanced medium size is the default; choose `lg` explicitly for a larger target. |
 | `offset` | `int \| None` | `2rem` inset | Viewport inset in rem units via `--fs-fab-inset`; reduce on mobile. |
 | `shape` | `circle \| pill` | `circle` | `pill` renders an extended icon+label FAB. |
 

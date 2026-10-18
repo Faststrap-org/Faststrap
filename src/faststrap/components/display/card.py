@@ -1,6 +1,6 @@
 """Bootstrap Card component with header, body, footer support."""
 
-from typing import Any
+from typing import Any, Literal
 
 from fasthtml.common import H5, Div, Img
 
@@ -22,6 +22,12 @@ def Card(
     img_top: str | None = None,
     img_bottom: str | None = None,
     img_overlay: bool = False,
+    img_alt: str | None = "",
+    img_loading: Literal["lazy", "eager"] | None = None,
+    img_width: str | int | None = None,
+    img_height: str | int | None = None,
+    img_cls: str | None = None,
+    img_attrs: dict[str, Any] | None = None,
     header_cls: str | None = UNSET,
     body_cls: str | None = UNSET,
     footer_cls: str | None = UNSET,
@@ -47,6 +53,13 @@ def Card(
         img_top: Image URL for top of card
         img_bottom: Image URL for bottom of card
         img_overlay: Use image as background with overlay text
+        img_alt: Alternative text shared by card images. Leave empty for
+            decorative images.
+        img_loading: Native image loading mode, ``"lazy"`` or ``"eager"``.
+        img_width: Optional image width attribute.
+        img_height: Optional image height attribute.
+        img_cls: Extra classes applied to card images.
+        img_attrs: Extra HTML attributes applied to card images.
         header_attrs: Extra attributes for the header wrapper
         body_attrs: Extra attributes for the body wrapper
         footer_attrs: Extra attributes for the footer wrapper
@@ -85,6 +98,22 @@ def Card(
     c_img_top = img_top
     c_img_bottom = img_bottom
     c_img_overlay = img_overlay
+    image_attrs: dict[str, Any] = {
+        "alt": img_alt or "",
+        "cls": img_cls or "",
+    }
+    if img_loading is not None:
+        image_attrs["loading"] = img_loading
+    if img_width is not None:
+        image_attrs["width"] = img_width
+    if img_height is not None:
+        image_attrs["height"] = img_height
+    image_attrs.update(dict(img_attrs or {}))
+
+    def card_image(src: str, default_cls: str) -> Img:
+        attrs = dict(image_attrs)
+        attrs["cls"] = merge_classes(default_cls, attrs.pop("cls", ""))
+        return Img(src=src, **attrs)
 
     # CSS classes (fallback to empty string if None)
     c_header_cls = cfg.get("header_cls") or ""
@@ -126,14 +155,14 @@ def Card(
 
     # Add top image
     if c_img_top and not c_img_overlay:
-        parts.append(Img(src=c_img_top, cls="card-img-top", alt=""))
+        parts.append(card_image(c_img_top, "card-img-top"))
 
     # Build body content
     body_content = []
 
     # Add image for overlay mode
     if c_img_overlay and c_img_top:
-        parts.append(Img(src=c_img_top, cls="card-img", alt=""))
+        parts.append(card_image(c_img_top, "card-img"))
         actual_body_cls = "card-img-overlay"
     else:
         actual_body_cls = "card-body"
@@ -188,7 +217,7 @@ def Card(
 
     # Add bottom image
     if c_img_bottom and not c_img_overlay:
-        parts.append(Img(src=c_img_bottom, cls="card-img-bottom", alt=""))
+        parts.append(card_image(c_img_bottom, "card-img-bottom"))
 
     # Add footer
     if c_footer:

@@ -50,8 +50,24 @@ ModernToast(
     "Project archived",
     "You can restore it from settings.",
     intent="warning",
-    action={"label": "Undo", "style": "btn-link"},
+    action={
+        "label": "Undo",
+        "style": "btn-link",
+        "onClick": "project:restore",
+    },
 )
+```
+
+`onClick` is a browser event name, not executable JavaScript. The runtime
+dispatches it when the action is clicked, so application code can listen for
+`project:restore` without weakening the page's CSP.
+
+```javascript
+document.addEventListener("project:restore", (event) => {
+    // event.detail.toast is the toast element.
+    // event.detail.action is the clicked button.
+    restoreProject();
+});
 ```
 
 ## Parameters
@@ -70,6 +86,7 @@ ModernToast(
 | `action` | `ToastAction \| Any \| None` | `None` | Optional action button or component. |
 | `cancel` | `ToastAction \| Any \| None` | `None` | Optional cancel button or component. |
 | `dismissible` | `bool` | `True` | Shows the close button. |
+| `on_dismiss` | `str \| None` | `None` | Optional browser event name dispatched when dismissed. |
 | `pause_on_hover` | `bool` | `True` | Pause auto-dismiss timer on hover/focus. |
 | `animation` | `ToastAnimation` | `slide` | Enter/exit animation, now visually distinct for each value: `slide`, `fade`, `zoom`, `none`. |
 | `radius` | `str \| None` | `None` | Radius token overriding the default `rounded-4`: `sm`, `md`, `lg`, `none`. |
@@ -96,6 +113,9 @@ ModernToast(
 - The default surface uses `rounded-4` + `shadow-lg`; for dense dashboards prefer `ModernToast(..., radius="md", shadow="sm")`.
 - Global defaults are supported: `set_component_defaults("ModernToast", intent="info", duration=4000)`.
 - Close buttons, auto-dismiss, keyboard dismiss (Escape while focused), and swipe-to-dismiss are handled by the runtime; no extra wiring needed.
+- Every dismissal dispatches `faststrap:toast-dismiss` with `event.detail.reason` set to `auto`, `manual`, `escape`, or `swipe`. `on_dismiss="my:event"` additionally dispatches the named event.
+- Action and cancel specs accept `onClick="my:event"`; they dispatch that browser event when clicked. Python callables are not serialized into JavaScript.
+- Toasts inserted by HTMX are initialized even when the swapped element is the toast root itself.
 - `animation` values produce distinct enter/exit motions: `slide`, `fade`, `zoom`, or `none`.
 - `ModernToastStack(max_visible=...)` queues toasts beyond the limit and reveals them as older toasts dismiss.
 
