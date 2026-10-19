@@ -4,10 +4,10 @@
 
 ---
 
-## Current Status (latest tag: v0.9.0; current tree has unreleased changes)
+## Current Status (latest tag: v0.9.1; v0.10.0 Mobile Wave is in progress)
 
-**166 registered UI components in the current source tree**
-**The changelog's Unreleased section records changes after v0.9.0**
+**179 registered UI components in the current source tree**
+**The changelog's Unreleased section records the v0.10.0 Mobile Wave**
 **FastHTML 0.14.x Platform Compatibility & Dual-Engine HTMX Support (HTMX 2.x certified default + HTMX 4.0 opt-in)**
 **Core remains FastHTML/Bootstrap/HTMX-first**
 **Zero custom JavaScript required**
@@ -72,8 +72,8 @@ These items are intentionally tracked here so they are not lost between releases
 ## Overall Progress to v1.0
 
 ```text
-Latest tag:    v0.9.0
-UI registry:   166 components in the current source tree
+Latest tag:    v0.9.1
+UI registry:   179 components in the current source tree
 Next roadmap:  M1 Mobile Wave (M0 cleanup is complete)
 
 ```
@@ -94,7 +94,7 @@ Next roadmap:  M1 Mobile Wave (M0 cleanup is complete)
 | 8 | +13 core primitives (Stack, Cluster, Center, PageHeader, KeyValueList, RecordDetail, CodeBlock, JsonViewer, FormSection, PollUntil) + visual primitives (FlipCard, TiltCard, RevealCard, GlowCard, 7 loaders, ProgressRing, GradientButton, FloatingActionButton, ParallaxSection) | ✅ Complete | May 2026 |
 | 9 | Math, Switcher, SplitPane, SearchBar, ProfileDropdown, DataCard, FilePreview | ✅ Complete | Aug 2026 |
 
-**Phase 8 shipped 152 registered UI components. The current source tree registers 166.**
+**Phase 8 shipped 152 registered UI components. The current source tree registers 179.**
 
 ---
 
@@ -657,11 +657,45 @@ The no-dependency core primitive wave (`Stack`, `Cluster`, `Center`,
 `PageHeader`, `KeyValueList`, `RecordDetail`, `CodeBlock`, `JsonViewer`,
 `FormSection`, and `PollUntil`) shipped in v0.8.0. Do not schedule it as future work.
 
-The next planned delivery is **M1 Mobile Wave**, followed by **M2 Offline PWA**;
+The current delivery is **M1 Mobile Wave**, followed by **M2 Offline PWA**;
 `ROADMAP_EXPANDED.md` holds the milestone list. The `plots`, `agents`, and `ml`
 packs remain future candidates without a committed release slot. A Plotly-based
 optional plotting integration is my recommended next proposal for the data/ML
 track after the current mobile/offline sequence.
+
+### v0.10.0 Mobile Wave
+
+The Mobile Wave follows Faststrap's existing primitives instead of introducing a
+second layout system. Components should compose Bootstrap utilities, existing
+`Navbar`, `SidebarNavbar`, `Drawer`, `BottomNav`, `Sheet`, `Stack`, `Cluster`,
+`SafeArea`, and `Button` surfaces wherever possible.
+
+Committed scope:
+
+- `MobileAppShell` - responsive desktop/mobile navigation and content shell.
+- `SafeArea` - CSS environment-inset helper for notches and home indicators.
+- `SegmentedControl` - accessible server-rendered segmented actions.
+- `Chip` and `ChipGroup` - selectable/removable filter and tag surfaces, building on `Tag` semantics.
+- `Snackbar` - anchored, action-oriented feedback distinct from global `Toast` and `ModernToast`.
+- `MobileToolbar` - compact mobile app bar with title, back action, and slots.
+- `StickyActionBar` - safe-area-aware mobile action surface for forms and detail workflows.
+- Responsive Collections - `ListItem`, `ListView`, `GridList`, `CollectionView`,
+  and `ViewToggle`, plus an optional card presentation for `DataTable` on phones.
+
+Quality constraints:
+
+- No required custom JavaScript; HTMX and Bootstrap enhancements remain progressive.
+- New components use `UNSET`, `resolve_defaults`, `merge_classes`, `convert_attrs`, and registry metadata consistently.
+- Touch targets, labels, focus behavior, reduced motion, and dark-mode tokens must be covered by tests and docs.
+- Existing `Tag` remains compatible; `Chip` must not create a competing, incompatible tag API.
+
+Deferred from the Mobile Wave:
+
+- `OfflineBanner`, `SyncQueueBadge`, `SyncStatusIndicator`, and `PendingChangesList` move to M2 Offline PWA.
+- Pull-to-refresh, swipe gestures, and gesture-driven mobile interactions require a separate browser-runtime design.
+- `MobileFilterSheet` remains a composition recipe using `Sheet` and `FilterBar` until a distinct API is justified.
+- `TouchTarget` and `ResponsiveVisibility` remain candidate utilities; Bootstrap responsive classes and existing button surfaces cover the first release.
+- Specialized mobile table behavior beyond the shipped card presentation remains a `DataTable` refinement rather than a separate component.
 
 ---
 
@@ -801,9 +835,9 @@ What Faststrap intentionally *won't* do:
 
 ## Success Metrics
 
-| Metric | v0.4.5 | v0.6.0 | v0.9.0 (latest tag) | v1.0.0 |
+| Metric | v0.4.5 | v0.6.0 | v0.9.1 (latest tag) | v1.0.0 |
 |--------|--------|--------|--------------|--------|
-| Components | 38 | 109+ | 166 registered in current source tree | 200+ |
+| Components | 38 | 109+ | 179 registered in current source tree | 200+ |
 | Tests | 230+ | 683 | Track from CI | 800+ |
 | Coverage | 85%+ | 90%+ | Track from CI | 95%+ |
 | Contributors | 15+ | 15+ | Track from repository history | 50+ |
@@ -848,6 +882,6 @@ Your votes directly influence what gets built next.
 ---
 
 **Last Updated: October 2026**
-**Latest tag: v0.9.0; current source includes unreleased changes listed in `CHANGELOG.md`**
+**Latest tag: v0.9.1; current source includes v0.10.0 Mobile Wave changes listed in `CHANGELOG.md`**
 
 **Let's build the definitive UI library for FastHTML  together.**

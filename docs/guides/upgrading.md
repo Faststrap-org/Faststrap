@@ -4,7 +4,7 @@ This guide highlights the main changes to watch when upgrading Faststrap applica
 
 ## From v0.5.x To v0.9.x
 
-Faststrap v0.9.x is a larger jump from the early v0.5 line. The latest tagged release is v0.9.0; changes after that tag are listed as Unreleased in the changelog. The core install path remains lightweight, while the component surface, defaults system, documentation, and optional integrations have grown significantly.
+Faststrap v0.9.x is a larger jump from the early v0.5 line. The latest tagged release is v0.9.1. The core install path remains lightweight, while the component surface, defaults system, documentation, and optional integrations have grown significantly.
 
 ### Application Setup
 
@@ -37,7 +37,7 @@ The v0.6 to v0.8 line added the bulk of Faststrap's data, workflow, and applicat
 - Visual primitives: `FlipCard`, `TiltCard`, `RevealCard`, `GlowCard`, loaders, `ProgressRing`, `GradientButton`, `FloatingActionButton`, `ParallaxSection`
 - Small v0.8.1 additions: `Separator`, `Kbd`, `OTPInput`, `OTPInputGroup`, `AspectRatio`, `Tag`
 - v0.9.0 additions: `Math`, `Switcher`, `SplitPane`, `SearchBar`, `ProfileDropdown`, `DataCard`, and `FilePreview`
-- Current unreleased work includes HTMX 2/4 compatibility support, multi-target response helpers, and further component refinements. See `CHANGELOG.md` before upgrading to a version built from the current source tree.
+- v0.9.1 adds HTMX 2/4 compatibility support, multi-target response helpers, and the visual/API refinements described below. See `CHANGELOG.md` before upgrading to a version built from the current source tree.
 
 ### Renames And Compatibility Aliases
 
@@ -78,6 +78,14 @@ Chart.js and GSAP integrations use browser assets by default. The `chartjs` and 
 - Large `DataTable` pagination now renders a bounded page window with ellipses instead of every page number.
 - `add_bootstrap()` duplicate calls warn and return instead of raising.
 - `SimpleToast` no longer renders a duplicate close button; dismissal is handled by its fade-out timing.
+
+### v0.9.1 Visual And API Refinements
+
+- `ProfileDropdown` keeps useful identity content available on small screens and supports `layout`, `trigger_content`, `mobile_content`, `trigger_cls`, `menu_cls`, and `item_cls` customization.
+- `Card` supports `img_alt`, `img_loading`, `img_width`, `img_height`, `img_cls`, and `img_attrs` for accessible, responsive image slots.
+- `FloatingActionButton` now defaults to `size="md"` (48px). Select `size="sm"` or `size="lg"` when a compact or prominent control is intentional.
+- `Toast`, `SimpleToast`, and `ModernToast` expose radius, slot-class, shadow, animation, and close-button hooks. `ModernToast` uses the bundled dismissal runtime rather than inline click handlers.
+- `GradientButton` exposes `text_color` and `hover`; use `hover="none"` when the surrounding surface should remain visually still.
 
 ### Recommended Migration Flow
 

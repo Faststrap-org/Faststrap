@@ -74,6 +74,7 @@ dmypy.json
 *.tar.gz
 *.whl
 site/
+.mkdocs_site_verify/
 
 skills/
 
@@ -84,3 +85,4 @@ SHOWCASE_PROGRAM_PLAN.md
 docs-audit-findings.md
 docs-implementation-plan.md
 doc_conversation.md
+SIMULATION_PLATFORM_STRATEGY.md

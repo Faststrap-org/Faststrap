@@ -5,6 +5,7 @@ from .badge import Badge
 from .card import Card
 from .carousel import Carousel, CarouselItem
 from .chart import Chart
+from .collections import CollectionView, GridList, ListItem, ListView, ViewToggle
 from .data_card import DataCard
 from .data_table import (
     DataTable,
@@ -30,7 +31,7 @@ from .stepper import Stepper, StepperStep
 from .structured import CodeBlock, JsonViewer, KeyValueList, RecordDetail
 from .svg import Svg, render_svg
 from .table import BsTable, BsTBody, BsTCell, BsTHead, BsTRow, Table, TBody, TCell, THead, TRow
-from .tag import Tag
+from .tag import Chip, ChipGroup, Tag
 from .text_clamp import TextClamp
 from .timeline import Timeline, TimelineItem
 from .visual_cards import FlipCard, GlowCard, RevealCard, TiltCard
@@ -44,6 +45,7 @@ __all__ = [
     "Carousel",
     "CarouselItem",
     "Chart",
+    "CollectionView",
     "CodeBlock",
     "DataTable",
     "datatable_export_params",
@@ -55,6 +57,7 @@ __all__ = [
     "FilePreview",
     "FlipCard",
     "GlowCard",
+    "GridList",
     "Image",
     "JsonViewer",
     "Kbd",
@@ -64,6 +67,8 @@ __all__ = [
     "render_markdown",
     "Math",
     "Mermaid",
+    "ListItem",
+    "ListView",
     "ResultCard",
     "RecordDetail",
     "RevealCard",
@@ -74,6 +79,7 @@ __all__ = [
     "render_svg",
     "MetricCard",
     "TrendCard",
+    "ViewToggle",
     "KPICard",
     "StatCard",
     "Stepper",
@@ -89,6 +95,8 @@ __all__ = [
     "BsTCell",
     "Table",
     "Tag",
+    "Chip",
+    "ChipGroup",
     "THead",
     "TBody",
     "TRow",

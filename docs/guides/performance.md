@@ -80,8 +80,9 @@ LazyLoad(
 ```python
 from faststrap import get_assets
 
-assets = get_assets(app)
-# Assets are cached with cache-control headers
+assets = get_assets(use_cdn=False)
+# Render these tags from local, version-controlled assets when you need
+# predictable latency and no third-party request at page load.
 ```
 
 ### Response Caching

@@ -1,6 +1,6 @@
 # HTMX Compatibility & Migration Guide
 
-Faststrap uses HTMX for server-driven interactions. The current source tree (work after the `v0.9.0` tag, recorded in the changelog's **Unreleased** section) includes a compatibility bridge for **HTMX 2.x** and opt-in **HTMX 4.0.0** support. This source requires `python-fasthtml>=0.14.13`; HTMX 4 support is not part of the `v0.9.0` release.
+Faststrap uses HTMX for server-driven interactions. Starting with **v0.9.1**, it includes a compatibility bridge for **HTMX 2.x** and opt-in **HTMX 4.0.0** support. This requires `python-fasthtml>=0.14.13`.
 
 ---
 
@@ -11,7 +11,7 @@ Faststrap uses HTMX for server-driven interactions. The current source tree (wor
 | **HTMX 2.x** | Default path | **Yes** | Selected by the standard `add_bootstrap(app)` setup. |
 | **HTMX 4.0.0** | Opt-in | No | Enable with `htmx4=True`; test extensions and application behavior in your deployment. |
 
-The standard setup continues to use the HTMX 2.x path. The current source also lets you opt into HTMX 4 with `htmx4=True`; validate any extensions and app-specific interactions as part of your upgrade.
+The standard setup continues to use the HTMX 2.x path. You can opt into HTMX 4 with `htmx4=True`; validate any extensions and app-specific interactions as part of your upgrade.
 
 ---
 

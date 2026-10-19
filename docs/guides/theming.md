@@ -101,15 +101,10 @@ Use `set_component_defaults` to configure default styling for all instances of a
 from faststrap import set_component_defaults
 
 # All Buttons default to primary variant with rounded corners
-set_component_defaults("Button", {
-    "variant": "primary",
-    "rounded": True,
-})
+set_component_defaults("Button", variant="primary", rounded=True)
 
 # All Cards have a shadow
-set_component_defaults("Card", {
-    "shadow": "sm",
-})
+set_component_defaults("Card", shadow="sm")
 ```
 
 ### Clearing a Default

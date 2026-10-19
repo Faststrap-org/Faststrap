@@ -29,6 +29,7 @@ from .notifications import (
 from .overlays import Popover, Tooltip
 from .placeholder import Placeholder, PlaceholderButton, PlaceholderCard
 from .progress import Progress, ProgressBar
+from .snackbar import Snackbar
 from .spinner import Spinner
 from .toast import SimpleToast, Toast, ToastContainer
 
@@ -64,6 +65,7 @@ __all__ = [
     "SimpleToast",
     "ShadowLoader",
     "Spinner",
+    "Snackbar",
     "Toast",
     "ToastContainer",
     "Tooltip",

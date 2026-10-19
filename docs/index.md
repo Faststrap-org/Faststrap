@@ -123,7 +123,7 @@ def home():
 
 ## Features
 
-- **232 names in `faststrap.__all__`**: Components and public helpers across forms, display, navigation, and layouts.
+- **245 names in `faststrap.__all__`**: Components and public helpers across forms, display, navigation, and layouts.
 - **HTMX Presets**: ActiveSearch, InfiniteScroll, AutoRefresh, LazyLoad, LoadingButton, OptimisticAction, LocationAction, PollUntil, SSEStream, ConfirmPrompt, Debounce, SwapOnEvent.
 - **SEO Module**: SEO meta tags, Open Graph, Twitter Cards, and JSON-LD structured data.
 - **PWA Module**: one-call installable app setup (manifest, service worker, install flow).
@@ -131,7 +131,7 @@ def home():
 - **Dark Mode**: Automatic or user-toggled dark mode support.
 - **HTMX Ready**: `hx_*` attributes are first-class citizens.
 - **Icons Included**: Built-in helper for Bootstrap Icons.
-- **Visual Effects**: Scroll-reveal animations, hover effects, and transitions  CSS only.
+- **Visual Effects**: Scroll-reveal animations, hover effects, and CSS-only transitions.
 - **Data UI**: DataTable, Chart, MetricCard, TrendCard, KPICard, DashboardGrid.
 - **Renderers**: Markdown, SVG, Mermaid.
 
@@ -153,9 +153,9 @@ See the Showcase section in the docs for the current flagship set and screenshot
 
 ## Stats
 
-- **166 registered UI components** implemented.
-- **21 preset utilities**, plus SEO/PWA/accessibility helpers and optional integrations.
-- **12 interaction presets** + **5 hx helpers** + **1 response helper** + **2 SSE helpers** + **1 auth decorator** = **21 preset utilities**.
+- **179 registered UI components** implemented.
+- **22 preset utilities**, plus SEO/PWA/accessibility helpers and optional integrations.
+- **11 interaction presets** + **7 response helpers** + **3 SSE helpers** + **1 auth decorator** = **22 preset utilities**.
 - **100% Python**.
 
 ## Next Steps

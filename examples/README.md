@@ -85,6 +85,8 @@ examples/
 | File | Demonstrates |
 |---|---|
 | `data_foundations.py` | `DataTable`, `StatCard`, `ResultCard` |
+| `responsive_collections.py` | `ListItem`, `ListView`, `GridList`, `CollectionView`, `ViewToggle`; basic-to-advanced filterable file browser |
+| `datatable_mobile_views.py` | DataTable scroll/cards/stack/None modes, field renderers, custom cards, and server-side search/sort/pagination |
 | `visual_cards.py` | `FlipCard`, `TiltCard`, `RevealCard`, `GlowCard` |
 | `record_detail.py` | `KeyValueList`, `RecordDetail`, `JsonViewer` |
 | `code_content.py` | `CodeBlock`, `Mermaid`, `Tag`, `Kbd` |

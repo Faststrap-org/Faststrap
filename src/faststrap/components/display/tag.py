@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from fasthtml.common import Button, Span
+from fasthtml.common import Button, Div, Span
 
-from ...core._stability import stable
+from ...core._stability import beta, stable
 from ...core.base import merge_classes
 from ...core.registry import register
 from ...core.types import VariantType
@@ -96,6 +96,80 @@ def Tag(
         parts.append(Button(**remove_attrs))
 
     return Span(*parts, **attrs)
+
+
+@register(category="display")
+@beta
+def Chip(
+    children: str | tuple,
+    *,
+    variant: VariantType = "secondary",
+    size: Literal["sm", "md"] = "md",
+    selected: bool = False,
+    removable: bool = False,
+    icon: str | None = None,
+    on_remove: str | None = None,
+    value: str | None = None,
+    **kwargs: Any,
+) -> Span:
+    """Render a selectable/removable chip for filters and compact metadata."""
+    chip = Tag(
+        children,
+        variant=variant,
+        size=size,
+        removable=removable,
+        icon=icon,
+        on_remove=on_remove,
+        **kwargs,
+    )
+    chip_attrs = chip.attrs
+    chip_attrs["data-fs-chip"] = "true"
+    if value is not None:
+        chip_attrs["data-fs-value"] = value
+    if selected:
+        chip_attrs["cls"] = merge_classes(chip_attrs.get("cls", ""), "chip-selected")
+        chip_attrs["aria-pressed"] = "true"
+    return chip
+
+
+@register(category="display")
+@beta
+def ChipGroup(
+    *chips: Any,
+    selected: int | None = None,
+    label: str | None = None,
+    gap: int | str = 2,
+    wrap: bool = True,
+    **kwargs: Any,
+) -> Div:
+    """Group chips into a wrapping filter or metadata control row."""
+    chip_list = list(chips)
+    if selected is not None and not 0 <= selected < len(chip_list):
+        raise ValueError("selected must refer to an existing chip index")
+    for index, chip in enumerate(chip_list):
+        if selected is None or not hasattr(chip, "attrs"):
+            continue
+        chip_attrs = chip.attrs
+        if index == selected:
+            chip_attrs["cls"] = merge_classes(chip_attrs.get("cls", ""), "chip-selected")
+            chip_attrs["aria-pressed"] = "true"
+        else:
+            chip_attrs["aria-pressed"] = "false"
+
+    user_cls = kwargs.pop("cls", "")
+    attrs: dict[str, Any] = {
+        "cls": merge_classes(
+            "faststrap-chip-group d-flex align-items-center",
+            "flex-wrap" if wrap else "flex-nowrap",
+            f"gap-{gap}",
+            user_cls,
+        ),
+        "role": "group",
+    }
+    if label:
+        attrs["aria_label"] = label
+    attrs.update(convert_attrs(kwargs))
+    return Div(*chip_list, **attrs)
 
 
 def _parse_htmx_attrs(attr_string: str) -> dict[str, str]:

@@ -211,10 +211,9 @@ Adjust CDN domains based on your asset configuration.
 By default, Faststrap loads Bootstrap, HTMX, and other assets from CDN. For maximum security, vendor these assets locally:
 
 ```python
-from faststrap import add_bootstrap, get_assets
+from faststrap import add_bootstrap
 
-add_bootstrap(app, cdn=False)  # Serve assets locally
-get_assets(app, dest="./static/faststrap")
+add_bootstrap(app, use_cdn=False)  # Serve assets locally
 ```
 
 See the [Static Files Guide](../STATIC_FILES.md) for details.

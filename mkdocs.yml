@@ -89,6 +89,7 @@ nav:
     - Custom Components: guides/custom-components.md
     - Documentation Standards: guides/documentation-standards.md
     - Performance: guides/performance.md
+    - Learning Paths: guides/learning-paths.md
     - Upgrading: guides/upgrading.md
     - First App Tutorial: getting-started/first-app.md
     - HTMX Integration: guides/htmx-integration.md
@@ -135,6 +136,7 @@ nav:
       - SearchableSelect: components/forms/searchable-select.md
       - ThemeToggle: components/forms/theme-toggle.md
       - ToggleGroup: components/forms/toggle-group.md
+      - SegmentedControl: components/forms/segmented-control.md
       - InlineEditor: components/forms/inline-editor.md
       - Live Validation: components/forms/live-validation.md
       - Form: components/forms/form.md
@@ -149,6 +151,8 @@ nav:
       - DataTable: components/display/data-table.md
       - Figure: components/display/figure.md
       - Badge: components/display/badge.md
+      - Chip: components/display/chips.md
+      - Responsive Collections: components/display/collections.md
       - StatusBadge: components/display/status-badge.md
       - Avatar: components/display/avatar.md
       - Timeline: components/display/timeline.md
@@ -190,6 +194,7 @@ nav:
       - Notification Presets: components/feedback/notification-presets.md
       - Notification Center: components/feedback/notification-center.md
       - ModernToast: components/feedback/modern-toast.md
+      - Snackbar: components/feedback/snackbar.md
     - Navigation:
       - Navbar: components/navigation/navbar.md
       - CommandPalette: components/navigation/command-palette.md
@@ -216,6 +221,10 @@ nav:
     - Layout:
       - Grid: components/layout/grid.md
       - Layout Primitives: components/layout/primitives.md
+      - MobileAppShell: components/layout/mobile-app-shell.md
+      - MobileToolbar: components/layout/mobile-toolbar.md
+      - SafeArea: components/layout/safe-area.md
+      - StickyActionBar: components/layout/sticky-action-bar.md
       - PageHeader: components/layout/page-header.md
       - SectionHeader: components/layout/section-header.md
       - Separator: components/layout/separator.md
@@ -295,5 +304,8 @@ nav:
     - Component Defaults: api/defaults.md
     - Component Registry: api/registry.md
     - Theme Variants: api/theme-variants.md
+    - Accessibility: api/accessibility.md
+    - PWA: api/pwa.md
+    - Utilities: api/utils.md
     - Presets: api/presets.md
     - SEO: api/seo.md

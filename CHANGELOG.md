@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- v0.10.0 Mobile Wave foundations: `MobileAppShell`, `SafeArea`, `MobileToolbar`,
+  `StickyActionBar`, `SegmentedControl`, `Chip`, `ChipGroup`, and `Snackbar`.
+- Responsive mobile composition built from existing Faststrap navigation, layout,
+  button, and HTMX-friendly primitives without a required custom JavaScript layer.
+- Responsive Collections: `ListItem`, `ListView`, `GridList`, `CollectionView`,
+  and `ViewToggle` for accessible list/grid browsing, including record renderers,
+  explicit empty/loading states, and active/loading list-row states.
+- `DataTable` mobile `cards` and `stack` presentations, per-field renderers,
+  per-record custom mobile renderers with HTMX-capable action content, and an
+  explicit `mobile_mode=None` opt-out.
+
 ## [0.9.1] - 2026-10-18
 
 ### Added

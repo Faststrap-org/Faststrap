@@ -6,10 +6,10 @@
 
 ---
 
-## Current Status (latest tag: v0.9.0; current tree has unreleased changes)
+## Current Status (latest tag: v0.9.1; v0.10.0 Mobile Wave is in progress)
 
-**166 registered UI components** in the current source tree across forms, display, feedback, navigation, layout, and patterns
-**Changes after v0.9.0 are tracked in the changelog's Unreleased section**
+**179 registered UI components** in the current source tree across forms, display, feedback, navigation, layout, and patterns
+**The changelog's Unreleased section records the v0.10.0 Mobile Wave**
 **FastHTML 0.14.x & Dual-Engine HTMX Support (HTMX 2.x certified default + HTMX 4.0 opt-in)**  
 **Zero custom JavaScript required for core workflows**  
 **Optional integrations** for ChartJS, GSAP, and Markdown
@@ -23,8 +23,8 @@
 ### Overall Progress to v1.0
 
 ```text
-Latest tag:    v0.9.0
-UI registry:   166 components in the current source tree
+ Latest tag:    v0.9.1
+UI registry:   179 components in the current source tree
 Tests/coverage: use the current CI results
 Contributors:  15+/100 (15%)
 ```
@@ -49,7 +49,7 @@ Contributors:  15+/100 (15%)
 
 ```
 M0  Cleanup        Complete: technical debt cleanup, docs reality pass, migration guide
-M1  Mobile Wave    Next: MobileAppShell, Chip/ChipGroup, SegmentedControl, Snackbar, SafeArea
+M1  Mobile Wave    In progress: MobileAppShell, Chip/ChipGroup, SegmentedControl, Snackbar, SafeArea, MobileToolbar, StickyActionBar
 M2  Offline PWA    OfflineBanner, SyncQueueBadge, SyncStatusIndicator, PendingChangesList
 M3  ML/DS Wave 1   LiveChart, LiveMetric, DistributionPlot, CorrelationMatrix
 M4  ML/DS Wave 2   ConfusionMatrix, ROCCurve, FeatureImportance, ModelMetrics
@@ -162,7 +162,7 @@ assert "btn btn-primary" in str(button)  # Always true
 **+Visual primitives:** FlipCard, TiltCard, RevealCard, GlowCard, DotsLoader, RingLoader, WaveLoader, PulseLoader, PolygonLoader, TypewriterLoader, ShadowLoader, ProgressRing, GradientButton, FloatingActionButton, ParallaxSection  
 **+Static asset:** `faststrap-visual.css`
 
-**Phase 8 shipped 152 registered UI components. The current source tree registers 166.**
+**Phase 8 shipped 152 registered UI components. The current source tree registers 179.**
 
 ### Phase 8.1: Stability + AI Discoverability (v0.8.1) âœ… July 2026
 
@@ -175,7 +175,7 @@ assert "btn btn-primary" in str(button)  # Always true
 - Added AI-discoverability files (`llms.txt`, `llms-full.txt`, `robots.txt`, `CLAUDE.md`, `.cursor/rules`).
 - Clarified documentation positioning around dashboards, data tools, and AI-ready interfaces.
 
-**The current source tree registers 166 UI components.**
+**The current source tree registers 179 UI components.**
 
 ---
 
@@ -2519,7 +2519,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND...
 ---
 
 **Last Updated:** October 2026
-**Latest tag:** v0.9.0; current source includes unreleased changes listed in `CHANGELOG.md`
+**Latest tag:** v0.9.1; current source includes the v0.10.0 Mobile Wave listed in `CHANGELOG.md`
 **Next roadmap milestone:** M1 mobile component wave
 
 **Let's build the definitive UI library for FastHTML  together.** 

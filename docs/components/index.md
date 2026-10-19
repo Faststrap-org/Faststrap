@@ -1,9 +1,12 @@
 # Component Index
 
-Faststrap currently registers **159 UI components** across forms, display, feedback, navigation, layout, and patterns. Use this page as a scan-friendly map before reaching for custom HTML.
+Faststrap currently registers **179 UI components** across forms, display, feedback, navigation, layout, and patterns. Use this page as a scan-friendly map before reaching for custom HTML.
 
 !!! tip "Discovery API"
     You can also inspect components programmatically with `list_components()`, `find_components()`, and `list_component_metadata()`. See the [Component Registry](../api/registry.md).
+
+!!! note "How to read component pages"
+    Each linked page starts with copy-ready examples and usage notes, then ends with a generated `mkdocstrings` reference where available. The generated reference is the source of truth for the current signature; the prose explains behavior, composition, accessibility, and limitations that a signature cannot show.
 
 ## Forms
 
@@ -34,6 +37,7 @@ Faststrap currently registers **159 UI components** across forms, display, feedb
 | `Select` | [Select](forms/select.md) | Native select control. |
 | `ThemeToggle` | [ThemeToggle](forms/theme-toggle.md) | Dark/light theme control. |
 | `ToggleGroup` | [ToggleGroup](forms/toggle-group.md) | Toggle button groups. |
+| `SegmentedControl` | [SegmentedControl](forms/segmented-control.md) | Accessible compact single-choice control. |
 
 ## Display
 
@@ -43,10 +47,12 @@ Faststrap currently registers **159 UI components** across forms, display, feedb
 | `Badge`, `BadgeGroup` | [Badge](display/badge.md) | Labels, pills, and grouped badges. |
 | `Card` | [Card](display/card.md) | Base content surface. |
 | `Carousel`, `CarouselItem` | [Carousel](display/carousel.md) | Bootstrap slideshow. |
+| `Chip`, `ChipGroup` | [Chip And ChipGroup](display/chips.md) | Selectable/removable filters and tags. |
+| `ListItem`, `ListView`, `GridList`, `CollectionView`, `ViewToggle` | [Responsive Collections](display/collections.md) | Mobile-friendly rows, grids, and list/grid selection. |
 | `Chart` | [Chart](display/chart.md) | Matplotlib, Plotly, Altair, SVG/HTML wrapper. |
 | `CodeBlock`, `JsonViewer`, `KeyValueList`, `RecordDetail` | [Structured Display](display/structured-display.md) | Data/dev-app primitives for code, JSON, and records. |
 | `DataCard` | [DataCard](display/data-card.md) | Structured metadata card for models, datasets, and entities. |
-| `DataTable` | [DataTable](display/data-table.md) | Search, sort, pagination, server-side table flows. |
+| `DataTable` | [DataTable](display/data-table.md) | Search, sort, pagination, server-side flows, and optional mobile cards. |
 | `EmptyState` | [Empty State](display/empty_state.md) | Empty data placeholders. |
 | `Figure` | [Figure](display/figure.md) | Images with captions. |
 | `FilePreview` | [FilePreview](display/file-preview.md) | Generic file preview shell with safe fallback. |
@@ -83,6 +89,7 @@ Faststrap currently registers **159 UI components** across forms, display, feedb
 | `InstallPrompt` | [Install Prompt](feedback/install-prompt.md) | PWA install guidance. |
 | `Modal` | [Modal](feedback/modal.md) | Bootstrap modal wrapper. |
 | `ModernToast`, `ModernToastStack` | [ModernToast](feedback/modern-toast.md) | Opinionated polished toast surface. |
+| `Snackbar` | [Snackbar](feedback/snackbar.md) | Anchored action-oriented feedback. |
 | `NotificationCenter` | [Notification Center](feedback/notification-center.md) | Dropdown notification hub. |
 | `Placeholder`, `PlaceholderButton`, `PlaceholderCard` | [Placeholder](feedback/placeholder.md) | Skeleton loading placeholders. |
 | `Popover`, `Tooltip` | [Tooltip & Popover](feedback/overlays.md) | Bootstrap overlays. |
@@ -121,12 +128,16 @@ Faststrap currently registers **159 UI components** across forms, display, feedb
 | `Col`, `Container`, `Row` | [Grid](layout/grid.md) | Bootstrap layout primitives. |
 | `DashboardGrid` | [DashboardGrid](layout/dashboard-grid.md) | Responsive dashboard grids. |
 | `Hero` | [Hero](layout/hero.md) | Landing hero sections. |
+| `MobileAppShell` | [MobileAppShell](layout/mobile-app-shell.md) | Responsive desktop/mobile app shell. |
+| `MobileToolbar` | [MobileToolbar](layout/mobile-toolbar.md) | Compact mobile app bar. |
 | `PageHeader` | [PageHeader](layout/page-header.md) | Page title, subtitle, status, and action row. |
 | `ParallaxSection` | [ParallaxSection](layout/parallax-section.md) | CSS-only background image section. |
 | `SectionHeader` | [SectionHeader](layout/section-header.md) | Section title and subtitle. |
 | `Separator` | [Separator](layout/separator.md) | Semantic divider. |
+| `SafeArea` | [SafeArea](layout/safe-area.md) | Mobile browser inset wrapper. |
 | `SplitPane` | [SplitPane](layout/split_pane.md) | Resizable two-pane layout. |
 | `Stack`, `Cluster`, `Center` | [Layout Primitives](layout/primitives.md) | Common flexbox compositions without custom utility strings. |
+| `StickyActionBar` | [StickyActionBar](layout/sticky-action-bar.md) | Safe-area-aware sticky actions. |
 | `Switcher` | [Switcher](layout/switcher.md) | Responsive side-by-side to stacked layout. |
 | `Feature`, `FeatureGrid` | [Feature Grid](patterns/feature-grid.md) | Feature sections. |
 | `FooterModern` | [Footer Modern](patterns/footer-modern.md) | Marketing footer. |

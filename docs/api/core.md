@@ -44,9 +44,10 @@ For component authors, routing `**kwargs` through `convert_attrs(kwargs)` is the
 `UNSET` is a sentinel value used to distinguish "not provided" from `None`. Component defaults are stored as `UNSET` and resolved at render time, allowing you to pass `None` explicitly to clear a default.
 
 ```python
-from faststrap import UNSET, set_component_defaults, get_component_defaults
+from faststrap import UNSET, set_component_defaults
+from faststrap.core.theme import get_component_defaults
 
-set_component_defaults("Button", {"variant": "primary"})
+set_component_defaults("Button", variant="primary")
 defaults = get_component_defaults("Button")
 # Clear a default by passing None: Button("Click", variant=None)
 ```

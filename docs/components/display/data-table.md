@@ -113,6 +113,165 @@ DataTable(
 
 ---
 
+## Mobile Card Presentation
+
+The default `mobile_mode="scroll"` preserves the existing semantic table and
+responsive horizontal-scrolling behavior. This is often best for analytics and
+data-science work where comparing columns matters. For a narrow-screen record
+browsing layout, choose `mobile_mode="cards"` or `mobile_mode="stack"`.
+
+Faststrap renders the semantic table at and above the selected breakpoint and
+the requested card/stack presentation below it. Both representations use the
+same current filtered, sorted, paginated records and wrapper ID. Sort, search,
+pagination, and polling continue targeting the same wrapper; no custom
+JavaScript is required. The table representation remains in the response so
+server-rendered state and responsive resizing stay synchronized.
+
+In local mode (no `endpoint` or `base_url`), Faststrap filters/sorts and slices
+the in-memory records before rendering both views. In endpoint mode, your route
+must query and pass the current page's rows; `total_rows` supplies the global
+count for pagination. Both responsive presentations then render that same
+server-provided page.
+
+```python
+DataTable(
+    files,
+    columns=["name", "owner", "size", "updated_at", "internal_id"],
+    header_map={
+        "name": "File",
+        "owner": "Owner",
+        "size": "Size",
+        "updated_at": "Updated",
+    },
+    searchable=True,
+    pagination=True,
+    endpoint="/files",
+    mobile_mode="cards",
+    mobile_breakpoint="lg",
+    mobile_title="name",
+    mobile_subtitle="owner",
+    mobile_meta=["size", "updated_at"],
+    mobile_hidden=["internal_id"],
+    mobile_card_cls="shadow-sm",
+)
+```
+
+### Modes And Field Selection
+
+| `mobile_mode` | Small-screen output |
+| --- | --- |
+| `"scroll"` (default) | Only the semantic table, using the existing `responsive` behavior. |
+| `None` | Only the semantic table; the `responsive` option still controls horizontal overflow. Use this to explicitly disable an alternate mobile presentation. |
+| `"cards"` | A responsive grid of individually surfaced record cards. |
+| `"stack"` | A vertical sequence of flatter record rows. |
+
+`mobile_breakpoint` accepts Bootstrap breakpoints `sm`, `md`, `lg`, `xl`, and
+`xxl`. The table appears at and above that breakpoint; mobile content appears
+below it. `mobile_title` defaults to the first data column. `mobile_subtitle`
+is optional. If `mobile_meta` is omitted, remaining columns become labeled
+metadata; pass an explicit list to choose order, or `[]` to omit metadata.
+`mobile_hidden` removes columns from generated mobile output only; the desktop
+table is unaffected. Labels come from `header_map` when available, otherwise
+the column key is shown.
+
+Unknown names in `mobile_title`, `mobile_subtitle`, `mobile_meta`,
+`mobile_hidden`, or `mobile_field_renderers` raise `ValueError` rather than
+being silently ignored.
+
+### Custom Field Rendering
+
+Use `mobile_field_renderers` to format values or return composed FastHTML
+elements while retaining Faststrap's generated title/metadata layout:
+
+```python
+from faststrap import DataTable, StatusBadge
+
+DataTable(
+    experiments,
+    columns=["name", "status", "accuracy"],
+    header_map={"accuracy": "Accuracy"},
+    mobile_mode="cards",
+    mobile_title="name",
+    mobile_meta=["status", "accuracy"],
+    mobile_field_renderers={
+        "status": lambda value, row: StatusBadge(str(value).title(), status=value),
+        "accuracy": lambda value, row: f"{value:.1%}",
+    },
+)
+```
+
+Each field renderer receives `(value, row)`, where `row` is the normalized row
+dictionary. Return text or FastHTML content. Field renderers apply only to
+metadata fields, not the title or subtitle slots.
+
+### Custom Mobile Cards And Actions
+
+For a different card structure or row-specific actions, provide
+`mobile_card_renderer`. It receives one normalized row dictionary and returns
+FastHTML content. The result is wrapped in Faststrap's record surface and
+receives `mobile_card_cls` and `mobile_card_attrs`:
+
+```python
+from fasthtml.common import Div
+from faststrap import Button, DataTable, StatusBadge
+
+DataTable(
+    jobs,
+    columns=["id", "name", "status", "owner"],
+    mobile_mode="cards",
+    mobile_card_cls="p-3",
+    mobile_card_attrs={"data-testid": "job-card"},
+    mobile_card_renderer=lambda row: Div(
+        Div(row["name"], cls="fw-semibold"),
+        StatusBadge(str(row["status"]).title(), status=row["status"]),
+        Div(row["owner"], cls="text-muted small"),
+        Button(
+            "Open job",
+            size="sm",
+            hx_get=f"/jobs/{row['id']}",
+            hx_target="#job-detail",
+        ),
+        cls="d-grid gap-2",
+    ),
+)
+```
+
+The callable owns its internal markup and may return buttons, links, badges,
+or HTMX actions. It does not change the table's filtering, sorting, or
+pagination. Actions rendered only in mobile cards are not automatically added
+to desktop table cells. `mobile_card_attrs` is copied to every record surface,
+so `id` is rejected. If custom markup emits IDs, make them unique per row.
+
+### Mobile Parameters
+
+| Parameter | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| `mobile_mode` | `"scroll" \| "cards" \| "stack" \| None` | `"scroll"` | Preserve the table, disable alternate presentation, render a card grid, or render stacked rows on small screens. |
+| `mobile_breakpoint` | `"sm" \| "md" \| "lg" \| "xl" \| "xxl"` | `"md"` | Breakpoint at which the semantic table replaces the mobile view. |
+| `mobile_title` | `str \| None` | `None` | Title column; defaults to the first normalized data column. |
+| `mobile_subtitle` | `str \| None` | `None` | Optional subtitle column. |
+| `mobile_meta` | `list[str] \| None` | `None` | Ordered metadata columns. Omitted means remaining columns; `[]` means none. |
+| `mobile_hidden` | `list[str] \| None` | `None` | Exclude columns from generated mobile presentation only. |
+| `mobile_card_cls` | `str \| None` | `None` | Extra class on each mobile record surface. |
+| `mobile_card_attrs` | `dict[str, Any] \| None` | `None` | HTML/ARIA/`data_*`/`hx_*` attributes copied to each surface; `id` is rejected. |
+| `mobile_field_renderers` | `dict[str, Callable[[Any, dict], Any]] \| None` | `None` | Per-column callable receiving `(value, row)` for generated metadata fields. |
+| `mobile_card_renderer` | `Callable[[dict], Any] \| None` | `None` | Custom per-row mobile content; receives normalized row data and returns FastHTML content. |
+
+Field renderers customize selected generated values; the card renderer
+replaces the generated layout entirely. With a custom card renderer,
+`mobile_title`, `mobile_subtitle`, `mobile_meta`, and
+`mobile_field_renderers` do not affect output. `mobile_hidden` is validated
+but cannot filter arbitrary custom markup: exclude sensitive fields before
+passing records to the component and enforce authorization in the route.
+
+The inactive representation is hidden with responsive CSS display utilities.
+Avoid emitting the same hard-coded DOM IDs from both table cells and custom
+cards. Use `CollectionView` when the desktop and mobile surfaces are distinct
+(such as an Explorer-style browser); use `DataTable` when table operations and
+its server-side contract remain central.
+
+---
+
 ## Server-Side Contract
 
 When you pass an `endpoint`, DataTable emits these query params:

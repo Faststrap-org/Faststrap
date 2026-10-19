@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+from collections.abc import Callable
 from typing import Any, Literal, cast
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
@@ -16,10 +17,12 @@ from ...core.base import merge_classes
 from ...core.registry import register
 from ...core.theme import resolve_defaults
 from ...utils.attrs import convert_attrs
+from .collections import GridList, ListItem
 from .table import Table, TBody, TCell, THead, TRow, _normalize_table_data
 
 SortableDirection = Literal["asc", "desc"]
 ResponsiveType = Literal["sm", "md", "lg", "xl", "xxl"]
+MobileMode = Literal["scroll", "cards", "stack"] | None
 
 
 def _stable_table_id(
@@ -265,6 +268,16 @@ def DataTable(
     table_id: str | None = None,
     table_cls: str | None = None,
     table_attrs: dict[str, Any] | None = None,
+    mobile_mode: MobileMode = "scroll",
+    mobile_breakpoint: ResponsiveType = "md",
+    mobile_title: str | None = None,
+    mobile_subtitle: str | None = None,
+    mobile_meta: list[str] | None = None,
+    mobile_hidden: list[str] | None = None,
+    mobile_card_cls: str | None = None,
+    mobile_card_attrs: dict[str, Any] | None = None,
+    mobile_card_renderer: Callable[[dict[str, Any]], Any] | None = None,
+    mobile_field_renderers: dict[str, Callable[[Any, dict[str, Any]], Any]] | None = None,
     **kwargs: Any,
 ) -> Div:
     """DataTable with optional sorting, search, and pagination.
@@ -301,6 +314,24 @@ def DataTable(
         push_url: If True, enable hx-push-url for links.
         table_id: Explicit wrapper id (auto-generated if omitted).
         table_cls: Extra CSS classes for the table element.
+        mobile_mode: ``"scroll"`` retains the responsive table. ``"cards"``
+            renders a responsive card grid below ``mobile_breakpoint``;
+            ``"stack"`` renders flatter stacked record rows there.
+        mobile_breakpoint: Bootstrap breakpoint where cards change back to the
+            semantic table.
+        mobile_title: Column used as each card title. Defaults to the first
+            data column.
+        mobile_subtitle: Optional column rendered beneath the title.
+        mobile_meta: Columns rendered as labeled metadata in each card.
+        mobile_hidden: Columns excluded from generated mobile cards.
+        mobile_card_cls: Extra classes applied to every generated mobile card.
+        mobile_card_attrs: Attributes applied to every generated mobile card.
+            Do not include ``id`` because one attribute set is reused for
+            multiple records.
+        mobile_card_renderer: Optional callable that receives a row dictionary
+            and returns custom FastHTML content for its mobile presentation.
+        mobile_field_renderers: Mapping of column names to callables receiving
+            ``(value, row)`` and returning content for that mobile field.
         table_attrs: Extra attributes applied to the table element.
         **kwargs: Additional HTML attributes for the wrapper.
     """
@@ -326,6 +357,11 @@ def DataTable(
     c_sortable = cfg.get("sortable", sortable)
     c_searchable = cfg.get("searchable", searchable)
     c_pagination = cfg.get("pagination", pagination)
+
+    if mobile_mode not in {None, "scroll", "cards", "stack"}:
+        raise ValueError("mobile_mode must be None, 'scroll', 'cards', or 'stack'")
+    if mobile_breakpoint not in {"sm", "md", "lg", "xl", "xxl"}:
+        raise ValueError("mobile_breakpoint must be a Bootstrap breakpoint")
     c_per_page = cfg.get("per_page", per_page)
     c_direction = cfg.get("direction", direction)
     c_empty_text = cfg.get("empty_text", empty_text)
@@ -344,6 +380,17 @@ def DataTable(
         max_rows=max_rows,
         include_index=include_index,
     )
+    mobile_columns = set(resolved_columns)
+    requested_mobile_columns = set(mobile_meta or []) | set(mobile_hidden or [])
+    requested_mobile_columns.update(mobile_field_renderers or {})
+    if mobile_title is not None:
+        requested_mobile_columns.add(mobile_title)
+    if mobile_subtitle is not None:
+        requested_mobile_columns.add(mobile_subtitle)
+    unknown_mobile_columns = requested_mobile_columns - mobile_columns
+    if unknown_mobile_columns:
+        names = ", ".join(sorted(unknown_mobile_columns))
+        raise ValueError(f"Unknown mobile column(s): {names}")
 
     if isinstance(c_sortable, list):
         sortable_columns = [col for col in c_sortable if col in resolved_columns]
@@ -563,7 +610,29 @@ def DataTable(
         )
         parts.append(search_form)
 
-    parts.append(table)
+    if mobile_mode in {"cards", "stack"}:
+        parts.append(Div(table, cls=f"d-none d-{mobile_breakpoint}-block"))
+        parts.append(
+            _mobile_presentation(
+                records,
+                columns=resolved_columns,
+                header_map=header_map,
+                none_as=c_none_as,
+                title_column=mobile_title,
+                subtitle_column=mobile_subtitle,
+                meta_columns=mobile_meta,
+                hidden_columns=mobile_hidden,
+                card_cls=mobile_card_cls,
+                card_attrs=mobile_card_attrs,
+                card_renderer=mobile_card_renderer,
+                field_renderers=mobile_field_renderers,
+                mode=cast(Literal["cards", "stack"], mobile_mode),
+                breakpoint=mobile_breakpoint,
+                empty_text=c_empty_text,
+            )
+        )
+    else:
+        parts.append(table)
 
     if c_pagination and total_pages > 1:
         pager_links: list[Any] = []
@@ -627,3 +696,78 @@ def DataTable(
 DataTable.export_params = datatable_export_params  # type: ignore[attr-defined]
 DataTable.query_params = datatable_query_params  # type: ignore[attr-defined]
 DataTable.page_url = datatable_page_url  # type: ignore[attr-defined]
+
+
+def _mobile_presentation(
+    records: list[dict[str, Any]],
+    *,
+    columns: list[str],
+    header_map: dict[str, str] | None,
+    none_as: str,
+    title_column: str | None,
+    subtitle_column: str | None,
+    meta_columns: list[str] | None,
+    hidden_columns: list[str] | None,
+    card_cls: str | None,
+    card_attrs: dict[str, Any] | None,
+    card_renderer: Callable[[dict[str, Any]], Any] | None,
+    field_renderers: dict[str, Callable[[Any, dict[str, Any]], Any]] | None,
+    mode: Literal["cards", "stack"],
+    breakpoint: ResponsiveType,
+    empty_text: str,
+) -> Div:
+    """Build the small-screen card representation for ``DataTable``."""
+    hidden = set(hidden_columns or [])
+    title_key = title_column or (columns[0] if columns else None)
+    subtitle_key = subtitle_column if subtitle_column in columns else None
+    if title_key in hidden:
+        title_key = None
+    if subtitle_key in hidden:
+        subtitle_key = None
+    default_meta = [column for column in columns if column not in {title_key, subtitle_key}]
+    selected_meta = default_meta if meta_columns is None else meta_columns
+    metadata = [column for column in selected_meta if column in columns and column not in hidden]
+    card_defaults = dict(card_attrs or {})
+    if "id" in card_defaults:
+        raise ValueError("mobile_card_attrs cannot include 'id'; cards need unique IDs")
+    cards: list[Any] = []
+    for row in records:
+        if card_renderer is not None:
+            attrs = card_defaults.copy()
+            if "id" in attrs:
+                raise ValueError("mobile_card_attrs cannot include 'id'; cards need unique IDs")
+            attrs["cls"] = merge_classes("faststrap-data-table-card", card_cls, attrs.get("cls"))
+            cards.append(Div(card_renderer(row), **attrs))
+            continue
+        title = _mobile_value(row.get(title_key), none_as) if title_key else None
+        subtitle = _mobile_value(row.get(subtitle_key), none_as) if subtitle_key else None
+        fields = [
+            Div(
+                Span((header_map or {}).get(column, column), cls="faststrap-data-table-card-label"),
+                Span(
+                    (
+                        field_renderers[column](row.get(column), row)
+                        if field_renderers and column in field_renderers
+                        else _mobile_value(row.get(column), none_as)
+                    ),
+                    cls="faststrap-data-table-card-value",
+                ),
+                cls="faststrap-data-table-card-field",
+            )
+            for column in metadata
+        ]
+        attrs = card_defaults.copy()
+        attrs["cls"] = merge_classes("faststrap-data-table-card", card_cls, attrs.get("cls"))
+        cards.append(ListItem(*fields, title=title, subtitle=subtitle, lines=3, **attrs))
+
+    if not cards:
+        cards.append(Div(empty_text, cls="text-center text-muted py-4"))
+    if mode == "cards":
+        content = GridList(*cards, min_width="100%", gap=2, cls="faststrap-data-table-cards")
+    else:
+        content = Div(*cards, cls="faststrap-data-table-stack")
+    return Div(content, cls=f"d-{breakpoint}-none")
+
+
+def _mobile_value(value: Any, none_as: str) -> str:
+    return none_as if value is None else str(value)

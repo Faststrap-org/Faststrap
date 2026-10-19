@@ -28,6 +28,7 @@ from .multi_select import MultiSelect
 from .otp_input import OTPInput, OTPInputGroup
 from .range_slider import RangeSlider
 from .searchable_select import SearchableSelect
+from .segmented_control import SegmentedControl
 from .select import Select
 from .theme_toggle import ThemeToggle
 from .toggle_group import ToggleGroup
@@ -71,6 +72,7 @@ __all__ = [
     "RangeSlider",
     "SearchableSelect",
     "Select",
+    "SegmentedControl",
     "ThemeToggle",
     "WizardStep",
 ]
