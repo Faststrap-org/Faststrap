@@ -156,12 +156,36 @@
 .faststrap-collection-loading,
 .faststrap-collection-empty { grid-column: 1 / -1; }
 
+.faststrap-list-item-content,
+.min-w-0 {
+    min-width: 0 !important;
+}
+
 .faststrap-list-item-title {
     overflow: hidden;
     font-weight: 600;
     line-height: 1.35;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/* Multi-line clamping when lines option is set */
+.faststrap-list-item-lines-1 .faststrap-list-item-title {
+    white-space: nowrap;
+}
+
+.faststrap-list-item-lines-2 .faststrap-list-item-title {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.faststrap-list-item-lines-3 .faststrap-list-item-title {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .faststrap-list-item-subtitle,
@@ -277,3 +301,23 @@
         transition: none !important;
     }
 }
+
+/* Faststrap Chip Styling */
+[data-fs-chip="true"] {
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+[data-fs-chip="true"].chip-lg {
+    font-size: 0.88rem !important;
+    padding: 0.5rem 0.95rem !important;
+    border-radius: 50rem !important;
+}
+
+[data-fs-chip="true"].chip-selected {
+    background-color: var(--bs-primary, #00412E) !important;
+    color: #ffffff !important;
+    border-color: var(--bs-primary, #00412E) !important;
+}
+

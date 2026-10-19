@@ -104,31 +104,44 @@ def Chip(
     children: str | tuple,
     *,
     variant: VariantType = "secondary",
-    size: Literal["sm", "md"] = "md",
+    size: Literal["sm", "md", "lg"] = "md",
     selected: bool = False,
     removable: bool = False,
     icon: str | None = None,
     on_remove: str | None = None,
     value: str | None = None,
+    href: str | None = None,
     **kwargs: Any,
-) -> Span:
+) -> Span | A:
     """Render a selectable/removable chip for filters and compact metadata."""
+    tag_size = "md" if size == "lg" else size
     chip = Tag(
         children,
         variant=variant,
-        size=size,
+        size=tag_size,
         removable=removable,
         icon=icon,
         on_remove=on_remove,
         **kwargs,
     )
+    if href is not None:
+        chip.tag = "a"
+        chip.attrs["href"] = href
+    elif "type" in chip.attrs:
+        chip.tag = "button"
     chip_attrs = chip.attrs
     chip_attrs["data-fs-chip"] = "true"
+    current_cls = chip_attrs.get("class", chip_attrs.get("cls", ""))
+    if size == "lg":
+        current_cls = merge_classes(current_cls, "chip-lg px-3 py-2 fs-6")
+    if selected:
+        current_cls = merge_classes(current_cls, "chip-selected")
+        chip_attrs["aria-pressed"] = "true"
+    chip_attrs["class"] = current_cls
+    if "cls" in chip_attrs:
+        del chip_attrs["cls"]
     if value is not None:
         chip_attrs["data-fs-value"] = value
-    if selected:
-        chip_attrs["cls"] = merge_classes(chip_attrs.get("cls", ""), "chip-selected")
-        chip_attrs["aria-pressed"] = "true"
     return chip
 
 
@@ -149,12 +162,15 @@ def ChipGroup(
     for index, chip in enumerate(chip_list):
         if selected is None or not hasattr(chip, "attrs"):
             continue
-        chip_attrs = chip.attrs
+        current_cls = chip_attrs.get("class", chip_attrs.get("cls", ""))
         if index == selected:
-            chip_attrs["cls"] = merge_classes(chip_attrs.get("cls", ""), "chip-selected")
+            current_cls = merge_classes(current_cls, "chip-selected")
             chip_attrs["aria-pressed"] = "true"
         else:
             chip_attrs["aria-pressed"] = "false"
+        chip_attrs["class"] = current_cls
+        if "cls" in chip_attrs:
+            del chip_attrs["cls"]
 
     user_cls = kwargs.pop("cls", "")
     attrs: dict[str, Any] = {
