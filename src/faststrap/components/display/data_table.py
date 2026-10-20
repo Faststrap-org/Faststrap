@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Iterator, Mapping
 from typing import Any, Literal, cast
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
@@ -619,8 +619,10 @@ def DataTable(
             sort_links: list[Any] = []
             for col in sortable_columns:
                 current = sort == col
-                next_dir: SortableDirection = "desc" if current and c_direction == "asc" else "asc"
-                params = {**base_params, "sort": col, "direction": next_dir}
+                mobile_next_dir: SortableDirection = (
+                    "desc" if current and c_direction == "asc" else "asc"
+                )
+                params = {**base_params, "sort": col, "direction": mobile_next_dir}
                 if c_pagination:
                     params["page"] = 1
                 url = _build_url(link_base, params)
@@ -821,7 +823,7 @@ def _mobile_presentation(
     return Div(content, cls=f"d-{breakpoint}-none")
 
 
-def _iter_element_ids(node: Any):
+def _iter_element_ids(node: Any) -> Iterator[str]:
     """Yield explicit IDs recursively from FastHTML elements and containers."""
     attrs = getattr(node, "attrs", None)
     if isinstance(attrs, Mapping) and attrs.get("id") is not None:
