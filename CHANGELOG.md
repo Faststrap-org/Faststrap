@@ -7,8 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.2] - 2026-10-20
+
 ### Added
 
+- Added optional mobile sorting controls to `DataTable` card/stack views. They preserve
+  search and filters, reset pagination, and use the configured endpoint/base URL and
+  HTMX target.
+- Added configurable `breakpoint` and `content_id` options to `MobileAppShell`; desktop
+  sidebars now sit beside the main content region.
+- Added viewport positioning and safe-area-aware offsets for top/bottom `Snackbar`
+  placements.
 - v0.10.0 Mobile Wave foundations: `MobileAppShell`, `SafeArea`, `MobileToolbar`,
   `StickyActionBar`, `SegmentedControl`, `Chip`, `ChipGroup`, and `Snackbar`.
 - Responsive mobile composition built from existing Faststrap navigation, layout,
@@ -19,6 +28,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `DataTable` mobile `cards` and `stack` presentations, per-field renderers,
   per-record custom mobile renderers with HTMX-capable action content, and an
   explicit `mobile_mode=None` opt-out.
+
+### Changed
+
+- Made HTMX-action `Chip` instances native keyboard-operable buttons and rejected
+  incompatible removable-chip action combinations.
+- Added safe-area fallback padding to `BottomNav` while preserving explicit user styles.
+- Improved the responsive collections example's mobile filter layout and refreshed
+  component/API documentation and generated LLM references.
+
+### Fixed
+
+- Fixed `ChipGroup` selection processing by defining and updating each chip's attributes
+  inside its loop, preventing a runtime `NameError`.
+- Fixed desktop sidebar composition in `MobileAppShell`, responsive collection filter
+  sizing, and missing `Snackbar` top/bottom placement behavior.
 
 ## [0.9.1] - 2026-10-18
 

@@ -241,44 +241,60 @@
 
 /* Mobile Wave primitives */
 .safe-area-padding-all {
-    padding-top: env(safe-area-inset-top);
-    padding-right: env(safe-area-inset-right);
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-left: env(safe-area-inset-left);
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
 }
 
-.safe-area-padding-top { padding-top: env(safe-area-inset-top); }
-.safe-area-padding-right { padding-right: env(safe-area-inset-right); }
-.safe-area-padding-bottom { padding-bottom: env(safe-area-inset-bottom); }
-.safe-area-padding-left { padding-left: env(safe-area-inset-left); }
+.safe-area-padding-top { padding-top: 0; padding-top: env(safe-area-inset-top, 0px); }
+.safe-area-padding-right { padding-right: 0; padding-right: env(safe-area-inset-right, 0px); }
+.safe-area-padding-bottom { padding-bottom: 0; padding-bottom: env(safe-area-inset-bottom, 0px); }
+.safe-area-padding-left { padding-left: 0; padding-left: env(safe-area-inset-left, 0px); }
 .safe-area-padding-vertical {
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 .safe-area-padding-horizontal {
-    padding-right: env(safe-area-inset-right);
-    padding-left: env(safe-area-inset-left);
+    padding-right: 0;
+    padding-left: 0;
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
 }
 
 .safe-area-margin-all {
-    margin-top: env(safe-area-inset-top);
-    margin-right: env(safe-area-inset-right);
-    margin-bottom: env(safe-area-inset-bottom);
-    margin-left: env(safe-area-inset-left);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-top: env(safe-area-inset-top, 0px);
+    margin-right: env(safe-area-inset-right, 0px);
+    margin-bottom: env(safe-area-inset-bottom, 0px);
+    margin-left: env(safe-area-inset-left, 0px);
 }
 
-.safe-area-margin-top { margin-top: env(safe-area-inset-top); }
-.safe-area-margin-right { margin-right: env(safe-area-inset-right); }
-.safe-area-margin-bottom { margin-bottom: env(safe-area-inset-bottom); }
-.safe-area-margin-left { margin-left: env(safe-area-inset-left); }
+.safe-area-margin-top { margin-top: 0; margin-top: env(safe-area-inset-top, 0px); }
+.safe-area-margin-right { margin-right: 0; margin-right: env(safe-area-inset-right, 0px); }
+.safe-area-margin-bottom { margin-bottom: 0; margin-bottom: env(safe-area-inset-bottom, 0px); }
+.safe-area-margin-left { margin-left: 0; margin-left: env(safe-area-inset-left, 0px); }
 
 .safe-area-margin-vertical {
-    margin-top: env(safe-area-inset-top);
-    margin-bottom: env(safe-area-inset-bottom);
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-top: env(safe-area-inset-top, 0px);
+    margin-bottom: env(safe-area-inset-bottom, 0px);
 }
 .safe-area-margin-horizontal {
-    margin-right: env(safe-area-inset-right);
-    margin-left: env(safe-area-inset-left);
+    margin-right: 0;
+    margin-left: 0;
+    margin-right: env(safe-area-inset-right, 0px);
+    margin-left: env(safe-area-inset-left, 0px);
 }
 
 .faststrap-mobile-toolbar-surface {
@@ -292,7 +308,25 @@
 }
 
 .faststrap-sticky-action-bar-safe {
-    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+    padding-bottom: 0.5rem;
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+.faststrap-snackbar-top,
+.faststrap-snackbar-bottom {
+    position: fixed;
+    inset-inline: 1rem;
+    z-index: var(--fs-snackbar-z-index, 1080);
+    width: min(calc(100% - 2rem), var(--fs-snackbar-max-width, 48rem));
+    margin-inline: auto;
+}
+
+.faststrap-snackbar-top {
+    top: calc(1rem + env(safe-area-inset-top, 0px));
+}
+
+.faststrap-snackbar-bottom {
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
 }
 
 @media (prefers-reduced-motion: reduce) {

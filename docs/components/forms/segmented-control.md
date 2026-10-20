@@ -29,3 +29,7 @@ For HTMX-driven filters, put `hx_get`, `hx_target`, and `hx_push_url` on the opt
 ::: faststrap.components.forms.segmented_control.SegmentedControl
     options:
         show_source: true
+
+The control is a server-rendered group, not a keyboard-managed ARIA radio group. Button options retain native button semantics and expose `aria-pressed`; link options remain links and use `aria-current` when active. The component does not claim radio-arrow-key behavior or add client-side selection JavaScript.
+
+When `name` is provided, the optional hidden input contains the currently rendered selection. It is not automatically updated when a user clicks an ordinary button. For submissions, use HTMX/server rendering to return the updated selected state, or use native links/forms appropriate to the workflow.

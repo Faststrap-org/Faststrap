@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from typing import Any, Literal, cast
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
@@ -270,6 +270,7 @@ def DataTable(
     table_attrs: dict[str, Any] | None = None,
     mobile_mode: MobileMode = "scroll",
     mobile_breakpoint: ResponsiveType = "md",
+    mobile_sortable: bool = True,
     mobile_title: str | None = None,
     mobile_subtitle: str | None = None,
     mobile_meta: list[str] | None = None,
@@ -319,6 +320,8 @@ def DataTable(
             ``"stack"`` renders flatter stacked record rows there.
         mobile_breakpoint: Bootstrap breakpoint where cards change back to the
             semantic table.
+        mobile_sortable: Show a compact sort control in cards/stack mode when
+            a server endpoint or base URL is configured.
         mobile_title: Column used as each card title. Defaults to the first
             data column.
         mobile_subtitle: Optional column rendered beneath the title.
@@ -612,6 +615,44 @@ def DataTable(
 
     if mobile_mode in {"cards", "stack"}:
         parts.append(Div(table, cls=f"d-none d-{mobile_breakpoint}-block"))
+        if mobile_sortable and sortable_columns and link_base:
+            sort_links: list[Any] = []
+            for col in sortable_columns:
+                current = sort == col
+                next_dir: SortableDirection = "desc" if current and c_direction == "asc" else "asc"
+                params = {**base_params, "sort": col, "direction": next_dir}
+                if c_pagination:
+                    params["page"] = 1
+                url = _build_url(link_base, params)
+                label = (header_map or {}).get(col, col)
+                sort_links.append(
+                    A(
+                        label,
+                        Span(" (sorted)" if current else "", cls="visually-hidden"),
+                        cls=merge_classes(
+                            "btn btn-sm",
+                            "btn-primary" if current else "btn-outline-secondary",
+                        ),
+                        aria_label=f"Sort by {label}"
+                        + (f", currently {c_direction}" if current else ""),
+                        **_link_attrs(
+                            url,
+                            endpoint=endpoint,
+                            hx_target=hx_target,
+                            hx_swap=effective_hx_swap,
+                            push_url=push_url,
+                        ),
+                    )
+                )
+            parts.append(
+                Div(
+                    Span("Sort:", cls="small fw-semibold me-1"),
+                    *sort_links,
+                    cls=f"d-{mobile_breakpoint}-none d-flex flex-wrap align-items-center gap-2 mb-3",
+                    role="group",
+                    aria_label="Sort records",
+                )
+            )
         parts.append(
             _mobile_presentation(
                 records,
@@ -629,6 +670,7 @@ def DataTable(
                 mode=cast(Literal["cards", "stack"], mobile_mode),
                 breakpoint=mobile_breakpoint,
                 empty_text=c_empty_text,
+                reserved_id=wrapper_id,
             )
         )
     else:
@@ -715,6 +757,7 @@ def _mobile_presentation(
     mode: Literal["cards", "stack"],
     breakpoint: ResponsiveType,
     empty_text: str,
+    reserved_id: str,
 ) -> Div:
     """Build the small-screen card representation for ``DataTable``."""
     hidden = set(hidden_columns or [])
@@ -760,6 +803,15 @@ def _mobile_presentation(
         attrs["cls"] = merge_classes("faststrap-data-table-card", card_cls, attrs.get("cls"))
         cards.append(ListItem(*fields, title=title, subtitle=subtitle, lines=3, **attrs))
 
+    seen_ids = {reserved_id}
+    for card in cards:
+        for element_id in _iter_element_ids(card):
+            if element_id in seen_ids:
+                raise ValueError(
+                    f"mobile card content contains duplicate or reserved element id {element_id!r}"
+                )
+            seen_ids.add(element_id)
+
     if not cards:
         cards.append(Div(empty_text, cls="text-center text-muted py-4"))
     if mode == "cards":
@@ -767,6 +819,19 @@ def _mobile_presentation(
     else:
         content = Div(*cards, cls="faststrap-data-table-stack")
     return Div(content, cls=f"d-{breakpoint}-none")
+
+
+def _iter_element_ids(node: Any):
+    """Yield explicit IDs recursively from FastHTML elements and containers."""
+    attrs = getattr(node, "attrs", None)
+    if isinstance(attrs, Mapping) and attrs.get("id") is not None:
+        yield str(attrs["id"])
+    children = getattr(node, "children", None)
+    if children is not None:
+        yield from _iter_element_ids(children)
+    elif isinstance(node, (list, tuple)):
+        for child in node:
+            yield from _iter_element_ids(child)
 
 
 def _mobile_value(value: Any, none_as: str) -> str:

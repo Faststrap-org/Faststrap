@@ -1,6 +1,6 @@
 # Snackbar
 
-`Snackbar` is an anchored, action-oriented feedback surface. Use it near the content that changed; use `Toast` for Bootstrap's global notification container and `ModernToast` for a global polished notification stack.
+`Snackbar` is a short, action-oriented feedback surface. `placement="inline"` keeps it in normal document flow; `placement="top"` and `"bottom"` anchor it to the viewport with the shipped Faststrap layout stylesheet and respect device safe areas. Use `Toast` for Bootstrap's global notification container and `ModernToast` for a global polished notification stack.
 
 ```python
 from faststrap import Button, Snackbar
@@ -22,10 +22,10 @@ Snackbar(
 | `action` | `Any \| None` | `None` | Action control such as `Button("Undo")`. |
 | `icon` | `str \| None` | `None` | Bootstrap icon name. |
 | `dismissible` | `bool` | `True` | Include a Bootstrap alert dismiss control. |
-| `placement` | `str` | `"inline"` | `inline`, `top`, or `bottom` anchoring class. |
+| `placement` | `str` | `"inline"` | `inline` (normal flow), `top`, or `bottom` (viewport-fixed). Top/bottom placement can cover page content; choose it for brief feedback and keep essential controls clear. |
 | `duration` | `int \| "infinite"` | `"infinite"` | Metadata for an application auto-dismiss runtime; core does not require JavaScript. |
 
-The component exposes `aria-live`, `aria-atomic`, and a semantic `role`. Duration is intentionally progressive: applications can add their own runtime or use HTMX response timing without requiring a new client-side framework.
+The component exposes `aria-live`, `aria-atomic`, and a semantic `role`. `duration` is metadata only; it does not automatically dismiss the snackbar. The close button uses Bootstrap's alert dismissal behavior, so Bootstrap JavaScript must be present for that control to dismiss it.
 
 ::: faststrap.components.feedback.snackbar.Snackbar
     options:

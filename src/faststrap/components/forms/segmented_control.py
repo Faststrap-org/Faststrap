@@ -45,11 +45,32 @@ def SegmentedControl(
         if not hasattr(option, "attrs"):
             continue
         option_attrs = option.attrs
-        option_attrs["role"] = "radio"
-        option_attrs["aria-checked"] = "true" if index == safe_index else "false"
-        option_attrs["aria-pressed"] = "true" if index == safe_index else "false"
+        is_active = index == safe_index
+        option_tag = getattr(option, "tag", "")
+        option_attrs.pop("role", None)
+        option_attrs.pop("aria-checked", None)
+        if option_tag == "a":
+            option_attrs.pop("aria-pressed", None)
+            if is_active:
+                option_attrs["aria-current"] = "true"
+            else:
+                option_attrs.pop("aria-current", None)
+        elif option_tag == "button":
+            option_attrs.pop("aria-current", None)
+            option_attrs.setdefault("type", "button")
+            option_attrs["aria-pressed"] = "true" if is_active else "false"
         if index == safe_index:
-            option_attrs["cls"] = merge_classes(option_attrs.get("cls", ""), active_cls)
+            current_cls = option_attrs.get("class", option_attrs.get("cls", ""))
+            option_attrs["class"] = merge_classes(current_cls, active_cls)
+            if "cls" in option_attrs:
+                del option_attrs["cls"]
+        elif active_cls:
+            current_cls = option_attrs.get("class", option_attrs.get("cls", ""))
+            inactive_tokens = set(str(active_cls).split())
+            option_attrs["class"] = " ".join(
+                token for token in str(current_cls).split() if token not in inactive_tokens
+            )
+            option_attrs.pop("cls", None)
         if values is not None:
             option_attrs["data-fs-value"] = values[index]
 
@@ -60,7 +81,7 @@ def SegmentedControl(
             "flex-column" if orientation == "vertical" else "",
             user_cls,
         ),
-        "role": "radiogroup",
+        "role": "group",
         "data_fs_segmented_control": "true",
     }
     if name:

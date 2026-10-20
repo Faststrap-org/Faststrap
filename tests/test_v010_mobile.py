@@ -1,5 +1,7 @@
 """Tests for the v0.10.0 mobile-wave primitives."""
 
+from pathlib import Path
+
 import pytest
 from fasthtml.common import A, Button, to_xml
 
@@ -21,6 +23,31 @@ def test_safe_area_renders_edge_and_mode_classes() -> None:
     html = to_xml(SafeArea("Content", edges="bottom", mode="padding"))
     assert "faststrap-safe-area" in html
     assert "safe-area-padding-bottom" in html
+
+
+def test_bottom_nav_safe_area_fallback_and_user_style_override() -> None:
+    html = to_xml(BottomNav("Links"))
+    assert "padding-bottom:0" in html
+    assert "env(safe-area-inset-bottom, 0px)" in html
+
+    custom = {"background-color": "white"}
+    custom_html = to_xml(BottomNav("Links", style=custom))
+    assert "env(safe-area-inset-bottom, 0px)" in custom_html
+    assert custom == {"background-color": "white"}
+
+    explicit_html = to_xml(BottomNav("Links", style="padding-bottom: 1rem"))
+    assert "padding-bottom: 1rem" in explicit_html
+
+
+def test_snackbar_viewport_placements_have_shipped_css_rules() -> None:
+    css = (Path(__file__).parents[1] / "src/faststrap/static/css/faststrap-layouts.css").read_text(
+        encoding="utf-8"
+    )
+    assert ".faststrap-snackbar-top" in css
+    assert ".faststrap-snackbar-bottom" in css
+    assert "position: fixed" in css
+    assert "env(safe-area-inset-top, 0px)" in css
+    assert "env(safe-area-inset-bottom, 0px)" in css
 
 
 def test_mobile_app_shell_composes_desktop_mobile_and_bottom_slots() -> None:
@@ -87,9 +114,9 @@ def test_segmented_control_supports_links_and_form_value() -> None:
             active_index=1,
         )
     )
-    assert 'role="radiogroup"' in html
+    assert 'role="group"' in html
     assert 'href="?range=week"' in html
-    assert 'aria-checked="true"' in html
+    assert 'aria-current="true"' in html
     assert 'name="range"' in html
     assert 'value="week"' in html
 

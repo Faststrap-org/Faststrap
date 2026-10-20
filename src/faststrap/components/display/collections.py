@@ -260,11 +260,13 @@ def CollectionView(
 
     rendered_items = list(items)
     if records is not None and not loading:
-        renderer = list_renderer if mode in {"list", "compact"} else card_renderer
-        renderer_name = "list_renderer" if mode in {"list", "compact"} else "card_renderer"
-        if renderer is None:
-            raise ValueError(f"{renderer_name} is required when records are provided")
-        rendered_items = [renderer(record) for record in records]
+        record_items = list(records)
+        if record_items:
+            renderer = list_renderer if mode in {"list", "compact"} else card_renderer
+            renderer_name = "list_renderer" if mode in {"list", "compact"} else "card_renderer"
+            if renderer is None:
+                raise ValueError(f"{renderer_name} is required when records are provided")
+            rendered_items = [renderer(record) for record in record_items]
 
     user_cls = kwargs.pop("cls", "")
     if mode in {"grid", "cards"}:

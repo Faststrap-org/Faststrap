@@ -1,6 +1,7 @@
 # BottomNav
 
 `BottomNav` provides a mobile-style fixed bottom navigation bar with touch-friendly items.
+When no explicit `padding-bottom` is supplied, it emits a zero-padding fallback followed by `env(safe-area-inset-bottom, 0px)` for devices with a home indicator. If you supply your own `padding-bottom`, that value takes precedence and you are responsible for any additional safe-area spacing required by your design.
 
 ## Quick Start
 

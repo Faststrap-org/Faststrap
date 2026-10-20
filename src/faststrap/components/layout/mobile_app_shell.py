@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Literal
 
 from fasthtml.common import Div, Main
 
@@ -30,6 +30,8 @@ def MobileAppShell(
     mobile_toolbar: Any | None = None,
     bottom_nav: Any | None = None,
     safe_area: bool = True,
+    breakpoint: Literal["sm", "md", "lg", "xl", "xxl"] = "lg",
+    content_id: str | None = "main-content",
     content_cls: str | None = None,
     **kwargs: Any,
 ) -> Div:
@@ -39,28 +41,41 @@ def MobileAppShell(
     ``Navbar``, ``SidebarNavbar``, ``Drawer``, and ``BottomNav`` APIs remain
     unchanged and can be replaced independently.
     """
+    if breakpoint not in {"sm", "md", "lg", "xl", "xxl"}:
+        raise ValueError("breakpoint must be a Bootstrap breakpoint")
     user_cls = kwargs.pop("cls", "")
     content_children = [SafeArea(*children, edges="bottom")] if safe_area else list(children)
     content: Any = Main(
         *content_children,
-        id="main-content",
         cls=merge_classes("faststrap-mobile-app-content flex-grow-1 min-w-0", content_cls or ""),
+        id=content_id,
     )
 
     parts: list[Any] = []
     for value, cls in (
-        (desktop_nav, "d-none d-lg-block"),
-        (mobile_nav, "d-lg-none"),
-        (sidebar, "d-none d-lg-block"),
+        (desktop_nav, f"d-none d-{breakpoint}-block"),
+        (mobile_nav, f"d-{breakpoint}-none"),
         (drawer, "faststrap-mobile-app-drawer"),
-        (mobile_toolbar, "d-lg-none"),
+        (mobile_toolbar, f"d-{breakpoint}-none"),
     ):
         if (part := _slot(value, cls=cls)) is not None:
             parts.append(part)
 
-    parts.append(content)
+    if sidebar is not None:
+        parts.append(
+            Div(
+                _slot(
+                    sidebar,
+                    cls=f"d-none d-{breakpoint}-block faststrap-mobile-app-sidebar flex-shrink-0",
+                ),
+                content,
+                cls="faststrap-mobile-app-desktop-layout d-flex flex-grow-1 min-w-0",
+            )
+        )
+    else:
+        parts.append(content)
     if bottom_nav is not None:
-        parts.append(_slot(bottom_nav, cls="d-lg-none faststrap-mobile-app-bottom-nav"))
+        parts.append(_slot(bottom_nav, cls=f"d-{breakpoint}-none faststrap-mobile-app-bottom-nav"))
 
     attrs: dict[str, Any] = {
         "cls": merge_classes("faststrap-mobile-app-shell d-flex flex-column min-vh-100", user_cls),

@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any, Literal
 
 from fasthtml.common import Button, Div, Span
+from fasthtml.core import FT
 
 from ...core._stability import beta, stable
 from ...core.base import merge_classes
@@ -112,7 +113,7 @@ def Chip(
     value: str | None = None,
     href: str | None = None,
     **kwargs: Any,
-) -> Span | A:
+) -> FT:
     """Render a selectable/removable chip for filters and compact metadata."""
     tag_size = "md" if size == "lg" else size
     chip = Tag(
@@ -124,11 +125,18 @@ def Chip(
         on_remove=on_remove,
         **kwargs,
     )
+    explicit_type = "type" in chip.attrs
+    has_htmx_action = any(
+        str(key).lower().replace("_", "-").startswith("hx-") for key in chip.attrs
+    )
+    if removable and (href is not None or explicit_type or has_htmx_action):
+        raise ValueError("removable chips cannot also be links or action controls")
     if href is not None:
         chip.tag = "a"
         chip.attrs["href"] = href
-    elif "type" in chip.attrs:
+    elif explicit_type or has_htmx_action or (selected and not removable):
         chip.tag = "button"
+        chip.attrs.setdefault("type", "button")
     chip_attrs = chip.attrs
     chip_attrs["data-fs-chip"] = "true"
     current_cls = chip_attrs.get("class", chip_attrs.get("cls", ""))
@@ -136,7 +144,10 @@ def Chip(
         current_cls = merge_classes(current_cls, "chip-lg px-3 py-2 fs-6")
     if selected:
         current_cls = merge_classes(current_cls, "chip-selected")
-        chip_attrs["aria-pressed"] = "true"
+        if chip.tag == "button":
+            chip_attrs["aria-pressed"] = "true"
+        elif chip.tag == "a":
+            chip_attrs["aria-current"] = "true"
     chip_attrs["class"] = current_cls
     if "cls" in chip_attrs:
         del chip_attrs["cls"]
@@ -162,12 +173,33 @@ def ChipGroup(
     for index, chip in enumerate(chip_list):
         if selected is None or not hasattr(chip, "attrs"):
             continue
+        chip_attrs = chip.attrs
         current_cls = chip_attrs.get("class", chip_attrs.get("cls", ""))
-        if index == selected:
+        current_cls = " ".join(
+            token for token in str(current_cls).split() if token != "chip-selected"
+        )
+        is_selected = index == selected
+        if is_selected:
             current_cls = merge_classes(current_cls, "chip-selected")
-            chip_attrs["aria-pressed"] = "true"
+        tag = getattr(chip, "tag", "")
+        removable = any(
+            getattr(child, "tag", "") == "button" for child in getattr(chip, "children", ())
+        )
+        if tag == "a":
+            chip_attrs.pop("aria-pressed", None)
+            if is_selected:
+                chip_attrs["aria-current"] = "true"
+            else:
+                chip_attrs.pop("aria-current", None)
+        elif tag == "button" or (not removable and tag == "span"):
+            if tag == "span" and not removable:
+                chip.tag = "button"
+                chip_attrs.setdefault("type", "button")
+            chip_attrs.pop("aria-current", None)
+            chip_attrs["aria-pressed"] = "true" if is_selected else "false"
         else:
-            chip_attrs["aria-pressed"] = "false"
+            chip_attrs.pop("aria-pressed", None)
+            chip_attrs.pop("aria-current", None)
         chip_attrs["class"] = current_cls
         if "cls" in chip_attrs:
             del chip_attrs["cls"]

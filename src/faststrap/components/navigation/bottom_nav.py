@@ -57,10 +57,12 @@ def BottomNav(
     # Custom styles to ensure equal width items
     style = kwargs.pop("style", {})
     if isinstance(style, str):
-        # Determine if it's string style, if so prepend
-        style = f"padding-bottom: env(safe-area-inset-bottom); {style}"
+        if "padding-bottom" not in style.lower() and "padding_bottom" not in style.lower():
+            style = f"padding-bottom: 0; padding-bottom: env(safe-area-inset-bottom, 0px); {style}"
     else:
-        style["padding-bottom"] = "env(safe-area-inset-bottom)"  # iPhone Home Bar support
+        style = dict(style)
+        if not any(str(key).replace("_", "-").lower() == "padding-bottom" for key in style):
+            style["padding-bottom"] = "0; padding-bottom: env(safe-area-inset-bottom, 0px)"
 
     attrs = {"cls": all_classes, "style": style}
     attrs.update(convert_attrs(kwargs))

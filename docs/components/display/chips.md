@@ -19,6 +19,8 @@ ChipGroup(
 
 Selection is server-rendered. For a filter request, add HTMX attributes to each chip and return the updated result region from the route.
 
+Plain `Chip("Label")` stays a non-interactive `<span>`. Supplying `href` makes it an anchor; supplying `type` or an HTMX action such as `hx_get`/`hx_post` makes it a native `<button type="button">` so it is keyboard-operable. A removable chip cannot also be an `href`, explicit button, or direct HTMX action because its remove control must not be nested inside another interactive control; put `on_remove` on its internal remove button instead. Selection styling/ARIA is still server-rendered and does not create a client-side toggle.
+
 ::: faststrap.components.display.tag.Chip
     options:
         show_source: true
@@ -26,3 +28,4 @@ Selection is server-rendered. For a filter request, add HTMX attributes to each 
 ::: faststrap.components.display.tag.ChipGroup
     options:
         show_source: true
+For an accessible native control, ordinary non-removable selected chips render as buttons and expose `aria-pressed`. Link chips remain links and use `aria-current` for the selected destination. Removable chips keep their non-button wrapper so the remove button is not nested inside another button. `ChipGroup(selected=...)` synchronizes the selected visual class and ARIA state; it does not add client-side selection behavior by itself.

@@ -248,6 +248,7 @@ so `id` is rejected. If custom markup emits IDs, make them unique per row.
 | --- | --- | --- | --- |
 | `mobile_mode` | `"scroll" \| "cards" \| "stack" \| None` | `"scroll"` | Preserve the table, disable alternate presentation, render a card grid, or render stacked rows on small screens. |
 | `mobile_breakpoint` | `"sm" \| "md" \| "lg" \| "xl" \| "xxl"` | `"md"` | Breakpoint at which the semantic table replaces the mobile view. |
+| `mobile_sortable` | `bool` | `True` | In `cards`/`stack` mode, show sort links when `endpoint` or `base_url` is configured. Links preserve filters/search, reset to page 1, and use the configured HTMX target. |
 | `mobile_title` | `str \| None` | `None` | Title column; defaults to the first normalized data column. |
 | `mobile_subtitle` | `str \| None` | `None` | Optional subtitle column. |
 | `mobile_meta` | `list[str] \| None` | `None` | Ordered metadata columns. Omitted means remaining columns; `[]` means none. |
@@ -265,8 +266,18 @@ but cannot filter arbitrary custom markup: exclude sensitive fields before
 passing records to the component and enforce authorization in the route.
 
 The inactive representation is hidden with responsive CSS display utilities.
+When card/stack mode is active, `mobile_sortable=True`, and a server endpoint or
+base URL is available, a mobile-only sort control is rendered above the records.
+It provides links for sortable columns, retains the current filters and search,
+resets pagination to page 1, and follows the same HTMX/URL behavior as desktop
+sort headers. Set `mobile_sortable=False` to omit it. Without `endpoint` or
+`base_url`, no mobile sorting control is emitted because the component cannot
+construct a meaningful server-side sort request.
 Avoid emitting the same hard-coded DOM IDs from both table cells and custom
-cards. Use `CollectionView` when the desktop and mobile surfaces are distinct
+cards. Built-in search, sorting, and pagination use the DataTable wrapper target;
+a custom card renderer owns the HTMX behavior of its action controls and should
+set the intended target explicitly (it may be a detail panel rather than the
+table wrapper). Use `CollectionView` when the desktop and mobile surfaces are distinct
 (such as an Explorer-style browser); use `DataTable` when table operations and
 its server-side contract remain central.
 
@@ -517,3 +528,5 @@ You can also pass `table_cls` and `table_attrs` to control the inner table eleme
     options:
         show_source: true
         heading_level: 4
+
+When using `mobile_card_renderer` or `mobile_field_renderers`, ensure generated element IDs are unique across all cards and do not collide with the DataTable wrapper ID. Duplicate/reserved IDs raise `ValueError` to prevent invalid duplicate DOM IDs in the dual desktop/mobile markup.
